@@ -16,8 +16,8 @@ class LoginModel {
     static public function getLogin(Request $request) {
         $email = Input::get('email');
         $password = Input::get('password');
-        $hashedPassword = $password;
-     //   $hashedPassword = md5($password);
+//        $hashedPassword = $password;
+        $hashedPassword = md5($password);
         $loginRedirect = url('/admin/login');
         $homeRedirect = url('/admin/home');
 
@@ -77,8 +77,16 @@ class LoginModel {
     static function getlogout(Request $request) {
         session()->forget('sessionLoginData');
         session()->flush();
+        return redirect(url('/login'));
+
+    }
+
+    static function getAdminlogout(Request $request) {
+        session()->forget('sessionLoginData');
+        session()->flush();
         return redirect(url('/admin/login'));
 
     }
+
 
 }

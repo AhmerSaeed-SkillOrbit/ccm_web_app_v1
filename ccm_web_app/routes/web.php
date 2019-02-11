@@ -106,7 +106,9 @@ Route::get('customer_file_form/{formType}/{id}', 'PageController@customerFileFor
 
 Route::post('/admin/login',"LoginController@login");
 
-Route::get('/admin/logout', "LoginController@logout");
+Route::get('/logout', "LoginController@logout");
+
+Route::get('/admin/logout', "LoginController@adminLogout");
 
 Route::post('system_settings_store', 'SystemSettingsController@store');
 
