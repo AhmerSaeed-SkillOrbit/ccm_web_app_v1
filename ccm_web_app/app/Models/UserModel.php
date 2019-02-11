@@ -42,7 +42,7 @@ class UserModel {
 
 //            return redirect($redirectUserForm)->withErrors(['confirm password must match the password']);
 
-        if (UserModel::isDuplicateName($firstName, $lastName))
+        if (UserModel::isDuplicateName($email, $lastName))
             return 'duplicate';
 //            return redirect($redirectUserForm)->withErrors(['Duplication Error! This First Name and Last Name is already exist']);
 
@@ -61,6 +61,38 @@ class UserModel {
 //                return 'success';
 //            else
 //                return 'failed';
+
+            if ($userID > 0)
+                return 'success';
+            else
+                return 'failed';
+
+    }
+
+    static function addPatient() {
+
+        $sessionNotFoundRedirectUrl = url('/login');
+        $redirectUserForm = url('/admin/add/0');
+
+        // $locked = UserModel::convertLockToInteger(Input::get('locked'));
+//        $locked = Input::get('locked');
+
+        $name = Input::get('name');
+        $password = Input::get('password');
+        $confirmPassword = NULL;
+
+        $email = Input::get('email');
+
+//        if (UserModel::isDuplicateName($email, null))
+//            return 'duplicate';
+//            return redirect($redirectUserForm)->withErrors(['Duplication Error! This First Name and Last Name is already exist']);
+
+        $hashedPassword = md5($password);
+        $data = array("name" => $name,"password" => $hashedPassword, "email" => $email,
+            "created_date" => Carbon::now(), "created_by" => 1);
+
+        $genericModel = new GenericModel;
+        $userID = $genericModel->insertGenericAndReturnID('patients', $data);
 
             if ($userID > 0)
                 return 'success';
@@ -159,7 +191,8 @@ class UserModel {
     }
 
     static private function isDuplicateName($firstName, $lastName) {
-        $isDuplicate = DB::table('users')->select('user_id')->where('first_name', '=', $firstName)->where('last_name', '=', $lastName)->get();
+//        $isDuplicate = DB::table('users')->select('user_id')->where('FirstName', '=', $firstName)->where('last_name', '=', $lastName)->get();
+        $isDuplicate = DB::table('users')->select('user_id')->where('email', '=', $firstName)->get();
         if (count($isDuplicate)) {
             return true;
         }

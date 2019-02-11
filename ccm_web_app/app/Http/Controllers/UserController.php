@@ -47,7 +47,7 @@ class UserController extends Controller {
       //  $validator = Validator::make($request->all(), $validationRules);
 
         $redirectUserForm = url('/user/add/0');
-        $redirectUser = url('/home');
+        $redirectUser = url('/');
 
   //      if ($validator->fails())
  //           return redirect($redirectUserForm)->withErrors($validator)->withInput(Input::all());
@@ -57,6 +57,27 @@ class UserController extends Controller {
      //   if ($isInserted == 'unmatchPassword')
     //        return redirect($redirectUserForm)->withErrors(['confirm password must match the password']);
          if ($isInserted == 'duplicate')
+            return redirect($redirectUserForm)->withErrors(['Duplication Error! This First Name and Last Name is already exist'])->withInput(Input::all());
+        else if ($isInserted == 'success')
+            return redirect($redirectUser)->with(['success' => Config::get('settings.form_save_success_message')]);
+        else
+            return redirect($redirectUser)->withErrors([Config::get('settings.form_save_failed_message')]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storePatient(Request $request) {
+
+        $redirectUserForm = url('/admin/home');
+        $redirectUser = url('/admin/home');
+        $isInserted = UserModel::addPatient();
+        //   if ($isInserted == 'unmatchPassword')addPatient
+        //        return redirect($redirectUserForm)->withErrors(['confirm password must match the password']);
+        if ($isInserted == 'duplicate')
             return redirect($redirectUserForm)->withErrors(['Duplication Error! This First Name and Last Name is already exist'])->withInput(Input::all());
         else if ($isInserted == 'success')
             return redirect($redirectUser)->with(['success' => Config::get('settings.form_save_success_message')]);

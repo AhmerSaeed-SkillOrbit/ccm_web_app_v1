@@ -311,7 +311,7 @@
                                     <li><a href="admin.html">Admin Users</a></li>
                                     <li><a href="advocates.html">Advocates</a></li>
                                     <li><a href="doctors.html">Doctors</a></li>
-                                    <li><a href="patient.html">Patient</a></li>
+                                    <li><a href="/add_patient_form">Patient</a></li>
                                 </ul>
                             </li>
                             <li>

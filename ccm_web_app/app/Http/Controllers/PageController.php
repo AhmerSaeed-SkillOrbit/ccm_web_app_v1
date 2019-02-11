@@ -325,6 +325,10 @@ class PageController extends BaseController {
 //        }
     }
 
+    function patientForm() {
+        return view('add_patient');
+    }
+
     function portForm($formtype, $id) {
         $portDB = DB::table('port_type')->select('id', 'port_type')->get();
         $country = DB::table('country')->select('CountryID', 'CountryName')->get();

@@ -27,7 +27,6 @@ Route::get('forget_password', 'PageController@forgetPasswordForm');
 
 Route::get('reset_password', 'PageController@resetPasswordForm');
 
-
 Route::get('/', 'PageController@home');//->middleware('page.filtering');
 
 Route::get('/login', 'PageController@login');//->middleware('page.filtering');
@@ -35,6 +34,12 @@ Route::get('/login', 'PageController@login');//->middleware('page.filtering');
 Route::get('forget_password', 'PageController@forgetPasswordForm');
 
 Route::get('reset_password', 'PageController@resetPasswordForm');
+
+Route::get('/add_patient_form', 'PageController@patientForm'); //->middleware('page.filtering');
+
+Route::post('/signup_store', "UserController@store");
+
+Route::post('/add_patient', 'UserController@storePatient'); //->middleware('page.filtering');
 
 /// List Pages ///
 
