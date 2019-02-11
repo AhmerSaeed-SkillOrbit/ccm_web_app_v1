@@ -76,7 +76,7 @@ Route::get('menu_bar_form/{formtype}/{id}', 'PageController@menuSettingsForm')->
 
 Route::get('user_roles_form/{formtype}/{id}', 'PageController@userRolesForm')->middleware('page.filtering');
 
-Route::get('signup/{formtype}', 'PageController@userForm'); //->middleware('page.filtering');
+Route::get('user/{formtype}', 'PageController@userForm'); //->middleware('page.filtering');
 
 Route::get('services_product_form/{formtype}/{id}', 'PageController@servicesProductForm')->middleware('page.filtering');
 
@@ -118,7 +118,7 @@ Route::post('menu_bar_update', 'MenuBarController@update');
 
 Route::get('menu_bar_delete/{id}', 'MenuBarController@destroy');
 
-Route::post('signup_store', "UserController@store");
+Route::post('/signup_store', "UserController@store");
 
 Route::post('user_form_update', "UserController@update");
 
