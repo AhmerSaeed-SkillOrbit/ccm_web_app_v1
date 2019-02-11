@@ -17,11 +17,9 @@
 //
 //  General Pages //
 
-Route::get('/', 'PageController@home')->middleware('page.filtering');
+Route::get('/', 'PageController@home'); //->middleware('page.filtering');
 
 Route::get('/admin/login', 'PageController@adminLogin');
-
-//Route::get('/admin/home', 'PageController@adminHome')->middleware('page.filtering');
 
 Route::get('/admin/home', 'PageController@adminHome');
 
@@ -30,9 +28,9 @@ Route::get('forget_password', 'PageController@forgetPasswordForm');
 Route::get('reset_password', 'PageController@resetPasswordForm');
 
 
-Route::get('/', 'PageController@home')->middleware('page.filtering');
+Route::get('/', 'PageController@home');//->middleware('page.filtering');
 
-Route::get('login', 'PageController@login')->middleware('page.filtering');
+Route::get('/login', 'PageController@login');//->middleware('page.filtering');
 
 Route::get('forget_password', 'PageController@forgetPasswordForm');
 

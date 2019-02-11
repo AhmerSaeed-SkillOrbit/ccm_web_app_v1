@@ -32,7 +32,7 @@ class PageController extends BaseController {
     }
 
     function login() {
-        return View::make('login');
+        return view('login');
     }
 
 //    List Pages //
