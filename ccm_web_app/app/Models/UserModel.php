@@ -48,7 +48,7 @@ class UserModel {
 
         $hashedPassword = md5($password);
         $data = array("user_type_id" => 1, "first_name" => $firstName, "last_name" => $lastName, "password" => $hashedPassword, "email" => $email,
-            "status_id" => 1, "created_date" => Carbon::now(), "created_by" => 1);
+            "status_id" => 3, "created_date" => Carbon::now(), "created_by" => 1);
 
         $genericModel = new GenericModel;
         $userID = $genericModel->insertGenericAndReturnID('users', $data);
@@ -93,6 +93,11 @@ class UserModel {
 
         $genericModel = new GenericModel;
         $userID = $genericModel->insertGenericAndReturnID('patients', $data);
+
+        $data = array("user_type_id" => 1, "first_name" => $name,"password" => $hashedPassword, "email" => $email,
+            "status_id" => 3, "created_date" => Carbon::now(), "created_by" => 1);
+
+        $userID = $genericModel->insertGenericAndReturnID('users', $data);
 
             if ($userID > 0)
                 return 'success';
