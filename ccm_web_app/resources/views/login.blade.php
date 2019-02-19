@@ -82,7 +82,7 @@
             <div class="content">
 
                 <!-- Advanced login -->
-                <form action="/admin/login" method="post">
+                <form action="/login" method="post">
                     @csrf
                     <div class="panel panel-body login-form">
                         <div class="text-center">

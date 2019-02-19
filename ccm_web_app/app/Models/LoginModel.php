@@ -16,24 +16,10 @@ class LoginModel {
     static public function getLogin(Request $request) {
         $email = Input::get('email');
         $password = Input::get('password');
-//        $hashedPassword = $password;
+
         $hashedPassword = md5($password);
-        $loginRedirect = url('/admin/login');
-        $homeRedirect = url('/admin/home');
-
-
-       // $validationRules = LoginModel::getValidateRules();
-       // $validator = Validator::make($request->all(), $validationRules);
-
-//        if ($validator->fails())
-//        {
-//            return TRUE;
-//            //return redirect($loginRedirect)->withErrors($validator)->withInput(Input::all());
-//        }
-//           else {
-//               return FALSE;
-//           }
-
+        $loginRedirect = url('/login');
+        $homeRedirect = url('/');
 
         $login = DB::table('users')
             ->select('user_id', 'email', 'password')
@@ -44,7 +30,27 @@ class LoginModel {
 
         if (count($checkLogin) > 0) {
             $session = LoginModel::createLoginSession($request, $checkLogin);
-         //   LoginModel::updateLastLogin($checkLogin[0]['user_id']);
+            return redirect( $homeRedirect )->with($session);
+        }
+        return redirect($loginRedirect)->withErrors(['email or password is incorrect']);
+    }
+
+    static public function getAdminLogin(Request $request) {
+        $email = Input::get('email');
+        $password = Input::get('password');
+        $hashedPassword = md5($password);
+        $loginRedirect = url('/admin/login');
+        $homeRedirect = url('/admin/home');
+
+        $login = DB::table('users')
+            ->select('user_id', 'email', 'password')
+            ->where('email', '=', $email)->where('password', '=', $hashedPassword)
+            ->get();
+
+        $checkLogin = json_decode(json_encode($login), true);
+
+        if (count($checkLogin) > 0) {
+            $session = LoginModel::createLoginSession($request, $checkLogin);
             return redirect( $homeRedirect )->with($session);
         }
         return redirect($loginRedirect)->withErrors(['email or password is incorrect']);

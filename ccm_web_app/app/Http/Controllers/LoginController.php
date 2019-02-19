@@ -16,6 +16,10 @@ class LoginController extends Controller {
         return LoginModel::getLogin($request);
     }
 
+    function adminLogin(Request $request) {
+        return LoginModel::getAdminLogin($request);
+    }
+
     function logout(Request $request) {
         return LoginModel::getlogout($request);
     }
