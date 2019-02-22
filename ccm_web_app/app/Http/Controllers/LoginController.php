@@ -13,7 +13,11 @@ use Illuminate\Http\Request;
 class LoginController extends Controller {
 
     function login(Request $request) {
-        return LoginModel::getLogin($request);
+        // return LoginModel::getLogin($request);
+        $client = new \GuzzleHttp\Client();
+        $res = $client->post('http://127.0.0.1:8000/api/login', ['auth' =>  ['user', 'pass']]);
+        // echo $res->getStatusCode(); // 200
+        // echo $res->getBody();
     }
 
     function adminLogin(Request $request) {
