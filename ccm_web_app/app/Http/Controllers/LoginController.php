@@ -35,13 +35,20 @@ class LoginController extends Controller {
 
         // // }
 
-
+        
         
 
         try {
 
-            $request = new HttpRequest('POST', 'http://127.0.0.1:8000/api/login');
-            $response = $client->send($request, ['timeout' => 2]);
+            // $request = new HttpRequest('POST', 'http://127.0.0.1:8000/api/login');
+            // $response = $client->send($request, ['timeout' => 2]);
+
+            $client = new \GuzzleHttp\Client();
+            $res = $client->request(‘GET’, "http://127.0.0.1:8000/api/test/list", [
+                ‘headers’ => [
+                ‘Accept’ => ‘application/json’,
+                ‘Content-type’ => ‘application/json’
+                ]]);
 
             // Here the code for successful request
             echo "Got response 200";

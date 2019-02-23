@@ -1,0 +1,12 @@
+<div>
+    <h1 mat-dialog-title>{{obj}}</h1>
+    <div mat-dialog-content>
+        <p> {{msg}}</p>
+    </div>
+    <div mat-dialog-actions class="row align-item-center dialog-btn-contianer">
+        <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+            <button mat-raised-button tabindex="-1" (click)="onNoClick()">NO</button>
+            <button mat-raised-button color="primary" [mat-dialog-close]="confirm" tabindex="2">YES</button>
+        </div>
+    </div>
+</div>

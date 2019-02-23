@@ -44,6 +44,7 @@
 
 <body>
 
+    <div>
     <!-- Main navbar -->
     @include('structure/header')
     <!-- /main navbar -->
@@ -56,7 +57,7 @@
         <div class="page-content">
 
             <!-- Main sidebar -->
-    @include('structure/sidebar')
+            @include('structure/sidebar')
             <!-- /main sidebar -->
 
 
@@ -130,6 +131,7 @@
         <!-- /page content -->
     </div>
     <!-- Page container -->
+    </div>
 </body>
 
 </html>
