@@ -14,6 +14,7 @@ import { FileService } from "./services/file/file.service";
 import { FormService } from "./services/form/form.service";
 
 import { UtilityService } from "./services/general/utility.service";
+import { MappingService } from "./services/mapping/mapping.service";
 
 import { UserService } from './services/user/user.service'
 import { LoginGuard } from './services/guard/login.guard';
@@ -26,7 +27,9 @@ import { LoginGuard } from './services/guard/login.guard';
         RoutingInfoService, GeoLocationService,
         SetupService,
         FileService,
-        UtilityService, UserService, FormService,
+        UtilityService,
+        MappingService,
+        UserService, FormService,
         LoginGuard],
     declarations: [],
     exports: []

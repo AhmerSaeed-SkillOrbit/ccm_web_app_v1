@@ -49,7 +49,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
       this._userService.getStatus().subscribe(
         (res) => {
-          // console.log("res", res);
+          console.log("res", res);
         },
         (err) => {
           // console.log('err', err);

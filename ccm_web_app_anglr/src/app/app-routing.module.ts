@@ -19,11 +19,13 @@ const routes: Routes = [
   {
     path: '',
     component: LoginComponent,
+    canActivate: [CanActivateViaMainGuard],
     children: []
   },
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [CanActivateViaMainGuard],
     children: []
   },
   {
@@ -61,7 +63,7 @@ const routes: Routes = [
     loadChildren: './home/home.module#HomeModule',
     // pathMatch: 'full',
     // component: HomeComponent,
-    // canActivate: [CanActivateViaAuthGuard],
+    canActivate: [CanActivateViaAuthGuard],
     // children: []
   },
   // {

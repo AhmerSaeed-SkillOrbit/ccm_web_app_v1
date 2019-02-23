@@ -81,7 +81,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
             // console.log('sidebar permissions', this.permission);
 
         }
-        this._authService.loginStatusChanged.subscribe(
+
+        this._authService.loginUserStatusChanged.subscribe(
             (user) => {
                 this.user = user;
             },

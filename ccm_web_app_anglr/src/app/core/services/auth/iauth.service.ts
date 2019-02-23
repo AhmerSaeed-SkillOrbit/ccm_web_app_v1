@@ -8,8 +8,8 @@ export interface IAuthService {
     /**
      * Subscribe to get Login Status Change events
      */
-    // loginStatusChanged : Subject<boolean>
-    loginStatusChanged: Subject<User>;
+    loginStatusChanged: Subject<boolean>;
+    loginUserStatusChanged: Subject<User>;
 
     // loginStatusChangedNew : Subject<any>;
     /**

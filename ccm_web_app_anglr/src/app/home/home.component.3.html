@@ -5,9 +5,7 @@
 
     <div class="navbar navbar-inverse">
         <div style="background: #fff;" class="navbar-header">
-            <!-- <a class="navbar-brand" href="index.html"><img style="margin-top: -11px; height: 41px;" src="assets/images/logo.png"
-                    alt=""></a> -->
-            <a class="navbar-brand" [routerLink]="['/']"><img style="margin-top: -11px; height: 41px;" src="assets/images/logo.png"
+            <a class="navbar-brand" href="index.html"><img style="margin-top: -11px; height: 41px;" src="assets/images/logo.png"
                     alt=""></a>
 
             <ul class="nav navbar-nav visible-xs-block">
@@ -114,14 +112,14 @@
                 <li class="dropdown dropdown-user">
                     <a class="dropdown-toggle" data-toggle="dropdown">
                         <img src="assets/images/placeholder.jpg" alt="">
-                        <span>{{ user?.firstName || "NA"}}</span>
+                        <span>Admin</span>
                         <i class="caret"></i>
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
                         <li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>
-                        <li><a (click)="onlogOut()"><i class="icon-switch2"></i> Logout</a></li>
+                        <li><a href="/logout"><i class="icon-switch2"></i> Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -150,9 +148,7 @@
                                 <a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm"
                                         alt=""></a>
                                 <div class="media-body">
-                                    <span class="media-heading text-semibold">
-                                        {{ user?.firstName || "NA"}}
-                                    </span>
+                                    <span class="media-heading text-semibold">Super Admin</span>
                                     <div class="text-size-mini text-muted">
                                         <i class="icon-pin text-size-small"></i> &nbsp;Santa Ana, CA
                                     </div>

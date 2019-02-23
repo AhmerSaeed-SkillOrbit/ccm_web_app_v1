@@ -78,7 +78,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
         console.log('this.profilePic ', this.profilePic);
 
-        this._authService.loginStatusChanged.subscribe(
+        this._authService.loginUserStatusChanged.subscribe(
             (user) => {
                 this.user = user;
             },

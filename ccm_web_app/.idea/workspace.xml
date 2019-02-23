@@ -3,10 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="98cd0a6d-bd5b-487d-9495-a4ea7f41424e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/LoginController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/main.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/main.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ccm_web_app_anglr/src/app/auth/login/login.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../ccm_web_app_anglr/src/app/auth/login/login.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ccm_web_app_anglr/src/app/core/services/auth/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../ccm_web_app_anglr/src/app/core/services/auth/auth.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ccm_web_app_anglr/src/app/core/services/setup/setup.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../ccm_web_app_anglr/src/app/core/services/setup/setup.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ccm_web_app_anglr/src/app/home/home.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../ccm_web_app_anglr/src/app/home/home.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ccm_web_app_anglr/src/environments/environment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../ccm_web_app_anglr/src/environments/environment.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -162,10 +163,10 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="10" />
+    <option name="x" value="100" />
     <option name="y" value="20" />
-    <option name="width" value="1346" />
-    <option name="height" value="688" />
+    <option name="width" value="1400" />
+    <option name="height" value="820" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -260,17 +261,18 @@
       <option name="presentableId" value="Default" />
       <updated>1549694947784</updated>
       <workItem from="1549694955104" duration="4745000" />
-      <workItem from="1550880451662" duration="500000" />
+      <workItem from="1550880451662" duration="1097000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5245000" />
+    <option name="totallyTimeSpent" value="5842000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="7" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24614395" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.248057" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
