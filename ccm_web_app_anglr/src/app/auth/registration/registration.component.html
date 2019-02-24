@@ -1,0 +1,192 @@
+<div class="login-container">
+    <!-- Main navbar -->
+    <div style="background: white; display:none;" class="navbar navbar-inverse">
+        <div class="navbar-header">
+            <a class="navbar-brand" [routerLink]="['/']"></a>
+
+            <ul class="nav navbar-nav pull-right visible-xs-block">
+                <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+            </ul>
+        </div>
+
+        <div class="navbar-collapse collapse" id="navbar-mobile">
+            <ul style="display:none;" class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#">
+                        <i class="icon-display4"></i> <span class="visible-xs-inline-block position-right"> Go to
+                            website</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <i class="icon-user-tie"></i> <span class="visible-xs-inline-block position-right"> Contact
+                            admin</span>
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-cog3"></i>
+                        <span class="visible-xs-inline-block position-right"> Options</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- /main navbar -->
+
+
+    <!-- Page container -->
+    <div class="page-container">
+
+        <!-- Page content -->
+        <div class="page-content">
+
+            <!-- Main content -->
+            <div class="content-wrapper">
+
+                <!-- Content area -->
+                <div class="content">
+
+                    <!-- Advanced SignUp -->
+                    <form [formGroup]="formRegister" (ngSubmit)="onSubmit()">
+                        <div class="panel panel-body registration-form" *ngIf="invitationAccepted">
+                            <div class="text-center">
+                                <div class="">
+                                    <img style="margin-top: -8px !important; height: 44px !important; " src="assets/images/logo.png"
+                                        alt="">
+                                </div>
+                                <br>
+                                <h5 class="content-group">
+                                    Sign up your account
+                                    <!-- <small class="display-block">Your credentials</small> -->
+                                </h5>
+                            </div>
+
+                            <div class="row">
+
+                                <!-- First Name -->
+                                <div class="col-md-4">
+                                    <div class="form-group has-feedback has-feedback-left">
+                                        <input type="text" class="form-control" placeholder="First Name"
+                                            formControlName="firstName" [(ngModel)]="user.firstName">
+                                        <div class="form-control-feedback">
+                                            <i class="icon-user text-muted"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Last Name -->
+                                <div class="col-md-4">
+                                    <div class="form-group has-feedback has-feedback-left">
+                                        <input type="text" class="form-control" placeholder="Last Name" formControlName="lastName"
+                                            [(ngModel)]="user.lastName">
+                                        <div class="form-control-feedback">
+                                            <i class="icon-user text-muted"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Email Address -->
+                                <div class="col-md-4">
+                                    <div class="form-group has-feedback has-feedback-left">
+                                        <input type="email" class="form-control" placeholder="Email Address"
+                                            formControlName="email" [(ngModel)]="user.email">
+                                        <div class="form-control-feedback">
+                                            <i class="icon-user text-muted"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Password -->
+                                <div class="col-md-4">
+                                    <div class="form-group has-feedback has-feedback-left">
+                                        <input type="password" class="form-control" placeholder="Password"
+                                            formControlName="password" [(ngModel)]="user.password">
+                                        <div class="form-control-feedback">
+                                            <i class="icon-lock2 text-muted"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Confirm Password -->
+                                <div class="col-md-4">
+                                    <div class="form-group has-feedback has-feedback-left">
+                                        <input type="password" class="form-control" placeholder="Confirm Password"
+                                            formControlName="confirmPassword" [(ngModel)]="user.confirmPassword">
+                                        <div class="form-control-feedback">
+                                            <i class="icon-lock2 text-muted"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4"></div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn bg-blue btn-block" [disabled]="isSubmitted">
+                                            Sign Up <i class="icon-arrow-right14 position-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-4"></div>
+                            </div>
+
+
+                            <div class="content-divider text-muted form-group"><span>Already have an account.</span></div>
+
+                            <div class="row">
+                                <div class="col-md-4"></div>
+
+                                <div class="col-md-4">
+                                    <a [routerLink]="['/login']" class="btn btn-default btn-block content-group">
+                                        Sign In
+                                    </a>
+                                </div>
+                                <div class="col-md-4"></div>
+                            </div>
+
+
+                            <span class="help-block text-center no-margin">By continuing, you're confirming that you've
+                                read our <a href="#">Terms &amp; Conditions</a> and <a href="#">Cookie Policy</a></span>
+                        </div>
+
+                        <div class="panel panel-body login-form" *ngIf="tokenVerified && !invitationAccepted">
+                            Token Verified
+                        </div>
+                        <div class="panel panel-body login-form" *ngIf="!tokenVerified">
+                            <div *ngIf="!tokenVerifying">
+                                Token not Verified
+                            </div>
+                            <div *ngIf="tokenVerifying">
+                                Please Wait while token is verifying..
+                            </div>
+                        </div>
+                    </form>
+                    <!-- /advanced login -->
+
+
+                    <!-- Footer -->
+                    <div class="footer text-muted text-center">
+                        &copy; 2019. <a href="#">CCM</a> by <a href="#" target="_blank">VAC</a>
+                    </div>
+                    <!-- /footer -->
+
+                </div>
+                <!-- /content area -->
+
+            </div>
+            <!-- /main content -->
+
+        </div>
+        <!-- /page content -->
+
+    </div>
+    <!-- /page container -->
+</div>
