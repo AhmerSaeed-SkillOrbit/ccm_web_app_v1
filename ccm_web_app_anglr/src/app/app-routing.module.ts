@@ -66,6 +66,14 @@ const routes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     // children: []
   },
+  {
+    path: 'um',
+    loadChildren: './user.managment/user.managment.module#UserManagmentModule',
+    // pathMatch: 'full',
+    // component: HomeComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    // children: []
+  },
   // {
   //   path: 'user',
   //   loadChildren: './user/user.module#UserModule',

@@ -3,11 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="98cd0a6d-bd5b-487d-9495-a4ea7f41424e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ccm_web_app_anglr/src/app/auth/login/login.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../ccm_web_app_anglr/src/app/auth/login/login.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ccm_web_app_anglr/src/app/core/services/auth/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../ccm_web_app_anglr/src/app/core/services/auth/auth.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ccm_web_app_anglr/src/app/core/services/setup/setup.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../ccm_web_app_anglr/src/app/core/services/setup/setup.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ccm_web_app_anglr/src/app/home/home.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../ccm_web_app_anglr/src/app/home/home.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ccm_web_app_anglr/src/environments/environment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../ccm_web_app_anglr/src/environments/environment.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

@@ -18,7 +18,10 @@ declare var libraryVar: any;
 @Component({
     selector: 'home',
     moduleId: module.id,
-    templateUrl: 'home.component.html',
+    // templateUrl: 'home.component.html',
+    // templateUrl: 'home.component.1.html',
+    templateUrl: 'home.component.2.html',
+    // templateUrl: 'home.component.3.html',
     // styleUrls: ['home.component.css']
 })
 export class HomeComponent implements OnInit {

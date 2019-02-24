@@ -121,4 +121,27 @@ export class UserService {
                 return Observable.throw(error);
             });
     }
+
+    sendInvite(email, type, userId): Observable<any> {
+        const url = 'invite';
+        const body = {
+            email: email || null,
+            type: type || null,
+            userId: userId || null
+        };
+
+        let token: Token;
+        token = this._authService.getTokenData();
+
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.post(url, body, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            });
+    }
 }
