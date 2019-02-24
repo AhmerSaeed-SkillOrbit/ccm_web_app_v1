@@ -18,6 +18,7 @@ import { Country } from '../../models/country';
 import { Region } from '../../models/region';
 import { City } from '../../models/city';
 import { Branch } from '../../models/branch';
+import { MappingService } from '../mapping/mapping.service';
 
 
 @Injectable()
@@ -27,113 +28,20 @@ export class UserService {
         private _authService: IAuthService,
         private _http: HttpService,
         // private _lawFirmService: LawFirmService
+        private _mappingService: MappingService,
         private _fileService: FileService,
     ) { }
-
-    mapUser(res: any): User {
-        // const userData = res.json().genericResponse.genericBody.data.userData;
-        // const userData = res.json().genericBody.data.userData;
-
-        // const userData = res.json();
-        const userData = res.json().data.length > 0 ? res.json().data[0] : null;
-        const isUser = new User();
-        if (userData) {
-
-
-            // isUser.fullName = userData.entity.entityName;
-            isUser.id = userData.id;
-            isUser.sapId = userData.sapId;
-            isUser.email = userData.userEmail;
-            isUser.password = userData.userPassword;
-            isUser.firstName = userData.firstName;
-            isUser.lastName = userData.lastName;
-
-            isUser.cnic = userData.cnic;
-            isUser.mobileNumber = userData.mobileNum;
-            isUser.phoneNumber = userData.phoneNum;
-
-            // isUser.roleId =  userData.roleId;
-
-            // isUser.countryId = userData.countryId;
-            isUser.country = userData.country || new Country();
-            isUser.countryId = userData.country ? userData.country.id : null;
-
-            isUser.stateId = userData.stateId;
-            // isUser.state = userData.state || new State();
-            // isUser.stateId = userData.state ? userData.state.id : null;
-
-            // isUser.regionId = userData.regionId;
-            isUser.region = userData.region || new Region();
-            isUser.regionId = userData.region ? userData.region.id : null;
-
-            // isUser.cityId = userData.cityId;
-            isUser.city = userData.city || new City();
-            isUser.cityId = userData.city ? userData.city.id : null;
-
-            // isUser.branchId = userData.branchId;
-            isUser.branch = userData.branch || new Branch();
-            isUser.branchId = userData.branch ? userData.branch.id : null;
-
-            isUser.roles = userData.roles;
-            isUser.permissions = userData.permissions;
-
-
-            // isUser.accountVerified = userData.isActive;
-            isUser.isActive = userData.isActive;
-            isUser.isBlocked = userData.isBlocked;
-            isUser.lastLogin = userData.lastLogin;
-            isUser.createdOn = userData.createdOn;
-            isUser.createdBy = userData.createdBy;
-            isUser.updatedOn = userData.updatedOn;
-            isUser.updatedBy = userData.updatedBy;
-            // if (userData.flag === null) {
-            //     const defaultFlag = {
-            //         flagCode: 'green',
-            //         flagDescription: 'none',
-            //         flagName: 'Green',
-            //         flagTooltip: 'none',
-            //         id: 2
-            //     };
-            //     isUser.flag = defaultFlag;
-            // } else {
-            //     isUser.flag = userData.flag;
-            // }
-
-            if (userData.profilePicture) {
-                isUser.profilePicture = userData.profilePicture;
-                // u.resume = this._fileService.mapDocument(element.resume);
-            }
-
-            isUser.resume = this._fileService.mapDocument(userData.resume);
-            // isUser.entityType = userData.entity.entityType;
-            // isUser.entityId = userData.entity.id;
-            // isUser.entityName = userData.entity.entityName;
-
-            // isUser.token = userData.token.token;
-
-            // isUser.permissions = userData.userRole.permissions;
-            // isUser.overAllUnreadStatus = userData.entity.overAllUnreadStatus;
-            // isUser.profilePic = userData.entity.profilePic;
-            // isUser.coverPic = userData.entity.coverPic;;
-
-            // let expiryTime = new Date(Date.now());
-            // expiryTime.setSeconds(expiryTime.getSeconds() + userData.token.expiry);
-            // isUser.expiry = Date.now() + (userData.token.expiry * 1000);
-        }
-
-        return isUser;
-    }
 
     getStatus(): Observable<any> {
 
         // let url = 'test/info';
-        const url = 'user/full';
+
         let token: Token;
         token = this._authService.getTokenData();
-        let tokenId;
-        // tokenId = this._authService.getToken();
-        tokenId = token.tokenId;
+        // let tokenId = token.tokenId;
+        let userId = token.userId;
 
+        const url = 'user/single?id=' + (userId || null);
 
         const options = new RequestOptions();
         options.headers = new Headers();
@@ -147,10 +55,11 @@ export class UserService {
                 return Observable.throw(err);
             })
             .do((res) => {
-                const isUser = this.mapUser(res);
-                isUser.isLoggedIn = isUser.isActive && !isUser.isBlocked ? true : false;
+                // const isUser = this.mapUser(res);
+                const isUser = this._mappingService.mapUser(res.json().data);
+                // isUser.isLoggedIn = isUser.isActive && !isUser.isBlocked ? true : false;
                 this._authService.storeUser(isUser);
-                this._authService.loginStatusChanged.next(isUser);
+                // this._authService.loginStatusChanged.next(isUser);
             });
     }
 
@@ -207,6 +116,29 @@ export class UserService {
         options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
 
         return this._http.put(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            });
+    }
+
+    sendInvite(email, type, userId): Observable<any> {
+        const url = 'invite';
+        const body = {
+            email: email || null,
+            type: type || null,
+            userId: userId || null
+        };
+
+        let token: Token;
+        token = this._authService.getTokenData();
+
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.post(url, body, options)
             .map((res: Response) => res)
             .catch((error: any) => {
                 return Observable.throw(error);

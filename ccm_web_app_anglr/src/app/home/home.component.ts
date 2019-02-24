@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 // import { DashboardService } from '../core/services/general/dashboard.service';
 // import { Dashboard } from '../core/models/dashboard';
 import { Message, MessageTypes } from '../core/models/message';
+import { SetupService } from '../core/services/setup/setup.service';
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
 // import { EasyPay } from '../core/models/payment/easypay.payment';
 
@@ -17,7 +18,10 @@ declare var libraryVar: any;
 @Component({
     selector: 'home',
     moduleId: module.id,
-    templateUrl: 'home.component.html',
+    // templateUrl: 'home.component.html',
+    // templateUrl: 'home.component.1.html',
+    templateUrl: 'home.component.2.html',
+    // templateUrl: 'home.component.3.html',
     // styleUrls: ['home.component.css']
 })
 export class HomeComponent implements OnInit {
@@ -39,10 +43,11 @@ export class HomeComponent implements OnInit {
     // influencerProfile = new InfluencerProfile();
     // easyPay = new EasyPay();
 
-    constructor( @Inject('IAuthService') private _authService: IAuthService,
+    constructor(@Inject('IAuthService') private _authService: IAuthService,
         private _uiService: UIService,
         // public _messaging: MessagingService,
         // private _dashboardService: DashboardService,
+        private _setupService: SetupService,
         // private _utility: UtilityService,
         private route: ActivatedRoute, private _router: Router) {
         this.currentURL = window.location.href;
@@ -51,6 +56,7 @@ export class HomeComponent implements OnInit {
     ngOnInit(): void {
 
         this.user = this._authService.getUser();
+        console.log('this.user', this.user);
         this.isLogin = this._authService.isLoggedIn();
         // console.log('this.isLogin', this.isLogin);
 
@@ -88,7 +94,22 @@ export class HomeComponent implements OnInit {
         }
 
         // this.loadDashboard(this.user.entityType);
+        // this.loadRoles();
 
+    }
+
+    loadRoles() {
+        // this._uiService.showSpinner();
+        this._setupService.getRoles().subscribe(
+            (res) => {
+                console.log("res", res);
+                // this._uiService.hideSpinner();
+            },
+            (err) => {
+                console.log("err", err);
+                // this._uiService.hideSpinner();
+            }
+        );
     }
 
     loadDashboard(entityType) {
@@ -138,29 +159,15 @@ export class HomeComponent implements OnInit {
 
 
     onlogOut() {
-        // this.script.removejscssfile('filestack.js', 'js', 'chat');
-
-        // this.entityType = this._authService.getUser().entityType;
-        // console.log('entity type:', this.entityType);
 
         this.redirectUrl = 'login';
-        this.redirectUrl2 = 'home';
-
-        // if (this.entityType === 'influencer' || this.entityType === 'brand') {
-        //     this.redirectUrl = 'login';
-        // } else if (this.entityType === 'digital_agency' || this.entityType === 'influencer_agent') {
-        //     this.redirectUrl = 'login';
-        // } else if (this.entityType === 'backoffice') {
-        //     this.redirectUrl = 'admin/login';
-        // }
-
         this._authService.logoutUser();
+
         this.isUser = this._authService.getUser();
         if (this.isUser) {
-            this._router.navigateByUrl(this.redirectUrl2);
-            // return;
+            return;
         } else {
-            this._router.navigateByUrl(this.redirectUrl);
+            this._router.navigate([this.redirectUrl]);
         }
     }
 

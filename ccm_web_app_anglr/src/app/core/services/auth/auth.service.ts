@@ -25,8 +25,8 @@ export class AuthService implements IAuthService, OnDestroy {
     private messageSource = new BehaviorSubject<boolean>(false);
     currentMessage = this.messageSource.asObservable();
 
-    loginStatusChanged = new Subject<User>();
-    // loginStatusChangedNew = new Subject<any>();
+    loginStatusChanged = new Subject<boolean>();
+    loginUserStatusChanged = new Subject<User>();
 
     private _clientId = '';
     private _clientSecret = '';
@@ -99,18 +99,20 @@ export class AuthService implements IAuthService, OnDestroy {
     }
 
     private SaveToken(response: Response) {
-        const data = response.json();
-        this.token_expires = Date.now() + ((data.expires_in - 60) * 1000);
-        console.log('expiry:' + data.expires_in);
-        localStorage.setItem('token_id', data.access_token);
+        const data = response.json().data;
+        this.token_expires = Date.now() + ((data.expiryTime - 60) * 1000);
+        console.log('expiry:' + data.expiryTime);
+        localStorage.setItem('token_id', data.accessToken);
         localStorage.setItem('token_expiry', this.token_expires.toString());
-        localStorage.setItem('refresh_token', data.refresh_token);
-        localStorage.setItem('token_type', data.token_type);
-        // setTimeout(function(){ this.logoutUser(); }, (data.expires_in * 1000));
+        localStorage.setItem('userId', data.userId);
+        // localStorage.setItem('refresh_token', data.refresh_token);
+        // localStorage.setItem('token_type', data.token_type);
+        // setTimeout(function(){ this.logoutUser(); }, (data.expiryTime * 1000));
         // console.log();
 
         return data;
     }
+
     checkToken(): boolean {
         if (localStorage.getItem('token_id')) {
             if ((parseInt(localStorage.getItem('token_expiry'))) > Date.now()) {
@@ -137,10 +139,11 @@ export class AuthService implements IAuthService, OnDestroy {
 
 
     checkLogin(user: User): Observable<any> {
-        const url = this.getAuthFullUrl('connect/token');
+        // const url = this.getAuthFullUrl('connect/token');
+        const url = this.getAuthFullUrl('login');
         const params = new URLSearchParams();
         params.append('grant_type', environment.grant_type);
-        params.append('username', user.email);
+        params.append('email', user.email);
         params.append('password', user.password);
         params.append('client_id', environment.client_id);
         params.append('client_secret', environment.client_secret);
@@ -355,8 +358,9 @@ export class AuthService implements IAuthService, OnDestroy {
 
         token.tokenId = localStorage.getItem('token_id');
         token.tokenExpiry = localStorage.getItem('token_expiry');
-        token.refreshToken = localStorage.getItem('refresh_token');
-        token.tokenType = localStorage.getItem('token_type');
+        // token.refreshToken = localStorage.getItem('refresh_token');
+        // token.tokenType = localStorage.getItem('token_type');
+        token.userId = +localStorage.getItem('userId');
 
         return token;
 
@@ -370,6 +374,7 @@ export class AuthService implements IAuthService, OnDestroy {
         if (!user) { return; }
 
         localStorage.setItem('user', JSON.stringify(user));
+        this.loginUserStatusChanged.next(user);
     }
 
     public storeUrlPath(urlPath: string) {
@@ -401,6 +406,7 @@ export class AuthService implements IAuthService, OnDestroy {
         console.log("logout");
         localStorage.clear();
         this.loginStatusChanged.next(null);
+        this.loginUserStatusChanged.next(null);
         this._router.navigate(['/']);
 
         // this.loginStatusChangedNew.next("Abc");

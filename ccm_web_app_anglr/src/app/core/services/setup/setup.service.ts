@@ -718,7 +718,8 @@ export class SetupService {
     }
 
     public getRoles(): Observable<any> {
-        const getUrl = 'role/all';
+        // const getUrl = 'role/all';
+        const getUrl = 'test/list';
         return this._http.get(getUrl)
             // .map(res => res.json())
             .map((res: Response) => res)

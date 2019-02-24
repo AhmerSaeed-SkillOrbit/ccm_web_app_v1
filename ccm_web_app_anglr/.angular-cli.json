@@ -23,14 +23,13 @@
       ],
       "scripts": [
         "assets/js/core/app.js",
-        "assets/js/core/app.min.js",
         "assets/js/pages/dashboard.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts",
-        "qa":"environments/environment.qa.ts"
+        "qa": "environments/environment.qa.ts"
       }
     }
   ],

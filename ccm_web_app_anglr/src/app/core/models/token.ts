@@ -4,5 +4,6 @@ export class Token {
     tokenExpiry: string;
     refreshToken: string;
     tokenType: string;
+    userId: number;
 
 }
