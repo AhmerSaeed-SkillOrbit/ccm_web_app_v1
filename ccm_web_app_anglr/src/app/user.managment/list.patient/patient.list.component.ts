@@ -38,7 +38,7 @@ export class PatientListComponent implements OnInit {
 
 
     email: string = "";
-    type: string = "superadmin_doctor";
+    type: string = "doctor_patient";
     userId: number = null;
     searchKeyword: string = null;
     roleCode: string = null;

@@ -24,7 +24,7 @@ export class User extends BaseModel {
     phoneNumber: String;
 
     officeAddress: String;
-    ResidentialAddress: String;
+    residentialAddress: String;
 
     cnic: String;
 
@@ -101,6 +101,7 @@ export class User extends BaseModel {
     unsuccessfulAttempt: string;
     isActive: boolean;
     isBlocked: boolean;
+    blockReason: string;
     isLoggedIn: boolean;
 
     isBlockDisabled: boolean = false;

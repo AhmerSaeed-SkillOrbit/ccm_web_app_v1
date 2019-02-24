@@ -30,9 +30,16 @@ export class MappingService {
             isUser.lastName = userData.LastName || null;
             isUser.email = userData.EmailAddress || null;
 
-            isUser.mobileNumber = userData.mobileNumber || null;
-            isUser.phoneNumber = userData.phoneNumber || null;
-            isUser.cnic = userData.cnic || null;
+            isUser.officeAddress = userData.OfficeAddress || null;
+            isUser.residentialAddress = userData.ResidentialAddress || null;
+
+            isUser.mobileNumber = userData.MobileNumber || null;
+            isUser.phoneNumber = userData.TelephoneNumber || null;
+            isUser.cnic = userData.Cnic || null;
+            isUser.age = userData.Age || null;
+            isUser.ageGroup = userData.AgeGroup || null;
+            // isUser.associationType = userData.AssociationType || null;
+            isUser.blockReason = userData.BlockReason || null;
 
 
             isUser.password = userData.userPassword;
@@ -56,11 +63,10 @@ export class MappingService {
             isUser.branch = userData.branch || new Branch();
             isUser.branchId = userData.branch ? userData.branch.id : null;
 
+            isUser.roleCode = userData.RoleCodeName || null;
+            isUser.roleName = userData.RoleName || null;
             isUser.roles = userData.roles;
             isUser.permissions = userData.permissions;
-
-
-            
 
             if (userData.profilePicture) {
                 isUser.profilePicture = userData.profilePicture;

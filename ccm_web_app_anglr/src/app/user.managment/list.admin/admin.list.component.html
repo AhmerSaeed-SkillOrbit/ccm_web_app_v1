@@ -136,8 +136,8 @@
                                                     rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Email</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Role</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Status</th>
+                                                <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Status</th> -->
                                                 <th class="text-center sorting_disabled" rowspan="1" colspan="1"
                                                     aria-label="Actions" style="    width: 183px;">Actions</th>
                                             </tr>
@@ -156,19 +156,21 @@
                                                 <td class="sorting_1">
                                                     {{ user?.roleName || "NA" }}
                                                 </td>
-                                                <td>
+                                                <!-- <td>
                                                     <span class="label label-default">
                                                         {{ user?.roleName || "NA" }}
                                                     </span>
-                                                </td>
+                                                </td> -->
                                                 <td class="text-center">
-                                                    <a href="#">
+                                                    <a [routerLink]="['/um/edit',user.id]">
                                                         <i style="color:#ffa808;" class=" icon-pencil"></i>
                                                     </a> &nbsp;
-                                                    <a href="#">
+                                                    <!-- <a (click)=""> -->
+                                                    <a>
                                                         <i style="color:#0aa700;" class="icon-eye2"></i>
                                                     </a>&nbsp;
-                                                    <a href="#">
+                                                    <!-- <a (click)=""> -->
+                                                    <a>
                                                         <i style="color:#f70a0a;" class="icon-bin"></i>
                                                     </a>
                                                 </td>

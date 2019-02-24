@@ -20,6 +20,7 @@ import { SupportStaffListComponent } from './list.supportStaff/supportStaff.list
 import { InviteDoctorComponent } from './invite.doctor/invite.doctor.component';
 import { InvitePatientComponent } from './invite.patient/invite.patient.component';
 import { InviteDialogComponent } from './invite.dialoge/invite.dialog.component';
+import { EditUserComponent } from './edit.user/edit.user.component';
 import { CommonModule } from "@angular/common";
 
 
@@ -34,8 +35,8 @@ import { CommonModule } from "@angular/common";
 
         InviteDoctorComponent,
         InvitePatientComponent,
-        InviteDialogComponent
-        // ProductlistComponent,
+        InviteDialogComponent,
+        EditUserComponent,
         // ProductNewComponent,
         // ProductDetialComponent,
         // ProductFilterPipe
@@ -80,7 +81,11 @@ import { CommonModule } from "@angular/common";
             {
                 path: 'invite/patient',
                 component: InvitePatientComponent
-            }
+            },
+            {
+                path: 'edit/:id',
+                component: EditUserComponent
+            },
         ])
     ],
     providers: [
