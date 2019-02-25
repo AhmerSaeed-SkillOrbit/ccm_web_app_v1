@@ -242,6 +242,10 @@ export class FacilitatorListComponent implements OnInit {
         }
     }
 
+    resetForm() {
+        this.formRegister.reset();
+    }
+
     onSubmitAddUser() {
         // this.scrollTo(0,0,0)
         // this.isSubmitted = !this.isSubmitted;
