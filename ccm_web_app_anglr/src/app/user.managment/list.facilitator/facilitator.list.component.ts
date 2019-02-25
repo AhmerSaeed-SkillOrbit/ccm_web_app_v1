@@ -3,7 +3,9 @@ import { User } from '../../core/models/user';
 import { IAuthService } from '../../core/services/auth/iauth.service';
 import { UIService } from '../../core/services/ui/ui.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PageEvent, MatDialog, MatTableDataSource, MatPaginator } from '@angular/material';
+import { PageEvent, MatDialog, MatPaginator } from '@angular/material';
+import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl } from '@angular/forms';
+
 // import { ScriptService } from '../core/services/script.service';
 // import { UtilityService } from '../core/services/general/utility.service';
 // import { MessagingService } from '../messaging.service';
@@ -15,6 +17,7 @@ import { InviteDialogComponent } from '../invite.dialoge/invite.dialog.component
 import { UserService } from '../../core/services/user/user.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 import { UtilityService } from '../../core/services/general/utility.service';
+import { FormService } from '../../core/services/form/form.service';
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
 // import { EasyPay } from '../core/models/payment/easypay.payment';
 
@@ -43,10 +46,11 @@ export class FacilitatorListComponent implements OnInit {
     searchKeyword: string = null;
     roleCode: string = null;
 
+    newUser: User = new User();
     userList: User[] = [];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
-    
+
     isSpinner = false;
     filter: string = "";
 
@@ -62,15 +66,36 @@ export class FacilitatorListComponent implements OnInit {
 
     isSubmitted: boolean = false;
 
+    formRegister: FormGroup;
+
     constructor(@Inject('IAuthService') private _authService: IAuthService,
         public dialog: MatDialog,
         private _uiService: UIService,
-        // public _messaging: MessagingService,
+        private _formService: FormService,
         private _userService: UserService,
         private _mappingService: MappingService,
         private _utilityService: UtilityService,
-        private route: ActivatedRoute, private _router: Router) {
+        private route: ActivatedRoute, private _router: Router,
+        private fb: FormBuilder
+    ) {
         this.currentURL = window.location.href;
+
+        this.formRegister = fb.group({
+
+            'firstName': [this.newUser.firstName, Validators.compose([Validators.required])],
+            'lastName': [this.newUser.lastName, Validators.compose([Validators.required])],
+            'email': [this.newUser.email, Validators.compose([Validators.required])],
+            'mobileNumber': [this.newUser.mobileNumber, Validators.compose([])],
+            'telephoneNumber': [this.newUser.phoneNumber, Validators.compose([])],
+            'officeAddress': [this.newUser.officeAddress, Validators.compose([])],
+            'residentialAddress': [this.newUser.residentialAddress, Validators.compose([])],
+            'gender': [this.newUser.gender, Validators.compose([])],
+            'functionalTitle': [this.newUser.functionalTitle, Validators.compose([])],
+            'age': [this.newUser.age, Validators.compose([])],
+            'ageGroup': [this.newUser.ageGroup, Validators.compose([])],
+        });
+
+        this.newUser.roleId = 3;
     }
 
     ngOnInit(): void {
@@ -215,6 +240,60 @@ export class FacilitatorListComponent implements OnInit {
             msg.autoCloseAfter = 400;
             this._uiService.showToast(msg, '');
         }
+    }
+
+    resetForm() {
+        this.formRegister.reset();
+    }
+
+    onSubmitAddUser() {
+        // this.scrollTo(0,0,0)
+        // this.isSubmitted = !this.isSubmitted;
+        console.log("onSubmitAddUser newUser", this.newUser);
+
+        if (this.formRegister.invalid) {
+            const msg = new Message();
+            msg.title = '';
+            msg.iconType = '';
+
+
+            if (this.formRegister.controls['firstName'].hasError('required')) {
+                msg.msg = 'First Name is required.';
+            } else if (this.formRegister.controls['lastName'].hasError('required')) {
+                msg.msg = 'Last Name is required.';
+            } else {
+                msg.msg = 'Validation failed.';
+            }
+            this._uiService.showToast(msg, '');
+
+        }
+        else if (this.formRegister.valid) {
+            this.isSubmitted = true;
+            // this.isSubmitStarted = true;
+            const msg = new Message();
+            this._userService.addUser(this.newUser).subscribe(
+                (res) => {
+                    this.isSubmitted = false;
+                    // this._authServices.storeUser(this.userForm);
+
+                    msg.msg = res.json() ? res.json().message : 'Record Successfully Submitted';
+                    // msg.msg = 'You have successfully signed up';
+                    msg.msgType = MessageTypes.Information;
+                    msg.autoCloseAfter = 400;
+                    this._uiService.showToast(msg, 'info');
+
+                },
+                (err) => {
+                    console.log(err);
+                    this.isSubmitted = false;
+                    this._authService.errStatusCheckResponse(err);
+                }
+            );
+        } else {
+            // console.log("asd")
+            this._formService.validateAllFormFields(this.formRegister);
+        }
+
     }
 
     onlogOut() {

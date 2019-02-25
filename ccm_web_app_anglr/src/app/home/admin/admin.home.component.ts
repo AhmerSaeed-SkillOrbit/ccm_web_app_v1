@@ -24,7 +24,16 @@ declare var libraryVar: any;
 })
 export class AdminHomeComponent implements OnInit {
     files: any;
+
     // dashboard: Dashboard = new Dashboard();
+    dashboard = {
+        adminCount: 0,
+        facilitatorCount: 0,
+        patientCount: 0,
+        doctorCount: 0,
+        supportStaffCount: 0
+    };
+
     currentURL: string;
     // script = new ScriptService();
 
@@ -62,47 +71,35 @@ export class AdminHomeComponent implements OnInit {
         if (!this.isLogin) {
             // this._router.navigateByUrl('login');
         } else {
-            // if (this.user.role.roleCode == "admin") {
-            //     // this._router.navigate(['/home/admin']);
-            // }
-            // else {
-            //     this._router.navigate(['/home/other']);
-            // }
+            if (this.user.roleCode == "super_admin") {
+                // this._router.navigate(['/home/admin']);
+            }
+            else {
+                this._router.navigate(['/home/other']);
+            }
         }
 
-        // this.loadDashboard(this.user.entityType);
-        this.loadRoles();
+        this.loadDashboard();
 
     }
 
-    loadRoles() {
+    loadDashboard() {
         // this._uiService.showSpinner();
-        this._dashboardService.getCountries().subscribe(
+        this._dashboardService.getDashboardSuperAdmin().subscribe(
             (res) => {
-                console.log("res", res);
                 // this._uiService.hideSpinner();
+                let data = res.json().data;
+                this.dashboard.adminCount = data && data.SuperAdmin ? data.SuperAdmin : 0;
+                this.dashboard.facilitatorCount = data && data.Facilitator ? data.Facilitator : 0;
+                this.dashboard.patientCount = data && data.Patient ? data.Patient : 0;
+                this.dashboard.doctorCount = data && data.Doctor ? data.Doctor : 0;
+                this.dashboard.supportStaffCount = data && data.SupportStaff ? data.SupportStaff : 0;
             },
             (err) => {
                 console.log("err", err);
                 // this._uiService.hideSpinner();
             }
         );
-    }
-
-    loadDashboard(entityType) {
-        // this._uiService.showSpinner();
-        // this._dashboardService.getDashboard(entityType).subscribe(
-        //     (res) => {
-        //         this._uiService.hideSpinner();
-        //         this.dashboard = res.dashboard;
-        //         this.files = res.dashboard.caseStudies.files;
-        //         console.log('dashboard', this.dashboard);
-        //         this.influencerProfile = res.dashboard.influencerOfTheMonth.profile;
-        //     },
-        //     (err) => {
-        //         this._uiService.hideSpinner();
-        //     }
-        // );
     }
 
     navigateTo(id) {
@@ -122,17 +119,6 @@ export class AdminHomeComponent implements OnInit {
 
     }
 
-    // viewAllCampaigns() {
-    //     if (this.user.entityType === 'brand' ) {
-    //         this._router.navigate(['brand/campaign/list']);
-    //     } else if (this.user.entityType === 'influencer' ) {
-    //         this._router.navigate(['influencer/campaign/list/']);
-    //     } else if (this.user.entityType === 'digital_agency' ) {
-    //         this._router.navigate(['da/campaign/list']);
-    //     } else if (this.user.entityType === 'influencer_agent' ) {
-    //         this._router.navigate(['ia/campaign/list']);
-    //     }
-    // }
 
 
     onlogOut() {

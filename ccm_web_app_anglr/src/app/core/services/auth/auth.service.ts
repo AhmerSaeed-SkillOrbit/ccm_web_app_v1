@@ -318,7 +318,7 @@ export class AuthService implements IAuthService, OnDestroy {
             MobileNumber: user.mobileNumber || null,
             TelephoneNumber: user.phoneNumber || null,
             OfficeAddress: user.officeAddress || null,
-            ResidentialAddress: user.ResidentialAddress || null,
+            ResidentialAddress: user.residentialAddress || null,
             Gender: user.gender || null,
             FunctionalTitle: user.functionalTitle || null,
             Age: user.age || null,

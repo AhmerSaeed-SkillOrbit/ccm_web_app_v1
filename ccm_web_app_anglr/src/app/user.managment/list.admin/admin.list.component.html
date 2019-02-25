@@ -87,11 +87,11 @@
                             </div>
 
 
-                            <!-- <div class="panel-body">
-                                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal_default">
-                                    Invite New <i class="icon-play3 position-right"></i>
+                            <div class="panel-body">
+                                <button (click)="resetForm()" type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal_default">
+                                    Add New <i class="icon-play3 position-right"></i>
                                 </button>
-                            </div> -->
+                            </div>
                             <!-- <div class="panel-body">
                                 <button type="button" class="btn btn-default btn-sm" (click)="openInviteDialog()">Add
                                     New <i class="icon-play3 position-right"></i></button>
@@ -136,8 +136,8 @@
                                                     rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Email</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Role</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Status</th>
+                                                <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Status</th> -->
                                                 <th class="text-center sorting_disabled" rowspan="1" colspan="1"
                                                     aria-label="Actions" style="    width: 183px;">Actions</th>
                                             </tr>
@@ -156,19 +156,21 @@
                                                 <td class="sorting_1">
                                                     {{ user?.roleName || "NA" }}
                                                 </td>
-                                                <td>
+                                                <!-- <td>
                                                     <span class="label label-default">
                                                         {{ user?.roleName || "NA" }}
                                                     </span>
-                                                </td>
+                                                </td> -->
                                                 <td class="text-center">
-                                                    <a href="#">
+                                                    <a [routerLink]="['/um/edit',user.id]">
                                                         <i style="color:#ffa808;" class=" icon-pencil"></i>
                                                     </a> &nbsp;
-                                                    <a href="#">
+                                                    <!-- <a (click)=""> -->
+                                                    <a>
                                                         <i style="color:#0aa700;" class="icon-eye2"></i>
                                                     </a>&nbsp;
-                                                    <a href="#">
+                                                    <!-- <a (click)=""> -->
+                                                    <a>
                                                         <i style="color:#f70a0a;" class="icon-bin"></i>
                                                     </a>
                                                 </td>
@@ -220,25 +222,101 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">×</button>
-                                    <h5 class="modal-title">Invite </h5>
+                                    <h5 class="modal-title">Add New </h5>
                                 </div>
 
                                 <div class="modal-body">
                                     <div class="col-md-12">
 
                                         <!-- Basic layout-->
-                                        <form (ngSubmit)="sendInvite()" class="form-horizontal">
+                                        <form [formGroup]="formRegister" (ngSubmit)="onSubmitAddUser()" class="form-horizontal">
                                             <div class="panel panel-flat">
                                                 <div class="panel-heading">
 
 
                                                     <div class="panel-body">
 
-                                                        <div class="form-group">
-                                                            <label class="col-lg-3 control-label">Email:</label>
-                                                            <div class="col-lg-9">
-                                                                <input type="text" class="form-control" placeholder="example@abc.com"
-                                                                    name="email" [(ngModel)]="email">
+                                                        <div class="row">
+
+                                                            <!-- First Name -->
+                                                            <div class="col-md-6">
+                                                                <div class="form-group has-feedback has-feedback-left">
+                                                                    <input type="text" class="form-control" placeholder="First Name"
+                                                                        formControlName="firstName" [(ngModel)]="newUser.firstName">
+                                                                    <div class="form-control-feedback">
+                                                                        <i class="icon-user text-muted"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Last Name -->
+                                                            <div class="col-md-6">
+                                                                <div class="form-group has-feedback has-feedback-left">
+                                                                    <input type="text" class="form-control" placeholder="Last Name"
+                                                                        formControlName="lastName" [(ngModel)]="newUser.lastName">
+                                                                    <div class="form-control-feedback">
+                                                                        <i class="icon-user text-muted"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Email Address -->
+                                                            <div class="col-md-6">
+                                                                <div class="form-group has-feedback has-feedback-left">
+                                                                    <input type="email" class="form-control"
+                                                                        placeholder="Email Address" formControlName="email"
+                                                                        [(ngModel)]="newUser.email">
+                                                                    <div class="form-control-feedback">
+                                                                        <i class="icon-user text-muted"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Mobile Number -->
+                                                            <div class="col-md-6">
+                                                                <div class="form-group has-feedback has-feedback-left">
+                                                                    <input type="number" class="form-control"
+                                                                        placeholder="Mobile Number" formControlName="mobileNumber"
+                                                                        [(ngModel)]="newUser.mobileNumber">
+                                                                    <div class="form-control-feedback">
+                                                                        <i class="icon-user text-muted"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Telephone Number -->
+                                                            <div class="col-md-6">
+                                                                <div class="form-group has-feedback has-feedback-left">
+                                                                    <input type="number" class="form-control"
+                                                                        placeholder="Telephone Number" formControlName="telephoneNumber"
+                                                                        [(ngModel)]="newUser.phoneNumber">
+                                                                    <div class="form-control-feedback">
+                                                                        <i class="icon-user text-muted"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Office Address -->
+                                                            <div class="col-md-6">
+                                                                <div class="form-group has-feedback has-feedback-left">
+                                                                    <input type="text" class="form-control" placeholder="Office Address"
+                                                                        formControlName="officeAddress" [(ngModel)]="newUser.officeAddress">
+                                                                    <div class="form-control-feedback">
+                                                                        <i class="icon-user text-muted"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Residential Address -->
+                                                            <div class="col-md-6">
+                                                                <div class="form-group has-feedback has-feedback-left">
+                                                                    <input type="text" class="form-control" placeholder="Residential Address"
+                                                                        formControlName="residentialAddress"
+                                                                        [(ngModel)]="newUser.residentialAddress">
+                                                                    <div class="form-control-feedback">
+                                                                        <i class="icon-user text-muted"></i>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
 
@@ -256,7 +334,7 @@
 
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary" (click)="sendInvite()">Submit
+                                        <button type="submit" class="btn btn-primary" (click)="onSubmitAddUser()">Submit
                                             form <i class="icon-arrow-right14 position-right"></i></button>
                                         <!-- <button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button> -->
                                     </div>

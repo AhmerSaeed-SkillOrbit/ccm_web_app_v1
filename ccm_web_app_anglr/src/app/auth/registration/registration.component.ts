@@ -29,7 +29,7 @@ import { UtilityService } from '../../core/services/general/utility.service';
 @Component({
     moduleId: module.id,
     templateUrl: 'registration.component.html',
-    styleUrls: ['registration.component.css']
+    // styleUrls: ['registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
 
