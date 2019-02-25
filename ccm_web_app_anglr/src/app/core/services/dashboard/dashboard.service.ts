@@ -28,14 +28,20 @@ export class DashboardService {
     ) {
     }
 
-    public getCountries(): Observable<any> {
-        const getUrl = 'country/all';
-        return this._http.get(getUrl)
+    public getDashboardSuperAdmin(): Observable<any> {
+        
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        const getUrl = 'dashboard/superadmin';
+        return this._http.get(getUrl, options)
             .map((res: Response) => res)
             .catch((error: any) => {
                 return Observable.throw(error);
-            }
-            );
+            });
     }
 
     public getBranchesViaCityId(id: number): Observable<any> {

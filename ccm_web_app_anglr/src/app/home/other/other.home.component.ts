@@ -63,12 +63,12 @@ export class OtherHomeComponent implements OnInit {
             // this._router.navigateByUrl('login');
         } else {
 
-            // if (this.user.role.roleCode == "admin") {
-            //     this._router.navigate(['/home/admin']);
-            // }
-            // else {
-            //     // this._router.navigate(['/home/other']);
-            // }
+            if (this.user.roleCode == "super_admin") {
+                this._router.navigate(['/home/admin']);
+            }
+            else {
+                // this._router.navigate(['/home/other']);
+            }
         }
 
         // this.loadDashboard(this.user.entityType);

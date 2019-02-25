@@ -9,8 +9,8 @@ import { User } from '../models/user';
 export class CanActivateViaMainGuard implements CanActivate {
 
     loginUser: User = new User();
-    
-    constructor( @Inject('IAuthService') private authService: AuthService, private router: Router) { }
+
+    constructor(@Inject('IAuthService') private authService: AuthService, private router: Router) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const authInfo = this.authService.isLoggedIn();
@@ -19,15 +19,15 @@ export class CanActivateViaMainGuard implements CanActivate {
 
             this.loginUser = this.authService.getUser();
 
-            // if (this.loginUser.department.departmentCode == "lg") {
-            //     this.router.navigate(['/home/admin']);
-            // }
-            // else {
-            //     this.router.navigate(['/home/other']);
-            // }
-            
-            
-            this.router.navigate(['/home/other']);
+            if (this.loginUser.roleCode == "super_admin") {
+                this.router.navigate(['/home/admin']);
+            }
+            else {
+                this.router.navigate(['/home/other']);
+            }
+
+
+            // this.router.navigate(['/home/other']);
             console.log('authInfo', authInfo);
         } else {
             return true;

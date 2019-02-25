@@ -67,7 +67,7 @@ export class UserService {
 
         // const url = 'user/full/via/id/' + userId;
         const url = 'user/single?id=' + (userId || null);
-        
+
         let token: Token;
         token = this._authService.getTokenData();
         let tokenId;
@@ -99,6 +99,43 @@ export class UserService {
             .map((res: Response) => res.json())
             .catch((error: any) => {
                 return Observable.throw(error);
+            });
+    }
+
+    public addUser(user: User): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        const getUrl = 'user/add';
+        let body = {
+
+            FirstName: user.firstName || null,
+            LastName: user.lastName || null,
+            EmailAddress: user.email || null,
+            // Password: user.password || null,
+            MobileNumber: user.mobileNumber || null,
+            TelephoneNumber: user.phoneNumber || null,
+            OfficeAddress: user.officeAddress || null,
+            ResidentialAddress: user.residentialAddress || null,
+            Gender: user.gender || null,
+            FunctionalTitle: user.functionalTitle || null,
+            Age: user.age || null,
+            AgeGroup: user.ageGroup || null,
+            RoleId: user.roleId || null,
+
+            // CountryId: user.countryId,
+            // RegionId: user.regionId,
+            // CityId: user.cityId,
+            // BranchId: user.branchId
+        }
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
             });
     }
 

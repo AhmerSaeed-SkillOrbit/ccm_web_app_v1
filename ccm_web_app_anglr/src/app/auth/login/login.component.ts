@@ -127,16 +127,16 @@ export class LoginComponent implements OnInit, OnDestroy {
                             // }
                             this.loginUser = this._authServices.getUser();
 
-                           
-                            this._router.navigate(['/home']);
+
+                            // this._router.navigate(['/home']);
                             // this._router.navigate(['/admin/home']);
 
-                            // if (this.loginUser.department.departmentCode == "lg") {
-                            //     this._router.navigate(['/admin/a/a/home']);
-                            // }
-                            // else {
-                            //     this._router.navigate(['/home']);
-                            // }
+                            if (this.loginUser.roleCode == "super_admin") {
+                                this._router.navigate(['/home/admin']);
+                            }
+                            else {
+                                this._router.navigate(['/home/other']);
+                            }
 
                         },
                         (err) => {

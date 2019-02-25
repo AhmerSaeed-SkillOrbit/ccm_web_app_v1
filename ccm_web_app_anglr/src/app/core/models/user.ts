@@ -71,6 +71,9 @@ export class User extends BaseModel {
     roles: Role[] = [];
     permissions: Permission[];
     userRolePermission: Role = new Role();
+    
+    role: Role = new Role();
+    roleId: number;
     roleName: string;
     roleCode: string;
 
