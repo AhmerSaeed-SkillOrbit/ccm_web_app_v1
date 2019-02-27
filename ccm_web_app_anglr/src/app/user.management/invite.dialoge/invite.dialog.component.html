@@ -1,0 +1,62 @@
+<div class="dialog-box-content">
+    <form name="form" [formGroup]="inviteForm" (keydown.enter)="$event.preventDefault()">
+        <mat-progress-bar mode="indeterminate" *ngIf="isSubmitted"></mat-progress-bar>
+        <div class="row align-item-center">
+            <div class="col-md-12">
+                <h1 mat-dialog-title>Invite {{ title }}</h1>
+            </div>
+
+            <div class="col-md-12">
+
+                <div class="row">
+
+                    <!-- Email Address -->
+                    <div class="col-md-12">
+                        <!-- <div class="form-group has-feedback has-feedback-left">
+                                <input type="email" class="form-control" placeholder="Email Address" formControlName="email"
+                                    [(ngModel)]="newUser.email">
+                                <div class="form-control-feedback">
+                                    <i class="icon-user text-muted"></i>
+                                </div>
+                            </div> -->
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Email:</label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" placeholder="example@abc.com" formControlName="email"
+                                    [(ngModel)]="email">
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div mat-dialog-actions class="row align-item-center dialog-btn-contianer">
+            <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+                <button mat-raised-button tabindex="-1" (click)="onNoClick()">CANCEL</button>
+
+                <span matTooltipPosition="above" matTooltip="{{!inviteForm.valid ? 'Email is required' : buttonTooltip}}">
+                    <button mat-raised-button [disabled]="!inviteForm.valid || isSubmitted" color="primary" (click)="sentInvite()"
+                        tabindex="2">SUBMIT</button>
+                </span>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<!-- <h2 mat-dialog-title>User Form</h2>
+    <mat-dialog-content class="mat-typography">
+    
+    </mat-dialog-content>
+    
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+    </mat-dialog-actions> -->

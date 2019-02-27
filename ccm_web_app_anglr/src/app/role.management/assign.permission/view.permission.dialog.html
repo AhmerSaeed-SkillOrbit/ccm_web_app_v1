@@ -1,0 +1,759 @@
+<div class="dialog">
+
+    <div *ngIf="fieldType==='designation'">
+        <!-- <form name="form" #m="ngForm" (keydown.enter)="$event.preventDefault()" novalidate> -->
+        <form name="form" [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+            <div class="row align-item-center">
+                <div class="col-md-12">
+                    <!-- <h1 mat-dialog-title>Add New Designation</h1> -->
+                    <h1 mat-dialog-title>{{title}}</h1>
+                </div>
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Designation Name should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Designation Name" formControlName="designationName" maxlength="50" name="ind" [(ngModel)]="designation.designationName"
+                            (focusout)="onDesignationFocusOut()" required />
+                        <mat-hint align="end">{{designation.designationName?.length || 0}}/50</mat-hint>
+                        <mat-error *ngIf="form.controls['designationName'].errors?.required">
+                            Designation Name is
+                            <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="form.controls['designationName'].errors?.pattern">
+                            Designation Name is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div mat-dialog-actions class="row align-item-center dialog-btn-contianer">
+                <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+                    <button mat-raised-button tabindex="-1" (click)="onNoClick()">CANCEL</button>
+                    <button mat-raised-button [disabled]="!form.valid" color="primary" (click)="onYesClick(fieldType)" tabindex="2">SUBMIT</button></div>
+            </div>
+        </form>
+    </div>
+
+    <div *ngIf="fieldType==='department'">
+        <!-- <form name="form" #m="ngForm" (keydown.enter)="$event.preventDefault()" novalidate> -->
+        <form name="form" [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+            <div class="row align-item-center">
+                <div class="col-md-12">
+                    <!-- <h1 mat-dialog-title>Add New Department</h1> -->
+                    <h1 mat-dialog-title>{{title}}</h1>
+                </div>
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Department Name should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Department Name" formControlName="departmentName" maxlength="100" name="ind" [(ngModel)]="department.departmentName"
+                            (focusout)="onDepartmentFocusOut()" required />
+                        <mat-hint align="end">{{department.departmentName?.length || 0}}/100</mat-hint>
+                        <mat-error *ngIf="form.controls['departmentName'].errors?.required">
+                            Department Name is
+                            <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="form.controls['departmentName'].errors?.pattern">
+                            Department Name is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div mat-dialog-actions class="row align-item-center dialog-btn-contianer">
+                <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+                    <button mat-raised-button tabindex="-1" (click)="onNoClick()">CANCEL</button>
+                    <button mat-raised-button [disabled]="!form.valid" color="primary" (click)="onYesClick(fieldType)" tabindex="2">SUBMIT</button></div>
+            </div>
+        </form>
+    </div>
+
+    <div *ngIf="fieldType==='role'">
+        <!-- <form name="form" #m="ngForm" (keydown.enter)="$event.preventDefault()" novalidate> -->
+        <form name="form" [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+            <div class="row align-item-center">
+                <div class="col-md-12">
+                    <!-- <h1 mat-dialog-title>Add New Role</h1> -->
+                    <h1 mat-dialog-title>{{title}}</h1>
+                </div>
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Role Name should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Role Name" formControlName="roleName" maxlength="80" name="ind" [(ngModel)]="role.roleName"
+                            (focusout)="onRoleFocusOut()" required />
+                        <mat-hint align="end">{{role.roleName?.length || 0}}/80</mat-hint>
+                        <mat-error *ngIf="form.controls['roleName'].errors?.required">
+                            Role Name is
+                            <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="form.controls['roleName'].errors?.pattern">
+                            Role Name is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <!-- <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <mat-select [(ngModel)]="role.departmentId" formControlName="departmentId" placeholder="Select Department" required>
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let department of departments" [value]="department.id ">
+                                {{ department.departmentName }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-hint class="unsuccessful" *ngIf="!isDepartmentValid">
+                            Department is not
+                            <strong>available</strong>
+                        </mat-hint>
+
+                        <mat-error *ngIf="form.controls['departmentId'].errors?.required">
+                            Department is
+                            <strong>required</strong>
+                        </mat-error>
+
+                    </mat-form-field>
+                </div> -->
+            </div>
+
+            <div mat-dialog-actions class="row align-item-center dialog-btn-contianer">
+                <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+                    <button mat-raised-button tabindex="-1" (click)="onNoClick()">CANCEL</button>
+                    <button mat-raised-button [disabled]="!form.valid" color="primary" (click)="onYesClick(fieldType)" tabindex="2">SUBMIT</button></div>
+            </div>
+        </form>
+    </div>
+
+    <div *ngIf="fieldType==='region'">
+        <!-- <form name="form" #m="ngForm" (keydown.enter)="$event.preventDefault()" novalidate> -->
+        <form name="form" [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+            <div class="row align-item-center">
+                <div class="col-md-12">
+                    <!-- <h1 mat-dialog-title>Add New Region</h1> -->
+                    <h1 mat-dialog-title>{{title}}</h1>
+                </div>
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Region Name should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Region Name" formControlName="regionName" maxlength="100" name="ind" [(ngModel)]="region.regionName"
+                            (focusout)="onRegionFocusOut()" required />
+                        <mat-hint align="end">{{region.regionName?.length || 0}}/100</mat-hint>
+                        <mat-error *ngIf="form.controls['regionName'].errors?.required">
+                            Region Name is
+                            <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="form.controls['regionName'].errors?.pattern">
+                            Region Name is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <mat-select [(ngModel)]="region.countryId" formControlName="countryId" placeholder="Select Country" required>
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let country of countries" [value]="country.id ">
+                                {{ country.countryName }}
+                            </mat-option>
+                        </mat-select>
+                        <!-- <mat-hint class="unsuccessful" *ngIf="!isCountryValid">
+                            Country is not
+                            <strong>available</strong>
+                        </mat-hint> -->
+
+                        <mat-error *ngIf="form.controls['countryId'].errors?.required">
+                            Country is
+                            <strong>required</strong>
+                        </mat-error>
+
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div mat-dialog-actions class="row align-item-center dialog-btn-contianer">
+                <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+                    <button mat-raised-button tabindex="-1" (click)="onNoClick()">CANCEL</button>
+                    <button mat-raised-button [disabled]="!form.valid" color="primary" (click)="onYesClick(fieldType)" tabindex="2">SUBMIT</button></div>
+            </div>
+        </form>
+    </div>
+
+    <div *ngIf="fieldType==='branch'">
+        <!-- <form name="form" #m="ngForm" (keydown.enter)="$event.preventDefault()" novalidate> -->
+        <form name="form" [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+            <div class="row align-item-center">
+                <div class="col-md-12">
+                    <!-- <h1 mat-dialog-title>Add New Branch</h1> -->
+                    <h1 mat-dialog-title>{{title}}</h1>
+                </div>
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Branch Name should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Branch Name" formControlName="branchName" maxlength="100" name="ind" [(ngModel)]="branch.branchName"
+                            (focusout)="onBranchFocusOut()" required />
+                        <mat-hint align="end">{{branch.branchName?.length || 0}}/100</mat-hint>
+                        <mat-error *ngIf="form.controls['branchName'].errors?.required">
+                            Branch Name is
+                            <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="form.controls['branchName'].errors?.pattern">
+                            Branch Name is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Branch Name should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Branch Code" formControlName="branchCode" maxlength="100" name="branchCode" [(ngModel)]="branch.branchCode"
+                            required trim />
+                        <mat-hint align="end">{{branch.branchCode?.length || 0}}/100</mat-hint>
+                        <mat-error *ngIf="form.controls['branchCode'].errors?.required">
+                            Branch Code is
+                            <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="form.controls['branchCode'].errors?.pattern">
+                            Branch Code is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- <mat-select [(ngModel)]="newCountryId" [ngModelOptions]="{standalone: true}" placeholder="Select Country" (focusout)="onCountryFocusOut()"> -->
+                        <mat-select [(ngModel)]="newCountryId" [ngModelOptions]="{standalone: true}" placeholder="Select Country" (change)="onCountryFocusOut()">
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let country of countries" [value]="country.id ">
+                                {{ country.countryName }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- <mat-select [(ngModel)]="newRegionId" [ngModelOptions]="{standalone: true}" placeholder="Select Region" (focusout)="onRegionFocusOut()"> -->
+                        <mat-select [(ngModel)]="newRegionId" [ngModelOptions]="{standalone: true}" placeholder="Select Region" (change)="onRegionFocusOut()">
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let region of regions" [value]="region.id ">
+                                {{ region.regionName }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <mat-select [(ngModel)]="branch.cityId" formControlName="cityId" placeholder="Select City" required>
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let city of cities" [value]="city.id ">
+                                {{ city.cityName }}
+                            </mat-option>
+                        </mat-select>
+                        <!-- <mat-hint class="unsuccessful" *ngIf="!isCityValid">
+                            City is not
+                            <strong>available</strong>
+                        </mat-hint> -->
+
+                        <mat-error *ngIf="form.controls['cityId'].errors?.required">
+                            City is
+                            <strong>required</strong>
+                        </mat-error>
+
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div mat-dialog-actions class="row align-item-center dialog-btn-contianer">
+                <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+                    <button mat-raised-button tabindex="-1" (click)="onNoClick()">CANCEL</button>
+                    <button mat-raised-button [disabled]="!form.valid" color="primary" (click)="onYesClick(fieldType)" tabindex="2">SUBMIT</button></div>
+            </div>
+        </form>
+    </div>
+
+    <div *ngIf="fieldType==='permission'">
+        <!-- <form name="form" #m="ngForm" (keydown.enter)="$event.preventDefault()" novalidate> -->
+        <form name="form" [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+            <div class="row align-item-center">
+                <div class="col-md-12">
+                    <!-- <h1 mat-dialog-title>Add New Permission</h1> -->
+                    <h1 mat-dialog-title>{{title}}</h1>
+                </div>
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Permission Name should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Permission Name" formControlName="permissionName" maxlength="50" name="ind" [(ngModel)]="permission.permissionName"
+                            (focusout)="onPermissionFocusOut()" required />
+                        <mat-hint align="end">{{permission.permissionName?.length || 0}}/50</mat-hint>
+                        <mat-error *ngIf="form.controls['permissionName'].errors?.required">
+                            Permission Name is
+                            <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="form.controls['permissionName'].errors?.pattern">
+                            Permission Name is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div mat-dialog-actions class="row align-item-center dialog-btn-contianer">
+                <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+                    <button mat-raised-button tabindex="-1" (click)="onNoClick()">CANCEL</button>
+                    <button mat-raised-button [disabled]="!form.valid" color="primary" (click)="onYesClick(fieldType)" tabindex="2">SUBMIT</button></div>
+            </div>
+        </form>
+    </div>
+
+    <div *ngIf="fieldType==='caseType'">
+        <!-- <form name="form" #m="ngForm" (keydown.enter)="$event.preventDefault()" novalidate> -->
+        <form name="form" [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+            <div class="row align-item-center">
+                <div class="col-md-12">
+                    <!-- <h1 mat-dialog-title>Add New Case Type</h1> -->
+                    <h1 mat-dialog-title>{{title}}</h1>
+                </div>
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Case Type should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Case Type" formControlName="caseType" maxlength="100" name="ind" [(ngModel)]="caseType.caseType"
+                            (focusout)="onCaseTypeFocusOut()" required />
+                        <mat-hint align="end">{{caseType.caseType?.length || 0}}/100</mat-hint>
+                        <mat-error *ngIf="form.controls['caseType'].errors?.required">
+                            Case Type is
+                            <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="form.controls['caseType'].errors?.pattern">
+                            Case Type is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Case Type Description should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Case Type Description" formControlName="caseTypeDescription" maxlength="100" name="ind" [(ngModel)]="caseType.caseTypeDescription"
+                            (focusout)="onCaseTypeDescriptionFocusOut()" />
+                        <mat-hint align="end">{{caseType.caseTypeDescription?.length || 0}}/100</mat-hint>
+                        <!-- <mat-error *ngIf="form.controls['caseTypeDescription'].errors?.required">
+                            Case Type Description is
+                            <strong>required</strong>
+                        </mat-error> -->
+                        <mat-error *ngIf="form.controls['caseTypeDescription'].errors?.pattern">
+                            Case Type Description is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Case Type Tooltip should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Case Type Tooltip" formControlName="caseTypeTooltip" maxlength="100" name="ind" [(ngModel)]="caseType.caseTypeTooltip"
+                            (focusout)="onCaseTypeTooltipFocusOut()" />
+                        <mat-hint align="end">{{caseType.caseTypeTooltip?.length || 0}}/100</mat-hint>
+                        <!-- <mat-error *ngIf="form.controls['caseTypeTooltip'].errors?.required">
+                            Case Type Tooltip is
+                            <strong>required</strong>
+                        </mat-error> -->
+                        <mat-error *ngIf="form.controls['caseTypeTooltip'].errors?.pattern">
+                            Case Type Tooltip is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div mat-dialog-actions class="row align-item-center dialog-btn-contianer">
+                <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+                    <button mat-raised-button tabindex="-1" (click)="onNoClick()">CANCEL</button>
+                    <button mat-raised-button [disabled]="!form.valid" color="primary" (click)="onYesClick(fieldType)" tabindex="2">SUBMIT</button></div>
+            </div>
+        </form>
+    </div>
+
+    <div *ngIf="fieldType==='caseNature'">
+        <!-- <form name="form" #m="ngForm" (keydown.enter)="$event.preventDefault()" novalidate> -->
+        <form name="form" [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+            <div class="row align-item-center">
+                <div class="col-md-12">
+                    <!-- <h1 mat-dialog-title>Add New Case Nature</h1> -->
+                    <h1 mat-dialog-title>{{title}}</h1>
+                </div>
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Case Nature should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Case Nature" formControlName="caseNature" maxlength="100" name="ind" [(ngModel)]="caseNature.caseNature"
+                            (focusout)="onCaseNatureFocusOut()" required />
+                        <mat-hint align="end">{{caseNature.caseNature?.length || 0}}/100</mat-hint>
+                        <mat-error *ngIf="form.controls['caseNature'].errors?.required">
+                            Case Nature is
+                            <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="form.controls['caseNature'].errors?.pattern">
+                            Case Nature is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Case Nature Description should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Case Nature Description" formControlName="caseNatureDescription" maxlength="100" name="ind"
+                            [(ngModel)]="caseNature.caseNatureDescription" (focusout)="onCaseNatureDescriptionFocusOut()" />
+                        <mat-hint align="end">{{caseNature.caseNatureDescription?.length || 0}}/100</mat-hint>
+                        <!-- <mat-error *ngIf="form.controls['caseNatureDescription'].errors?.required">
+                            Case Nature Description is
+                            <strong>required</strong>
+                        </mat-error> -->
+                        <mat-error *ngIf="form.controls['caseNatureDescription'].errors?.pattern">
+                            Case Nature Description is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Case Nature Tooltip should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Case Nature Tooltip" formControlName="caseNatureTooltip" maxlength="100" name="ind" [(ngModel)]="caseNature.caseNatureTooltip"
+                            (focusout)="onCaseNatureTooltipFocusOut()" />
+                        <mat-hint align="end">{{caseNature.caseNatureTooltip?.length || 0}}/100</mat-hint>
+                        <!-- <mat-error *ngIf="form.controls['caseNatureTooltip'].errors?.required">
+                            Case Nature Tooltip is
+                            <strong>required</strong>
+                        </mat-error> -->
+                        <mat-error *ngIf="form.controls['caseNatureTooltip'].errors?.pattern">
+                            Case Nature Tooltip is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div mat-dialog-actions class="row align-item-center dialog-btn-contianer">
+                <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+                    <button mat-raised-button tabindex="-1" (click)="onNoClick()">CANCEL</button>
+                    <button mat-raised-button [disabled]="!form.valid" color="primary" (click)="onYesClick(fieldType)" tabindex="2">SUBMIT</button></div>
+            </div>
+        </form>
+    </div>
+
+    <div *ngIf="fieldType==='caseTerritory'">
+        <!-- <form name="form" #m="ngForm" (keydown.enter)="$event.preventDefault()" novalidate> -->
+        <form name="form" [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+            <div class="row align-item-center">
+                <div class="col-md-12">
+                    <!-- <h1 mat-dialog-title>Add New Case Territory</h1> -->
+                    <h1 mat-dialog-title>{{title}}</h1>
+                </div>
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Case Territory should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Case Territory" formControlName="caseTerritory" maxlength="100" name="ind" [(ngModel)]="caseTerritory.caseTerritory"
+                            (focusout)="onCaseTerritoryFocusOut()" required />
+                        <mat-hint align="end">{{caseTerritory.caseTerritory?.length || 0}}/100</mat-hint>
+                        <mat-error *ngIf="form.controls['caseTerritory'].errors?.required">
+                            Case Territory is
+                            <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="form.controls['caseTerritory'].errors?.pattern">
+                            Case Territory is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Case Territory Description should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Case Territory Description" formControlName="caseTerritoryDescription" maxlength="100" name="ind"
+                            [(ngModel)]="caseTerritory.caseTerritoryDescription" (focusout)="onCaseTerritoryDescriptionFocusOut()"
+                        />
+                        <mat-hint align="end">{{caseTerritory.caseTerritoryDescription?.length || 0}}/100</mat-hint>
+                        <!-- <mat-error *ngIf="form.controls['caseTerritoryDescription'].errors?.required">
+                            Case Territory Description is
+                            <strong>required</strong>
+                        </mat-error> -->
+                        <mat-error *ngIf="form.controls['caseTerritoryDescription'].errors?.pattern">
+                            Case Territory Description is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Case Territory Tooltip should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Case Territory Tooltip" formControlName="caseTerritoryTooltip" maxlength="100" name="ind" [(ngModel)]="caseTerritory.caseTerritoryTooltip"
+                            (focusout)="onCaseTerritoryTooltipFocusOut()" />
+                        <mat-hint align="end">{{caseTerritory.caseTerritoryTooltip?.length || 0}}/100</mat-hint>
+                        <!-- <mat-error *ngIf="form.controls['caseTerritoryTooltip'].errors?.required">
+                            Case Territory Tooltip is
+                            <strong>required</strong>
+                        </mat-error> -->
+                        <mat-error *ngIf="form.controls['caseTerritoryTooltip'].errors?.pattern">
+                            Case Territory Tooltip is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div mat-dialog-actions class="row align-item-center dialog-btn-contianer">
+                <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+                    <button mat-raised-button tabindex="-1" (click)="onNoClick()">CANCEL</button>
+                    <button mat-raised-button [disabled]="!form.valid" color="primary" (click)="onYesClick(fieldType)" tabindex="2">SUBMIT</button></div>
+            </div>
+        </form>
+    </div>
+
+    <div *ngIf="fieldType==='caseClassification'">
+        <!-- <form name="form" #m="ngForm" (keydown.enter)="$event.preventDefault()" novalidate> -->
+        <form name="form" [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+            <div class="row align-item-center">
+                <div class="col-md-12">
+                    <!-- <h1 mat-dialog-title>Add New Case Classification</h1> -->
+                    <h1 mat-dialog-title>{{title}}</h1>
+                </div>
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Case Classification should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Case Classification" formControlName="caseClassification" maxlength="100" name="ind" [(ngModel)]="caseClassification.caseClassification"
+                            (focusout)="onCaseClassificationFocusOut()" required />
+                        <mat-hint align="end">{{caseClassification.caseClassification?.length || 0}}/100</mat-hint>
+                        <mat-error *ngIf="form.controls['caseClassification'].errors?.required">
+                            Case Classification is
+                            <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="form.controls['caseClassification'].errors?.pattern">
+                            Case Classification is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Case Classification Description should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Case Classification Description" formControlName="caseClassificationDescription" maxlength="100"
+                            name="ind" [(ngModel)]="caseClassification.caseClassificationDescription" (focusout)="onCaseClassificationDescriptionFocusOut()"
+                        />
+                        <mat-hint align="end">{{caseClassification.caseClassificationDescription?.length || 0}}/100</mat-hint>
+                        <!-- <mat-error *ngIf="form.controls['caseClassificationDescription'].errors?.required">
+                            Case Classification Description is
+                            <strong>required</strong>
+                        </mat-error> -->
+                        <mat-error *ngIf="form.controls['caseClassificationDescription'].errors?.pattern">
+                            Case Classification Description is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Case Classification Tooltip should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Case Classification Tooltip" formControlName="caseClassificationTooltip" maxlength="100" name="ind"
+                            [(ngModel)]="caseClassification.caseClassificationTooltip" (focusout)="onCaseClassificationTooltipFocusOut()"
+                        />
+                        <mat-hint align="end">{{caseClassification.caseClassificationTooltip?.length || 0}}/100</mat-hint>
+                        <!-- <mat-error *ngIf="form.controls['caseClassificationTooltip'].errors?.required">
+                            Case Classification Tooltip is
+                            <strong>required</strong>
+                        </mat-error> -->
+                        <mat-error *ngIf="form.controls['caseClassificationTooltip'].errors?.pattern">
+                            Case Classification Tooltip is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div mat-dialog-actions class="row align-item-center dialog-btn-contianer">
+                <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+                    <button mat-raised-button tabindex="-1" (click)="onNoClick()">CANCEL</button>
+                    <button mat-raised-button [disabled]="!form.valid" color="primary" (click)="onYesClick(fieldType)" tabindex="2">SUBMIT</button></div>
+            </div>
+        </form>
+    </div>
+
+    <div *ngIf="fieldType==='caseDocumentType'">
+        <!-- <form name="form" #m="ngForm" (keydown.enter)="$event.preventDefault()" novalidate> -->
+        <form name="form" [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+            <div class="row align-item-center">
+                <div class="col-md-12">
+                    <!-- <h1 mat-dialog-title>Add New Case Document Type</h1> -->
+                    <h1 mat-dialog-title>{{title}}</h1>
+                </div>
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Document Name should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Document Type Name" formControlName="caseDocumentType" maxlength="100" name="ind" [(ngModel)]="caseDocumentType.documentType"
+                            (focusout)="onCaseDocumentTypeFocusOut()" required />
+                        <mat-hint align="end">{{caseDocumentType.documentName?.length || 0}}/100</mat-hint>
+                        <mat-error *ngIf="form.controls['caseDocumentType'].errors?.required">
+                            Document Type is
+                            <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="form.controls['caseDocumentType'].errors?.pattern">
+                            Document Type is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Document Description should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Document Type Description" formControlName="caseDocumentTypeDescription" maxlength="100" name="ind"
+                            [(ngModel)]="caseDocumentType.documentTypeDescription" (focusout)="onCaseDocumentTypeDescriptionFocusOut()"
+                        />
+                        <mat-hint align="end">{{caseDocumentType.documentTypeDescription?.length || 0}}/100</mat-hint>
+                        <!-- <mat-error *ngIf="form.controls['documentDescription'].errors?.required">
+                            Document Description is
+                            <strong>required</strong>
+                        </mat-error> -->
+                        <mat-error *ngIf="form.controls['caseDocumentTypeDescription'].errors?.pattern">
+                            Document Description is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Document Tooltip should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Document Type Tooltip" formControlName="caseDocumentTypeTooltip" maxlength="100" name="ind"
+                            [(ngModel)]="caseDocumentType.documentTypeTooltip" (focusout)="onCaseDocumentTooltipFocusOut()" />
+                        <mat-hint align="end">{{caseDocumentType.documentTypeTooltip?.length || 0}}/100</mat-hint>
+                        <!-- <mat-error *ngIf="form.controls['documentTooltip'].errors?.required">
+                            Document Tooltip is
+                            <strong>required</strong>
+                        </mat-error> -->
+                        <mat-error *ngIf="form.controls['caseDocumentTypeTooltip'].errors?.pattern">
+                            Document Tooltip is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div mat-dialog-actions class="row align-item-center dialog-btn-contianer">
+                <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+                    <button mat-raised-button tabindex="-1" (click)="onNoClick()">CANCEL</button>
+                    <button mat-raised-button [disabled]="!form.valid" color="primary" (click)="onYesClick(fieldType)" tabindex="2">SUBMIT</button></div>
+            </div>
+        </form>
+    </div>
+
+    <div *ngIf="fieldType==='viewRolePermissions'">
+        <div class="row align-item-center">
+            <div class="col-md-12">
+                <h1 mat-dialog-title>Role Name : {{role.roleName}}</h1>
+            </div>
+            <div class="col-lg-12 dialog-box-content">
+                <div *ngFor="let permission of role.permissions">
+                    {{permission.permissionName}}
+                </div>
+            </div>
+        </div>
+
+        <div mat-dialog-actions class="row align-item-center dialog-btn-contianer">
+            <div class="col-lg-12 col-md-12 col-sm-12 textright">
+                <button mat-raised-button color="primary" tabindex="-1" (click)="onNoClick()">CANCEL</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div *ngIf="fieldType==='policeStation'">
+        <!-- <form name="form" #m="ngForm" (keydown.enter)="$event.preventDefault()" novalidate> -->
+        <form name="form" [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+            <div class="row align-item-center">
+                <div class="col-md-12">
+                    <!-- <h1 mat-dialog-title>Add New Police Station</h1> -->
+                    <h1 mat-dialog-title>{{title}}</h1>
+                </div>
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Police Station should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Police Station" formControlName="policeStation" maxlength="100" name="ind" [(ngModel)]="policeStation.policeStation"
+                            (focusout)="onPoliceStationFocusOut()" required />
+                        <mat-hint align="end">{{policeStation.policeStation?.length || 0}}/100</mat-hint>
+                        <mat-error *ngIf="form.controls['policeStation'].errors?.required">
+                            Police Station is
+                            <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="form.controls['policeStation'].errors?.pattern">
+                            Police Station is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Contact Person should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Contact Person" formControlName="contactPerson" maxlength="100" name="ind" [(ngModel)]="policeStation.contactPerson"
+                            (focusout)="onContactPersonFocusOut()" />
+                        <mat-hint align="end">{{policeStation.contactPerson?.length || 0}}/100</mat-hint>
+                        <!-- <mat-error *ngIf="form.controls['contactPerson'].errors?.required">
+                            Contact Person is
+                            <strong>required</strong>
+                        </mat-error> -->
+                        <mat-error *ngIf="form.controls['contactPerson'].errors?.pattern">
+                            Contact Person is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Location Address should be a combination of characters and spaces'  -->
+                        <input matInput placeholder="Location Address" formControlName="locationAddress" maxlength="100" name="ind" [(ngModel)]="policeStation.locationAddress"
+                            (focusout)="onLocationAddressFocusOut()" />
+                        <mat-hint align="end">{{policeStation.locationAddress?.length || 0}}/100</mat-hint>
+                        <!-- <mat-error *ngIf="form.controls['locationAddress'].errors?.required">
+                            Location Address is
+                            <strong>required</strong>
+                        </mat-error> -->
+                        <mat-error *ngIf="form.controls['locationAddress'].errors?.pattern">
+                            Location Address is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-12">
+                    <mat-form-field class="full-width">
+                        <!-- matTooltip='Contact Number should be a combination of characters and spaces' -->
+                        <input matInput placeholder="Contact Number" formControlName="contactNumber" maxlength="100" name="ind" [(ngModel)]="policeStation.contactNumber"
+                            (focusout)="onContactNumberFocusOut()" />
+                        <mat-hint align="end">{{policeStation.contactNumber?.length || 0}}/100</mat-hint>
+                        <!-- <mat-error *ngIf="form.controls['contactNumber'].errors?.required">
+                            Contact Number is
+                            <strong>required</strong>
+                        </mat-error> -->
+                        <mat-error *ngIf="form.controls['contactNumber'].errors?.pattern">
+                            Contact Number is
+                            <strong>invalid</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div mat-dialog-actions class="row align-item-center dialog-btn-contianer">
+                <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+                    <button mat-raised-button tabindex="-1" (click)="onNoClick()">CANCEL</button>
+                    <button mat-raised-button [disabled]="!form.valid" color="primary" (click)="onYesClick(fieldType)" tabindex="2">SUBMIT</button></div>
+            </div>
+        </form>
+    </div>
+
+</div>

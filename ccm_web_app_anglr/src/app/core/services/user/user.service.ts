@@ -125,6 +125,7 @@ export class UserService {
             Age: user.age || null,
             AgeGroup: user.ageGroup || null,
             RoleId: user.roleId || null,
+            RoleCode: user.roleCode || null,
 
             // CountryId: user.countryId,
             // RegionId: user.regionId,
