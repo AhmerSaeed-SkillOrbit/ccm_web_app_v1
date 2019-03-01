@@ -66,7 +66,11 @@ export class AdminListComponent implements OnInit {
     // pageSizeOptions = [10];
     upperLimit = 0;
 
-    userListPermission = false;
+    listPagePermission = false;
+    addPermission = false;
+    updatePermission = false;
+    viewProfilePermission = false;
+    deletePermission = false;
 
     isSubmitted: boolean = false;
 
@@ -113,22 +117,32 @@ export class AdminListComponent implements OnInit {
         this.roleId = 1;
         this.roleCode = "super_admin";
 
-        if (!this.isLogin) {
-            // this._router.navigateByUrl('login');
-        } else {
+        // if (!this.isLogin) {
+        //     // this._router.navigateByUrl('login');
+        // } else {
 
-            // this.userListPermission = this.utilityService.checkUserPermission(this.user, 'user_list');
-            this.userListPermission = true;
+        this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'super_admin_list_page');
+        // this.listPagePermission = true;
 
-            // if (this.user.department.departmentCode == "admin") {
-            //     this._router.navigate(['/home/admin']);
-            // }
-            // else {
-            //     // this._router.navigate(['/home/other']);
-            // }
+        if (this.listPagePermission) {
+            this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_super_admin');
+            // this.addPermission = true;
+            this.updatePermission = this._utilityService.checkUserPermission(this.user, 'update_super_admin');
+            // this.addPermission = true;
+            this.viewProfilePermission = this._utilityService.checkUserPermission(this.user, 'view_super_admin_profile');
+            // this.viewPermission = true;
+            this.deletePermission = this._utilityService.checkUserPermission(this.user, 'delete_super_admin');
+            // this.addPermission = true;
 
             this.loadUserList();
         }
+        else {
+            this._router.navigateByUrl('permission');
+        }
+
+
+
+        // }
 
     }
 
@@ -145,7 +159,7 @@ export class AdminListComponent implements OnInit {
     }
 
     refreshList() {
-        // if (this.userListPermission) {
+        // if (this.adminListPagePermission) {
         this.isSpinner = true;
         this.filter = "";
         this.searchKeyword = "";
@@ -170,7 +184,7 @@ export class AdminListComponent implements OnInit {
         this.length = 0;
         this.userList = [];
         // this.dataSource = new MatTableDataSource<User>(this.userList);
-        if (this.userListPermission) {
+        if (this.listPagePermission) {
             this.isSpinner = true;
 
             // this._uiService.showSpinner();

@@ -58,7 +58,12 @@ export class PatientListComponent implements OnInit {
     // pageSizeOptions = [10];
     upperLimit = 0;
 
-    userListPermission = false;
+    listPagePermission = false;
+    addPermission = false;
+    invitePermission = false;
+    updatePermission = false;
+    viewProfilePermission = false;
+    deletePermission = false;
 
     isSubmitted: boolean = false;
 
@@ -89,17 +94,26 @@ export class PatientListComponent implements OnInit {
             // this._router.navigateByUrl('login');
         } else {
 
-            // this.userListPermission = this.utilityService.checkUserPermission(this.user, 'user_list');
-            this.userListPermission = true;
+            this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'patient_list_page');
+            // this.listPagePermission = true;
 
-            // if (this.user.department.departmentCode == "admin") {
-            //     this._router.navigate(['/home/admin']);
-            // }
-            // else {
-            //     // this._router.navigate(['/home/other']);
-            // }
+            if (this.listPagePermission) {
+                this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+                // this.addPermission = true;
+                this.invitePermission = this._utilityService.checkUserPermission(this.user, 'invite_patient');
+                // this.invitePermission = true;
+                this.updatePermission = this._utilityService.checkUserPermission(this.user, 'update_patient');
+                // this.addPermission = true;
+                this.viewProfilePermission = this._utilityService.checkUserPermission(this.user, 'view_patient_profile');
+                // this.viewPermission = true;
+                this.deletePermission = this._utilityService.checkUserPermission(this.user, 'delete_patient');
+                // this.addPermission = true;
 
-            this.loadUserList();
+                this.loadUserList();
+            }
+            else {
+                this._router.navigateByUrl('permission');
+            }
         }
 
     }
@@ -142,7 +156,7 @@ export class PatientListComponent implements OnInit {
         this.length = 0;
         this.userList = [];
         // this.dataSource = new MatTableDataSource<User>(this.userList);
-        if (this.userListPermission) {
+        if (this.listPagePermission) {
             this.isSpinner = true;
 
             // this._uiService.showSpinner();

@@ -125,6 +125,16 @@ export class LoginComponent implements OnInit, OnDestroy {
                             //     console.log('test2');
                             //     this._router.navigate(['/verification']);
                             // }
+
+                            this._userService.getUserRole().subscribe(
+                                (res) => {
+                                    console.log("res", res);
+                                },
+                                (err) => {
+                                    // console.log('err', err);
+                                }
+                            );
+
                             this.loginUser = this._authServices.getUser();
 
 

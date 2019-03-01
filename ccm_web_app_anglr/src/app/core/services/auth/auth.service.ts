@@ -16,6 +16,7 @@ import { Token } from '../../models/token';
 import { environment } from '../../../../environments/environment';
 
 import { Message, MessageTypes } from '../../models/message';
+import { Permission } from '../../models/permission';
 
 
 @Injectable()
@@ -133,6 +134,7 @@ export class AuthService implements IAuthService, OnDestroy {
             if (token.tokenExpiry > Date.now().toString()) {
                 return true;
             }
+            return true;
         }
         return false;
     }
@@ -406,6 +408,15 @@ export class AuthService implements IAuthService, OnDestroy {
     public storeUser(user: User) {
         if (!user) { return; }
 
+        localStorage.setItem('user', JSON.stringify(user));
+        this.loginUserStatusChanged.next(user);
+    }
+
+    public storePermission(permissions: Permission[]) {
+        if (!permissions) { return; }
+
+        let user = this.getUser();
+        user.permissions = permissions;
         localStorage.setItem('user', JSON.stringify(user));
         this.loginUserStatusChanged.next(user);
     }

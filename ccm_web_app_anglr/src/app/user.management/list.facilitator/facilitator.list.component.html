@@ -99,8 +99,13 @@
                                 </button>
                             </div> -->
                             <div class="panel-body">
-                                <button type="button" class="btn btn-default btn-sm" (click)="openAddUpdateDialog()">Add
-                                    New <i class="icon-play3 position-right"></i></button>
+                                <span matTooltipPosition="above" matTooltip="{{!addPermission ? 'Dont have permission' : 'Add New' }}">
+                                    <button type="button" class="btn btn-default btn-sm" [disabled]="!addPermission"
+                                        (click)="openAddUpdateDialog()">
+                                        Add New
+                                        <i class="icon-play3 position-right"></i>
+                                    </button>
+                                </span>
                             </div>
                             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
                                 <div class="datatable-header">
@@ -173,17 +178,39 @@
                                                     </span>
                                                 </td> -->
                                                 <td class="text-center">
-                                                    <a [routerLink]="['/um/edit',user.id]">
-                                                        <i style="color:#ffa808;" class=" icon-pencil"></i>
-                                                    </a> &nbsp;
+                                                    <span *ngIf="!updatePermission" matTooltipPosition="above"
+                                                        matTooltip="Edit">
+                                                        <a [routerLink]="['/um/edit',user.id]">
+                                                            <i style="color:#ffa808;" class=" icon-pencil"></i>
+                                                        </a>
+                                                    </span> &nbsp;
+                                                    <!-- <a [routerLink]="['/um/edit',user.id]">
+                                                            <i style="color:#ffa808;" class=" icon-pencil"></i>
+                                                        </a> &nbsp; -->
+
                                                     <!-- <a (click)=""> -->
-                                                    <a>
-                                                        <i style="color:#0aa700;" class="icon-eye2"></i>
-                                                    </a>&nbsp;
+
+                                                    <span *ngIf="!viewProfilePermission" matTooltipPosition="above"
+                                                        matTooltip="View">
+                                                        <a>
+                                                            <i style="color:#0aa700;" class="icon-eye2"></i>
+                                                        </a>
+                                                    </span> &nbsp;
+                                                    <!-- <a>
+                                                            <i style="color:#0aa700;" class="icon-eye2"></i>
+                                                        </a>&nbsp; -->
+
                                                     <!-- <a (click)=""> -->
-                                                    <a>
-                                                        <i style="color:#f70a0a;" class="icon-bin"></i>
-                                                    </a>
+
+                                                    <span *ngIf="!deletePermission" matTooltipPosition="above"
+                                                        matTooltip="Delete">
+                                                        <a>
+                                                            <i style="color:#f70a0a;" class="icon-bin"></i>
+                                                        </a>
+                                                    </span>
+                                                    <!-- <a>
+                                                            <i style="color:#f70a0a;" class="icon-bin"></i>
+                                                        </a> -->
                                                 </td>
                                             </tr>
                                         </tbody>

@@ -19,6 +19,7 @@ import { Region } from '../../models/region';
 import { City } from '../../models/city';
 import { Branch } from '../../models/branch';
 import { MappingService } from '../mapping/mapping.service';
+import { p } from '@angular/core/src/render3';
 
 
 @Injectable()
@@ -60,6 +61,40 @@ export class UserService {
                 // isUser.isLoggedIn = isUser.isActive && !isUser.isBlocked ? true : false;
                 this._authService.storeUser(isUser);
                 // this._authService.loginStatusChanged.next(isUser);
+            });
+    }
+
+    getUserRole(): Observable<any> {
+
+        // let url = 'test/info';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        // let tokenId = token.tokenId;
+        let userId = token.userId;
+
+        const url = 'permission/via/user/id?UserId=' + (userId || null);
+
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+        // options.headers.append('Authorization', 'Bearer ' + tokenId);
+        // options.headers.append('Authorization', 'Bearer '+token);
+
+        return this._http.get(url, options)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            })
+            .do((res) => {
+                // const isUser = this.mapUser(res);
+                let array = res.json().data || [];
+                let pList = [];
+                array.forEach(element => {
+                    pList.push(this._mappingService.mapPermission(element));
+                });
+                // const isUser = this._mappingService.mapPermission(res.json().data);
+                this._authService.storePermission(pList);
             });
     }
 
@@ -233,8 +268,9 @@ export class UserService {
         options.headers = new Headers();
         options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
 
+        let userId = token.userId;
         // user/count?s=null&r=super_admin
-        const getUrl = 'user/count?s=' + (searchKey || null) + '&r=' + (roleCode || null);
+        const getUrl = 'user/count?s=' + (searchKey || null) + '&r=' + (roleCode || null) + '&userId=' + (userId || null);
         return this._http.get(getUrl, options)
             .map((res: Response) => res)
             .catch((error: any) => {
@@ -252,8 +288,9 @@ export class UserService {
         options.headers = new Headers();
         options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
 
+        let userId = token.userId;
         // user/list/search?p=0&c=2&s=null&r=null
-        const getUrl = 'user/list/search?p=' + (pageNo || 0) + '&c=' + (limit || 5) + '&s=' + (searchKey || null) + '&r=' + (roleCode || null);
+        const getUrl = 'user/list/search?p=' + (pageNo || 0) + '&c=' + (limit || 5) + '&s=' + (searchKey || null) + '&r=' + (roleCode || null) + '&userId=' + (userId || null);
         return this._http.get(getUrl, options)
             .map((res: Response) => res)
             .catch((error: any) => {

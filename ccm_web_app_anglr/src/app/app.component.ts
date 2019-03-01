@@ -55,6 +55,15 @@ export class AppComponent implements OnInit, AfterViewInit {
           // console.log('err', err);
         }
       );
+
+      this._userService.getUserRole().subscribe(
+        (res) => {
+          console.log("res", res);
+        },
+        (err) => {
+          // console.log('err', err);
+        }
+      );
     }
 
     // get updates

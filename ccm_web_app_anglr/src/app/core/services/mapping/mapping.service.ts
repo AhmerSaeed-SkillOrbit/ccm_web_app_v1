@@ -10,6 +10,7 @@ import { Country } from '../../models/country';
 import { Region } from '../../models/region';
 import { City } from '../../models/city';
 import { Branch } from '../../models/branch';
+import { Permission } from '../../models/permission';
 
 @Injectable()
 export class MappingService {
@@ -102,6 +103,19 @@ export class MappingService {
 
 
         return isRole;
+    }
+    
+    public mapPermission(res: any): Permission {
+        const permissionData = res;
+        const isPermission = new Permission();
+        if (permissionData) {
+            isPermission.id = permissionData.Id || null;
+            isPermission.permissionId = permissionData.Id || null;
+            isPermission.permissionName = permissionData.PermissionName || null;
+            isPermission.permissionCode = permissionData.PermissionCodeName || null;
+        }
+
+        return isPermission;
     }
 
     public mapDocument(res: any): Document {

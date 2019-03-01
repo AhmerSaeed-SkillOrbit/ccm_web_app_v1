@@ -9,7 +9,8 @@
         <div class="media-body">
           <span class="media-heading text-semibold">{{ user?.firstName || "NA"}}</span>
           <div class="text-size-mini text-muted">
-            <i class="icon-pin text-size-small"></i> &nbsp;Santa Ana, CA
+            <!-- <i class="icon-pin text-size-small"></i> &nbsp;Santa Ana, CA -->
+            &nbsp;{{ user?.roleName || "NA"}}
           </div>
         </div>
 
@@ -31,14 +32,28 @@
           <a *ngIf="user?.roleCode == 'super_admin'" [routerLink]="['/home/admin']"><i class="icon-home4"></i> <span>Dashboard</span></a>
           <a *ngIf="!(user?.roleCode == 'super_admin')" [routerLink]="['/home/other']"><i class="icon-home4"></i> <span>Dashboard</span></a>
         </li>
-        <li>
-          <a><i class=" icon-users"></i> <span>User Managment</span></a>
+
+        <li *ngIf="(adminListPagePermission || facilitatorListPagePermission || doctorListPagePermission || patientListPagePermission || supportStaffListPagePermission)">
+          <a>
+            <i class=" icon-users"></i>
+            <span>User Managment</span>
+          </a>
           <ul>
-            <li><a [routerLink]="['/um/list/admin']">Super Admin</a></li>
-            <li><a [routerLink]="['/um/list/facilitator']">Facilitator</a></li>
-            <li><a [routerLink]="['/um/list/doctor']">Doctor</a></li>
-            <li><a [routerLink]="['/um/list/patient']">Patient</a></li>
-            <li><a [routerLink]="['/um/list/supStaff']">Support Staff</a></li>
+            <li *ngIf="adminListPagePermission">
+              <a [routerLink]="['/um/list/admin']">Super Admin</a>
+            </li>
+            <li *ngIf="facilitatorListPagePermission">
+              <a [routerLink]="['/um/list/facilitator']">Facilitator</a>
+            </li>
+            <li *ngIf="doctorListPagePermission">
+              <a [routerLink]="['/um/list/doctor']">Doctor</a>
+            </li>
+            <li *ngIf="patientListPagePermission">
+              <a [routerLink]="['/um/list/patient']">Patient</a>
+            </li>
+            <li *ngIf="supportStaffListPagePermission">
+              <a [routerLink]="['/um/list/supStaff']">Support Staff</a>
+            </li>
             <!-- <li><a [routerLink]="['/um/invite/doctor']">Invite Doctors</a></li> -->
             <!-- <li><a [routerLink]="['/um/invite/patient']">Invite Patients</a></li> -->
           </ul>
