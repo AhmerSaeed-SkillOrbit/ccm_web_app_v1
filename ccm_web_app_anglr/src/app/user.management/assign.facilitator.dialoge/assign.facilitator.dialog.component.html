@@ -10,29 +10,12 @@
                 <div class="col-sm-12 scrollable mtl">
                     <div class="example-header">
                         <mat-form-field>
-                            <input matInput [(ngModel)]="filter2" (keyup)="applyFilter2($event.target.value)"
+                            <input matInput [(ngModel)]="filter" (keyup)="applyFilter($event.target.value)"
                                 placeholder="Filter">
                         </mat-form-field>
                     </div>
 
                     <mat-table #table [dataSource]="dataSource">
-
-
-
-                        <!-- Checkbox Column -->
-                        <!-- <ng-container matColumnDef="select">
-                                    <mat-header-cell *matHeaderCellDef>
-                                        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()"
-                                            matTooltip='Select'>
-                                        </mat-checkbox>
-
-                                    </mat-header-cell>
-                                    <mat-cell *matCellDef="let row">
-                                        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
-                                        </mat-checkbox>
-
-                                    </mat-cell>
-                                </ng-container> -->
 
                         <!-- Serial No -->
                         <ng-container matColumnDef="sNo">
@@ -50,16 +33,10 @@
                             </mat-cell>
                         </ng-container>
 
-                        <!-- Permission Type Column -->
-                        <ng-container matColumnDef="permissionType">
-                            <mat-header-cell *matHeaderCellDef> Permission Type </mat-header-cell>
-                            <mat-cell *matCellDef="let element"> {{element.permissionType}} </mat-cell>
-                        </ng-container>
-
-                        <!-- Permission Column -->
-                        <ng-container matColumnDef="permission">
-                            <mat-header-cell *matHeaderCellDef> Permission Name </mat-header-cell>
-                            <mat-cell *matCellDef="let element"> {{element.permissionName}} </mat-cell>
+                        <!-- Facilitator Name Column -->
+                        <ng-container matColumnDef="facilitatorName">
+                            <mat-header-cell *matHeaderCellDef> Facilitator Name </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{ element?.firstName || "NA" }} </mat-cell>
                         </ng-container>
 
                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -67,14 +44,17 @@
                         </mat-row>
                     </mat-table>
 
-                    <div class="" *ngIf="(dataSource.data.length == 0 || dataSource.filteredData.length == 0) && !isSpinnerTwo">
+                    <div class="" *ngIf="(dataSource.data.length == 0 || dataSource.filteredData.length == 0) && !isSpinner">
                         <div class="snipet download-btn">
-                            <button (click)="refreshPermissionList()" mat-raised-button>
+                            <button (click)="refreshFacilitatorUserList()" mat-raised-button>
                                 <i class="material-icons">refresh</i> No Data Found
                             </button>
                         </div>
                     </div>
-                    <spinner [visible]='isSpinnerTwo'></spinner>
+                    <spinner [visible]='isSpinner'></spinner>
+
+                    <mat-paginator #paginator [pageSize]="5" [pageSizeOptions]="[5]" [showFirstLastButtons]="true">
+                    </mat-paginator>
                 </div>
             </div>
         </div>
@@ -90,8 +70,8 @@
                 <button mat-raised-button [disabled]="!formRegister.valid || isSubmitted" color="primary" (click)="onSubmit()"
                     tabindex="2">SUBMIT</button>
             </span> -->
-            <span matTooltipPosition="above" matTooltip="Assign">
-                <button mat-raised-button [disabled]="isSubmitted" color="primary" (click)="onSubmit()" tabindex="2">Assign</button>
+            <span matTooltipPosition="above" [matTooltip]="!(selection.selected.length > 0) ? 'Select atleast one' : (isSubmitted ? 'Processing' : 'Assign' ) ">
+                <button mat-raised-button [disabled]="!(selection.selected.length > 0) || isSubmitted" color="primary" (click)="onSubmit()" tabindex="2">Assign</button>
             </span>
         </div>
     </div>

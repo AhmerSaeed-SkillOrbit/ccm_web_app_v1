@@ -261,6 +261,26 @@ export class UserService {
             });
     }
 
+    // --------- User All
+    public getUsersListAll(): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+        // user/list/search?p=0&c=2&s=null&r=null
+        const getUrl = 'user/list';
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
     // --------- User List Count with role and search
     public getUsersListCount(searchKey, roleCode): Observable<any> {
 
@@ -299,5 +319,57 @@ export class UserService {
                 return Observable.throw(error);
             }
             );
+    }
+
+    // --------- Associated Facilitator All
+    public getAssociatedFacilitatorAll(doctorId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        // let userId = token.userId;
+        // user/list/search?p=0&c=2&s=null&r=null
+        const getUrl = 'doctor/facilitator?doctorId=' + (doctorId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public assignFacilitator(doctor, facilitators): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        const getUrl = 'associate/doctor/facilitator';
+
+        let fls = [];
+        if (facilitators && facilitators.length > 0) {
+            facilitators.forEach(element => {
+                fls.push({
+                    Id: element.id
+                });
+
+            });
+
+        }
+
+        let body = {
+            DoctorId: doctor.id || null,
+            Facilitator: fls || []
+        }
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
     }
 }

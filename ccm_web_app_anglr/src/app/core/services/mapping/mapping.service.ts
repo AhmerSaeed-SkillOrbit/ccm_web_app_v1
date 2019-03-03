@@ -66,8 +66,8 @@ export class MappingService {
 
             isUser.role = this.mapRole(userData.Role);
             isUser.roleId = userData.Role ? userData.Role.Id : null;
-            // isUser.roleCode = userData.RoleCodeName || null;
-            // isUser.roleName = userData.RoleName || null;
+            isUser.roleCode = userData.RoleCodeName || null;
+            isUser.roleName = userData.RoleName || null;
             // isUser.roles = userData.roles;
             isUser.permissions = userData.permissions;
 

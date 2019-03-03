@@ -4,9 +4,10 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/takeUntil';
 import { Subject } from 'rxjs/Subject';
-import { PageEvent, MatTableDataSource } from '@angular/material';
+import { PageEvent, MatTableDataSource, MatPaginator } from '@angular/material';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
 
 import { Message, MessageTypes } from '../../core/models/message';
 import { User } from '../../core/models/user';
@@ -39,16 +40,25 @@ export class AssignFacilitatorDialogeComponent {
     isSubmited = false;
     user: User = new User();
 
-    userId: number = null;
-    newUser: User = new User();
+    doctorId: number = null;
+    doctorUser: User = new User();
     isSubmitted = false;
-    addPermission = false;
+
+    assignPermission = false;
     buttonTooltip = "";
 
+    roleCode: string = null;
+    assocFacilitatorList: User[] = [];
+
+    isSpinner = false;
     facilitatorList: User[] = [];
 
-    displayedColumns = ['sNo', 'facilitatorName', 'action'];
-    dataSourceTwo = new MatTableDataSource<User>(this.facilitatorList);
+    filter: string = "";
+    // displayedColumns = ['sNo', 'facilitatorName', 'action'];
+    displayedColumns = ['sNo', 'facilitatorName'];
+    dataSource = new MatTableDataSource<User>(this.facilitatorList);
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+    selection = new SelectionModel<User>(true, []);
 
     constructor(
         @Inject('IAuthService') private _authService: IAuthService,
@@ -63,61 +73,182 @@ export class AssignFacilitatorDialogeComponent {
     ) {
 
         // this._uiService.showSpinner();
+        this.roleCode = "facilitator";
 
         this.user = this._authService.getUser();
         console.log("data", data);
-        // if (data && data.user && data.user.id) {
-        //     this.userId = data.user.id;
-        //     this.loadUserDetail();
-        // }
-
-        // this.newUser.roleId = 1;
-        this.newUser.roleId = data.roleId;
-        // this.newUser.roleCode = "superadmin_doctor";
-        // this.newUser.roleCode = data.roleCode;
-        this.newUser.role.roleCode = data.roleCode;
+        if (data && data.doctor && data.doctor.id) {
+            this.doctorId = data.doctor.id;
+            this.doctorUser = data.doctor;
+            this.loadAssociatedFacilitator();
+        }
 
         // this.addPermission = this.utilityService.checkUserPermission(this.user, 'add_admin');
-        this.addPermission = true;
-        this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
+        this.assignPermission = true;
+        this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.assignPermission, this.isSubmitted, "Submit");
 
 
-        // this.loadCountries();
+        this.loadFacilitatorUserList();
     }
 
-    loadUserDetail() {
+    ngAfterViewInit() {
+        this.dataSource.paginator = this.paginator;
+    }
+
+    applyFilter(filterValue: string) {
+        filterValue = filterValue.trim(); // Remove whitespace
+        filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+        this.dataSource.filter = filterValue;
+    }
+
+    refreshFacilitatorUserList() {
+        console.log("refreshFacilitatorUserList");
+        // if (this.viewRolePermissionListPermission) {
+        this.isSpinner = true;
+        this.filter = "";
+        this.dataSource.filter = null;
+
+        // this.loadPermissionList(this.role);
+        // this.loadPermissionListViaOffsetLimit(this.role, 1, 5);
+        // }
+    }
+
+    loadAssociatedFacilitator() {
         // this._uiService.showSpinner();
-        this._userService.getUserById(this.userId).subscribe(
+        this._userService.getAssociatedFacilitatorAll(this.doctorId).subscribe(
             (res) => {
                 // this._uiService.hideSpinner();
-                console.log('get user', res.json().data);
-                this.newUser = this._mappingService.mapUser(res.json().data);
+                // console.log('get assoc facilitator', res.json().data);
+                let array = res.json().data || [];
+                console.log('assoc facilitator list:', array);
+                var uList = [];
+                for (let i = 0; i < array.length; i++) {
+                    let u = this._mappingService.mapUser(array[i]);
+                    uList.push(u);
+                }
+                this.assocFacilitatorList = uList;
+
+                if (this.dataSource.data.length > 0 && this.assocFacilitatorList.length > 0) {
+
+                    this.dataSource.data.forEach(row => {
+                        this.assocFacilitatorList.forEach(row1 => {
+                            if (row1.id == row.id) {
+                                this.selection.select(row);
+                            }
+                        })
+                    })
+
+                }
 
             },
             (err) => {
                 console.log(err);
                 // this._uiService.hideSpinner();
-                this._authService.errStatusCheckResponse(err);
+                // this._authService.errStatusCheckResponse(err);
             }
         );
+    }
+
+    loadFacilitatorUserList() {
+        const msg = new Message();
+        // this.length = 0;
+        this.facilitatorList = [];
+        this.dataSource = new MatTableDataSource<User>(this.facilitatorList);
+        // if (this.listPagePermission) {
+        this.isSpinner = true;
+
+        // this._uiService.showSpinner();
+
+
+        this._userService.getUsersListAll().subscribe(
+            (res) => {
+                // this.userList = res.json();
+                // this._uiService.hideSpinner();
+                let array = res.json().data || [];
+                console.log('facilitator list:', array);
+                var uList = [];
+                for (let i = 0; i < array.length; i++) {
+                    if (array[i].RoleCodeName == "facilitator") {
+                        let u = this._mappingService.mapUser(array[i]);
+                        uList.push(u);
+                    }
+
+                }
+                this.facilitatorList = uList;
+
+                this.dataSource = new MatTableDataSource<User>(this.facilitatorList);
+                this.dataSource.paginator = this.paginator;
+                // console.log('user list:', this.userList);
+
+                if (this.dataSource.data.length > 0 && this.assocFacilitatorList.length > 0) {
+
+                    this.dataSource.data.forEach(row => {
+                        this.assocFacilitatorList.forEach(row1 => {
+                            if (row1.id == row.id) {
+                                this.selection.select(row);
+                            }
+                        })
+                    })
+
+                }
+
+                if (this.facilitatorList.length == 0) {
+                    msg.msg = 'No Facilitator Found';
+                    msg.msgType = MessageTypes.Information;
+                    msg.autoCloseAfter = 400;
+                    this._uiService.showToast(msg, 'info');
+                }
+                this.isSpinner = false;
+            },
+            (err) => {
+                console.log(err);
+                // this._uiService.hideSpinner();
+                // this.dataSource = new MatTableDataSource<User>(this.userList);
+                this._authService.errStatusCheck(err);
+                this.isSpinner = false;
+            }
+        );
+
+
+        // }
+        // else {
+        //     this.isSpinner = false;
+        //     let msg = this._utilityService.permissionMsg();
+        //     this._uiService.showToast(msg, '');
+        // }
+    }
+
+    isAllSelected() {
+        const numSelected = this.selection.selected.length;
+        const numRows = this.dataSource.data.length;
+        return numSelected === numRows;
+    }
+
+    /** Selects all rows if they are not all selected; otherwise clear selection. */
+    masterToggle() {
+        this.isAllSelected() ?
+            this.selection.clear() :
+            this.dataSource.data.forEach(row => this.selection.select(row));
     }
 
     onSubmit() {
         const msg = new Message;
         // this._uiService.showSpinner();
 
-        if (this.addPermission) {
+        console.log("this.selection.selected : ", this.selection.selected);
+
+        if (this.assignPermission) {
 
             this.isSubmitted = true;
-            this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
+            this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.assignPermission, this.isSubmitted, "Submit");
 
-            this._userService.addUser(this.newUser).subscribe(
+            this._userService.assignFacilitator(this.doctorUser, this.selection.selected).subscribe(
                 (res) => {
                     console.log(res);
                     // this._uiService.hideSpinner();
                     this.isSubmitted = false;
-                    this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
-                    msg.msg = res.json().message ? res.json().message : 'User added successfully.';
+                    this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.assignPermission, this.isSubmitted, "Submit");
+                    msg.msg = res.json().message ? res.json().message : 'successfully assign facilitator.';
                     msg.msgType = MessageTypes.Information;
                     msg.autoCloseAfter = 400;
                     this._uiService.showToast(msg, 'info');
@@ -126,7 +257,7 @@ export class AssignFacilitatorDialogeComponent {
                 (err) => {
                     console.log(err);
                     this.isSubmitted = false;
-                    this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
+                    this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.assignPermission, this.isSubmitted, "Submit");
                     // this._uiService.hideSpinner();
                     this._authService.errStatusCheckResponse(err);
                 }

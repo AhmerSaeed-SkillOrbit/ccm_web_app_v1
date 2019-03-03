@@ -74,8 +74,8 @@ export class User extends BaseModel {
     
     role: Role = new Role();
     roleId: number;
-    // roleName: string;
-    // roleCode: string;
+    roleName: string;
+    roleCode: string;
 
 
     resume: Document = new Document();

@@ -53,6 +53,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     doctorListPagePermission = false;
     patientListPagePermission = false;
     supportStaffListPagePermission = false;
+    addDoctorSchedulePagePermission = false;
+    viewDoctorSchedulePagePermission = false;
 
     constructor(
         @Inject('IAuthService')
@@ -145,6 +147,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
         // this.patientListPagePermission = true;
         this.supportStaffListPagePermission = this._utilityService.checkUserPermission(this.user, 'support_staff_list_page');
         // this.supportStaffListPagePermission = true;
+        this.addDoctorSchedulePagePermission = this._utilityService.checkUserPermission(this.user, 'add_doctor_schedule');
+        // this.addDoctorSchedulePagePermission = true;
+        this.viewDoctorSchedulePagePermission = this._utilityService.checkUserPermission(this.user, 'view_doctor_schedule');
+        // this.viewDoctorSchedulePagePermission = true;
 
     }
 

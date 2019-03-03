@@ -74,11 +74,11 @@
           </ul>
         </li>
 
-        <li>
+        <li *ngIf="(addDoctorSchedulePagePermission || viewDoctorSchedulePagePermission)">
           <a><i class="icon-user-check"></i> <span>Scheduler</span></a>
           <ul>
-            <li><a [routerLink]="['/schedule/add']">Add Schedule</a></li>
-            <li><a [routerLink]="['/schedule/view']">View Schedule</a></li>
+            <li *ngIf="addDoctorSchedulePagePermission"><a [routerLink]="['/schedule/add']">Add Schedule</a></li>
+            <li *ngIf="viewDoctorSchedulePagePermission"><a [routerLink]="['/schedule/view']">View Schedule</a></li>
           </ul>
         </li>
 

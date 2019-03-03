@@ -180,7 +180,7 @@
                                                     </span>
                                                 </td> -->
                                                 <td class="text-center">
-                                                    <span *ngIf="!updatePermission" matTooltipPosition="above"
+                                                    <span *ngIf="updatePermission" matTooltipPosition="above"
                                                         matTooltip="Edit">
                                                         <a [routerLink]="['/um/edit',user.id]">
                                                             <i style="color:#ffa808;" class=" icon-pencil"></i>
@@ -192,14 +192,14 @@
 
                                                     <!-- <a (click)=""> -->
 
-                                                    <span *ngIf="!assignFacilitatorPermission" matTooltipPosition="above"
+                                                    <span *ngIf="assignFacilitatorPermission" matTooltipPosition="above"
                                                         matTooltip="Assign Facilitator">
                                                         <a (click)="openAssignFacilitatorDialog(user)">
                                                             <i style="color:#ffa808;" class=" icon-pencil"></i>
                                                         </a>
                                                     </span> &nbsp;
 
-                                                    <span *ngIf="!viewProfilePermission" matTooltipPosition="above"
+                                                    <span *ngIf="viewProfilePermission" matTooltipPosition="above"
                                                         matTooltip="View">
                                                         <a>
                                                             <i style="color:#0aa700;" class="icon-eye2"></i>
@@ -211,7 +211,7 @@
 
                                                     <!-- <a (click)=""> -->
 
-                                                    <span *ngIf="!deletePermission" matTooltipPosition="above"
+                                                    <span *ngIf="deletePermission" matTooltipPosition="above"
                                                         matTooltip="Delete">
                                                         <a>
                                                             <i style="color:#f70a0a;" class="icon-bin"></i>

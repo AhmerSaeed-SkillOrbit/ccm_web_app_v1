@@ -108,9 +108,9 @@ export class DoctorListComponent implements OnInit {
                 this.assignFacilitatorPermission = true;
                 this.invitePermission = this._utilityService.checkUserPermission(this.user, 'invite_doctor');
                 // this.invitePermission = true;
-                this.updatePermission = this._utilityService.checkUserPermission(this.user, 'view_doctor_profile');
+                this.updatePermission = this._utilityService.checkUserPermission(this.user, 'update_doctor');
                 // this.addPermission = true;
-                this.viewProfilePermission = this._utilityService.checkUserPermission(this.user, 'update_doctor');
+                this.viewProfilePermission = this._utilityService.checkUserPermission(this.user, 'view_doctor_profile');
                 // this.viewPermission = true;
                 this.deletePermission = this._utilityService.checkUserPermission(this.user, 'delete_doctor');
                 // this.addPermission = true;
