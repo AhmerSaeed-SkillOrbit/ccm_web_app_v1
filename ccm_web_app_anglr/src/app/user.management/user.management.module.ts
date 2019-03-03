@@ -17,6 +17,7 @@ import { EditUserComponent } from './edit.user/edit.user.component';
 
 import { InviteDialogComponent } from './invite.dialoge/invite.dialog.component';
 import { AddUpdateUserDialogeComponent } from './add.update.user.dialoge/add.update.user.dialoge.component';
+import { AssignFacilitatorDialogeComponent } from './assign.facilitator.dialoge/assign.facilitator.dialoge.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { AddUpdateUserDialogeComponent } from './add.update.user.dialoge/add.upd
         EditUserComponent,
 
         InviteDialogComponent,
-        AddUpdateUserDialogeComponent
+        AddUpdateUserDialogeComponent,
+        AssignFacilitatorDialogeComponent
 
         // ProductNewComponent,
         // ProductDetialComponent,
@@ -92,7 +94,8 @@ import { AddUpdateUserDialogeComponent } from './add.update.user.dialoge/add.upd
     ],
     entryComponents: [
         InviteDialogComponent,
-        AddUpdateUserDialogeComponent
+        AddUpdateUserDialogeComponent,
+        AssignFacilitatorDialogeComponent
     ]
 })
 

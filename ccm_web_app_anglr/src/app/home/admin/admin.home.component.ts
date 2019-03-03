@@ -71,7 +71,7 @@ export class AdminHomeComponent implements OnInit {
         if (!this.isLogin) {
             // this._router.navigateByUrl('login');
         } else {
-            if (this.user && this.user.roleCode == "super_admin") {
+            if (this.user && this.user.role && this.user.role.roleCode == "super_admin") {
                 // this._router.navigate(['/home/admin']);
             }
             else {

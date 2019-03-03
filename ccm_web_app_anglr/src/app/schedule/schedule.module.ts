@@ -1,12 +1,24 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 // import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from "@angular/common";
 
+
+
+
+import { CalenderComponent } from "./schedule-calender/calender.component";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CalendarModule } from 'angular-calendar';
+import { MomentModule } from 'angular2-moment';
+
 import { MaterialModule } from "../material/material.module";
 import { SharedModule } from '../shared/shared.module';
 import { AddScheduleComponent } from './add.schedule/add.schedule.component';
+import { ViewScheduleComponent } from './view.schedule/view.schedule.component';
+import { ScheduleComponent } from './schedule.component';
+import { CalenderMyscheduleComponent } from './schedule-calender/calender.myschedule.component';
+import { CalendarHeaderComponent } from './schedule-calender/calender-utils/calender-header.component';
 
 
 
@@ -14,11 +26,19 @@ import { AddScheduleComponent } from './add.schedule/add.schedule.component';
     declarations: [
 
         AddScheduleComponent,
+        ViewScheduleComponent,
+        ScheduleComponent,
+        CalenderMyscheduleComponent,
+        CalendarHeaderComponent,
+        // CalenderComponent,
     ],
     imports: [
         ReactiveFormsModule, FormsModule,
+        MomentModule,
+        // BrowserAnimationsModule,
         CommonModule,
         MaterialModule, SharedModule,
+        CalendarModule.forRoot(),
         RouterModule.forChild([
             {
                 path: 'add',
@@ -26,7 +46,8 @@ import { AddScheduleComponent } from './add.schedule/add.schedule.component';
             },
             {
                 path: 'view',
-                component: AddScheduleComponent
+                // component: ViewScheduleComponent
+                component: ScheduleComponent
             },
         ])
     ],

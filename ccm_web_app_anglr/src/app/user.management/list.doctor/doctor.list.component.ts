@@ -15,6 +15,7 @@ import { InviteDialogComponent } from '../invite.dialoge/invite.dialog.component
 import { UserService } from '../../core/services/user/user.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 import { UtilityService } from '../../core/services/general/utility.service';
+import { AssignFacilitatorDialogeComponent } from '../assign.facilitator.dialoge/assign.facilitator.dialoge.component';
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
 // import { EasyPay } from '../core/models/payment/easypay.payment';
 
@@ -38,6 +39,7 @@ export class DoctorListComponent implements OnInit {
 
 
     email: string = "";
+    mobileNo: string = "";
     type: string = "superadmin_doctor";
     userId: number = null;
     searchKeyword: string = null;
@@ -60,6 +62,7 @@ export class DoctorListComponent implements OnInit {
 
     listPagePermission = false;
     addPermission = false;
+    assignFacilitatorPermission = false;
     invitePermission = false;
     updatePermission = false;
     viewProfilePermission = false;
@@ -101,7 +104,9 @@ export class DoctorListComponent implements OnInit {
             if (this.listPagePermission) {
                 this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_doctor');
                 // this.addPermission = true;
-                this.invitePermission = this._utilityService.checkUserPermission(this.user, 'add_doctor');
+                // this.assignFacilitatorPermission = this._utilityService.checkUserPermission(this.user, 'assign_facilitator');
+                this.assignFacilitatorPermission = true;
+                this.invitePermission = this._utilityService.checkUserPermission(this.user, 'invite_doctor');
                 // this.invitePermission = true;
                 this.updatePermission = this._utilityService.checkUserPermission(this.user, 'view_doctor_profile');
                 // this.addPermission = true;
@@ -240,6 +245,26 @@ export class DoctorListComponent implements OnInit {
         })
     }
 
+    openAssignFacilitatorDialog(doctor) {
+
+        let dialog = this.dialog.open(AssignFacilitatorDialogeComponent, {
+            maxWidth: "700px",
+            minWidth: "550px",
+            // width: "550px",
+            // height: '465px',
+            // data: this.id,
+            data: {
+                doctor: doctor,
+            },
+        });
+        dialog.afterClosed().subscribe((result) => {
+            console.log("result", result);
+            if (result) {
+                // this.refreshList();
+            }
+        })
+    }
+
     resetForm() {
         this.email = null;
         this.display = 'block';
@@ -261,7 +286,7 @@ export class DoctorListComponent implements OnInit {
 
         if (this.email) {
 
-            this._userService.sendInvite(this.email, this.type, this.userId).subscribe(
+            this._userService.sendInvite(this.email, this.mobileNo, this.type, this.userId).subscribe(
                 (res) => {
 
                     this.isSubmitted = false;

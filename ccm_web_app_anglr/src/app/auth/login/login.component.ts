@@ -141,7 +141,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                             // this._router.navigate(['/home']);
                             // this._router.navigate(['/admin/home']);
 
-                            if (this.loginUser.roleCode == "super_admin") {
+                            if (this.loginUser.role.roleCode == "super_admin") {
                                 this._router.navigate(['/home/admin']);
                             }
                             else {

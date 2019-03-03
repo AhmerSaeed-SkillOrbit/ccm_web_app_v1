@@ -1,14 +1,146 @@
-<br>
-<div class="tab-container-box">
-    <mat-tab-group *ngIf="markOffDays || viewSchedule">
-            <mat-tab  *ngIf="markOffDays"   label="My off days">
-                <br>
-                <markOffDays></markOffDays>
-            </mat-tab>
-            <mat-tab *ngIf="viewSchedule" label="My Schedule">
-                <br>
-                <mySchedule></mySchedule> 
-            </mat-tab>
-    </mat-tab-group>
-</div>
+<div>
 
+    <!-- Main navbar -->
+    <secure-header>
+    </secure-header>
+    <!-- /main navbar -->
+
+
+    <!-- Page container -->
+    <div class="page-container">
+
+        <!-- Page content -->
+        <div class="page-content">
+
+            <!-- Main sidebar -->
+            <!-- @include('structure/sidebar') -->
+            <!-- <sidebar></sidebar> -->
+            <sidebar class="sidebar sidebar-main"></sidebar>
+            <!-- /main sidebar -->
+
+
+            <!-- Main content -->
+            <div class="content-wrapper">
+
+                <!-- Page header -->
+                <div class="page-header page-header-default">
+                    <div class="page-header-content">
+                        <div class="page-title">
+                            <h4>
+                                <i class="icon-arrow-left52 position-left"></i>
+                                <span class="text-semibold">
+                                    Schedule
+                                </span>
+                                - View
+                            </h4>
+                        </div>
+
+                        <!-- <div class="heading-elements">
+                                <div class="heading-btn-group">
+                                    <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+                                    <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i>
+                                        <span>Invoices</span></a>
+                                    <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i>
+                                        <span>Schedule</span></a>
+                                </div>
+                            </div> -->
+                    </div>
+
+                    <div class="breadcrumb-line">
+                        <ul class="breadcrumb">
+                            <li><a href="index.html"><i class="icon-home2 position-left"></i> Home</a></li>
+                            <li class="active">Dashboard</li>
+                        </ul>
+
+                        <!-- <ul class="breadcrumb-elements">
+                                <li><a href="#"><i class="icon-comment-discussion position-left"></i> Support</a></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="icon-gear position-left"></i>
+                                        Settings
+                                        <span class="caret"></span>
+                                    </a>
+    
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li><a href="#"><i class="icon-user-lock"></i> Account security</a></li>
+                                        <li><a href="#"><i class="icon-statistics"></i> Analytics</a></li>
+                                        <li><a href="#"><i class="icon-accessibility"></i> Accessibility</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#"><i class="icon-gear"></i> All settings</a></li>
+                                    </ul>
+                                </li>
+                            </ul> -->
+                    </div>
+                </div>
+                <!-- /page header -->
+
+
+                <!-- Content area -->
+                <div class="content">
+
+
+
+                    <!-- Page Sub Content -->
+                    <!-- @yield('content') -->
+
+
+                    <!-- <div class="row">
+                            <div class="panel panel-flat">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">Support Staffs<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
+    
+                                </div>
+    
+    
+    
+    
+                            </div>
+                        </div> -->
+
+
+
+                    <!-- Dashboard content -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <br>
+                            <div class="tab-container-box">
+                                <mat-tab-group *ngIf="markOffDays || viewSchedule">
+                                    <!-- <mat-tab  *ngIf="markOffDays"   label="My off days">
+                                                <br>
+                                                <markOffDays></markOffDays>
+                                            </mat-tab> -->
+                                    <mat-tab *ngIf="viewSchedule" label="My Schedule">
+                                        <br>
+                                        <mySchedule></mySchedule>
+                                    </mat-tab>
+                                </mat-tab-group>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /dashboard content -->
+
+
+
+                    <!-- /Page Sub Content -->
+
+
+
+
+
+                    <!-- Footer -->
+                    <!-- @include('structure/footer') -->
+                    <secure-footer>
+                    </secure-footer>
+                    <!-- /footer -->
+
+                </div>
+                <!-- /content area -->
+
+            </div>
+            <!-- /main content -->
+
+        </div>
+        <!-- /page content -->
+    </div>
+    <!-- Page container -->
+</div>

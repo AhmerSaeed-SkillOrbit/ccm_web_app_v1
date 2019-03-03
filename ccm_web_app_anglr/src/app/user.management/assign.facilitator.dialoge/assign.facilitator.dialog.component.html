@@ -1,0 +1,109 @@
+<div class="dialog-box-content">
+    <mat-progress-bar mode="indeterminate" *ngIf="isSubmitted"></mat-progress-bar>
+    <div class="row align-item-center">
+        <div class="col-md-12">
+            <h1 mat-dialog-title>Assign Facilitator</h1>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-sm-12 scrollable mtl">
+                    <div class="example-header">
+                        <mat-form-field>
+                            <input matInput [(ngModel)]="filter2" (keyup)="applyFilter2($event.target.value)"
+                                placeholder="Filter">
+                        </mat-form-field>
+                    </div>
+
+                    <mat-table #table [dataSource]="dataSource">
+
+
+
+                        <!-- Checkbox Column -->
+                        <!-- <ng-container matColumnDef="select">
+                                    <mat-header-cell *matHeaderCellDef>
+                                        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                            matTooltip='Select'>
+                                        </mat-checkbox>
+
+                                    </mat-header-cell>
+                                    <mat-cell *matCellDef="let row">
+                                        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                                        </mat-checkbox>
+
+                                    </mat-cell>
+                                </ng-container> -->
+
+                        <!-- Serial No -->
+                        <ng-container matColumnDef="sNo">
+                            <mat-header-cell *matHeaderCellDef>
+                                <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection.hasValue() && !isAllSelected()" matTooltip='Select'>
+                                </mat-checkbox>
+                                S.No
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let row; let i = index;">
+                                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                                    [checked]="selection.isSelected(row)">
+                                </mat-checkbox>
+                                {{i + 1}}
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Permission Type Column -->
+                        <ng-container matColumnDef="permissionType">
+                            <mat-header-cell *matHeaderCellDef> Permission Type </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.permissionType}} </mat-cell>
+                        </ng-container>
+
+                        <!-- Permission Column -->
+                        <ng-container matColumnDef="permission">
+                            <mat-header-cell *matHeaderCellDef> Permission Name </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.permissionName}} </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                        </mat-row>
+                    </mat-table>
+
+                    <div class="" *ngIf="(dataSource.data.length == 0 || dataSource.filteredData.length == 0) && !isSpinnerTwo">
+                        <div class="snipet download-btn">
+                            <button (click)="refreshPermissionList()" mat-raised-button>
+                                <i class="material-icons">refresh</i> No Data Found
+                            </button>
+                        </div>
+                    </div>
+                    <spinner [visible]='isSpinnerTwo'></spinner>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div mat-dialog-actions class="row align-item-center dialog-btn-contianer">
+        <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+            <button mat-raised-button tabindex="-1" (click)="onNoClick()">CANCEL</button>
+
+            <!-- <span matTooltipPosition="above" matTooltip="{{!formRegister.valid ? 'Fill the required field' : buttonTooltip}}">
+                <button mat-raised-button [disabled]="!formRegister.valid || isSubmitted" color="primary" (click)="onSubmit()"
+                    tabindex="2">SUBMIT</button>
+            </span> -->
+            <span matTooltipPosition="above" matTooltip="Assign">
+                <button mat-raised-button [disabled]="isSubmitted" color="primary" (click)="onSubmit()" tabindex="2">Assign</button>
+            </span>
+        </div>
+    </div>
+
+</div>
+
+<!-- <h2 mat-dialog-title>User Form</h2>
+<mat-dialog-content class="mat-typography">
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+</mat-dialog-actions> -->

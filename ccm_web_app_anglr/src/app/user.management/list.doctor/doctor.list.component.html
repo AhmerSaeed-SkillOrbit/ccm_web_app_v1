@@ -192,6 +192,13 @@
 
                                                     <!-- <a (click)=""> -->
 
+                                                    <span *ngIf="!assignFacilitatorPermission" matTooltipPosition="above"
+                                                        matTooltip="Assign Facilitator">
+                                                        <a (click)="openAssignFacilitatorDialog(user)">
+                                                            <i style="color:#ffa808;" class=" icon-pencil"></i>
+                                                        </a>
+                                                    </span> &nbsp;
+
                                                     <span *ngIf="!viewProfilePermission" matTooltipPosition="above"
                                                         matTooltip="View">
                                                         <a>

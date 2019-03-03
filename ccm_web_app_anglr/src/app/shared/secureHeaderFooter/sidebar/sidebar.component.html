@@ -10,7 +10,7 @@
           <span class="media-heading text-semibold">{{ user?.firstName || "NA"}}</span>
           <div class="text-size-mini text-muted">
             <!-- <i class="icon-pin text-size-small"></i> &nbsp;Santa Ana, CA -->
-            &nbsp;{{ user?.roleName || "NA"}}
+            &nbsp;{{ user?.role?.roleName || "NA"}}
           </div>
         </div>
 
@@ -29,8 +29,10 @@
         <!-- Main -->
         <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
         <li class="active">
-          <a *ngIf="user?.roleCode == 'super_admin'" [routerLink]="['/home/admin']"><i class="icon-home4"></i> <span>Dashboard</span></a>
-          <a *ngIf="!(user?.roleCode == 'super_admin')" [routerLink]="['/home/other']"><i class="icon-home4"></i> <span>Dashboard</span></a>
+          <!-- <a *ngIf="user?.roleCode == 'super_admin'" [routerLink]="['/home/admin']"><i class="icon-home4"></i> <span>Dashboard</span></a>
+          <a *ngIf="!(user?.roleCode == 'super_admin')" [routerLink]="['/home/other']"><i class="icon-home4"></i> <span>Dashboard</span></a> -->
+          <a *ngIf="user?.role?.roleCode == 'super_admin'" [routerLink]="['/home/admin']"><i class="icon-home4"></i> <span>Dashboard</span></a>
+          <a *ngIf="!(user?.role?.roleCode == 'super_admin')" [routerLink]="['/home/other']"><i class="icon-home4"></i> <span>Dashboard</span></a>
         </li>
 
         <li *ngIf="(adminListPagePermission || facilitatorListPagePermission || doctorListPagePermission || patientListPagePermission || supportStaffListPagePermission)">

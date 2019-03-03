@@ -160,7 +160,8 @@ export class UserService {
             Age: user.age || null,
             AgeGroup: user.ageGroup || null,
             RoleId: user.roleId || null,
-            RoleCode: user.roleCode || null,
+            RoleCode: user.role.roleCode || null,
+            // RoleCode: user.roleCode || null,
 
             // CountryId: user.countryId,
             // RegionId: user.regionId,
@@ -236,10 +237,11 @@ export class UserService {
             });
     }
 
-    sendInvite(email, type, userId): Observable<any> {
+    sendInvite(email, mobileNo, type, userId): Observable<any> {
         const url = 'invite';
         const body = {
             email: email || null,
+            mobileNumber: mobileNo || null,
             type: type || null,
             userId: userId || null
         };

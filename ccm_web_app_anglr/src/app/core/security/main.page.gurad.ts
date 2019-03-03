@@ -19,7 +19,7 @@ export class CanActivateViaMainGuard implements CanActivate {
 
             this.loginUser = this.authService.getUser();
 
-            if (this.loginUser && this.loginUser.roleCode == "super_admin") {
+            if (this.loginUser && this.loginUser.role && this.loginUser.role.roleCode == "super_admin") {
                 this.router.navigate(['/home/admin']);
             }
             else {

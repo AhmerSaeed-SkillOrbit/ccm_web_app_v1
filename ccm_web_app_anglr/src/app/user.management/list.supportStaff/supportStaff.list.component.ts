@@ -38,6 +38,7 @@ export class SupportStaffListComponent implements OnInit {
 
 
     email: string = "";
+    mobileNo: string = "";
     type: string = "superadmin_doctor";
     userId: number = null;
     searchKeyword: string = null;
@@ -248,7 +249,7 @@ export class SupportStaffListComponent implements OnInit {
 
         if (this.email) {
 
-            this._userService.sendInvite(this.email, this.type, this.userId).subscribe(
+            this._userService.sendInvite(this.email, this.mobileNo, this.type, this.userId).subscribe(
                 (res) => {
 
                     this.isSubmitted = false;

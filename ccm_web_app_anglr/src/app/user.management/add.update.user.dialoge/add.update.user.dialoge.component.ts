@@ -74,7 +74,8 @@ export class AddUpdateUserDialogeComponent {
         // this.newUser.roleId = 1;
         this.newUser.roleId = data.roleId;
         // this.newUser.roleCode = "superadmin_doctor";
-        this.newUser.roleCode = data.roleCode;
+        // this.newUser.roleCode = data.roleCode;
+        this.newUser.role.roleCode = data.roleCode;
 
         // this.addPermission = this.utilityService.checkUserPermission(this.user, 'add_admin');
         this.addPermission = true;

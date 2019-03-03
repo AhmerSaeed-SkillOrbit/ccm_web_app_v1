@@ -64,9 +64,11 @@ export class MappingService {
             isUser.branch = userData.branch || new Branch();
             isUser.branchId = userData.branch ? userData.branch.id : null;
 
-            isUser.roleCode = userData.RoleCodeName || null;
-            isUser.roleName = userData.RoleName || null;
-            isUser.roles = userData.roles;
+            isUser.role = this.mapRole(userData.Role);
+            isUser.roleId = userData.Role ? userData.Role.Id : null;
+            // isUser.roleCode = userData.RoleCodeName || null;
+            // isUser.roleName = userData.RoleName || null;
+            // isUser.roles = userData.roles;
             isUser.permissions = userData.permissions;
 
             if (userData.profilePicture) {
@@ -95,16 +97,17 @@ export class MappingService {
         const roleData = res;
         const isRole = new Role();
         if (roleData) {
-            isRole.id = roleData.id || null;
-            isRole.roleId = roleData.id || null;
-            isRole.roleName = roleData.roleName || null;
-            isRole.departmentId = roleData.departmentId || null;
+            isRole.id = roleData.Id || null;
+            isRole.roleId = roleData.Id || null;
+            isRole.roleCode = roleData.RoleCodeName || null;
+            isRole.roleName = roleData.RoleName || null;
+            // isRole.departmentId = roleData.departmentId || null;
         }
 
 
         return isRole;
     }
-    
+
     public mapPermission(res: any): Permission {
         const permissionData = res;
         const isPermission = new Permission();

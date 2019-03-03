@@ -27,7 +27,8 @@ import {
   startOfDay,
   endOfDay
 } from 'date-fns';
-import { StatusService } from '../../core/services/user/status.service';
+import { User } from '../../core/models/user';
+// import { StatusService } from '../../core/services/user/status.service';
 
 type CalendarPeriod = 'day' | 'week' | 'month';
 
@@ -107,19 +108,27 @@ export class CalenderMyscheduleComponent implements OnDestroy {
   timezoneoffset: number;
   clickedBox;
   Color = false;
-  constructor(private dialog: MatDialog, private _statusService: StatusService,
+
+  user: User = new User();
+  docId: number = null;
+
+  constructor(private dialog: MatDialog,
+    // private _statusService: StatusService,
     private _authServices: AuthService,
     private _doctorScheduleService: DoctorScheduleService,
     private _uiService: UIService, private _zone: NgZone
   ) {
-    this.getState();
+    this.user = this._authServices.getUser();
+
+    this.docId = this.user.id;
+    // this.getState();
     this._doctorScheduleService.invokeEvent.subscribe(value => {
       if (value === 'refresh') {
         this.today();
       }
     });
-    this.dateOrViewChanged();
-    this.getTimezone();
+    // this.dateOrViewChanged();
+    // this.getTimezone();
   }
   ngOnDestroy() {
     this.dialog.closeAll();
@@ -127,26 +136,29 @@ export class CalenderMyscheduleComponent implements OnDestroy {
   increment(): void {
     this.changeDate(addPeriod(this.view, this.viewDate, 1));
 
-    this.getSchedule(this.viewDate.getFullYear(), (this.viewDate.getMonth() + 1))
-    this.getOffDays(this.viewDate.getFullYear(), this.viewDate.getMonth());
-    this.getHolidays(this.viewDate.getFullYear());
+    this.getDocSchedule(this.docId);
+    // this.getSchedule(this.viewDate.getFullYear(), (this.viewDate.getMonth() + 1))
+    // this.getOffDays(this.viewDate.getFullYear(), this.viewDate.getMonth());
+    // this.getHolidays(this.viewDate.getFullYear());
 
   }
 
   decrement(): void {
     this.changeDate(subPeriod(this.view, this.viewDate, 1));
 
-    this.getSchedule(this.viewDate.getFullYear(), (this.viewDate.getMonth() + 1))
-    this.getOffDays(this.viewDate.getFullYear(), this.viewDate.getMonth());
-    this.getHolidays(this.viewDate.getFullYear());
+    this.getDocSchedule(this.docId);
+    // this.getSchedule(this.viewDate.getFullYear(), (this.viewDate.getMonth() + 1))
+    // this.getOffDays(this.viewDate.getFullYear(), this.viewDate.getMonth());
+    // this.getHolidays(this.viewDate.getFullYear());
   }
 
   today(): void {
     //  this.changeDate(new Date());
 
-    this.getSchedule(this.viewDate.getFullYear(), (this.viewDate.getMonth() + 1))
-    this.getOffDays(this.viewDate.getFullYear(), this.viewDate.getMonth());
-    this.getHolidays(this.viewDate.getFullYear());
+    this.getDocSchedule(this.docId);
+    // this.getSchedule(this.viewDate.getFullYear(), (this.viewDate.getMonth() + 1))
+    // this.getOffDays(this.viewDate.getFullYear(), this.viewDate.getMonth());
+    // this.getHolidays(this.viewDate.getFullYear());
   }
 
   dateIsValid(date: Date): boolean {
@@ -194,6 +206,7 @@ export class CalenderMyscheduleComponent implements OnDestroy {
     //   }
     // );
   }
+
   dayClicked(day: CalendarMonthViewDay): void {
 
 
@@ -210,7 +223,8 @@ export class CalenderMyscheduleComponent implements OnDestroy {
 
     // day.cssClass  = 'css-spiner';
 
-    this.getScheduleDay(year, month, date);
+    this.getDocSchedule(this.docId);
+    // this.getScheduleDay(year, month, date);
 
 
   }
@@ -236,6 +250,33 @@ export class CalenderMyscheduleComponent implements OnDestroy {
       }
     );
   }
+
+  getDocSchedule(docId) {
+    //  this.LoadingPageload='block';
+    //  this.calenderView='none';
+    this._doctorScheduleService.getDocSchedule(docId).subscribe(
+
+      (response) => {
+
+        console.log("schedule res", response);
+
+        // if (response.status == 200) {
+
+
+        //   this.selectedDatesWorkingDay = JSON.parse(response._body);
+
+
+        //   this.refreshView();
+
+        // }
+      },
+      (error) => {
+
+
+      }
+    );
+  }
+
   getSchedule(currentyear, currentmonth) {
     //  this.LoadingPageload='block';
     //  this.calenderView='none';
@@ -260,6 +301,7 @@ export class CalenderMyscheduleComponent implements OnDestroy {
       }
     );
   }
+
   getState() {
 
 
@@ -276,6 +318,8 @@ export class CalenderMyscheduleComponent implements OnDestroy {
     // );
 
   }
+
+
   getScheduleDay(currentyear, currentmonth, currentday) {
 
     this.clickedBox = currentyear + '-' + currentmonth + '-' + currentday;
@@ -392,9 +436,10 @@ export class CalenderMyscheduleComponent implements OnDestroy {
 
     if (!this.showtemplate) {
 
-      this.getHolidays(this.viewDate.getFullYear());
-      this.getSchedule(this.viewDate.getFullYear(), (this.viewDate.getMonth() + 1))
-      this.getOffDays(this.viewDate.getFullYear(), this.viewDate.getMonth());
+      this.getDocSchedule(this.docId);
+      // this.getHolidays(this.viewDate.getFullYear());
+      // this.getSchedule(this.viewDate.getFullYear(), (this.viewDate.getMonth() + 1))
+      // this.getOffDays(this.viewDate.getFullYear(), this.viewDate.getMonth());
       this.showtemplate = !this.showtemplate;
     }
 

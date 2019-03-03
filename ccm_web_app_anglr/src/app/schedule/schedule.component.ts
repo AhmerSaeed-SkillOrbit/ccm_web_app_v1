@@ -5,7 +5,7 @@ import { AuthService } from '../core/services/auth/auth.service'
 import { Router, ActivatedRoute } from '@angular/router';
 // import { PatientInfoService, patientinfo } from "../core/services/specialist/patientinfo.service";
 // import { Accepted } from "../core/services/specialist/specialistrequests.service";
-import { StatusService } from '../core/services/user/status.service';
+// import { StatusService } from '../core/services/user/status.service';
 import { MatDialogRef, MatDialog } from "@angular/material";
 
 @Component({
@@ -22,7 +22,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
     constructor(
         private dialog: MatDialog,
-        private _statusService: StatusService,
+        // private _statusService: StatusService,
         private _uiService: UIService,
         private _authServices: AuthService,
         private _router: Router, private _route: ActivatedRoute,
@@ -33,6 +33,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.viewSchedule = true;
+        this.markOffDays = true;
         // this._statusService.getpermissionCodes().subscribe(res => {
         //     if (res) {
         //         this.viewSchedule = res.ViewSchedule

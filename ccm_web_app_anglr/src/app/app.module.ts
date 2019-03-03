@@ -48,7 +48,7 @@ import { SchedulerModule } from './scheduler/scheduler.module';
     // AngularFontAwesomeModule,
 
 
-    CoreModule,
+    
     AuthModule,
     BrowserAnimationsModule,
     BrowserModule,
@@ -59,6 +59,7 @@ import { SchedulerModule } from './scheduler/scheduler.module';
     // MatIconModule,
     // ScheduleModule,
     SchedulerModule,
+    CoreModule,
     AppRoutingModule,
     // UploadModule, ChartsModule
 
