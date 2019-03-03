@@ -24,6 +24,10 @@ import { AddScheduleComponent } from './add.schedule/add.schedule.component';
                 path: 'add',
                 component: AddScheduleComponent
             },
+            {
+                path: 'view',
+                component: AddScheduleComponent
+            },
         ])
     ],
     providers: [

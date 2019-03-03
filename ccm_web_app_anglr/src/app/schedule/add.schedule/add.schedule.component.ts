@@ -114,10 +114,10 @@ export class AddScheduleComponent implements OnInit {
     }
 
     timeCheck(AC: AbstractControl) {
-        console.log('IntimationCheck');
+        console.log('timeCheck');
         const startTime = AC.get('startTime').value; // to get value in input tag
         const endTime = AC.get('endTime').value; // to get value in input tag
-
+        const isOffDay = AC.get('isOffDay').value;
         if (startTime > endTime) {
             console.log('false');
             AC.get('endTime').setErrors({ minTime: true });
@@ -125,6 +125,52 @@ export class AddScheduleComponent implements OnInit {
             console.log('true');
             AC.get('endTime').setErrors(null);
             return null;
+        }
+        // }
+    }
+
+    timeCheckOld(AC: AbstractControl) {
+        console.log('timeCheck');
+        const startTime = AC.get('startTime').value; // to get value in input tag
+        const endTime = AC.get('endTime').value; // to get value in input tag
+        const isOffDay = AC.get('isOffDay').value;
+
+        if (isOffDay) {
+
+            AC.get('startTime').disable();
+            AC.get('endTime').disable();
+
+        }
+        else {
+            AC.get('startTime').enable();
+            AC.get('endTime').enable();
+
+            if (startTime > endTime) {
+                console.log('false');
+                AC.get('endTime').setErrors({ minTime: true });
+            } else {
+                console.log('true');
+                AC.get('endTime').setErrors(null);
+                return null;
+            }
+        }
+
+        // }
+    }
+
+    offDayCheck(AC: AbstractControl) {
+        console.log('offDayCheck');
+        const isOffDay = AC.get('isOffDay').value; // to get value in input tag
+
+        if (isOffDay) {
+            console.log('false');
+            AC.get('startTime').disable();
+            AC.get('endTime').disable();
+        } else {
+            console.log('true');
+            AC.get('startTime').enable();
+            AC.get('endTime').enable();
+            // return null;
         }
         // }
     }
@@ -141,8 +187,10 @@ export class AddScheduleComponent implements OnInit {
             'startTime': ["", Validators.compose([Validators.required])],
             'endTime': ["", Validators.compose([Validators.required])],
             'shiftType': ["", Validators.compose([])],
-        },
+        }
+            ,
             {
+                // validator: [this.offDayCheck, this.timeCheck], // your validation method
                 validator: [this.timeCheck], // your validation method
             }
         );
@@ -245,6 +293,22 @@ export class AddScheduleComponent implements OnInit {
                 // this.loadReportActivityList();
             }
 
+        }
+    }
+
+    onOffDayCheckFocusOut(index) {
+
+        if (this.schedule.scheduleDetails[index].isOffDay) {
+
+            this.schedule.scheduleDetails[index].startTime = null;
+            this.schedule.scheduleDetails[index].endTime = null;
+            this.scheduleDetailArray.at(index).get('startTime').disable();
+            this.scheduleDetailArray.at(index).get('endTime').disable();
+        }
+        else {
+            this.scheduleDetailArray.at(index).get('startTime').enable();
+            this.scheduleDetailArray.at(index).get('endTime').enable();
+            this.scheduleDetailArray.at(index).get('endTime').enable();
         }
     }
 
