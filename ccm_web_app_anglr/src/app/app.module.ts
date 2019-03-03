@@ -26,6 +26,8 @@ import { CanActivateViaAuthGuard } from './core/security/auth.guard';
 import { CanActivateViaMainGuard } from './core/security/main.page.gurad';
 
 import { SharedModule } from './shared/shared.module';
+// import { ScheduleModule } from './schedule/schedule.module';
+import { SchedulerModule } from './scheduler/scheduler.module';
 
 
 // import { BlockCopyPasteDirective } from './shared/directives/blockCopyPaste.directive';
@@ -55,7 +57,8 @@ import { SharedModule } from './shared/shared.module';
 
     MaterialModule,
     // MatIconModule,
-
+    // ScheduleModule,
+    SchedulerModule,
     AppRoutingModule,
     // UploadModule, ChartsModule
 

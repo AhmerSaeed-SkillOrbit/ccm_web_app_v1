@@ -1,0 +1,311 @@
+<div>
+
+    <!-- Main navbar -->
+    <secure-header>
+    </secure-header>
+    <!-- /main navbar -->
+
+
+    <!-- Page container -->
+    <div class="page-container">
+
+        <!-- Page content -->
+        <div class="page-content">
+
+            <!-- Main sidebar -->
+            <!-- @include('structure/sidebar') -->
+            <!-- <sidebar></sidebar> -->
+            <sidebar class="sidebar sidebar-main"></sidebar>
+            <!-- /main sidebar -->
+
+
+            <!-- Main content -->
+            <div class="content-wrapper">
+
+                <!-- Page header -->
+                <div class="page-header page-header-default">
+                    <div class="page-header-content">
+                        <div class="page-title">
+                            <h4>
+                                <i class="icon-arrow-left52 position-left"></i>
+                                <span class="text-semibold">
+                                    Schedule
+                                </span>
+                                - Add
+                            </h4>
+                        </div>
+
+                        <!-- <div class="heading-elements">
+                            <div class="heading-btn-group">
+                                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+                                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i>
+                                    <span>Invoices</span></a>
+                                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i>
+                                    <span>Schedule</span></a>
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <div class="breadcrumb-line">
+                        <ul class="breadcrumb">
+                            <li><a href="index.html"><i class="icon-home2 position-left"></i> Home</a></li>
+                            <li class="active">Dashboard</li>
+                        </ul>
+
+                        <!-- <ul class="breadcrumb-elements">
+                            <li><a href="#"><i class="icon-comment-discussion position-left"></i> Support</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="icon-gear position-left"></i>
+                                    Settings
+                                    <span class="caret"></span>
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="#"><i class="icon-user-lock"></i> Account security</a></li>
+                                    <li><a href="#"><i class="icon-statistics"></i> Analytics</a></li>
+                                    <li><a href="#"><i class="icon-accessibility"></i> Accessibility</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#"><i class="icon-gear"></i> All settings</a></li>
+                                </ul>
+                            </li>
+                        </ul> -->
+                    </div>
+                </div>
+                <!-- /page header -->
+
+
+                <!-- Content area -->
+                <div class="content">
+
+
+
+                    <!-- Page Sub Content -->
+                    <!-- @yield('content') -->
+
+
+                    <!-- <div class="row">
+                        <div class="panel panel-flat">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">Support Staffs<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
+
+                            </div>
+
+
+
+
+                        </div>
+                    </div> -->
+
+
+
+                    <!-- Dashboard content -->
+                    <!-- Form -->
+                    <form [formGroup]="formScheduleDetail" (ngSubmit)="onSubmit()">
+                        <div class="panel panel-body registration-form">
+
+
+                            <div class="row">
+
+                                <!-- Start Date -->
+                                <div class="col-md-4">
+                                    <mat-form-field class="full-width">
+                                        <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker"
+                                            placeholder="Choose start date" formControlName="startDate" [(ngModel)]="schedule.startDate"
+                                            (dateChange)="dateChanged($event, 'startDate')" (ngModelChange)="onStartDateFocusOut()"
+                                            readonly>
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                    <!-- <mat-form-field class="full-width">
+                                        <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker"
+                                            placeholder="Choose start date" formControlName="startDate" [(ngModel)]="startDate"
+                                            (dateChange)="dateChanged($event, 'startDate')" (ngModelChange)="onStartDateFocusOut()"
+                                            readonly>
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field> -->
+                                </div>
+
+                                <!-- End Date -->
+                                <div class="col-md-4">
+                                    <mat-form-field class="full-width">
+                                        <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker1"
+                                            placeholder="Choose end date" formControlName="endDate" [(ngModel)]="schedule.endDate"
+                                            (dateChange)="dateChanged($event, 'endDate')" (ngModelChange)="onEndDateFocusOut()"
+                                            readonly>
+                                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker1></mat-datepicker>
+                                    </mat-form-field>
+                                    <!-- <mat-form-field class="full-width">
+                                        <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker1"
+                                            placeholder="Choose end date" formControlName="endDate" [(ngModel)]="endDate"
+                                            (dateChange)="dateChanged($event, 'endDate')" (ngModelChange)="onEndDateFocusOut()"
+                                            readonly>
+                                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker1></mat-datepicker>
+                                    </mat-form-field> -->
+                                </div>
+
+                                <div class="col-md-12">
+                                    <hr>
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <div class="row" formArrayName="scheduleDetail">
+                                        <div class="col-sm-12">
+                                            <!-- <div class="row" *ngFor="let bidder of heldObject.auctionBidder; let $i=index;"> -->
+                                            <div class="row" *ngFor="let b of formScheduleDetail.controls.scheduleDetail.controls; let i = index"
+                                                [formGroupName]="i">
+                                                <div class="col-sm-12">
+
+                                                    <h3>Detail {{i+1}}</h3>
+                                                    <div class="row">
+
+                                                        <!-- Schedule Date -->
+                                                        <div class="col-sm-4">
+                                                            <mat-form-field class="full-width">
+                                                                <input matInput placeholder="Schedule Date" [(ngModel)]="schedule.scheduleDetails[i].scheduleDate"
+                                                                    formControlName="scheduleDate" required readonly>
+                                                                <mat-error>
+                                                                    Schedule Date is
+                                                                    <strong>required</strong>
+                                                                </mat-error>
+                                                            </mat-form-field>
+                                                        </div>
+
+                                                        <div class="col-sm-4">
+                                                            <mat-form-field class="full-width">
+                                                                <input matInput type="time" placeholder="Start Time"
+                                                                    [(ngModel)]="schedule.scheduleDetails[i].startTime"
+                                                                    formControlName="startTime" (ngModelChange)="onStartTimeFocusOut(i)"
+                                                                    required>
+                                                                <mat-error>
+                                                                    Start Time is
+                                                                    <strong>required</strong>
+                                                                </mat-error>
+                                                            </mat-form-field>
+                                                        </div>
+
+                                                        <div class="col-sm-4">
+                                                            <mat-form-field class="full-width">
+                                                                <input matInput type="time" [min]="schedule.scheduleDetails[i].startTime"
+                                                                    placeholder="End Time" [(ngModel)]="schedule.scheduleDetails[i].endTime"
+                                                                    formControlName="endTime" (ngModelChange)="onEndTimeFocusOut(i)"
+                                                                    required>
+                                                                <!-- <mat-error>
+                                                                    End Time is
+                                                                    <strong>required</strong>
+                                                                </mat-error> -->
+                                                                <mat-error *ngIf="b.controls['endTime'].touched && b.controls['endTime'].errors?.required">
+                                                                    End Time is
+                                                                    <strong>required</strong>
+                                                                </mat-error>
+                                                                <mat-error *ngIf="b.controls['endTime'].errors?.minTime">
+                                                                    End Time must be greater than Start Time
+                                                                </mat-error>
+                                                            </mat-form-field>
+                                                        </div>
+
+                                                        <!-- Hour -->
+                                                        <!-- <div class="col-sm-4">
+                                                            <mat-form-field class="full-width">
+                                                                <select class="vm-select" (change)="changedStartTime({ hour: $event.target.value, minute: schedule.scheduleDetails[i].min }, 'h')"
+                                                                    formControlName="startTime" [(ngModel)]="schedule.scheduleDetails[i].hour">
+                                                                    <option selected disabled [value]="undefined">HH</option>
+                                                                    <option *ngFor="let hour of hours" [value]="hour">{{
+                                                                        hour }}</option>
+                                                                </select>
+                                                                <mat-error>
+                                                                    Hour is
+                                                                    <strong>required</strong>
+                                                                </mat-error>
+                                                            </mat-form-field>
+                                                        </div> -->
+
+                                                        <!-- Min -->
+                                                        <!-- <div class="col-sm-4">
+                                                            <mat-form-field class="full-width">
+                                                                <select class="vm-select" (change)="changedStartTime({ minute: $event.target.value, hour: schedule.scheduleDetails[i].hour }, 'm')"
+                                                                    formControlName="endTime" [(ngModel)]="schedule.scheduleDetails[i].min">
+                                                                    <option selected disabled [value]="undefined">MM</option>
+                                                                    <option *ngFor="let minute of minutes" [value]="minute">{{minute}}</option>
+                                                                </select>
+                                                                <mat-error>
+                                                                    Bid Amount is
+                                                                    <strong>required</strong>
+                                                                </mat-error>
+                                                            </mat-form-field>
+                                                        </div> -->
+
+
+                                                        <!-- Contact No -->
+                                                        <!-- <div class="col-sm-4">
+                                                            <mat-form-field class="full-width">
+                                                                <input matInput placeholder="Contact No."
+                                                                    matTooltipPosition="above" matTooltip='{{tooltipMobile}}'
+                                                                    maxlength="12" [(ngModel)]="heldObject.auctionBidder[$i].bidderContactNumber"
+                                                                    formControlName="shiftHour" (keydown)="mobileNoFunction($event , $i)">
+                                                                <mat-hint align="end">{{bidder?.bidderContactNumber?.length
+                                                                    || 0}}/12</mat-hint>
+                                                            </mat-form-field>
+                                                        </div> -->
+
+
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4"></div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn bg-blue btn-block" [disabled]="isSubmitted">
+                                            Schedule <i class="icon-arrow-right14 position-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-4"></div>
+                            </div>
+
+                        </div>
+                    </form>
+                    <!-- /Form -->
+                    <!-- /dashboard content -->
+
+
+
+                    <!-- /Page Sub Content -->
+
+
+
+
+
+                    <!-- Footer -->
+                    <!-- @include('structure/footer') -->
+                    <secure-footer>
+                    </secure-footer>
+                    <!-- /footer -->
+
+                </div>
+                <!-- /content area -->
+
+            </div>
+            <!-- /main content -->
+
+        </div>
+        <!-- /page content -->
+    </div>
+    <!-- Page container -->
+</div>

@@ -8,6 +8,8 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegistrationComponent } from './auth/registration/registration.component';
 // import { ResendVerificationComponent } from './auth/verfication/resend-verification.component';
 import { VerificationComponent } from './auth/verfication/verification.component';
+// import { SchedulerComponent } from './scheduler/scheduler.component';
+// import { ScheduleComponent } from './Schedule/schedule.component';
 // import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 // import { ResetPasswordComponent } from './auth/forgot-password/reset-password.component';
 // import { NotFoundComponent } from './others/not-found.component';
@@ -79,6 +81,15 @@ const routes: Routes = [
     loadChildren: './role.management/role.management.module#RoleManagementModule',
     // pathMatch: 'full',
     // component: HomeComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    // children: []
+  },
+  {
+    path: 'schedule',
+    loadChildren: './schedule/schedule.module#ScheduleModule',
+    // pathMatch: 'full',
+    // component: SchedulerComponent,
+    // component: ScheduleComponent,
     canActivate: [CanActivateViaAuthGuard],
     // children: []
   },

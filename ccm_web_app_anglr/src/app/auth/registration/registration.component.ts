@@ -191,14 +191,14 @@ export class RegistrationComponent implements OnInit {
     }
 
     loadBranches(cityId) {
-        // this._setupService.getBranchesViaCityId(this.user.cityId).subscribe(
-        this._setupService.getBranchesViaCityId(cityId).subscribe(
-            (res) => {
-                // this.branches = res.json().genericBody.data.branches;
-                this.branches = res.json().data;
-            },
-            (err) => console.log(err)
-        );
+        // // this._setupService.getBranchesViaCityId(this.user.cityId).subscribe(
+        // this._setupService.getBranchesViaCityId(cityId).subscribe(
+        //     (res) => {
+        //         // this.branches = res.json().genericBody.data.branches;
+        //         this.branches = res.json().data;
+        //     },
+        //     (err) => console.log(err)
+        // );
     }
 
 

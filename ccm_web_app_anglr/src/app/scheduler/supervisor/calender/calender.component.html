@@ -1,0 +1,67 @@
+<div class="tab-container-box">
+    <div class="col-md-4 text-center" style="margin:0 auto">
+        <button mat-icon-button style="float: left; outline: none !important;" (click)="decrement()" [disabled]="prevBtnDisabled">
+            <mat-icon  class="material-icons" style="font-size: 3em !important;"  [style.color]=" prevBtnDisabled ? 'rgb(213, 226, 228)' : 'rgb(0,174,204)'" [style.cursor]=" prevBtnDisabled ? 'not-allowed' : 'pointer'" >keyboard_arrow_left</mat-icon>
+        </button>
+          <button mat-icon-button style="float: right; outline: none !important;" (click)="increment()" [disabled]="nextBtnDisabled">
+              <mat-icon  class="material-icons" style="font-size: 3em !important;" [style.color]=" nextBtnDisabled ? 'rgb(213, 226, 228)' : 'rgb(0,174,204)'" [style.cursor]=" nextBtnDisabled ? 'not-allowed' : 'pointer'" >keyboard_arrow_right</mat-icon>
+          </button>
+      <h5 style="line-height:40px;">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h5>
+    </div>
+<br>
+<div class="text-center" [hidden]="hiddenLoader"  style="margin-top: 20vh;">
+    <mat-spinner></mat-spinner>
+</div>
+<div [ngSwitch]="view" [hidden]="hiddenCalendar"> 
+    <mwl-calendar-month-view
+        *ngSwitchCase="'month'"
+        [viewDate]="viewDate"
+        [events]="events"
+        [cellTemplate]="cellTemplate"
+        (beforeViewRender)="beforeMonthViewRender($event)"
+        (dayClicked)="dayClicked($event.day)"
+        [refresh]="refresh">
+    </mwl-calendar-month-view>
+</div>
+
+<ng-template #cellTemplate let-day="day" let-locale="locale">
+    <div class="cal-cell-top">
+        <span *ngFor="let event of events"> 
+            <span *ngIf="event.start.toString() == day.date.toString()">
+                <!-- <span class="cal-day-badge-custom" *ngIf="day.badgeTotal > 0">
+                    {{ event.details.length }}
+                </span> -->
+            </span>
+        </span>
+        <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+    </div>
+    <div *ngFor="let event of events">
+        <div class="event-highlight" *ngIf="event.start.toString() == day.date.toString()">
+            <div class="gen-content" >
+                <!-- <div class="name-box" *ngIf="event.details.length == 1"> -->
+                    {{ event.details.supervisorFirstName}}
+                <!-- </div> -->
+                <!-- <div *ngIf="event.details.length == 2">
+                    <div class="name-box">
+                        {{ event.details[0].specialistName }}
+                    </div>                    
+                    <div class="name-box">
+                        {{ event.details[1].specialistName }}
+                    </div>
+                </div>
+                <div *ngIf="event.details.length > 2">
+                    <div class="name-box">
+                        {{ event.details[0].specialistName }}
+                    </div>   
+                    <div class="name-box">
+                        {{ event.details[1].specialistName }}
+                    </div>
+                    <div>
+                        <span style="color:#00aecc">... more</span>
+                    </div>
+                </div> -->
+            </div>
+        </div> 
+    </div>
+</ng-template>
+</div>
