@@ -8,11 +8,12 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegistrationComponent } from './auth/registration/registration.component';
 // import { ResendVerificationComponent } from './auth/verfication/resend-verification.component';
 import { VerificationComponent } from './auth/verfication/verification.component';
+import { PermissionDeniedComponent } from './others/permission.denied.component';
+import { NotFoundComponent } from './others/not-found.component';
 // import { SchedulerComponent } from './scheduler/scheduler.component';
 // import { ScheduleComponent } from './Schedule/schedule.component';
 // import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 // import { ResetPasswordComponent } from './auth/forgot-password/reset-password.component';
-// import { NotFoundComponent } from './others/not-found.component';
 
 
 // import { MainComponent } from './main/main.component';
@@ -99,18 +100,18 @@ const routes: Routes = [
   //   canActivate: [CanActivateViaAuthGuard],
   //   // children: []
   // },
-  // {
-  //   path: 'error',
-  //   component: NotFoundComponent,
-  //   // canActivate: [CanActivateViaAuthGuard],
-  //   children: []
-  // },
-  // {
-  //   path: 'permission',
-  //   component: PermissionDeniedComponent,
-  //   // canActivate: [CanActivateViaAuthGuard],
-  //   children: []
-  // },
+  {
+    path: 'error',
+    component: NotFoundComponent,
+    // canActivate: [CanActivateViaAuthGuard],
+    children: []
+  },
+  {
+    path: 'permission',
+    component: PermissionDeniedComponent,
+    // canActivate: [CanActivateViaAuthGuard],
+    children: []
+  },
   // {
   //   path: 'logout',
   //   component: LogoutComponent,

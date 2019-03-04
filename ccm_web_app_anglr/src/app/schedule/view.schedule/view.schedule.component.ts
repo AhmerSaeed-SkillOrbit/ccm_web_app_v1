@@ -57,7 +57,7 @@ export class ViewScheduleComponent implements OnInit {
 
     isSpinner = false;
 
-    userEditPermission = false;
+    viewSchedulePermission = false;
 
     isSubmitted: boolean = false;
 
@@ -100,15 +100,15 @@ export class ViewScheduleComponent implements OnInit {
             // this.userId = id;
             // this.loadUserById();
 
-            // this.userEditPermission = this.utilityService.checkUserPermission(this.user, 'user_list');
-            this.userEditPermission = true;
+            this.viewSchedulePermission = this._utilityService.checkUserPermission(this.user, 'view_doctor_schedule');
+            // this.viewSchedulePermission = true;
 
-            // if (this.user.department.departmentCode == "admin") {
-            //     this._router.navigate(['/home/admin']);
-            // }
-            // else {
-            //     // this._router.navigate(['/home/other']);
-            // }
+            if (this.viewSchedulePermission) {
+
+            }
+            else {
+                this._router.navigateByUrl('permission');
+            }
         }
 
     }

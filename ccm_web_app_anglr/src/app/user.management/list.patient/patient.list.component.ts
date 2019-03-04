@@ -15,6 +15,7 @@ import { InviteDialogComponent } from '../invite.dialoge/invite.dialog.component
 import { UserService } from '../../core/services/user/user.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 import { UtilityService } from '../../core/services/general/utility.service';
+import { AddUpdateUserDialogeComponent } from '../add.update.user.dialoge/add.update.user.dialoge.component';
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
 // import { EasyPay } from '../core/models/payment/easypay.payment';
 
@@ -42,8 +43,11 @@ export class PatientListComponent implements OnInit {
     type: string = "doctor_patient";
     userId: number = null;
     searchKeyword: string = null;
+
+    roleId: number = null;
     roleCode: string = null;
 
+    newUser: User = new User();
     userList: User[] = [];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -70,15 +74,19 @@ export class PatientListComponent implements OnInit {
 
     display = 'none';
 
-    constructor(@Inject('IAuthService') private _authService: IAuthService,
+    constructor(
+        @Inject('IAuthService') private _authService: IAuthService,
         public dialog: MatDialog,
         private _uiService: UIService,
         // public _messaging: MessagingService,
         private _userService: UserService,
         private _mappingService: MappingService,
         private _utilityService: UtilityService,
-        private route: ActivatedRoute, private _router: Router) {
+        private route: ActivatedRoute, private _router: Router
+    ) {
         this.currentURL = window.location.href;
+
+        this.newUser.roleId = 5;
     }
 
     ngOnInit(): void {
@@ -88,7 +96,7 @@ export class PatientListComponent implements OnInit {
         this.isLogin = this._authService.isLoggedIn();
         // console.log('this.isLogin', this.isLogin);
 
-
+        this.roleId = 5;
         this.roleCode = "patient";
 
         if (!this.isLogin) {
@@ -279,6 +287,28 @@ export class PatientListComponent implements OnInit {
         }
     }
 
+    openAddUpdateDialog() {
+
+        let dialog = this.dialog.open(AddUpdateUserDialogeComponent, {
+            maxWidth: "700px",
+            minWidth: "550px",
+            // width: "550px",
+            // height: '465px',
+            // data: this.id,
+            data: {
+                user: null,
+                roleId: this.roleId,
+                roleCode: this.roleCode,
+            },
+        });
+        dialog.afterClosed().subscribe((result) => {
+            console.log("result", result);
+            if (result) {
+                this.refreshList();
+            }
+        })
+    }
+
     onlogOut() {
 
         let redirectUrl = 'login';
@@ -292,7 +322,7 @@ export class PatientListComponent implements OnInit {
         }
     }
 
-    userDelete(userId){
+    userDelete(userId) {
         const msg = new Message();
         console.log('delete user');
         console.log(userId);

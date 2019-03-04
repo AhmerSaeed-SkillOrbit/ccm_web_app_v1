@@ -99,6 +99,14 @@
                                 </button>
                             </div> -->
                             <div class="panel-body">
+                                <span matTooltipPosition="above" matTooltip="{{!invitePermission ? 'Dont have permission' : 'Invite New' }}">
+                                    <button type="button" class="btn btn-default btn-sm" [disabled]="!invitePermission"
+                                        (click)="openInviteDialog()">
+                                        Invite New
+                                        <i class="icon-play3 position-right"></i>
+                                    </button>
+                                </span>
+
                                 <span matTooltipPosition="above" matTooltip="{{!addPermission ? 'Dont have permission' : 'Add New' }}">
                                     <button type="button" class="btn btn-default btn-sm" [disabled]="!addPermission"
                                         (click)="openAddUpdateDialog()">
@@ -145,13 +153,16 @@
                                         <thead>
                                             <tr role="row">
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" aria-label="First Name: activate to sort column ascending">ID</th>
+                                                    rowspan="1" colspan="1" aria-label="Id: activate to sort column ascending">ID</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">Name</th>
+                                                    rowspan="1" colspan="1" aria-label="First Name: activate to sort column ascending">Name</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Email</th>
+                                                    rowspan="1" colspan="1" aria-label="Email: activate to sort column ascending">Email</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Role</th>
+                                                    rowspan="1" colspan="1" aria-label="Functional Title: activate to sort column ascending">Functional
+                                                    Title</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1" aria-label="Role Name: activate to sort column ascending">Role</th>
                                                 <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Status</th> -->
                                                 <th class="text-center sorting_disabled" rowspan="1" colspan="1"
@@ -168,6 +179,9 @@
                                                     <a>
                                                         {{ user?.email || "NA" }}
                                                     </a>
+                                                </td>
+                                                <td>
+                                                    {{ user?.functionalTitle || "NA" }}
                                                 </td>
                                                 <td class="sorting_1">
                                                     {{ user?.roleName || "NA" }}

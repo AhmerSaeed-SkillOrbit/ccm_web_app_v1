@@ -62,7 +62,7 @@ export class AddScheduleComponent implements OnInit {
 
     isSpinner = false;
 
-    userEditPermission = false;
+    addSchedulePermission = false;
 
     isSubmitted: boolean = false;
 
@@ -105,15 +105,15 @@ export class AddScheduleComponent implements OnInit {
             // this.userId = id;
             // this.loadUserById();
 
-            // this.userEditPermission = this.utilityService.checkUserPermission(this.user, 'user_list');
-            this.userEditPermission = true;
+            this.addSchedulePermission = this._utilityService.checkUserPermission(this.user, 'add_doctor_schedule');
+            // this.addSchedulePermission = true;
 
-            // if (this.user.department.departmentCode == "admin") {
-            //     this._router.navigate(['/home/admin']);
-            // }
-            // else {
-            //     // this._router.navigate(['/home/other']);
-            // }
+            if (this.addSchedulePermission) {
+
+            }
+            else {
+                this._router.navigateByUrl('permission');
+            }
         }
 
     }

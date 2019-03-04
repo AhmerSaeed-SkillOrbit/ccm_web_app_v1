@@ -43,7 +43,7 @@ export class FacilitatorListComponent implements OnInit {
 
     email: string = "";
     mobileNo: string = "";
-    type: string = "superadmin_doctor";
+    type: string = "doctor_facilitator";
     userId: number = null;
     searchKeyword: string = null;
 
@@ -68,6 +68,7 @@ export class FacilitatorListComponent implements OnInit {
 
     listPagePermission = false;
     addPermission = false;
+    invitePermission = false;
     updatePermission = false;
     viewProfilePermission = false;
     deletePermission = false;
@@ -129,6 +130,8 @@ export class FacilitatorListComponent implements OnInit {
             if (this.listPagePermission) {
                 this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_facilitator');
                 // this.addPermission = true;
+                this.invitePermission = this._utilityService.checkUserPermission(this.user, 'invite_facilitator');
+                // this.invitePermission = true;
                 this.updatePermission = this._utilityService.checkUserPermission(this.user, 'view_facilitator_profile');
                 // this.addPermission = true;
                 this.viewProfilePermission = this._utilityService.checkUserPermission(this.user, 'update_facilitator');
@@ -251,7 +254,8 @@ export class FacilitatorListComponent implements OnInit {
             // data: this.id,
             data: {
                 user: this.user,
-                type: "superadmin_doctor",
+                // type: this.type,
+                type: "doctor_facilitator",
             },
         });
         dialog.afterClosed().subscribe((result) => {

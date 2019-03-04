@@ -16,9 +16,9 @@ import { MaterialModule } from "../material/material.module";
 import { SharedModule } from '../shared/shared.module';
 import { AddScheduleComponent } from './add.schedule/add.schedule.component';
 import { ViewScheduleComponent } from './view.schedule/view.schedule.component';
-import { ScheduleComponent } from './schedule.component';
+// import { ScheduleComponent } from './schedule.component';
 import { CalenderMyscheduleComponent } from './schedule-calender/calender.myschedule.component';
-import { CalendarHeaderComponent } from './schedule-calender/calender-utils/calender-header.component';
+// import { CalendarHeaderComponent } from './schedule-calender/calender-utils/calender-header.component';
 
 
 
@@ -27,9 +27,9 @@ import { CalendarHeaderComponent } from './schedule-calender/calender-utils/cale
 
         AddScheduleComponent,
         ViewScheduleComponent,
-        ScheduleComponent,
+        // ScheduleComponent,
         CalenderMyscheduleComponent,
-        CalendarHeaderComponent,
+        // CalendarHeaderComponent,
         // CalenderComponent,
     ],
     imports: [
@@ -46,8 +46,8 @@ import { CalendarHeaderComponent } from './schedule-calender/calender-utils/cale
             },
             {
                 path: 'view',
-                // component: ViewScheduleComponent
-                component: ScheduleComponent
+                component: ViewScheduleComponent
+                // component: ScheduleComponent
             },
         ])
     ],

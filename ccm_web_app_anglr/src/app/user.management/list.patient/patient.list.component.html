@@ -106,7 +106,24 @@
                                         <i class="icon-play3 position-right"></i>
                                     </button>
                                 </span>
+
+                                <span matTooltipPosition="above" matTooltip="{{!addPermission ? 'Dont have permission' : 'Add New' }}">
+                                    <button type="button" class="btn btn-default btn-sm" [disabled]="!addPermission"
+                                        (click)="openAddUpdateDialog()">
+                                        Add New
+                                        <i class="icon-play3 position-right"></i>
+                                    </button>
+                                </span>
                             </div>
+                            <!-- <div class="panel-body">
+                                <span matTooltipPosition="above" matTooltip="{{!addPermission ? 'Dont have permission' : 'Add New' }}">
+                                    <button type="button" class="btn btn-default btn-sm" [disabled]="!addPermission"
+                                        (click)="openAddUpdateDialog()">
+                                        Add New
+                                        <i class="icon-play3 position-right"></i>
+                                    </button>
+                                </span>
+                            </div> -->
 
                             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
                                 <div class="datatable-header">
@@ -203,13 +220,13 @@
 
                                                     <!-- <a (click)=""> -->
 
-                                                    <span matTooltipPosition="above"
-                                                        matTooltip="Delete">
+                                                    <span matTooltipPosition="above" matTooltip="Delete">
                                                         <!-- <a>
                                                             <i style="color:#f70a0a;" class="icon-bin" (click)="userDelete(user.id)"></i>
                                                         </a> -->
-                                                        <button type="button" class="edit-btn" mat-raised-button (click)="userDelete(user.id)"> 
-                                                            <i style="color:#f70a0a;" class="icon-bin" ></i>
+                                                        <button type="button" class="edit-btn" mat-raised-button
+                                                            (click)="userDelete(user.id)">
+                                                            <i style="color:#f70a0a;" class="icon-bin"></i>
                                                         </button>
                                                     </span>
                                                     <!-- <a>

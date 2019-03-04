@@ -30,6 +30,7 @@ export class MappingService {
             isUser.firstName = userData.FirstName || null;
             isUser.lastName = userData.LastName || null;
             isUser.email = userData.EmailAddress || null;
+            isUser.functionalTitle = userData.FunctionalTitle || null;
 
             isUser.officeAddress = userData.OfficeAddress || null;
             isUser.residentialAddress = userData.ResidentialAddress || null;
