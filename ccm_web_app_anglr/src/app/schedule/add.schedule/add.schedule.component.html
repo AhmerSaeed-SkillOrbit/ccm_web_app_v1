@@ -152,6 +152,24 @@
                                     <hr>
                                 </div>
 
+                                <div class="col-md-12" *ngIf="formScheduleDetail?.controls?.scheduleDetail?.controls?.length > 0">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <mat-form-field class="full-width">
+                                                <input matInput type="time" placeholder="Start Time" [(ngModel)]="startTime"
+                                                    [ngModelOptions]="{standalone: true}" (ngModelChange)="onStartTimeAllFocusOut()">
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <mat-form-field class="full-width">
+                                                <input matInput type="time" placeholder="End Time" [(ngModel)]="endTime"
+                                                    [ngModelOptions]="{standalone: true}" (ngModelChange)="onEndTimeAllFocusOut()">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+
 
                                 <div class="col-md-12">
                                     <div class="row" formArrayName="scheduleDetail">

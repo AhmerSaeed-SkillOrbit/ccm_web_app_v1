@@ -52,6 +52,10 @@ export class AddScheduleComponent implements OnInit {
     newUser: User = new User();
     userId: number = null;
 
+    
+    startTime: string = null;
+    endTime: string = null;
+    
     startDate: string = null;
     endDate: string = null;
     dateArray = new Array();
@@ -325,6 +329,14 @@ export class AddScheduleComponent implements OnInit {
             this.scheduleDetailArray.at(index).get('endTime').enable();
             this.scheduleDetailArray.at(index).get('endTime').enable();
         }
+    }
+
+    onStartTimeAllFocusOut() {
+
+    }
+
+    onEndTimeAllFocusOut() {
+
     }
 
     onStartTimeFocusOut(index) {
