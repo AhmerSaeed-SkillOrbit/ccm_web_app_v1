@@ -40,6 +40,7 @@ export class AddScheduleComponent implements OnInit {
     files: any;
     // dashboard: Dashboard = new Dashboard();
     currentURL: string;
+    currentDate = new Date();
     // script = new ScriptService();
 
     isUser: User = new User();
@@ -228,8 +229,21 @@ export class AddScheduleComponent implements OnInit {
     onStartDateFocusOut() {
         console.log("onStartDateFocusOut");
 
+        if (this.schedule.startDate) {
+            var nowdate = new Date(this.schedule.startDate);
+            var monthEndDay = new Date(nowdate.getFullYear(), nowdate.getMonth() + 1, 0);
+
+            console.log("monthEndDay", monthEndDay);
+            // this.schedule.endDate = monthEndDay.toDateString();
+
+            this.schedule.endDate = this.datePipe.transform(monthEndDay, 'yyyy-MM-dd');
+
+
+        }
+
         // if (this.startDate && this.endDate) {
         if (this.schedule.startDate && this.schedule.endDate) {
+
 
             // if (this._utilityService.dateDifferenceInDays(this.startDate, this.endDate) < 0) {
             if (this._utilityService.dateDifferenceInDays(this.schedule.startDate, this.schedule.endDate) < 0) {
@@ -241,6 +255,7 @@ export class AddScheduleComponent implements OnInit {
                 this.dateArray = new Array();
             }
             else {
+
                 this.clearFormArray(this.scheduleDetailArray);
                 this.schedule.scheduleDetails = [];
                 // this.dateArray = this.getDates(this.startDate, this.endDate);
@@ -334,8 +349,15 @@ export class AddScheduleComponent implements OnInit {
     }
 
     getDates(startDate, stopDate) {
+
+        startDate = new Date(startDate);
+        stopDate = new Date(stopDate);
+
         var dateArray = new Array();
         var currentDate = startDate;
+
+        console.log("startDate ", startDate);
+        console.log("stopDate ", stopDate);
         while (currentDate <= stopDate) {
             dateArray.push(new Date(currentDate));
 

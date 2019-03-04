@@ -111,9 +111,9 @@
                                 <div class="col-md-4">
                                     <mat-form-field class="full-width">
                                         <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker"
-                                            placeholder="Choose start date" formControlName="startDate" [(ngModel)]="schedule.startDate"
-                                            (dateChange)="dateChanged($event, 'startDate')" (ngModelChange)="onStartDateFocusOut()"
-                                            readonly>
+                                            placeholder="Choose start date" [min]="currentDate" formControlName="startDate"
+                                            [(ngModel)]="schedule.startDate" (dateChange)="dateChanged($event, 'startDate')"
+                                            (ngModelChange)="onStartDateFocusOut()" readonly>
                                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                         <mat-datepicker #picker></mat-datepicker>
                                     </mat-form-field>
@@ -130,9 +130,10 @@
                                 <!-- End Date -->
                                 <div class="col-md-4">
                                     <mat-form-field class="full-width">
+                                        <!-- (ngModelChange)="onEndDateFocusOut()" -->
                                         <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker1"
-                                            placeholder="Choose end date" [min]="schedule.startDate" formControlName="endDate" [(ngModel)]="schedule.endDate"
-                                            (dateChange)="dateChanged($event, 'endDate')" (ngModelChange)="onEndDateFocusOut()"
+                                            placeholder="Choose end date" [min]="schedule.startDate" formControlName="endDate"
+                                            [(ngModel)]="schedule.endDate" (dateChange)="dateChanged($event, 'endDate')"
                                             readonly>
                                         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                         <mat-datepicker #picker1></mat-datepicker>
