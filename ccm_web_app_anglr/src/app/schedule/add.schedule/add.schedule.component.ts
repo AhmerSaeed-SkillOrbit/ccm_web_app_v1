@@ -52,10 +52,10 @@ export class AddScheduleComponent implements OnInit {
     newUser: User = new User();
     userId: number = null;
 
-    
+
     startTime: string = null;
     endTime: string = null;
-    
+
     startDate: string = null;
     endDate: string = null;
     dateArray = new Array();
@@ -337,6 +337,36 @@ export class AddScheduleComponent implements OnInit {
 
     onEndTimeAllFocusOut() {
 
+    }
+
+    setTimeForAll() {
+        const msg = new Message();
+
+        if (this.startTime && this.endTime) {
+
+            this.schedule.scheduleDetails.forEach((element, index) => {
+                if (element.isOffDay) {
+                    this.schedule.scheduleDetails[index].startTime = null;
+                    this.schedule.scheduleDetails[index].endTime = null;
+                }
+                else {
+                    this.schedule.scheduleDetails[index].startTime = this.startTime;
+                    this.schedule.scheduleDetails[index].endTime = this.endTime;
+                }
+
+            });
+
+
+
+        }
+        else {
+
+            msg.msg = 'Time is not set';
+            // msg.msg = 'You have successfully signed up';
+            msg.msgType = MessageTypes.Error;
+            msg.autoCloseAfter = 400;
+            this._uiService.showToast(msg, '');
+        }
     }
 
     onStartTimeFocusOut(index) {
