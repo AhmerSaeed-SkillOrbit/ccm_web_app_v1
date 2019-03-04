@@ -195,11 +195,11 @@
                                                     <span *ngIf="assignFacilitatorPermission" matTooltipPosition="above"
                                                         matTooltip="Assign Facilitator">
                                                         <a (click)="openAssignFacilitatorDialog(user)">
-                                                            <i style="color:#ffa808;" class=" icon-pencil"></i>
+                                                            <i style="color:#1E88E5;" class="icon-list"></i>
                                                         </a>
                                                     </span> &nbsp;
 
-                                                    <span *ngIf="viewProfilePermission" matTooltipPosition="above"
+                                                    <span *ngIf="viewProfilePermission && false" matTooltipPosition="above"
                                                         matTooltip="View">
                                                         <a>
                                                             <i style="color:#0aa700;" class="icon-eye2"></i>
@@ -211,7 +211,7 @@
 
                                                     <!-- <a (click)=""> -->
 
-                                                    <span *ngIf="deletePermission" matTooltipPosition="above"
+                                                    <span *ngIf="deletePermission && false" matTooltipPosition="above"
                                                         matTooltip="Delete">
                                                         <a>
                                                             <i style="color:#f70a0a;" class="icon-bin"></i>

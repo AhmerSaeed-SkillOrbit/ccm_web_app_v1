@@ -252,27 +252,35 @@ export class CalenderMyscheduleComponent implements OnDestroy {
   }
 
   getDocSchedule(docId) {
-    //  this.LoadingPageload='block';
-    //  this.calenderView='none';
+     this.LoadingPageload='block';
+     this.calenderView='none';
     this._doctorScheduleService.getDocSchedule(docId).subscribe(
 
       (response) => {
 
         console.log("schedule res", response);
-
+        this.LoadingPageload = 'none';
+        this.calenderView = 'block';
         // if (response.status == 200) {
 
 
         //   this.selectedDatesWorkingDay = JSON.parse(response._body);
 
 
-        //   this.refreshView();
+          this.refreshView();
 
         // }
       },
       (error) => {
 
-
+        this.LoadingPageload = 'none';
+        this.calenderView = 'block';
+        let msg = new Message();
+        msg.msg = "Something went wrong, please try again."
+        // msg.title=""
+        // msg.iconType=""
+        this._uiService.showToast(msg, "");
+      
       }
     );
   }
