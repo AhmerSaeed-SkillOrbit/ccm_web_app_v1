@@ -131,7 +131,7 @@
                                 <div class="col-md-4">
                                     <mat-form-field class="full-width">
                                         <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker1"
-                                            placeholder="Choose end date" formControlName="endDate" [(ngModel)]="schedule.endDate"
+                                            placeholder="Choose end date" [min]="schedule.startDate" formControlName="endDate" [(ngModel)]="schedule.endDate"
                                             (dateChange)="dateChanged($event, 'endDate')" (ngModelChange)="onEndDateFocusOut()"
                                             readonly>
                                         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>

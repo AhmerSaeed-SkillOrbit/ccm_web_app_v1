@@ -64,12 +64,25 @@ function endOfPeriod(period: CalendarPeriod, date: Date): Date {
   }[period](date);
 }
 
+const RED_CELL: 'red-cell' = 'red-cell';
+const BLUE_CELL: 'blue-cell' = 'blue-cell';
+
 @Component({
   selector: 'mySchedule',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'calender.myschedule.component.html',
   // don't do this in your app, its only so the styles get applied globally
   styleUrls: ['calender.component.css'],
+  styles: [
+    `
+      .red-cell {
+        background-color: red !important;
+      }
+      .blue-cell {
+        background-color: blue !important;
+      }
+    `
+  ],
   encapsulation: ViewEncapsulation.None
 })
 export class CalenderMyscheduleComponent implements OnDestroy {
@@ -80,6 +93,7 @@ export class CalenderMyscheduleComponent implements OnDestroy {
   selectedMonthViewDay: CalendarMonthViewDay;
 
   selectedDatesOffDay = new Array;
+  selectedDatesWorkingDay1: any;
   selectedDatesWorkingDay: Schedule[];
   PerDaySchedule: Schedule;
 
@@ -223,37 +237,87 @@ export class CalenderMyscheduleComponent implements OnDestroy {
 
     // day.cssClass  = 'css-spiner';
 
-    this.getDocSchedule(this.docId);
-    // this.getScheduleDay(year, month, date);
+    // this.getDocSchedule(this.docId);
+    this.getScheduleDay(year, month, date);
 
 
   }
 
-  getHolidays(currentyear) {
-    // this.LoadingPage='block';
-    // this.calenderView='none';
-    this._doctorScheduleService.getHolidays(currentyear).subscribe(
+  getScheduleDay(currentyear, currentmonth, currentday) {
 
-      (response) => {
+    this.clickedBox = currentyear + '-' + currentmonth + '-' + currentday;
+    for (var index = 0; index < this.selectedDatesWorkingDay1.DoctorScheduleDetails.length; index++) {
 
-        if (response.status == 200) {
-          this.holidays = JSON.parse(response._body);
+      var str = this.selectedDatesWorkingDay1.DoctorScheduleDetails[index].scheduleDate;
+      // var res = str.split("T");
+      // if (this.clickedBox == res[0]) {
+      if (this.clickedBox == str) {
+
+        let msg = new Message();
+        msg.showInput = "loader";
+        msg.title = "";
+        this._uiService.showMsgBox(msg);
+        // this._specialistScheduleService.getScheduleDay(currentyear, currentmonth, currentday)
+        //   .subscribe(
+        //     (response) => {
+
+        //       if (response.status == 200) {
+        //         this.PerDaySchedule = JSON.parse(response._body);
 
 
-          this.refreshView();
 
-        }
-      },
-      (error) => {
 
+
+        //         msg.msg = currentday;
+        //         msg.title = "";
+        //         msg.okBtnTitle = null;
+        //         msg.onOkBtnClick = null;
+        //         msg.cancelBtnTitle = "OK";
+        //         msg.selectedDatesWorkingDay = this.PerDaySchedule[0];
+        //         // msg.onCancelBtnClick=;
+
+        //         msg.showInput = "scheduebox";
+        //         this._uiService.closeMsgBox(msg);
+        //         this._uiService.showMsgBox(msg);
+
+
+
+        //       } else {
+
+        //         let message = new Message()
+        //         message.title = 'Error'
+        //         message.msg = "No details were found this Schedule";
+        //         message.iconType = 'error';
+        //         message.type = 'danger'
+        //         this._uiService.showToast(message)
+        //         this._uiService.closeMsgBox(msg);
+        //         this.dialog.closeAll();
+
+        //       }
+        //     },
+        //     (error) => {
+
+
+        //       let message = new Message()
+        //       message.title = 'Error'
+        //       message.msg = "No details were found this Schedule";
+        //       message.iconType = 'error';
+        //       message.type = 'danger'
+        //       this._uiService.showToast(message)
+        //       this._uiService.closeMsgBox(msg);
+        //       this.dialog.closeAll();
+        //     }
+        //   );
 
       }
-    );
+
+    }
+
   }
 
   getDocSchedule(docId) {
-     this.LoadingPageload='block';
-     this.calenderView='none';
+    this.LoadingPageload = 'block';
+    this.calenderView = 'none';
     this._doctorScheduleService.getDocSchedule(docId).subscribe(
 
       (response) => {
@@ -264,10 +328,12 @@ export class CalenderMyscheduleComponent implements OnDestroy {
         // if (response.status == 200) {
 
 
+        this.selectedDatesWorkingDay1 = response.json().data;
+        console.log("selectedDatesWorkingDay1", this.selectedDatesWorkingDay1);
         //   this.selectedDatesWorkingDay = JSON.parse(response._body);
 
 
-          this.refreshView();
+        this.refreshView();
 
         // }
       },
@@ -275,184 +341,55 @@ export class CalenderMyscheduleComponent implements OnDestroy {
 
         this.LoadingPageload = 'none';
         this.calenderView = 'block';
+        this.refreshView();
         let msg = new Message();
         msg.msg = "Something went wrong, please try again."
         // msg.title=""
         // msg.iconType=""
         this._uiService.showToast(msg, "");
-      
-      }
-    );
-  }
-
-  getSchedule(currentyear, currentmonth) {
-    //  this.LoadingPageload='block';
-    //  this.calenderView='none';
-    this._doctorScheduleService.getSchedule(currentyear, currentmonth).subscribe(
-
-      (response) => {
-
-
-        if (response.status == 200) {
-
-
-          this.selectedDatesWorkingDay = JSON.parse(response._body);
-
-
-          this.refreshView();
-
-        }
-      },
-      (error) => {
-
 
       }
     );
   }
 
-  getState() {
-
-
-    // this._statusService.getUserInfo().subscribe(
-    //   (response) => {
-    //     let getUser = response;
-    //     if (getUser != null) {
-    //       this.TimeZone = getUser.stateName;
-    //     }
-    //   },
-    //   (error) => {
-
-    //   }
-    // );
-
-  }
-
-
-  getScheduleDay(currentyear, currentmonth, currentday) {
-
-    this.clickedBox = currentyear + '-' + currentmonth + '-' + currentday;
-    for (var index = 0; index < this.selectedDatesWorkingDay.length; index++) {
-
-      var str = this.selectedDatesWorkingDay[index].scheduleDate;
-      var res = str.split("T");
-      if (this.clickedBox == res[0]) {
-
-        let msg = new Message();
-        msg.showInput = "loader";
-        msg.title = "";
-        this._uiService.showMsgBox(msg);
-        this._doctorScheduleService.getScheduleDay(currentyear, currentmonth, currentday).subscribe(
-
-          (response) => {
-
-            if (response.status == 200) {
-              this.PerDaySchedule = JSON.parse(response._body);
-
-
-
-
-
-              msg.msg = currentday;
-              msg.title = "";
-              msg.okBtnTitle = null;
-              msg.onOkBtnClick = null;
-              msg.cancelBtnTitle = "OK";
-              // msg.selectedDatesWorkingDay = this.PerDaySchedule[0];
-              // msg.onCancelBtnClick=;
-
-              msg.showInput = "scheduebox";
-              this._uiService.closeMsgBox(msg);
-              this._uiService.showMsgBox(msg);
-
-
-
-            } else {
-
-              let message = new Message()
-              message.title = 'Error'
-              message.msg = "No details were found this Schedule";
-              message.iconType = 'error';
-              // message.type = 'danger'
-              this._uiService.showToast(message, "")
-              this._uiService.closeMsgBox(msg);
-              this.dialog.closeAll();
-
-            }
-          },
-          (error) => {
-
-
-            let message = new Message()
-            message.title = 'Error'
-            message.msg = "No details were found this Schedule";
-            message.iconType = 'error';
-            // message.type = 'danger'
-            this._uiService.showToast(message, "")
-            this._uiService.closeMsgBox(msg);
-            this.dialog.closeAll();
-          }
-        );
-
-      }
-
-    }
-
-  }
-  getOffDays(currentyear, currentmonth) {
-    this.LoadingPageload = 'block';
-    this.calenderView = 'none';
-    if (currentmonth == 0) {
-      currentmonth = 12
-      currentyear = currentyear - 1;
-    }
-    this._doctorScheduleService.getOffDays(currentyear, currentmonth, 3).subscribe(
-
-      (response) => {
-
-        if (response.status == 200) {
-          this.offDays = JSON.parse(response._body);
-
-          this.LoadingPageload = 'none';
-          this.calenderView = 'block';
-          this.refreshView();
-
-        }
-        this.LoadingPageload = 'none';
-        this.calenderView = 'block';
-      },
-      (error) => {
-
-
-        this.LoadingPageload = 'none';
-        this.calenderView = 'block';
-        let msg = new Message();
-        msg.msg = "Something went wrong, please try again."
-        // msg.title=""
-        // msg.iconType=""
-        this._uiService.showToast(msg, "");
-      }
-    );
-  }
   refresh: Subject<any> = new Subject();
+
+  cssClass: string = RED_CELL;
 
   // events$: Observable<Array<CalendarEvent<{ offDays: OffDays }>>>;
   refreshView(): void {
+    this.cssClass = this.cssClass === RED_CELL ? BLUE_CELL : RED_CELL;
     this.refresh.next();
   }
 
   beforeMonthViewRender({ body }: { body: CalendarMonthViewDay[] }): void {
 
+    console.log("beforeMonthViewRender");
+    body.forEach(day => {
+
+      // if (this.selectedDatesWorkingDay1 && this.selectedDatesWorkingDay1.DoctorScheduleDetails && this.selectedDatesWorkingDay1.DoctorScheduleDetails.length > 0) {
+
+      //   this.selectedDatesWorkingDay1.DoctorScheduleDetails.forEach(d => {
+
+      //     if (day.date.getDate() == d.ScheduleDate && d.IsOffDay == 0) {
+      //       day.cssClass = this.cssClass;
+      //     }
+
+      //   });
+
+      // }
+
+      // if (day.date.getDate() % 2 === 1) {
+      //   day.cssClass = this.cssClass;
+      // }
+
+    });
+
     if (!this.showtemplate) {
 
       this.getDocSchedule(this.docId);
-      // this.getHolidays(this.viewDate.getFullYear());
-      // this.getSchedule(this.viewDate.getFullYear(), (this.viewDate.getMonth() + 1))
-      // this.getOffDays(this.viewDate.getFullYear(), this.viewDate.getMonth());
       this.showtemplate = !this.showtemplate;
     }
-
-
-
   }
 
   hourSegmentClicked(date: Date) {
