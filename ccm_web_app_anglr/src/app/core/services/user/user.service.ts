@@ -214,6 +214,29 @@ export class UserService {
             });
     }
 
+    public deleteUser(Id): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        const getUrl = 'user/delete?id=' + (Id || null);
+    
+        console.log('getUrl');
+        console.log(getUrl);
+
+        let body = {
+            Id : Id
+        }
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
     updateUserPassword(id, currentPass, newPass): Observable<any> {
 
         // const getUrl = 'change/password';

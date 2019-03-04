@@ -292,5 +292,10 @@ export class PatientListComponent implements OnInit {
         }
     }
 
+    userDelete(userId){
+        console.log('delete user');
+        console.log(userId);
+        this._userService.deleteUser(userId)
+    }
 
 }
