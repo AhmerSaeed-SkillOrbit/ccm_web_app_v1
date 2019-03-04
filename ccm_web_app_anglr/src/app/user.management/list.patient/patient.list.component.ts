@@ -293,9 +293,26 @@ export class PatientListComponent implements OnInit {
     }
 
     userDelete(userId){
+        const msg = new Message();
         console.log('delete user');
         console.log(userId);
-        this._userService.deleteUser(userId)
+        // this._userService.deleteUser(userId)
+
+        this._userService.deleteUser(userId).subscribe(
+            (res) => {
+
+                this.isSubmitted = false;
+                msg.msg = res.json().message ? res.json().message : 'user deleted successfully';
+                // msg.msg = 'You have successfully added an activity';
+                msg.msgType = MessageTypes.Information;
+                msg.autoCloseAfter = 400;
+                this._uiService.showToast(msg, 'info');
+            },
+            (err) => {
+                console.log(err);
+                this.isSubmitted = false;
+                this._authService.errStatusCheckResponse(err);
+            });
     }
 
 }
