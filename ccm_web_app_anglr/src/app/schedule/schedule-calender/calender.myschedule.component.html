@@ -73,7 +73,7 @@
   <div *ngFor="let selectedDatesWorkingDay of selectedDatesWorkingDay1?.DoctorScheduleDetails">
     <div *ngIf="(selectedDatesWorkingDay.ScheduleDate | date: 'yyyy-MM-dd' ) == (day.date | date: 'yyyy-MM-dd') && selectedDatesWorkingDay.IsOffDay == 1"
       style="width:100% ; height: 25px;">
-      <small style="margin-left: 10px; margin-bottom:-10px; color: #ff2c55; font-weight: bold ;font-size: 0.9em;">OFF</small>
+      <small style="margin-left: 10px; margin-bottom:-10px;font-weight: bold ;font-size: 0.9em;"><b>OFF</b></small>
     </div>
   </div>
 
@@ -89,11 +89,11 @@
 
         <!-- <div class="partnersitename"> {{selectedDatesWorkingDay?.details[0]?.partnerSiteName}} </div> -->
         <!-- <br>  -->
-        <small style="margin-left: 10px; margin-top: 10px; color: black;">
+        <small style="margin-left: 0px; margin-top: 10px; color: black;">
           <!-- {{ selectedDatesWorkingDay.StartTime | date: 'HH:mm' }} -
           {{ selectedDatesWorkingDay.EndTime | date: 'HH:mm' }} -->
-          {{ selectedDatesWorkingDay.StartTime }} -
-          {{ selectedDatesWorkingDay.EndTime }}
+          <p>{{ selectedDatesWorkingDay.StartTime }}</p> 
+          <p>{{ selectedDatesWorkingDay.EndTime }}</p> 
         </small>
         <br>
         <!-- <small *ngIf="selectedDatesWorkingDay.details.length > 1" style="

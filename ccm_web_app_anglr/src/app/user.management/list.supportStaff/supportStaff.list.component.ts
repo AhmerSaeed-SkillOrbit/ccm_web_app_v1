@@ -287,5 +287,27 @@ export class SupportStaffListComponent implements OnInit {
         }
     }
 
+    userDelete(userId) {
+        const msg = new Message();
+        console.log('delete user');
+        console.log(userId);
+
+        this._userService.deleteUser(userId).subscribe(
+            (res) => {
+
+                this.isSubmitted = false;
+                msg.msg = res.json().message ? res.json().message : 'Support Staff deleted successfully';
+                msg.msgType = MessageTypes.Information;
+                msg.autoCloseAfter = 400;
+                this._uiService.showToast(msg, 'info');
+                this._router.navigate([this.currentURL]);
+            },
+            (err) => {
+                console.log(err);
+                this.isSubmitted = false;
+                this._authService.errStatusCheckResponse(err);
+            });
+    }
+
 
 }

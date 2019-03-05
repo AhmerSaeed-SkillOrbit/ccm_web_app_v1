@@ -220,15 +220,10 @@
 
                                                     <!-- <a (click)=""> -->
 
-                                                    <span matTooltipPosition="above" matTooltip="Delete">
-                                                        <!-- <a>
-                                                            <i style="color:#f70a0a;" class="icon-bin" (click)="userDelete(user.id)"></i>
-                                                        </a> -->
-                                                        <button type="button" class="edit-btn" mat-raised-button
-                                                            (click)="userDelete(user.id)">
-                                                            <i style="color:#f70a0a;" class="icon-bin"></i>
-                                                        </button>
+                                                    <span *ngIf="deletePermission" matTooltipPosition="above" matTooltip="Delete">
+                                                        <i style="color:#f70a0a;" class="icon-bin" (click)="userDelete(user.id)"></i>
                                                     </span>
+                                                    
                                                     <!-- <a>
                                                             <i style="color:#f70a0a;" class="icon-bin"></i>
                                                         </a> -->
