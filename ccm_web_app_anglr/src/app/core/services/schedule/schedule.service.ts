@@ -27,12 +27,28 @@ export class ScheduleService implements OnDestroy {
         if (schedule.scheduleDetails.length > 0) {
 
             schedule.scheduleDetails.forEach(element => {
+
+                let ss = [];
+
+                if (element.scheduleShifts.length > 0) {
+
+                    element.scheduleShifts.forEach(element1 => {
+                        ss.push({
+                            StartTime: element1.startTime || "",
+                            EndTime: element1.endTime || "",
+                        });    
+                    });
+                }
+
+
                 sd.push({
                     ScheduleDate: element.scheduleDate || null,
                     IsOffDay: element.isOffDay || false,
-                    StartTime: element.startTime || "",
-                    EndTime: element.endTime || "",
-                    ShiftType: element.shiftHour || ""
+                    NoOfShift: element.noOfShift || null,
+                    ScheduleShift: ss
+                    // StartTime: element.startTime || "",
+                    // EndTime: element.endTime || "",
+                    // ShiftType: element.shiftHour || ""
                 });
             });
 

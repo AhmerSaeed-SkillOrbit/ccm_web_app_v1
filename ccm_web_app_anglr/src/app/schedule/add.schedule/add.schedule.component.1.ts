@@ -15,7 +15,7 @@ import { UserService } from '../../core/services/user/user.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 import { UtilityService } from '../../core/services/general/utility.service';
 import { FormService } from '../../core/services/form/form.service';
-import { Schedule, ScheduleDetail, ScheduleShift } from '../../core/models/schedule.model';
+import { Schedule, ScheduleDetail } from '../../core/models/schedule.model';
 import { ScheduleService } from '../../core/services/schedule/schedule.service';
 import { Config } from '../../config/config';
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
@@ -61,10 +61,6 @@ export class AddScheduleComponent implements OnInit {
     years = [];
 
     shifts = Config.noOfShifts;
-
-    noOfShift = null;
-
-    setTimeAllData = [];
 
     startTime: string = null;
     endTime: string = null;
@@ -146,15 +142,15 @@ export class AddScheduleComponent implements OnInit {
     }
 
     timeCheck(AC: AbstractControl) {
-        // console.log('timeCheck');
+        console.log('timeCheck');
         const startTime = AC.get('startTime').value; // to get value in input tag
         const endTime = AC.get('endTime').value; // to get value in input tag
-        // const isOffDay = AC.get('isOffDay').value;
+        const isOffDay = AC.get('isOffDay').value;
         if (startTime > endTime) {
-            // console.log('false');
+            console.log('false');
             AC.get('endTime').setErrors({ minTime: true });
         } else {
-            // console.log('true');
+            console.log('true');
             AC.get('endTime').setErrors(null);
             return null;
         }
@@ -207,43 +203,56 @@ export class AddScheduleComponent implements OnInit {
         // }
     }
 
-    initSD() {
-        return this._formBuilder.group({
-            //  ---------------------forms fields on x level ------------------------
-            // 'X': ['X', [Validators.required, Validators.pattern('[0-9]{4}')]],
+    get scheduleDetailArray(): FormArray {
+        return this.formScheduleDetail.get('scheduleDetail') as FormArray;
+    }
+
+    addScheduleDetails() {
+        // let fg = this._formBuilder.group(new CollateralMeasurement());
+        let fg = this._formBuilder.group({
             'scheduleDate': ["", Validators.compose([Validators.required])],
             'isOffDay': ["", Validators.compose([])],
-            'shift': ["", Validators.compose([Validators.required])],
+            'shift': ["", Validators.compose([])],
             'scheduleShift': this._formBuilder.array([]),
-            // ---------------------------------------------------------------------
-            // 'Ys': this._formBuilder.array([
-            //     // this.initY()
-            // ])
-        });
+            // 'startTime': ["", Validators.compose([Validators.required])],
+            // 'endTime': ["", Validators.compose([Validators.required])],
+            // 'shiftType': ["", Validators.compose([])],
+        }
+            ,
+            {
+                // validator: [this.offDayCheck, this.timeCheck], // your validation method
+                // validator: [this.timeCheck], // your validation method
+            }
+        );
+        this.scheduleDetailArray.push(fg);
+
     }
 
-    initSS() {
-        return this._formBuilder.group({
-            //  ---------------------forms fields on y level ------------------------
+    deleteScheduleDetails(idx: number, val = null) {
+        // console.log(val, idx);
+        this.scheduleDetailArray.removeAt(idx);
+
+    }
+
+    get scheduleShiftArray(): FormArray {
+        return this.scheduleDetailArray.get('scheduleShift') as FormArray;
+    }
+
+    addScheduleShifts() {
+        // let fg = this._formBuilder.group(new CollateralMeasurement());
+        let fg = this._formBuilder.group({
             'startTime': ["", Validators.compose([Validators.required])],
             'endTime': ["", Validators.compose([Validators.required])],
-            // ---------------------------------------------------------------------
-        },
+            // 'shiftType': ["", Validators.compose([])],
+        }
+            ,
             {
-                validator: [this.timeCheck]
+                // validator: [this.offDayCheck, this.timeCheck], // your validation method
+                validator: [this.timeCheck], // your validation method
             }
-        )
-    }
+        );
+        this.scheduleShiftArray.push(fg);
 
-    addSD() {
-        const control = <FormArray>this.formScheduleDetail.controls['scheduleDetail'];
-        control.push(this.initSD());
-    }
-
-
-    addSS(index) {
-        const control = (<FormArray>this.formScheduleDetail.controls['scheduleDetail']).at(index).get('scheduleShift') as FormArray;
-        control.push(this.initSS());
     }
 
     clearFormArray = (formArray: FormArray) => {
@@ -254,7 +263,7 @@ export class AddScheduleComponent implements OnInit {
 
     onMonthYearFocusOut() {
 
-        if ((this.schedule.monthId || this.schedule.monthId == 0) && this.schedule.year) {
+        if (this.schedule.monthId && this.schedule.year) {
 
             // let nowdate = new Date(this.schedule.startDate);
             let monthStartDay = new Date(this.schedule.year, this.schedule.monthId, 1);
@@ -272,18 +281,13 @@ export class AddScheduleComponent implements OnInit {
 
                     this.endDate = null;
                     this.schedule.endDate = null;
-                    // this.clearFormArray(this.scheduleDetailArray);
-
-                    this.clearFormArray(<FormArray>this.formScheduleDetail.controls['scheduleDetail']);
-
+                    this.clearFormArray(this.scheduleDetailArray);
                     this.schedule.scheduleDetails = [];
                     this.dateArray = new Array();
                 }
                 else {
 
-                    // this.clearFormArray(this.scheduleDetailArray);
-                    this.clearFormArray(<FormArray>this.formScheduleDetail.controls['scheduleDetail']);
-
+                    this.clearFormArray(this.scheduleDetailArray);
                     this.schedule.scheduleDetails = [];
                     // this.dateArray = this.getDates(this.startDate, this.endDate);
                     this.dateArray = this.getDates(this.schedule.startDate, this.schedule.endDate);
@@ -343,13 +347,13 @@ export class AddScheduleComponent implements OnInit {
 
                 this.endDate = null;
                 this.schedule.endDate = null;
-                // this.clearFormArray(this.scheduleDetailArray);
+                this.clearFormArray(this.scheduleDetailArray);
                 this.schedule.scheduleDetails = [];
                 this.dateArray = new Array();
             }
             else {
 
-                // this.clearFormArray(this.scheduleDetailArray);
+                this.clearFormArray(this.scheduleDetailArray);
                 this.schedule.scheduleDetails = [];
                 // this.dateArray = this.getDates(this.startDate, this.endDate);
                 this.dateArray = this.getDates(this.schedule.startDate, this.schedule.endDate);
@@ -380,12 +384,12 @@ export class AddScheduleComponent implements OnInit {
                 this.endDate = null;
                 this.schedule.endDate = null;
 
-                // this.clearFormArray(this.scheduleDetailArray);
+                this.clearFormArray(this.scheduleDetailArray);
                 this.schedule.scheduleDetails = [];
                 this.dateArray = new Array();
             }
             else {
-                // this.clearFormArray(this.scheduleDetailArray);
+                this.clearFormArray(this.scheduleDetailArray);
                 this.schedule.scheduleDetails = [];
 
                 // this.dateArray = this.getDates(this.startDate, this.endDate);
@@ -405,7 +409,6 @@ export class AddScheduleComponent implements OnInit {
     }
 
     onOffDayCheckFocusOut(index) {
-        const control = <FormArray>this.formScheduleDetail.controls['scheduleDetail'];
 
         if (this.schedule.scheduleDetails[index].isOffDay) {
 
@@ -413,36 +416,12 @@ export class AddScheduleComponent implements OnInit {
             // this.schedule.scheduleDetails[index].endTime = null;
             // this.scheduleDetailArray.at(index).get('startTime').disable();
             // this.scheduleDetailArray.at(index).get('endTime').disable();
-
-            this.schedule.scheduleDetails[index].noOfShift = null;
-
-            control.at(index).get('shift').disable();
-
-            this.clearFormArray((<FormArray>this.formScheduleDetail.controls['scheduleDetail']).at(index).get('scheduleShift') as FormArray);
-            this.schedule.scheduleDetails[index].scheduleShifts = [];
         }
         else {
             // this.scheduleDetailArray.at(index).get('startTime').enable();
             // this.scheduleDetailArray.at(index).get('endTime').enable();
-
-            control.at(index).get('shift').enable();
+            // this.scheduleDetailArray.at(index).get('endTime').enable();
         }
-    }
-
-
-    onShiftAllFocusOut() {
-
-        this.setTimeAllData = [];
-
-        this.noOfShift = this.noOfShift ? this.noOfShift : 0;
-
-        for (let index = 0; index < this.noOfShift; index++) {
-            // const element = array[index];
-            let ssd = new ScheduleShift();
-            this.setTimeAllData.push(ssd);
-
-        }
-
     }
 
     onStartTimeAllFocusOut() {
@@ -453,44 +432,22 @@ export class AddScheduleComponent implements OnInit {
 
     }
 
-    async setTimeForAll() {
+    setTimeForAll() {
         const msg = new Message();
 
-        if (this.noOfShift) {
+        if (this.startTime && this.endTime) {
 
-            await this.schedule.scheduleDetails.forEach((element, index) => {
+            this.schedule.scheduleDetails.forEach((element, index) => {
                 if (element.isOffDay) {
-                    this.schedule.scheduleDetails[index].noOfShift = null;
-                    this.schedule.scheduleDetails[index].scheduleShifts = [];
                     // this.schedule.scheduleDetails[index].startTime = null;
                     // this.schedule.scheduleDetails[index].endTime = null;
                 }
                 else {
-                    this.schedule.scheduleDetails[index].noOfShift = this.noOfShift;
-                    this.schedule.scheduleDetails[index].scheduleShifts = this.setTimeAllData;
                     // this.schedule.scheduleDetails[index].startTime = this.startTime;
                     // this.schedule.scheduleDetails[index].endTime = this.endTime;
                 }
 
             });
-
-            setTimeout(() => {
-
-                this.schedule.scheduleDetails.forEach((element, index) => {
-                    if (element.isOffDay) {
-                        this.schedule.scheduleDetails[index].scheduleShifts = [];
-                    }
-                    else {
-                        this.schedule.scheduleDetails[index].scheduleShifts = this.setTimeAllData;
-                    }
-
-                });
-
-            }, 500);
-
-
-
-
 
 
 
@@ -528,33 +485,7 @@ export class AddScheduleComponent implements OnInit {
 
     onShiftFocusOut(index) {
 
-        this.schedule.scheduleDetails[index].noOfShift;
-
-        if (this.schedule.scheduleDetails[index].noOfShift && this.schedule.scheduleDetails[index].noOfShift >= 0) {
-            // this.clearFormArray(this.scheduleDetailArray);
-            this.clearFormArray((<FormArray>this.formScheduleDetail.controls['scheduleDetail']).at(index).get('scheduleShift') as FormArray);
-            this.schedule.scheduleDetails[index].scheduleShifts = [];
-
-            let max = this.schedule.scheduleDetails[index].noOfShift;
-
-
-            for (let i = 0; i < max; i++) {
-
-                let ssData = new ScheduleShift();
-
-                this.schedule.scheduleDetails[index].scheduleShifts.push(ssData);
-                this.addSS(index);
-
-            }
-
-            // let ssData = new ScheduleShift();
-            // this.schedule.scheduleDetails[index].scheduleShifts.push(ssData);
-            // this.addScheduleDetails();
-        }
-        else {
-
-        }
-
+        this.schedule.scheduleDetails[index].noOfShift
 
     }
 
@@ -576,8 +507,9 @@ export class AddScheduleComponent implements OnInit {
             let sData = new ScheduleDetail();
             sData.scheduleDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
             this.schedule.scheduleDetails.push(sData);
-            // this.addScheduleDetails();
-            this.addSD();
+            this.addScheduleDetails();
+
+
 
             var date = new Date(currentDate);
             date.setDate(date.getDate() + 1);

@@ -296,43 +296,6 @@ export class ViewScheduleComponent implements OnInit {
         }
     }
 
-    onOffDayCheckFocusOut(index) {
-
-        if (this.schedule.scheduleDetails[index].isOffDay) {
-
-            this.schedule.scheduleDetails[index].startTime = null;
-            this.schedule.scheduleDetails[index].endTime = null;
-            this.scheduleDetailArray.at(index).get('startTime').disable();
-            this.scheduleDetailArray.at(index).get('endTime').disable();
-        }
-        else {
-            this.scheduleDetailArray.at(index).get('startTime').enable();
-            this.scheduleDetailArray.at(index).get('endTime').enable();
-            this.scheduleDetailArray.at(index).get('endTime').enable();
-        }
-    }
-
-    onStartTimeFocusOut(index) {
-        console.log("onStartTimeFocusOut index", index);
-        console.log("this.schedule.scheduleDetails[index].startTime", this.schedule.scheduleDetails[index].startTime);
-        // this.schedule.scheduleDetails[index].startTime
-
-    }
-
-    onEndTimeFocusOut(index) {
-        console.log("onEndTimeFocusOut index", index);
-        console.log("this.schedule.scheduleDetails[index].endtTime", this.schedule.scheduleDetails[index].endTime);
-        // console.log("diff time", (this.schedule.scheduleDetails[index].startTime - this.schedule.scheduleDetails[index].endTime));
-        if (this.schedule.scheduleDetails[index].endTime < this.schedule.scheduleDetails[index].startTime) {
-            // this.scheduleDetailArray.controls[index].endTime.setErrors({ minTime: true });
-        }
-        else {
-
-        }
-        // this.schedule.scheduleDetails[index].endTime
-
-    }
-
     getDates(startDate, stopDate) {
         var dateArray = new Array();
         var currentDate = startDate;
