@@ -27,6 +27,24 @@ export class UtilityService {
         return permission;
     }
 
+    public checkUserPermissionViewPermissionObj(permissions, permissionCodeName): any {
+
+        let permission = false;
+
+        // for always return true
+        // permission = true;
+        if (permissions && permissions instanceof Array) {
+
+            permissions.forEach(element => {
+                // check permission exist
+                if (element.permissionCode === permissionCodeName) {
+                    permission = true;
+                }
+            });
+        }
+        return permission;
+    }
+
     public getUserPermissionTooltipMsg(permission, buttonSubmitted, buttonTooltip): any {
         // console.log('permission ', permission);
         // console.log('buttonSubmitted ', buttonSubmitted);

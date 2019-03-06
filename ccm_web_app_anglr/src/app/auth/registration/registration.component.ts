@@ -370,11 +370,11 @@ export class RegistrationComponent implements OnInit {
                 // this._uiServices.hideSpinner();
                 // this._authServices.storeUser(this.userForm);
 
-                msg.msg = res.json() ? res.json().message : 'Token Verify Successfully';
-                // msg.msg = 'You have successfully signed up';
-                msg.msgType = MessageTypes.Information;
-                msg.autoCloseAfter = 400;
-                this._uiServices.showToast(msg, 'info');
+                // msg.msg = res.json() ? res.json().message : 'Token Verify Successfully';
+                // // msg.msg = 'You have successfully signed up';
+                // msg.msgType = MessageTypes.Information;
+                // msg.autoCloseAfter = 400;
+                // this._uiServices.showToast(msg, 'info');
 
             },
             (err) => {
@@ -382,7 +382,7 @@ export class RegistrationComponent implements OnInit {
                 this.tokenVerifying = false;
                 // this._uiServices.hideSpinner();
                 // this.isSubmitted = false;
-                this._authServices.errStatusCheckResponse(err);
+                // this._authServices.errStatusCheckResponse(err);
             }
         );
 

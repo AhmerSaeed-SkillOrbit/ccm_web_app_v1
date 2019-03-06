@@ -18,6 +18,7 @@ import { EditUserComponent } from './edit.user/edit.user.component';
 import { InviteDialogComponent } from './invite.dialoge/invite.dialog.component';
 import { AddUpdateUserDialogeComponent } from './add.update.user.dialoge/add.update.user.dialoge.component';
 import { AssignFacilitatorDialogeComponent } from './assign.facilitator.dialoge/assign.facilitator.dialoge.component';
+import { InviteFacilitatorComponent } from './invite.facilitator/invite.facilitator.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { AssignFacilitatorDialogeComponent } from './assign.facilitator.dialoge/
 
         InviteDoctorComponent,
         InvitePatientComponent,
+        InviteFacilitatorComponent,
         EditUserComponent,
 
         InviteDialogComponent,
@@ -81,6 +83,10 @@ import { AssignFacilitatorDialogeComponent } from './assign.facilitator.dialoge/
             {
                 path: 'invite/patient',
                 component: InvitePatientComponent
+            },
+            {
+                path: 'invite/facilitator',
+                component: InviteFacilitatorComponent
             },
             {
                 path: 'edit/:id',

@@ -13,6 +13,7 @@ import { UIService } from '../../../core/services/ui/ui.service';
 import { IAuthService } from '../../../core/services/auth/iauth.service';
 import { RoutingInfoService } from '../../../core/services/routInfo/route.info.service';
 import { UtilityService } from '../../../core/services/general/utility.service';
+import { Permission } from '../../../core/models/permission';
 // import { ScriptService } from '../../core/services/script.service';
 // import { DashboardService } from '../../core/services/general/dashboard.service';
 
@@ -31,6 +32,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     // notif: Notifications = new Notifications();
     countNotif: number;
     user: User = new User();
+    userPermissions: Permission[] = [];
     // script = new ScriptService();
     showNav: boolean;
     private updateInfo: ISubscription;
@@ -55,6 +57,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     supportStaffListPagePermission = false;
     addDoctorSchedulePagePermission = false;
     viewDoctorSchedulePagePermission = false;
+    inviteFacilitatorPagePermission = false;
 
     constructor(
         @Inject('IAuthService')
@@ -82,6 +85,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         //     });
 
         this.user = this._authService.getUser();
+
         this.checkAndSetPermission();
         console.log("user", this.user);
         // this.profilePic = this.user.profilePic.thumbnails.square;
@@ -136,21 +140,32 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
 
     checkAndSetPermission() {
+        this.userPermissions = this._authService.getUserPermissions();
 
-        this.adminListPagePermission = this._utilityService.checkUserPermission(this.user, 'super_admin_list_page');
+        // this.adminListPagePermission = this._utilityService.checkUserPermission(this.user, 'super_admin_list_page');
+        this.adminListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'super_admin_list_page');
         // this.adminListPagePermission = true;
-        this.facilitatorListPagePermission = this._utilityService.checkUserPermission(this.user, 'facilitator_list_page');
+        // this.facilitatorListPagePermission = this._utilityService.checkUserPermission(this.user, 'facilitator_list_page');
+        this.facilitatorListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'facilitator_list_page');
         // this.facilitatorListPagePermission = true;
-        this.doctorListPagePermission = this._utilityService.checkUserPermission(this.user, 'doctor_list_page');
+        // this.doctorListPagePermission = this._utilityService.checkUserPermission(this.user, 'doctor_list_page');
+        this.doctorListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'doctor_list_page');
         // this.doctorListPagePermission = true;
-        this.patientListPagePermission = this._utilityService.checkUserPermission(this.user, 'patient_list_page');
+        // this.patientListPagePermission = this._utilityService.checkUserPermission(this.user, 'patient_list_page');
+        this.patientListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'patient_list_page');
         // this.patientListPagePermission = true;
-        this.supportStaffListPagePermission = this._utilityService.checkUserPermission(this.user, 'support_staff_list_page');
+        // this.supportStaffListPagePermission = this._utilityService.checkUserPermission(this.user, 'support_staff_list_page');
+        this.supportStaffListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'support_staff_list_page');
         // this.supportStaffListPagePermission = true;
-        this.addDoctorSchedulePagePermission = this._utilityService.checkUserPermission(this.user, 'add_doctor_schedule');
+        // this.addDoctorSchedulePagePermission = this._utilityService.checkUserPermission(this.user, 'add_doctor_schedule');
+        this.addDoctorSchedulePagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_doctor_schedule');
         // this.addDoctorSchedulePagePermission = true;
-        this.viewDoctorSchedulePagePermission = this._utilityService.checkUserPermission(this.user, 'view_doctor_schedule');
+        // this.viewDoctorSchedulePagePermission = this._utilityService.checkUserPermission(this.user, 'view_doctor_schedule');
+        this.viewDoctorSchedulePagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_doctor_schedule');
         // this.viewDoctorSchedulePagePermission = true;
+        // this.inviteFacilitatorPagePermission = this._utilityService.checkUserPermission(this.user, 'view_doctor_schedule');
+        // this.inviteFacilitatorPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_doctor_schedule');
+        this.inviteFacilitatorPagePermission = true;
 
     }
 

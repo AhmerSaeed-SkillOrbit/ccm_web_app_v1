@@ -14,6 +14,7 @@ export class CanActivateViaMainGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const authInfo = this.authService.isLoggedIn();
+        console.log('mg authInfo', authInfo);
         //if true then return else go to landing page
         if (authInfo) {
 

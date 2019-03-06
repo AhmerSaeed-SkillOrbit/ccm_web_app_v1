@@ -129,6 +129,11 @@ export interface IAuthService {
      */
     getUser(): User;
 
+    /**
+     * get user permissions from local storage
+     */
+    getUserPermissions(): Permission[];
+
 
     /**
      * Store url in local storage

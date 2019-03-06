@@ -418,6 +418,7 @@ export class AuthService implements IAuthService, OnDestroy {
         let user = this.getUser();
         user.permissions = permissions;
         localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('userPermissions', JSON.stringify(permissions));
         this.loginUserStatusChanged.next(user);
     }
 
@@ -432,6 +433,13 @@ export class AuthService implements IAuthService, OnDestroy {
     getUser(): User {
         if (localStorage.getItem('user')) {
             return JSON.parse(localStorage.getItem('user'));
+        }
+        return;
+    }
+
+    getUserPermissions(): Permission[] {
+        if (localStorage.getItem('userPermissions')) {
+            return JSON.parse(localStorage.getItem('userPermissions'));
         }
         return;
     }
