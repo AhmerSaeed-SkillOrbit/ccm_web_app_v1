@@ -12,6 +12,7 @@ import 'rxjs/add/operator/do';
 
 
 import { environment } from "../../../../environments/environment";
+import { Token } from '../../models/token';
 
 @Injectable()
 export class DoctorScheduleService {
@@ -25,8 +26,8 @@ export class DoctorScheduleService {
         this.invokeEvent.next('refresh')
     }
 
-    getDocSchedule(doctorId): Observable<any> {
-        let url = "doctor/schedule/single?doctorId=" + (doctorId || null);
+    getDocSchedule(doctorId, userId, month, year): Observable<any> {
+        let url = "doctor/schedule/single?doctorId=" + (doctorId || null) + "&userId=" + (userId || null) + "&month=" + (month + 1 || null) + "&year=" + (year || null) + "";
         return this._http.get(url)
             .catch((err, caught) => {
                 return Observable.throw(err);
@@ -69,7 +70,47 @@ export class DoctorScheduleService {
         });
     }
 
+    // --------- Schedule List Count with 
+    public getDoctorScheduleListCount(userId): Observable<any> {
+
+        let token: Token;
+        token = this._authServices.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        // let userId = token.userId;
+        // doctor/schedule/list/count?userId=11
+        const getUrl = 'doctor/schedule/list/count?userId=' + (userId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    // --------- Schedule List Pagination
+    public getDoctorScheduleListPagination(userId, pageNo, limit): Observable<any> {
+
+        let token: Token;
+        token = this._authServices.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        // let userId = token.userId;
+        // doctor/schedule/list?userId=11&offset=0&limit=7
+        const getUrl = 'doctor/schedule/list?userId=' + (userId || null) + '&offset=' + (pageNo || 0) + '&limit=' + (limit || 5);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
 }
+
 export class OffDays {
     id: any;
     offDay: any;
@@ -78,23 +119,6 @@ export class OffDays {
 export class Holidays {
     holidayOn: any;
     holidayName: any;
-}
-export class Schedule {
-    scheduleDate: any;
-    details: details[];
-
-}
-export class details {
-    partnerSiteName: any;
-    facilityName: any;
-    specialistName: any;
-    spcialistContactNumber: any;
-    priority: any;
-    shiftStartTime: any;
-    shiftStartTimeInUTC: any;
-    shiftEndTime: any;
-    shiftEndTimeInUTC: any;
-    utcDSTOffsetInSeconds: any;
 }
 
 

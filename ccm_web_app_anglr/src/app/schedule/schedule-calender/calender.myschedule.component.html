@@ -60,18 +60,18 @@
     <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
   </div>
 
-  <div *ngFor="let holidays of holidays" class="holidays">
+  <!-- <div *ngFor="let holidays of holidays" class="holidays">
     <div *ngIf="holidays.holidayOn == (day.date | date: 'yyyy-MM-ddT00:00:00')" style="font-size: 0.9em;">
       {{holidays.holidayName}}
     </div>
-  </div>
+  </div> -->
   <!-- <div *ngFor="let offDays of offDays">
     <div *ngIf="offDays.offDay ==  (day.date | date: 'yyyy-MM-ddT00:00:00')" style="width:100% ; height: 25px;">
       <small style="margin-left: 10px; margin-bottom:-10px; color: #ff2c55; font-weight: bold ;font-size: 0.9em;">OFF</small>
     </div>
   </div> -->
-  <div *ngFor="let selectedDatesWorkingDay of selectedDatesWorkingDay1?.DoctorScheduleDetails">
-    <div *ngIf="(selectedDatesWorkingDay.ScheduleDate | date: 'yyyy-MM-dd' ) == (day.date | date: 'yyyy-MM-dd') && selectedDatesWorkingDay.IsOffDay == 1"
+  <div *ngFor="let scheduleDetail of schedule?.scheduleDetails">
+    <div class="text-center" *ngIf="(scheduleDetail.scheduleDate | date: 'yyyy-MM-dd' ) == (day.date | date: 'yyyy-MM-dd') && scheduleDetail.isOffDay == 1"
       style="width:100% ; height: 25px;">
       <small style="margin-left: 10px; margin-bottom:-10px;font-weight: bold ;font-size: 0.9em;"><b>OFF</b></small>
     </div>
@@ -79,9 +79,11 @@
 
   <div *ngIf="!Color">
 
-    <div *ngFor="let selectedDatesWorkingDay of selectedDatesWorkingDay1?.DoctorScheduleDetails ; let rowIndex  = index ">
-      <div *ngIf="(selectedDatesWorkingDay.ScheduleDate | date: 'yyyy-MM-dd' ) == (day.date | date: 'yyyy-MM-dd') && selectedDatesWorkingDay.IsOffDay == 0  "
-        style="width:100% ; height: 55px;  cursor: pointer;">
+    <div *ngFor="let scheduleDetail of schedule?.scheduleDetails ; let rowIndex  = index ">
+      <div class="text-center" *ngIf="(scheduleDetail.scheduleDate | date: 'yyyy-MM-dd' ) == (day.date | date: 'yyyy-MM-dd') && scheduleDetail.isOffDay == 0"
+        style="cursor: pointer;">
+        <!-- style="width:100% ; height: 55px;  cursor: pointer;" -->
+
         <!-- <div *ngFor="let details of selectedDatesWorkingDay.details"  > -->
         <!-- <div **ngIf="Property">
                   
@@ -89,11 +91,28 @@
 
         <!-- <div class="partnersitename"> {{selectedDatesWorkingDay?.details[0]?.partnerSiteName}} </div> -->
         <!-- <br>  -->
-        <small style="margin-left: 0px; margin-top: 10px; color: black;">
+        <!-- <small style="margin-left: 0px; margin-top: 10px; color: black;"> -->
+        <small style="color: black;">
           <!-- {{ selectedDatesWorkingDay.StartTime | date: 'HH:mm' }} -
           {{ selectedDatesWorkingDay.EndTime | date: 'HH:mm' }} -->
-          <p>{{ selectedDatesWorkingDay.StartTime }}</p> 
-          <p>{{ selectedDatesWorkingDay.EndTime }}</p> 
+
+          <!-- <p>{{ selectedDatesWorkingDay.StartTime }}</p> 
+          <p>{{ selectedDatesWorkingDay.EndTime }}</p>  -->
+
+
+          <p *ngIf="scheduleDetail?.scheduleShifts?.length > 0">
+            {{ scheduleDetail.scheduleShifts[0].startTime || "NA" }}
+          </p>
+          <p *ngIf="scheduleDetail?.scheduleShifts?.length > 0">
+            {{ scheduleDetail.scheduleShifts[0].endTime || "NA" }}
+          </p>
+          <hr *ngIf="scheduleDetail?.scheduleShifts?.length > 1">
+          <p *ngIf="scheduleDetail?.scheduleShifts?.length > 1">
+            {{ scheduleDetail.scheduleShifts[1].startTime || "NA" }}
+          </p>
+          <p *ngIf="scheduleDetail?.scheduleShifts?.length > 1">
+            {{ scheduleDetail.scheduleShifts[1].endTime || "NA" }}
+          </p>
         </small>
         <br>
         <!-- <small *ngIf="selectedDatesWorkingDay.details.length > 1" style="
