@@ -4,16 +4,16 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-    production: true,
+  production: true,
 
-    authBaseUrl : '',
-    apiBaseUrl : '',
+  authBaseUrl: 'https://api.businessdirectory360.com/api/',
+  apiBaseUrl: 'https://api.businessdirectory360.com/api/',
 
-    device:'web',
-    grant_type:'password',
-    client_id:'ro.web.client',
-    client_secret:'secret',
-    scope:'API'
-  };
-  
-  
+  webAppUrl: '',
+  device: 'web',
+  grant_type: 'password',
+  client_id: 'ro.web.client',
+  client_secret: 'secret',
+  scope: 'API'
+};
+

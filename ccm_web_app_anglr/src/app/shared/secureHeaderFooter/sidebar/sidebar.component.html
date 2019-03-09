@@ -9,7 +9,8 @@
         <div class="media-body">
           <span class="media-heading text-semibold">{{ user?.firstName || "NA"}}</span>
           <div class="text-size-mini text-muted">
-            <i class="icon-pin text-size-small"></i> &nbsp;Santa Ana, CA
+            <!-- <i class="icon-pin text-size-small"></i> &nbsp;Santa Ana, CA -->
+            &nbsp;{{ user?.role?.roleName || "NA"}}
           </div>
         </div>
 
@@ -27,52 +28,98 @@
 
         <!-- Main -->
         <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
-        <li class="active"><a href="home.html"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
-        <li>
-          <a href="#" class="has-ul"><i class=" icon-users"></i> <span>User Managment</span></a>
+        <li class="active">
+          <!-- <a *ngIf="user?.roleCode == 'super_admin'" [routerLink]="['/home/admin']"><i class="icon-home4"></i> <span>Dashboard</span></a>
+          <a *ngIf="!(user?.roleCode == 'super_admin')" [routerLink]="['/home/other']"><i class="icon-home4"></i> <span>Dashboard</span></a> -->
+          <a *ngIf="user?.role?.roleCode == 'super_admin'" [routerLink]="['/home/admin']"><i class="icon-home4"></i> <span>Dashboard</span></a>
+          <a *ngIf="!(user?.role?.roleCode == 'super_admin')" [routerLink]="['/home/other']"><i class="icon-home4"></i> <span>Dashboard</span></a>
+        </li>
+
+        <li *ngIf="(adminListPagePermission || facilitatorListPagePermission || doctorListPagePermission || patientListPagePermission || supportStaffListPagePermission)">
+          <a>
+            <i class=" icon-users"></i>
+            <span>User Managment</span>
+          </a>
           <ul>
-            <li><a [routerLink]="['/um/list/admin']">Super Admin</a></li>
-            <li><a [routerLink]="['/um/list/facilitator']">Facilitator</a></li>
-            <li><a [routerLink]="['/um/list/doctor']">Doctor</a></li>
-            <li><a [routerLink]="['/um/list/patient']">Patient</a></li>
-            <li><a [routerLink]="['/um/list/supStaff']">Support Staff</a></li>
-            <li><a [routerLink]="['/um/invite/doctor']">Invite Doctors</a></li>
-            <li><a [routerLink]="['/um/invite/patient']">Invite Patients</a></li>
+            <li *ngIf="adminListPagePermission">
+              <a [routerLink]="['/um/list/admin']">Super Admin</a>
+            </li>
+            <li *ngIf="facilitatorListPagePermission">
+              <a [routerLink]="['/um/list/facilitator']">Facilitator</a>
+            </li>
+            <li *ngIf="doctorListPagePermission">
+              <a [routerLink]="['/um/list/doctor']">Doctor</a>
+            </li>
+            <li *ngIf="patientListPagePermission">
+              <a [routerLink]="['/um/list/patient']">Patient</a>
+            </li>
+            <li *ngIf="supportStaffListPagePermission">
+              <a [routerLink]="['/um/list/supStaff']">Support Staff</a>
+            </li>
+            <!-- <li><a [routerLink]="['/um/invite/doctor']">Invite Doctors</a></li> -->
+            <!-- <li><a [routerLink]="['/um/invite/patient']">Invite Patients</a></li> -->
           </ul>
         </li>
         <li>
-          <a href="#"><i class="icon-user-check"></i> <span>Role Managment</span></a>
+          <a><i class="icon-user-check"></i> <span>Role Permission</span></a>
           <ul>
-            <li><a href="role.html">Role Users</a></li>
-            <li><a href="groups.html">Groups</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="#"><i class="icon-ticket"></i> <span>Tickets Managment</span></a>
-          <ul>
-            <li><a href="tickets.html">Tickets</a></li>
+            <li><a [routerLink]="['/rm/assign/permission']">Role</a></li>
           </ul>
         </li>
 
         <li>
-          <a href="#"><i class=" icon-calendar5"></i> <span>Appointment Managment</span></a>
+          <a><i class="icon-user-check"></i> <span>Appointment Management</span></a>
           <ul>
-            <li><a href="appointment.html">Appointments</a></li>
+            <li><a [routerLink]="['/']">Appointments</a></li>
+          </ul>
+        </li>
+
+        <li *ngIf="(addDoctorSchedulePagePermission || viewDoctorSchedulePagePermission || inviteFacilitatorPagePermission)">
+          <a><i class="icon-user-check"></i> <span>Scheduler</span></a>
+          <ul>
+            <li *ngIf="addDoctorSchedulePagePermission"><a [routerLink]="['/schedule/add']">Add Schedule</a></li>
+            <li *ngIf="viewDoctorSchedulePagePermission"><a [routerLink]="['/schedule/view']">View Schedule</a></li>
+            <li *ngIf="inviteFacilitatorPagePermission"><a [routerLink]="['/um/invite/facilitator']">Invite Facilitator</a></li>
+          </ul>
+        </li>
+
+
+        <li>
+          <a><i class="icon-ticket"></i> <span>Tickets Managment</span></a>
+          <ul>
+            <li><a [routerLink]="['/']">Tickets</a></li>
           </ul>
         </li>
 
         <li>
-          <a href="#"><i class="icon-folder"></i> <span>File Manager</span></a>
+          <a><i class=" icon-calendar5"></i> <span>CCM Plan</span></a>
           <ul>
-            <li><a href="files.html">Files</a></li>
+            <li><a [routerLink]="['/']">Plans</a></li>
           </ul>
         </li>
 
         <li>
-          <a href="#"><i class="icon-stats-dots"></i> <span>Reports</span></a>
+          <a><i class=" icon-calendar5"></i> <span>Emails</span></a>
           <ul>
-            <li><a href="daily_reports.html">Daily Reports</a></li>
-            <li><a href="summary.html">Complete Summary</a></li>
+            <li><a [routerLink]="['/']">Invite Email</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a><i class="icon-folder"></i> <span>File Manager</span></a>
+          <ul>
+            <li><a [routerLink]="['/']">Upload by Doctor</a></li>
+            <li><a [routerLink]="['/']">Upload by Patient</a></li>
+            <li><a [routerLink]="['/']">Upload by Facilitator</a></li>
+            <li><a [routerLink]="['/']">Upload by Support Staff</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a><i class="icon-stats-dots"></i> <span>Reports</span></a>
+          <ul>
+            <li><a [routerLink]="['/']">Daily Reports</a></li>
+            <li><a [routerLink]="['/']">Complete Summary</a></li>
           </ul>
         </li>
         <!-- /page kits -->

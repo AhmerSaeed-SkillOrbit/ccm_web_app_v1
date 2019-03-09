@@ -19,13 +19,14 @@ import { AppComponent } from './app.component';
 // import { UploadModule } from './upload-media/upload.module';
 
 // import { WelcomeComponent } from './test/welcome.component';
-// import { NotFoundComponent } from './others/not-found.component';
-// import { PermissionDeniedComponent } from './others/permission.denied.component';
+import { NotFoundComponent } from './others/not-found.component';
+import { PermissionDeniedComponent } from './others/permission.denied.component';
 
 import { CanActivateViaAuthGuard } from './core/security/auth.guard';
 import { CanActivateViaMainGuard } from './core/security/main.page.gurad';
 
 import { SharedModule } from './shared/shared.module';
+// import { ScheduleModule } from './schedule/schedule.module';
 
 
 // import { BlockCopyPasteDirective } from './shared/directives/blockCopyPaste.directive';
@@ -36,8 +37,8 @@ import { SharedModule } from './shared/shared.module';
     AppComponent,
 
     // WelcomeComponent,
-    // NotFoundComponent,
-    // PermissionDeniedComponent,
+    NotFoundComponent,
+    PermissionDeniedComponent,
     // MessageDialogComponent,
 
   ],
@@ -46,7 +47,7 @@ import { SharedModule } from './shared/shared.module';
     // AngularFontAwesomeModule,
 
 
-    CoreModule,
+
     AuthModule,
     BrowserAnimationsModule,
     BrowserModule,
@@ -55,7 +56,8 @@ import { SharedModule } from './shared/shared.module';
 
     MaterialModule,
     // MatIconModule,
-
+    // ScheduleModule,
+    CoreModule,
     AppRoutingModule,
     // UploadModule, ChartsModule
 

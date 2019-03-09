@@ -1,0 +1,187 @@
+<!-- <secure-header *ngIf="isLogin"></secure-header> -->
+
+<section class="content-block">
+    <div class="row align-item-center">
+        <div class="col-lg-12 col-md-12 col-xs-12 tr-campaign" *ngIf="!edit">
+            <mat-card class="two-row-card">
+                <div class="tr-sec-box">
+                    <div class="row align-item-center">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                            <mat-card-title>Assign Permission</mat-card-title>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="example-header">
+                            <mat-form-field>
+                                <input matInput [(ngModel)]="filter" (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+                        </div>
+
+                        <mat-table #table [dataSource]="dataSource" class="scrollable">
+
+                            <!-- Serial No -->
+                            <ng-container matColumnDef="sNo">
+                                <mat-header-cell *matHeaderCellDef> S.No </mat-header-cell>
+                                <mat-cell *matCellDef="let u; let i = index;"> {{i + 1}} </mat-cell>
+                            </ng-container>
+
+                            <!-- Role Column -->
+                            <ng-container matColumnDef="roleName">
+                                <mat-header-cell *matHeaderCellDef> Role Name </mat-header-cell>
+                                <mat-cell *matCellDef="let role"> {{role.roleName}} </mat-cell>
+                            </ng-container>
+
+                            <!-- Permission Column -->
+                            <ng-container matColumnDef="permission(s)">
+                                <mat-header-cell *matHeaderCellDef> Permission(s) </mat-header-cell>
+                                <mat-cell *matCellDef="let role; let i = index;">
+                                    <span class="label-dt" *ngFor="let permission of role.permissions; let i1 = index">
+                                        <span *ngIf="i1 < 1">{{permission.permissionName}}
+                                        </span>
+                                    </span>
+                                    <span *ngIf="role.permissions.length > 2">
+                                        <button mat-button color="primary" (click)="viewMore('viewRolePermissions' , role)">View
+                                            more</button>
+                                    </span>
+                                    <div *ngIf="role.permissions.length == 0">
+                                        None
+                                    </div>
+
+                                </mat-cell>
+                            </ng-container>
+
+                            <!-- Action Column -->
+                            <ng-container matColumnDef="action">
+                                <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+                                <mat-cell *matCellDef="let role">
+                                    <div class="btn-group" role="group">
+                                        <button mat-raised-button [disabled]="!assignRolePermissionPermission" (click)="onEdit(role)" class="edit-btn"><i class="material-icons">mode_edit</i></button>
+                                    </div>
+                                </mat-cell>
+                            </ng-container>
+
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+                        </mat-table>
+
+                        <div class="" *ngIf="(dataSource.data.length == 0 || dataSource.filteredData.length == 0) && !isSpinner">
+                            <div class="snipet download-btn">
+                                <button (click)="refreshList()" mat-raised-button>
+                                    <i class="material-icons">refresh</i> No Data Found
+                                </button>
+                            </div>
+                        </div>
+                        <spinner [visible]='isSpinner'></spinner>
+
+                        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+                        </mat-paginator>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+
+
+
+        <!-- Assign role to permission -->
+
+        <div class="col-lg-12 col-md-12 col-xs-12 tr-campaign" *ngIf="edit">
+            <mat-card class="two-row-card">
+                <div class="tr-sec-box">
+                    <div class="row align-item-center">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                            <mat-card-title>Assign Permission To Role</mat-card-title>
+                        </div>
+                        <div class="col-sm-6">
+                            Role Name : {{role.roleName}}
+                        </div>
+                        <div class="col-sm-6 snipet download-btn">
+                            <span matTooltipPosition="above" matTooltip="Back">
+                                <button (click)="back()" mat-raised-button color="primary"> Back
+                                    <!-- <i class="material-icons">Save</i> -->
+                                </button>
+                            </span>
+                            <span matTooltipPosition="above" matTooltip="{{!assignRolePermissionPermission ? 'Dont have permission' : (isSave ? 'Processing' : 'Save') }}">
+                                <!-- save() -->
+                                <button (click)="openConfirmDialog('assign')" mat-raised-button color="primary" [disabled]="!assignRolePermissionPermission || isSave">
+                                    Save
+                                    <!-- <i class="material-icons">Save</i> -->
+                                </button>
+                            </span>
+
+                        </div>
+                        <div class="col-sm-12 scrollable mtl">
+                            <div class="example-header">
+                                <mat-form-field>
+                                    <input matInput [(ngModel)]="filter2" (keyup)="applyFilter2($event.target.value)" placeholder="Filter">
+                                </mat-form-field>
+                            </div>
+
+                            <mat-table #table [dataSource]="dataSourceTwo">
+
+
+
+                                <!-- Checkbox Column -->
+                                <!-- <ng-container matColumnDef="select">
+                                    <mat-header-cell *matHeaderCellDef>
+                                        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                            matTooltip='Select'>
+                                        </mat-checkbox>
+
+                                    </mat-header-cell>
+                                    <mat-cell *matCellDef="let row">
+                                        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                                        </mat-checkbox>
+
+                                    </mat-cell>
+                                </ng-container> -->
+
+                                <!-- Serial No -->
+                                <ng-container matColumnDef="sNo">
+                                    <mat-header-cell *matHeaderCellDef>
+                                        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                            matTooltip='Select'>
+                                        </mat-checkbox>
+                                        S.No
+                                    </mat-header-cell>
+                                    <mat-cell *matCellDef="let row; let i = index;">
+                                        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                                        </mat-checkbox>
+                                        {{i + 1}}
+                                    </mat-cell>
+                                </ng-container>
+
+                                <!-- Permission Type Column -->
+                                <ng-container matColumnDef="permissionType">
+                                    <mat-header-cell *matHeaderCellDef> Permission Type </mat-header-cell>
+                                    <mat-cell *matCellDef="let element"> {{element.permissionType}} </mat-cell>
+                                </ng-container>
+
+                                <!-- Permission Column -->
+                                <ng-container matColumnDef="permission">
+                                    <mat-header-cell *matHeaderCellDef> Permission Name </mat-header-cell>
+                                    <mat-cell *matCellDef="let element"> {{element.permissionName}} </mat-cell>
+                                </ng-container>
+
+                                <mat-header-row *matHeaderRowDef="displayedColumnsTwo"></mat-header-row>
+                                <mat-row *matRowDef="let row; columns: displayedColumnsTwo;" (click)="selection.toggle(row)">
+                                </mat-row>
+                            </mat-table>
+
+                            <div class="" *ngIf="(dataSourceTwo.data.length == 0 || dataSourceTwo.filteredData.length == 0) && !isSpinnerTwo">
+                                <div class="snipet download-btn">
+                                    <button (click)="refreshPermissionList()" mat-raised-button>
+                                        <i class="material-icons">refresh</i> No Data Found
+                                    </button>
+                                </div>
+                            </div>
+                            <spinner [visible]='isSpinnerTwo'></spinner>
+                        </div>
+                    </div>
+
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</section>

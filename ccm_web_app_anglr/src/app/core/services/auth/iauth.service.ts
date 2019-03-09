@@ -2,6 +2,7 @@ import { Observable } from 'rxjs/Observable';
 import { User } from '../../models/user';
 import { Token } from '../../models/token';
 import { Subject } from 'rxjs/Subject';
+import { Permission } from '../../models/permission';
 
 export interface IAuthService {
 
@@ -119,9 +120,19 @@ export interface IAuthService {
     storeUser(user: User);
 
     /**
+     * Store user permission in local storage
+     */
+    storePermission(permissions: Permission[]);
+
+    /**
      * get user from local storage
      */
     getUser(): User;
+
+    /**
+     * get user permissions from local storage
+     */
+    getUserPermissions(): Permission[];
 
 
     /**

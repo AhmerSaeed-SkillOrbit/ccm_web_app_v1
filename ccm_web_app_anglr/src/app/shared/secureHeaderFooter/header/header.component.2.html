@@ -98,15 +98,15 @@
           </div>
         </div>
         <ul class="navigation">
-          <li *ngIf="user && user.department.departmentCode == 'lg'">
-            <a (click)="navigate('/admin/a/a/home')">
+          <li *ngIf="user && user.roleCode == 'super_admin'">
+            <a (click)="navigate('/home/admin')">
             <!-- <a href=""> -->
               <i class="fa fa-dashboard"></i>
               Dashboard
             </a>
           </li>
-          <li *ngIf="!(user && user.department.departmentCode == 'lg')">
-            <a (click)="navigate('/home')">
+          <li *ngIf="!(user && user.roleCode == 'super_admin')">
+            <a (click)="navigate('/home/other')">
             <!-- <a href=""> -->
               <i class="fa fa-dashboard"></i>
               Home

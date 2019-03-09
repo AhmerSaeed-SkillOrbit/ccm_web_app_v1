@@ -125,18 +125,28 @@ export class LoginComponent implements OnInit, OnDestroy {
                             //     console.log('test2');
                             //     this._router.navigate(['/verification']);
                             // }
+
+                            this._userService.getUserRole().subscribe(
+                                (res) => {
+                                    console.log("res", res);
+                                },
+                                (err) => {
+                                    // console.log('err', err);
+                                }
+                            );
+
                             this.loginUser = this._authServices.getUser();
 
-                           
-                            this._router.navigate(['/home']);
+
+                            // this._router.navigate(['/home']);
                             // this._router.navigate(['/admin/home']);
 
-                            // if (this.loginUser.department.departmentCode == "lg") {
-                            //     this._router.navigate(['/admin/a/a/home']);
-                            // }
-                            // else {
-                            //     this._router.navigate(['/home']);
-                            // }
+                            if (this.loginUser.role.roleCode == "super_admin") {
+                                this._router.navigate(['/home/admin']);
+                            }
+                            else {
+                                this._router.navigate(['/home/other']);
+                            }
 
                         },
                         (err) => {

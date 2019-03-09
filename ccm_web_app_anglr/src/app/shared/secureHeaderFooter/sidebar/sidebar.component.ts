@@ -12,6 +12,8 @@ import { UIService } from '../../../core/services/ui/ui.service';
 // import { NotificationService } from '../../core/services/general/notification.service';
 import { IAuthService } from '../../../core/services/auth/iauth.service';
 import { RoutingInfoService } from '../../../core/services/routInfo/route.info.service';
+import { UtilityService } from '../../../core/services/general/utility.service';
+import { Permission } from '../../../core/models/permission';
 // import { ScriptService } from '../../core/services/script.service';
 // import { DashboardService } from '../../core/services/general/dashboard.service';
 
@@ -25,11 +27,12 @@ import { RoutingInfoService } from '../../../core/services/routInfo/route.info.s
     // styleUrls: ['../header/header.component.css']
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  
+
     isLogin: any;
     // notif: Notifications = new Notifications();
     countNotif: number;
     user: User = new User();
+    userPermissions: Permission[] = [];
     // script = new ScriptService();
     showNav: boolean;
     private updateInfo: ISubscription;
@@ -47,15 +50,24 @@ export class SidebarComponent implements OnInit, OnDestroy {
     logo: any;
     overAllUnreadStatus = false;
 
+    adminListPagePermission = false;
+    facilitatorListPagePermission = false;
+    doctorListPagePermission = false;
+    patientListPagePermission = false;
+    supportStaffListPagePermission = false;
+    addDoctorSchedulePagePermission = false;
+    viewDoctorSchedulePagePermission = false;
+    inviteFacilitatorPagePermission = false;
+
     constructor(
         @Inject('IAuthService')
         private _authService: IAuthService,
         private _uiService: UIService,
-        // private _dashboard: DashboardService,
+        private _utilityService: UtilityService,
         private route: ActivatedRoute, private _router: Router,
         // private _notifService: NotificationService
     ) {
-        this.sidebar=true;
+        this.sidebar = true;
         // this.script.loadScript('commetchat')
         //     .then(data => {
         //         console.log('script loaded ', data);
@@ -63,7 +75,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
 
 
-    sidebar:boolean;
+    sidebar: boolean;
     ngOnInit(): void {
         // To get Social CxN logo
 
@@ -73,7 +85,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
         //     });
 
         this.user = this._authService.getUser();
-        console.log("user",this.user);
+
+        this.checkAndSetPermission();
+        console.log("user", this.user);
         // this.profilePic = this.user.profilePic.thumbnails.square;
 
         console.log('this.profilePic ', this.profilePic);
@@ -81,6 +95,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this._authService.loginUserStatusChanged.subscribe(
             (user) => {
                 this.user = user;
+                this.checkAndSetPermission();
             },
             (error) => console.error(error),
             () => console.log('Login state has been marked completed!')
@@ -106,22 +121,52 @@ export class SidebarComponent implements OnInit, OnDestroy {
         }
 
         this.user = this._authService.getUser();
-        console.log("user",this.user);
+        console.log("user", this.user);
 
         // this.profilePic = this.user.profilePic.thumbnails.square ? this.user.profilePic.thumbnails.square : null;
         console.log('this.profilePic ', this.profilePic);
 
         if (this.isLogin) {
             // for updating notifications count on every 10 seconds
-            this.updateInfo = Observable.interval(1000 * 1500000).subscribe(x => {
-                this.getNotifications();
-                this.getChatMessagesStatus();
-            });
+
+            // this.updateInfo = Observable.interval(1000 * 1500000).subscribe(x => {
+            //     this.getNotifications();
+            // });
 
         }
 
         // this.getNotifications();
         // this.getChatMessagesStatus();
+    }
+
+    checkAndSetPermission() {
+        this.userPermissions = this._authService.getUserPermissions();
+
+        // this.adminListPagePermission = this._utilityService.checkUserPermission(this.user, 'super_admin_list_page');
+        this.adminListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'super_admin_list_page');
+        // this.adminListPagePermission = true;
+        // this.facilitatorListPagePermission = this._utilityService.checkUserPermission(this.user, 'facilitator_list_page');
+        this.facilitatorListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'facilitator_list_page');
+        // this.facilitatorListPagePermission = true;
+        // this.doctorListPagePermission = this._utilityService.checkUserPermission(this.user, 'doctor_list_page');
+        this.doctorListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'doctor_list_page');
+        // this.doctorListPagePermission = true;
+        // this.patientListPagePermission = this._utilityService.checkUserPermission(this.user, 'patient_list_page');
+        this.patientListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'patient_list_page');
+        // this.patientListPagePermission = true;
+        // this.supportStaffListPagePermission = this._utilityService.checkUserPermission(this.user, 'support_staff_list_page');
+        this.supportStaffListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'support_staff_list_page');
+        // this.supportStaffListPagePermission = true;
+        // this.addDoctorSchedulePagePermission = this._utilityService.checkUserPermission(this.user, 'add_doctor_schedule');
+        this.addDoctorSchedulePagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_doctor_schedule');
+        // this.addDoctorSchedulePagePermission = true;
+        // this.viewDoctorSchedulePagePermission = this._utilityService.checkUserPermission(this.user, 'view_doctor_schedule');
+        this.viewDoctorSchedulePagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_doctor_schedule');
+        // this.viewDoctorSchedulePagePermission = true;
+        // this.inviteFacilitatorPagePermission = this._utilityService.checkUserPermission(this.user, 'view_doctor_schedule');
+        // this.inviteFacilitatorPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_doctor_schedule');
+        this.inviteFacilitatorPagePermission = true;
+
     }
 
     getNotifications() {
@@ -141,49 +186,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
         // );
     }
 
-    getChatMessagesStatus() {
-
-        // this._notifService.getChatMessagesStatus().subscribe(
-        //     (res) => {
-        //         this.overAllUnreadStatus = res.overAllUnreadStatus;
-        //         // console.log('data-------' ,res.overAllUnreadStatus);
-        //     },
-        //     (error) => console.error(error)
-        // );
-
-    }
-
     onNotifClick(event) {
         console.log('event', event);
         this.getNotifications();
     }
 
     onProfileClick() {
-        // if (this.user.entityType === 'brand') {
-        //     this._router.navigateByUrl('brand/profile');
-        // } else if (this.user.entityType === 'influencer') {
-        //     this._router.navigateByUrl('influencer/profile');
-        // } else if (this.user.entityType === 'digital_agency') {
-        //     this._router.navigateByUrl('da/profile');
-        // } else if (this.user.entityType === 'influencer_agent') {
-        //     this._router.navigateByUrl('ia/profile');
-        // }
+
     }
 
     onProfileViewClick() {
 
-        // if (this.user.entityType === 'brand') {
-        //     this._router.navigateByUrl('brand/view/profile');
-        // } else if (this.user.entityType === 'influencer') {
-        //     this._router.navigateByUrl('influencer/view/profile');
-        // } else if (this.user.entityType === 'digital_agency') {
-        //     this._router.navigateByUrl('da/view/profile');
-        // } else if (this.user.entityType === 'influencer_agent') {
-        //     this._router.navigateByUrl('ia/view/profile');
-        // }
     }
 
-    onChangePasswordClick(){
+    onChangePasswordClick() {
         this._router.navigateByUrl('user/change-password');
     }
 
@@ -192,17 +208,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
         // console.log('entity type:', this.entityType);
 
         this.redirectUrl = 'login';
-        // if (this.entityType === 'influencer' || this.entityType === 'brand') {
-        //     this.redirectUrl = '/';
-        // } else if (this.entityType === 'digital_agency' || this.entityType === 'influencer_agent') {
-        // this.redirectUrl = 'login';
-        // } else if (this.entityType === 'backoffice') {
-        //     this.redirectUrl = 'admin/login';
-        // }
-
-        // this._dashboard.logout().subscribe(
-        //     (res) => {
-        //     });
         this._authService.logoutUser();
 
         this.isUser = this._authService.getUser();
@@ -221,14 +226,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.expandedIndex = index === this.expandedIndex ? -1 : index;
     }
 
-    onShow(event): void {
-        console.log('trying to show the toast');
-    }
-
-    onHide(): void {
-        // this._uiService.hideSpinner();
-    }
-
     showMsg(event) {
         console.log('Show msg has been clicked');
         const msg = new Message();
@@ -244,14 +241,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
 
     getProfile() {
-        // if (!this.user) { return; }
-
-        // if (this.user.entityType === 'brand') {
-        //     this._router.navigate(['brand/profile']);
-        // }
-        // if (this.user.entityType === 'influencer') {
-        //     this._router.navigate(['influencer/profile']);
-        // }
     }
 
 

@@ -20,7 +20,7 @@ export class ConfirmationDialogComponent implements OnInit {
     user: User = new User();
     confirm = true;
     msg: string;
-    obj: string;
+    title: string;
     constructor(
         @Inject('IAuthService') private _authService: IAuthService,
         public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
@@ -30,7 +30,7 @@ export class ConfirmationDialogComponent implements OnInit {
     ) {
         console.log("data", data);
         this.msg = data.message;
-        this.obj = data.obj;
+        this.title = data.title;
     }
 
     ngOnInit(): void {

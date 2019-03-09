@@ -10,6 +10,7 @@ import { Country } from '../../models/country';
 import { Region } from '../../models/region';
 import { City } from '../../models/city';
 import { Branch } from '../../models/branch';
+import { Permission } from '../../models/permission';
 
 @Injectable()
 export class MappingService {
@@ -29,10 +30,18 @@ export class MappingService {
             isUser.firstName = userData.FirstName || null;
             isUser.lastName = userData.LastName || null;
             isUser.email = userData.EmailAddress || null;
+            isUser.functionalTitle = userData.FunctionalTitle || null;
 
-            isUser.mobileNumber = userData.mobileNumber || null;
-            isUser.phoneNumber = userData.phoneNumber || null;
-            isUser.cnic = userData.cnic || null;
+            isUser.officeAddress = userData.OfficeAddress || null;
+            isUser.residentialAddress = userData.ResidentialAddress || null;
+
+            isUser.mobileNumber = userData.MobileNumber || null;
+            isUser.phoneNumber = userData.TelephoneNumber || null;
+            isUser.cnic = userData.Cnic || null;
+            isUser.age = userData.Age || null;
+            isUser.ageGroup = userData.AgeGroup || null;
+            // isUser.associationType = userData.AssociationType || null;
+            isUser.blockReason = userData.BlockReason || null;
 
 
             isUser.password = userData.userPassword;
@@ -56,11 +65,12 @@ export class MappingService {
             isUser.branch = userData.branch || new Branch();
             isUser.branchId = userData.branch ? userData.branch.id : null;
 
-            isUser.roles = userData.roles;
+            isUser.role = this.mapRole(userData.Role);
+            isUser.roleId = userData.Role ? userData.Role.Id : null;
+            isUser.roleCode = userData.RoleCodeName || null;
+            isUser.roleName = userData.RoleName || null;
+            // isUser.roles = userData.roles;
             isUser.permissions = userData.permissions;
-
-
-            
 
             if (userData.profilePicture) {
                 isUser.profilePicture = userData.profilePicture;
@@ -88,14 +98,28 @@ export class MappingService {
         const roleData = res;
         const isRole = new Role();
         if (roleData) {
-            isRole.id = roleData.id || null;
-            isRole.roleId = roleData.id || null;
-            isRole.roleName = roleData.roleName || null;
-            isRole.departmentId = roleData.departmentId || null;
+            isRole.id = roleData.Id || null;
+            isRole.roleId = roleData.Id || null;
+            isRole.roleCode = roleData.RoleCodeName || null;
+            isRole.roleName = roleData.RoleName || null;
+            // isRole.departmentId = roleData.departmentId || null;
         }
 
 
         return isRole;
+    }
+
+    public mapPermission(res: any): Permission {
+        const permissionData = res;
+        const isPermission = new Permission();
+        if (permissionData) {
+            isPermission.id = permissionData.Id || null;
+            isPermission.permissionId = permissionData.Id || null;
+            isPermission.permissionName = permissionData.PermissionName || null;
+            isPermission.permissionCode = permissionData.PermissionCodeName || null;
+        }
+
+        return isPermission;
     }
 
     public mapDocument(res: any): Document {
