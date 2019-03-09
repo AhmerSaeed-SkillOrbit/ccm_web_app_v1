@@ -56,6 +56,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     patientListPagePermission = false;
     supportStaffListPagePermission = false;
     addDoctorSchedulePagePermission = false;
+    doctorScheduleListPagePermission = false;
     viewDoctorSchedulePagePermission = false;
     inviteFacilitatorPagePermission = false;
 
@@ -161,6 +162,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.addDoctorSchedulePagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_doctor_schedule');
         // this.addDoctorSchedulePagePermission = true;
         // this.viewDoctorSchedulePagePermission = this._utilityService.checkUserPermission(this.user, 'view_doctor_schedule');
+        this.doctorScheduleListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_doctor_schedule');
+        // this.doctorScheduleListPagePermission = true;
         this.viewDoctorSchedulePagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_doctor_schedule');
         // this.viewDoctorSchedulePagePermission = true;
         // this.inviteFacilitatorPagePermission = this._utilityService.checkUserPermission(this.user, 'view_doctor_schedule');

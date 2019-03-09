@@ -282,7 +282,7 @@
                                                             <mat-form-field class="full-width">
                                                                 <mat-select placeholder="Shift" formControlName="shift"
                                                                     [(ngModel)]="schedule.scheduleDetails[i].noOfShift"
-                                                                    (ngModelChange)="onShiftFocusOut(i)" required>
+                                                                    (ngModelChange)="onShiftFocusOut(i)">
                                                                     <mat-option *ngFor="let shift of shifts" [value]="shift">
                                                                         {{shift}}
                                                                     </mat-option>
@@ -313,8 +313,7 @@
                                                                                             placeholder="Start Time"
                                                                                             [(ngModel)]="schedule.scheduleDetails[i].scheduleShifts[iy].startTime"
                                                                                             formControlName="startTime"
-                                                                                            (ngModelChange)="onStartTimeFocusOut(i)"
-                                                                                            required>
+                                                                                            (ngModelChange)="onStartTimeFocusOut(i)">
                                                                                         <mat-error>
                                                                                             Start Time is
                                                                                             <strong>required</strong>
@@ -329,8 +328,7 @@
                                                                                             placeholder="End Time"
                                                                                             [(ngModel)]="schedule.scheduleDetails[i].scheduleShifts[iy].endTime"
                                                                                             formControlName="endTime"
-                                                                                            (ngModelChange)="onEndTimeFocusOut(i)"
-                                                                                            required>
+                                                                                            (ngModelChange)="onEndTimeFocusOut(i)">
                                                                                         <mat-error *ngIf="Y.controls['endTime'].touched && Y.controls['endTime'].errors?.required">
                                                                                             End Time is
                                                                                             <strong>required</strong>
