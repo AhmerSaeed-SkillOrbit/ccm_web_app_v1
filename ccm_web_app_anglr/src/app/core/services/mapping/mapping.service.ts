@@ -11,6 +11,7 @@ import { Region } from '../../models/region';
 import { City } from '../../models/city';
 import { Branch } from '../../models/branch';
 import { Permission } from '../../models/permission';
+import { Schedule, ScheduleDetail, ScheduleShift } from '../../models/schedule.model';
 
 @Injectable()
 export class MappingService {
@@ -120,6 +121,80 @@ export class MappingService {
         }
 
         return isPermission;
+    }
+
+
+    public mapSchedule(res: any): Schedule {
+        // const scheduleData = res;
+
+        const scheduleData = res;
+        const isSchedule = new Schedule();
+        if (scheduleData) {
+            isSchedule.id = scheduleData.Id || null;
+            isSchedule.scheduleId = scheduleData.Id || null;
+            isSchedule.monthId = scheduleData.MonthName && scheduleData.MonthName > 0 ? (scheduleData.MonthName - 1) || null : null;
+            isSchedule.year = scheduleData.YearName || null;
+            isSchedule.startDate = scheduleData.StartDate || null;
+            isSchedule.endDate = scheduleData.EndDate || null;
+
+            let month = Config.months.filter(m => m.id === +isSchedule.monthId);
+
+            if (month.length > 0) {
+                isSchedule.month = month[0];
+            }
+
+            let sd = [];
+
+            if (scheduleData.DoctorScheduleDetails && scheduleData.DoctorScheduleDetails.length > 0) {
+
+                scheduleData.DoctorScheduleDetails.forEach(element => {
+                    sd.push(this.mapScheduleDetail(element));
+                });
+            }
+            else {
+
+            }
+
+            isSchedule.scheduleDetails = sd;
+        }
+
+
+        return isSchedule;
+    }
+
+    public mapScheduleDetail(res: any): ScheduleDetail {
+        const scheduleDetailData = res;
+        const isScheduleDetail = new ScheduleDetail();
+        if (scheduleDetailData) {
+            isScheduleDetail.id = scheduleDetailData.Id || null;
+            isScheduleDetail.isOffDay = scheduleDetailData.IsOffDay || false;
+            isScheduleDetail.noOfShift = scheduleDetailData.noOfShift || null;
+            isScheduleDetail.scheduleDate = scheduleDetailData.ScheduleDate || null;
+
+            let ss = [];
+            if (scheduleDetailData.ScheduleShifts && scheduleDetailData.ScheduleShifts.length > 0) {
+                scheduleDetailData.ScheduleShifts.forEach(element => {
+                    ss.push(this.mapScheduleShift(element));
+                });
+            }
+
+            isScheduleDetail.scheduleShifts = ss;
+        }
+
+
+        return isScheduleDetail;
+    }
+
+    public mapScheduleShift(res: any): ScheduleShift {
+        const scheduleShiftData = res;
+        const isScheduleShift = new ScheduleShift();
+        if (scheduleShiftData) {
+            isScheduleShift.id = scheduleShiftData.Id || null;
+            isScheduleShift.scheduleShiftId = scheduleShiftData.Id || null;
+            isScheduleShift.startTime = scheduleShiftData.StartTime || false;
+            isScheduleShift.endTime = scheduleShiftData.EndTime || null;
+        }
+        return isScheduleShift;
     }
 
     public mapDocument(res: any): Document {

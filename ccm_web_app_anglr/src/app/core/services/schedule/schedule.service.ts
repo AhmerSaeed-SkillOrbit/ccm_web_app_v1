@@ -36,7 +36,7 @@ export class ScheduleService implements OnDestroy {
                         ss.push({
                             StartTime: element1.startTime || "",
                             EndTime: element1.endTime || "",
-                        });    
+                        });
                     });
                 }
 
@@ -58,6 +58,8 @@ export class ScheduleService implements OnDestroy {
             // StartDate: "2019-03-27",
             StartDate: schedule.startDate ? this.datePipe.transform(schedule.startDate, 'yyyy-MM-dd') : "",
             EndDate: schedule.endDate ? this.datePipe.transform(schedule.endDate, 'yyyy-MM-dd') : "",
+            MonthName: schedule.monthId || schedule.monthId == 0 ? schedule.monthId + 1 : null,
+            YearName: schedule.year || null,
             ScheduleDetail: sd
             // ScheduleDetail: [
             //     {

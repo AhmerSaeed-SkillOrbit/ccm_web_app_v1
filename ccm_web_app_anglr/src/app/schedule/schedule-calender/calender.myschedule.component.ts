@@ -4,7 +4,8 @@ import {
   ViewEncapsulation, OnInit, OnDestroy, AfterViewInit, NgZone
 } from '@angular/core';
 import { CalendarEvent, CalendarMonthViewDay } from 'angular-calendar';
-import { DoctorScheduleService, OffDays, Holidays, Schedule } from "../../core/services/doctor/doctor.schedule.service";
+// import { DoctorScheduleService, OffDays, Holidays, Schedule } from "../../core/services/doctor/doctor.schedule.service";
+import { DoctorScheduleService, OffDays, Holidays } from "../../core/services/doctor/doctor.schedule.service";
 import { colors } from './calender-utils/colors';
 import { Subject } from 'rxjs/Subject';
 
@@ -28,6 +29,8 @@ import {
   endOfDay
 } from 'date-fns';
 import { User } from '../../core/models/user';
+import { MappingService } from '../../core/services/mapping/mapping.service';
+import { Schedule } from '../../core/models/schedule.model';
 // import { StatusService } from '../../core/services/user/status.service';
 
 type CalendarPeriod = 'day' | 'week' | 'month';
@@ -85,7 +88,7 @@ const BLUE_CELL: 'blue-cell' = 'blue-cell';
   ],
   encapsulation: ViewEncapsulation.None
 })
-export class CalenderMyscheduleComponent implements OnDestroy {
+export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
   view: CalendarPeriod = 'month';
 
   viewDate: Date = new Date();
@@ -93,8 +96,10 @@ export class CalenderMyscheduleComponent implements OnDestroy {
   selectedMonthViewDay: CalendarMonthViewDay;
 
   selectedDatesOffDay = new Array;
-  selectedDatesWorkingDay1: any;
-  selectedDatesWorkingDay: Schedule[];
+  // selectedDatesWorkingDay1: any;
+  // selectedDatesWorkingDay: Schedule[];
+  scheduleList: Schedule[] = [];
+  schedule: Schedule = new Schedule();
   PerDaySchedule: Schedule;
 
   selectedDayViewDate: Date;
@@ -125,16 +130,25 @@ export class CalenderMyscheduleComponent implements OnDestroy {
 
   user: User = new User();
   docId: number = null;
+  month: number = null;
+  year: number = null;
+  currentDate: any;
 
   constructor(private dialog: MatDialog,
     // private _statusService: StatusService,
     private _authServices: AuthService,
     private _doctorScheduleService: DoctorScheduleService,
-    private _uiService: UIService, private _zone: NgZone
+    private _uiService: UIService,
+    private _mappingService: MappingService,
+    private _zone: NgZone
   ) {
     this.user = this._authServices.getUser();
 
     this.docId = this.user.id;
+
+    this.currentDate = new Date();
+    this.month = this.currentDate.getMonth();
+    this.year = this.currentDate.getFullYear();
     // this.getState();
     this._doctorScheduleService.invokeEvent.subscribe(value => {
       if (value === 'refresh') {
@@ -144,11 +158,20 @@ export class CalenderMyscheduleComponent implements OnDestroy {
     // this.dateOrViewChanged();
     // this.getTimezone();
   }
+  ngOnInit() {
+
+    // this.user = this._authServices.getUser();
+
+  }
+
   ngOnDestroy() {
     this.dialog.closeAll();
   }
   increment(): void {
     this.changeDate(addPeriod(this.view, this.viewDate, 1));
+
+    console.log("decrement month ", (this.viewDate.getMonth() + 1));
+    console.log("decrement year ", this.viewDate.getFullYear());
 
     this.getDocSchedule(this.docId);
     // this.getSchedule(this.viewDate.getFullYear(), (this.viewDate.getMonth() + 1))
@@ -159,6 +182,9 @@ export class CalenderMyscheduleComponent implements OnDestroy {
 
   decrement(): void {
     this.changeDate(subPeriod(this.view, this.viewDate, 1));
+
+    console.log("decrement month ", (this.viewDate.getMonth() + 1));
+    console.log("decrement year ", this.viewDate.getFullYear());
 
     this.getDocSchedule(this.docId);
     // this.getSchedule(this.viewDate.getFullYear(), (this.viewDate.getMonth() + 1))
@@ -246,9 +272,10 @@ export class CalenderMyscheduleComponent implements OnDestroy {
   getScheduleDay(currentyear, currentmonth, currentday) {
 
     this.clickedBox = currentyear + '-' + currentmonth + '-' + currentday;
-    for (var index = 0; index < this.selectedDatesWorkingDay1.DoctorScheduleDetails.length; index++) {
+    // for (var index = 0; index < this.selectedDatesWorkingDay1.DoctorScheduleDetails.length; index++) {
+    for (var index = 0; index < this.schedule.scheduleDetails.length; index++) {
 
-      var str = this.selectedDatesWorkingDay1.DoctorScheduleDetails[index].scheduleDate;
+      var str = this.schedule.scheduleDetails[index].scheduleDate;
       // var res = str.split("T");
       // if (this.clickedBox == res[0]) {
       if (this.clickedBox == str) {
@@ -316,9 +343,13 @@ export class CalenderMyscheduleComponent implements OnDestroy {
   }
 
   getDocSchedule(docId) {
+    console.log("decrement month ", (this.viewDate.getMonth() + 1));
+    console.log("decrement year ", this.viewDate.getFullYear());
+
     this.LoadingPageload = 'block';
     this.calenderView = 'none';
-    this._doctorScheduleService.getDocSchedule(docId).subscribe(
+    // this._doctorScheduleService.getDocSchedule(docId, this.user.id, this.month, this.year).subscribe(
+    this._doctorScheduleService.getDocSchedule(docId, this.user.id, this.viewDate.getMonth(), this.viewDate.getFullYear()).subscribe(
 
       (response) => {
 
@@ -327,9 +358,21 @@ export class CalenderMyscheduleComponent implements OnDestroy {
         this.calenderView = 'block';
         // if (response.status == 200) {
 
+        // this.selectedDatesWorkingDay1 = response.json().data;
+        let array = response.json().data;
 
-        this.selectedDatesWorkingDay1 = response.json().data;
-        console.log("selectedDatesWorkingDay1", this.selectedDatesWorkingDay1);
+        // let sList = []
+        // if (array && array.length > 0) {
+
+        //   array.forEach(element => {
+        //     sList.push(this._mappingService.mapSchedule(element));
+        //   });
+
+        // }
+        this.schedule = this._mappingService.mapSchedule(array);
+
+        console.log("schedule", this.schedule);
+        // console.log("selectedDatesWorkingDay1", this.selectedDatesWorkingDay1);
         //   this.selectedDatesWorkingDay = JSON.parse(response._body);
 
 
