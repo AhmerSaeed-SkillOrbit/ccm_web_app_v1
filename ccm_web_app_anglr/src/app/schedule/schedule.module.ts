@@ -4,9 +4,6 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from "@angular/common";
 
-
-
-
 import { CalenderComponent } from "./schedule-calender/calender.component";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule } from 'angular-calendar';
@@ -19,6 +16,7 @@ import { ViewScheduleComponent } from './view.schedule/view.schedule.component';
 // import { ScheduleComponent } from './schedule.component';
 import { CalenderMyscheduleComponent } from './schedule-calender/calender.myschedule.component';
 // import { CalendarHeaderComponent } from './schedule-calender/calender-utils/calender-header.component';
+import { ScheduleListComponent } from './list.schedule/schedule.list.component';
 
 
 
@@ -31,6 +29,7 @@ import { CalenderMyscheduleComponent } from './schedule-calender/calender.mysche
         CalenderMyscheduleComponent,
         // CalendarHeaderComponent,
         // CalenderComponent,
+        ScheduleListComponent
     ],
     imports: [
         ReactiveFormsModule, FormsModule,
@@ -47,6 +46,11 @@ import { CalenderMyscheduleComponent } from './schedule-calender/calender.mysche
             {
                 path: 'view',
                 component: ViewScheduleComponent
+                // component: ScheduleComponent
+            },
+            {
+                path: 'list',
+                component: ScheduleListComponent
                 // component: ScheduleComponent
             },
         ])

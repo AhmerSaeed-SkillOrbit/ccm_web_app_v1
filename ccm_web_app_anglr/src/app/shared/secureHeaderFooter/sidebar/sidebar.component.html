@@ -31,8 +31,10 @@
         <li class="active">
           <!-- <a *ngIf="user?.roleCode == 'super_admin'" [routerLink]="['/home/admin']"><i class="icon-home4"></i> <span>Dashboard</span></a>
           <a *ngIf="!(user?.roleCode == 'super_admin')" [routerLink]="['/home/other']"><i class="icon-home4"></i> <span>Dashboard</span></a> -->
-          <a *ngIf="user?.role?.roleCode == 'super_admin'" [routerLink]="['/home/admin']"><i class="icon-home4"></i> <span>Dashboard</span></a>
-          <a *ngIf="!(user?.role?.roleCode == 'super_admin')" [routerLink]="['/home/other']"><i class="icon-home4"></i> <span>Dashboard</span></a>
+          <a *ngIf="user?.role?.roleCode == 'super_admin'" [routerLink]="['/home/admin']"><i class="icon-home4"></i>
+            <span>Dashboard</span></a>
+          <a *ngIf="!(user?.role?.roleCode == 'super_admin')" [routerLink]="['/home/other']"><i class="icon-home4"></i>
+            <span>Dashboard</span></a>
         </li>
 
         <li *ngIf="(adminListPagePermission || facilitatorListPagePermission || doctorListPagePermission || patientListPagePermission || supportStaffListPagePermission)">
@@ -56,6 +58,9 @@
             <li *ngIf="supportStaffListPagePermission">
               <a [routerLink]="['/um/list/supStaff']">Support Staff</a>
             </li>
+            <li *ngIf="inviteFacilitatorPagePermission">
+              <a [routerLink]="['/um/invite/facilitator']">Invite Facilitator</a>
+            </li>
             <!-- <li><a [routerLink]="['/um/invite/doctor']">Invite Doctors</a></li> -->
             <!-- <li><a [routerLink]="['/um/invite/patient']">Invite Patients</a></li> -->
           </ul>
@@ -78,8 +83,10 @@
           <a><i class="icon-user-check"></i> <span>Scheduler</span></a>
           <ul>
             <li *ngIf="addDoctorSchedulePagePermission"><a [routerLink]="['/schedule/add']">Add Schedule</a></li>
+            <li *ngIf="doctorScheduleListPagePermission"><a [routerLink]="['/schedule/list']">My Schedule</a></li>
             <li *ngIf="viewDoctorSchedulePagePermission"><a [routerLink]="['/schedule/view']">View Schedule</a></li>
-            <li *ngIf="inviteFacilitatorPagePermission"><a [routerLink]="['/um/invite/facilitator']">Invite Facilitator</a></li>
+
+
           </ul>
         </li>
 
