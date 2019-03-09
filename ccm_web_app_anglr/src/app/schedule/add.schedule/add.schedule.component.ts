@@ -213,7 +213,7 @@ export class AddScheduleComponent implements OnInit {
             // 'X': ['X', [Validators.required, Validators.pattern('[0-9]{4}')]],
             'scheduleDate': ["", Validators.compose([Validators.required])],
             'isOffDay': ["", Validators.compose([])],
-            'shift': ["", Validators.compose([Validators.required])],
+            'shift': ["", Validators.compose([])],
             'scheduleShift': this._formBuilder.array([]),
             // ---------------------------------------------------------------------
             // 'Ys': this._formBuilder.array([
@@ -225,8 +225,8 @@ export class AddScheduleComponent implements OnInit {
     initSS() {
         return this._formBuilder.group({
             //  ---------------------forms fields on y level ------------------------
-            'startTime': ["", Validators.compose([Validators.required])],
-            'endTime': ["", Validators.compose([Validators.required])],
+            'startTime': ["", Validators.compose([])],
+            'endTime': ["", Validators.compose([])],
             // ---------------------------------------------------------------------
         },
             {
