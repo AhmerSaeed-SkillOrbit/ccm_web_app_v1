@@ -29,7 +29,7 @@ import { UtilityService } from '../../core/services/general/utility.service';
 @Component({
     moduleId: module.id,
     templateUrl: 'registration.component.html',
-    styleUrls: ['registration.component.css']
+    // styleUrls: ['registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
 
@@ -191,14 +191,14 @@ export class RegistrationComponent implements OnInit {
     }
 
     loadBranches(cityId) {
-        // this._setupService.getBranchesViaCityId(this.user.cityId).subscribe(
-        this._setupService.getBranchesViaCityId(cityId).subscribe(
-            (res) => {
-                // this.branches = res.json().genericBody.data.branches;
-                this.branches = res.json().data;
-            },
-            (err) => console.log(err)
-        );
+        // // this._setupService.getBranchesViaCityId(this.user.cityId).subscribe(
+        // this._setupService.getBranchesViaCityId(cityId).subscribe(
+        //     (res) => {
+        //         // this.branches = res.json().genericBody.data.branches;
+        //         this.branches = res.json().data;
+        //     },
+        //     (err) => console.log(err)
+        // );
     }
 
 
@@ -370,11 +370,11 @@ export class RegistrationComponent implements OnInit {
                 // this._uiServices.hideSpinner();
                 // this._authServices.storeUser(this.userForm);
 
-                msg.msg = res.json() ? res.json().message : 'Token Verify Successfully';
-                // msg.msg = 'You have successfully signed up';
-                msg.msgType = MessageTypes.Information;
-                msg.autoCloseAfter = 400;
-                this._uiServices.showToast(msg, 'info');
+                // msg.msg = res.json() ? res.json().message : 'Token Verify Successfully';
+                // // msg.msg = 'You have successfully signed up';
+                // msg.msgType = MessageTypes.Information;
+                // msg.autoCloseAfter = 400;
+                // this._uiServices.showToast(msg, 'info');
 
             },
             (err) => {
@@ -382,7 +382,7 @@ export class RegistrationComponent implements OnInit {
                 this.tokenVerifying = false;
                 // this._uiServices.hideSpinner();
                 // this.isSubmitted = false;
-                this._authServices.errStatusCheckResponse(err);
+                // this._authServices.errStatusCheckResponse(err);
             }
         );
 

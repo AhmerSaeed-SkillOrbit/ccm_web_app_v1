@@ -16,6 +16,7 @@ import { Token } from '../../models/token';
 import { environment } from '../../../../environments/environment';
 
 import { Message, MessageTypes } from '../../models/message';
+import { Permission } from '../../models/permission';
 
 
 @Injectable()
@@ -133,6 +134,7 @@ export class AuthService implements IAuthService, OnDestroy {
             if (token.tokenExpiry > Date.now().toString()) {
                 return true;
             }
+            return true;
         }
         return false;
     }
@@ -318,7 +320,7 @@ export class AuthService implements IAuthService, OnDestroy {
             MobileNumber: user.mobileNumber || null,
             TelephoneNumber: user.phoneNumber || null,
             OfficeAddress: user.officeAddress || null,
-            ResidentialAddress: user.ResidentialAddress || null,
+            ResidentialAddress: user.residentialAddress || null,
             Gender: user.gender || null,
             FunctionalTitle: user.functionalTitle || null,
             Age: user.age || null,
@@ -410,6 +412,16 @@ export class AuthService implements IAuthService, OnDestroy {
         this.loginUserStatusChanged.next(user);
     }
 
+    public storePermission(permissions: Permission[]) {
+        if (!permissions) { return; }
+
+        let user = this.getUser();
+        user.permissions = permissions;
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('userPermissions', JSON.stringify(permissions));
+        this.loginUserStatusChanged.next(user);
+    }
+
     public storeUrlPath(urlPath: string) {
         localStorage.setItem('urlPath', JSON.stringify(urlPath));
     }
@@ -421,6 +433,13 @@ export class AuthService implements IAuthService, OnDestroy {
     getUser(): User {
         if (localStorage.getItem('user')) {
             return JSON.parse(localStorage.getItem('user'));
+        }
+        return;
+    }
+
+    getUserPermissions(): Permission[] {
+        if (localStorage.getItem('userPermissions')) {
+            return JSON.parse(localStorage.getItem('userPermissions'));
         }
         return;
     }

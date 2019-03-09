@@ -132,43 +132,75 @@ export const Config = {
             code: "company",
         }
     ],
-    jurisdiction: [
+    months: [
+        {
+            id: 0,
+            shortName: "Jan",
+            longName: "January",
+        },
         {
             id: 1,
-            courtName: "High Court Sindh",
-            courtCode: "high_court_sindh",
-            sortOrder: 1,
-            contactPerson: "Vohra",
-            locationAddress: "Kati Pahari",
-            contactNumber: "090078601"
+            shortName: "Feb",
+            longName: "February",
         },
         {
             id: 2,
-            courtName: "Supreme Court",
-            courtCode: "supreme_court",
-            sortOrder: 2,
-            contactPerson: "Vohra",
-            locationAddress: "Kati Pahari",
-            contactNumber: "090078601"
+            shortName: "Mar",
+            longName: "March",
         },
         {
             id: 3,
-            courtName: "Civil Court",
-            courtCode: "civil_court",
-            sortOrder: 3,
-            contactPerson: "Vohra",
-            locationAddress: "Kati Pahari",
-            contactNumber: "090078601"
+            shortName: "Apr",
+            longName: "April",
         },
         {
             id: 4,
-            courtName: "Banking Court",
-            courtCode: "banking_court",
-            sortOrder: 4,
-            contactPerson: "Vohra",
-            locationAddress: "Kati Pahari",
-            contactNumber: "090078601"
-        }
+            shortName: "May",
+            longName: "May",
+        },
+        {
+            id: 5,
+            shortName: "Jun",
+            longName: "June",
+        },
+        {
+            id: 6,
+            shortName: "Jul",
+            longName: "July",
+        },
+        {
+            id: 7,
+            shortName: "Aug",
+            longName: "August",
+        },
+        {
+            id: 8,
+            shortName: "Sep",
+            longName: "September",
+        },
+        {
+            id: 9,
+            shortName: "Oct",
+            longName: "October",
+        },
+        {
+            id: 10,
+            shortName: "Nov",
+            longName: "November",
+        },
+        {
+            id: 11,
+            shortName: "Dec",
+            longName: "December",
+        },
+    ],
+    year: {
+        min: 2019,
+        max: 2050
+    },
+    noOfShifts: [
+        1,
+        2
     ],
     // expertises: [
     //     {
