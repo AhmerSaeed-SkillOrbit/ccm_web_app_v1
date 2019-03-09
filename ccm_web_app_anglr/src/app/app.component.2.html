@@ -1,0 +1,22 @@
+<!-- Load header if User is logged in -->
+<div class="app-layout">
+  <div [hidden]="!loading" class="loader">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+  <div [hidden]="loading" class="router-output">
+    <div class="inf">
+      <!-- <secure-header *ngIf="isLoggedIn">
+      </secure-header> -->
+    </div>
+
+    <div>
+      <router-outlet></router-outlet>
+    </div>
+
+
+    <!-- <secure-footer *ngIf="isLoggedIn">
+    </secure-footer> -->
+  </div>
+</div>
+<toast></toast>
+<page-loader></page-loader>

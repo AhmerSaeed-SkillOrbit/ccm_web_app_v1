@@ -1,0 +1,667 @@
+<div class="row">
+
+  <header class="header col-lg-12">
+    <div class="row header-inside-row">
+
+      <div class="col-md-6">
+        <div class="header__logo hidden-sm-down">
+          <div class="logo-placeholder inverted">
+
+            <!-- <div class="logo" [routerLink]="['/']"> -->
+            <div class="logo">
+              <button mat-button (click)="showNav = !showNav" class="mbt-btn mat-icon-button nav-toggle-btn">
+                <i class="fa fa-bars"></i>
+              </button>
+              <img src="assets/img/Logo-Coloured.png" [routerLink]="['/']" alt="nbp">
+            </div>
+            <!-- <a href="#"><img src="assets/img/Logo-Coloured.png" class="logo" alt="nbp"></a> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <ul class="top-nav">
+          <!-- <li *ngIf="user.entityType != 'backoffice'"> -->
+          <!-- <li>
+            <a>
+              <mat-icon [matMenuTriggerFor]="menu" style="color:black">notifications</mat-icon>
+            </a>
+            <span class="notification-count" *ngIf="this.countNotif>0 && notif.notification">{{notif.notification?.totalUnread}}</span>
+          </li> -->
+
+          <!-- <li>
+            <a (click)="navigate('/admin/a/a/home')" style="color:black">
+              Main Dashboard
+            </a>
+          </li> -->
+
+          <!-- <li>
+            <a (click)="navigate('/contract/dashboard')" style="color:black">
+              Contract Dashboard
+            </a>
+          </li> -->
+
+          <!-- <li>
+            <a (click)="navigate('/advisory/ad/dashboard')" style="color:black">
+              Advisory Dashboard
+            </a>
+          </li> -->
+
+          <li>
+            <a [matMenuTriggerFor]="profilemenu" style="color:black">
+              <!-- <div class="user-name">{{user && user.firstName? user.firstName : "Unknown"}}</div> -->
+              {{user && user.firstName? user.firstName : "Unknown"}}
+              <!-- <img class="profile-thumb small" src="{{profilePic?.url}}" alt="profile_pic"> -->
+              <img class="profile-thumb small" src="{{profilePic}}" alt="profile_pic">
+              <i class="material-icons">arrow_drop_down</i>
+            </a>
+          </li>
+
+          <!-- <mat-menu #menu="matMenu">
+            <header-notification [notif]='notif' (onNotifClick)='onNotifClick($event)'></header-notification>
+            <header-notification (onNotifClick)='onNotifClick($event)'></header-notification>
+          </mat-menu> -->
+
+          <mat-menu #profilemenu="matMenu" class="profile-menu">
+            <div>
+              <ul class="nav-menu">
+                <!-- <li (click)="onProfileViewClick()">Profile</li> -->
+                <!-- <li (click)="onProfileClick()">Edit</li> -->
+                <li (click)="onProfileClick()">Profile</li>
+                <li (click)="onChangePasswordClick()">Change Password</li>
+                <li (click)="onlogOut()">Logout</li>
+              </ul>
+            </div>
+          </mat-menu>
+
+        </ul>
+        <!-- <notification [ngStyle]="{'display':'none'}" [noti]='notif' (onNotifClickUpdate)='onNotifClickUpdate($event)'></notification> -->
+      </div>
+    </div>
+  </header>
+  <!-- <sidebar *ngIf="sidebar" [ngClass]="(showNav == true)?'new-dp':''"></sidebar> -->
+  <div class="col-md-3">
+    <aside class="sidebar" [ngClass]="(showNav == true)?'new-dp':''">
+      <div class="scrollable">
+        <div class="user">
+          <div class="user-info">
+            <img class="user-img" src="{{profilePic}}" alt="profile_pic">
+            <!-- <img class="user-img" src="assets/img/user.png" alt="profile_pic"> -->
+            <!-- <img class="profile-thumb small" src="assets/img/user.png" alt="profile_pic"> -->
+            <div class="box">
+              <div class="user-name">{{user && user.firstName? user.firstName : "Unknown"}}</div>
+              <!-- <div class="user-about">{{user?.entityDescription}}</div> -->
+              <div class="user-location">
+                <!-- <mat-icon>location_on</mat-icon>Karachi -->
+                {{user && user.roles.length > 0? user.roles[0].roleName : "NA"}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <ul class="navigation">
+          <li *ngIf="user && user.roleCode == 'super_admin'">
+            <a (click)="navigate('/home/admin')">
+            <!-- <a href=""> -->
+              <i class="fa fa-dashboard"></i>
+              Dashboard
+            </a>
+          </li>
+          <li *ngIf="!(user && user.roleCode == 'super_admin')">
+            <a (click)="navigate('/home/other')">
+            <!-- <a href=""> -->
+              <i class="fa fa-dashboard"></i>
+              Home
+            </a>
+          </li>
+
+          <li>
+            <a (click)="expandRow(1 , -1)">
+              <i class="fa fa-users"></i>
+              Litigation Module
+              <span>
+                <i class="right-ico fa" [ngClass]="(1 === expandedIndex) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+              </span>
+            </a>
+            <ul class="sub" [ngClass]="(1 === expandedIndex) ? 'show' : ''">
+              <span *ngIf="1 === expandedIndex">
+
+                <li *ngIf="permission && (permission.user_add===true || permission.user_list===true)">
+                  <a (click)="expandRow(1 , 1.1)">
+                    <i class="fa fa-users"></i>
+                    User Management
+                    <span>
+                      <i class="right-ico fa " [ngClass]="(1.1 === expandedIndexLevelOne)?'fa-chevron-up':'fa-chevron-down'"></i>
+                    </span>
+                  </a>
+                  <ul class="sub" [ngClass]="(1.1 === expandedIndexLevelOne) ? 'show' : ''">
+                    <span *ngIf="1.1 === expandedIndexLevelOne">
+                      <li *ngIf="permission && permission.user_add">
+                        <a (click)="navigate('/admin/users/add')">
+                          <i class="fa fa-user-plus"></i>
+                          Add User
+                        </a>
+                      </li>
+                      <li *ngIf="permission && permission.user_list">
+                        <a (click)="navigate('/admin/users/list')">
+                          <i class="fa fa-list"></i>
+                          User List
+                        </a>
+                      </li>
+                    </span>
+                  </ul>
+                </li>
+
+                <li *ngIf="permission && (permission.npl_account_list || permission.internal_employee_list || permission.external_party_list)">
+                  <a (click)="expandRow(1 , 1.2)">
+                    <i class="fa fa-cubes"></i>
+                    Case Party Management
+                    <span>
+                      <i class="right-ico fa " [ngClass]="(1.2 === expandedIndexLevelOne)?'fa-chevron-up':'fa-chevron-down'"></i>
+                    </span>
+                  </a>
+                  <ul class="sub" [ngClass]="(1.2 === expandedIndexLevelOne) ? 'show' : ''">
+                    <span *ngIf="1.2 === expandedIndexLevelOne">
+                      <li *ngIf="permission && permission.npl_account_list">
+                        <a (click)="navigate('/list/npl/accounts')">
+                          <i class="fa fa-list"></i>
+                          NPL Account
+                        </a>
+                      </li>
+                      <li *ngIf="permission && permission.internal_employee_list">
+                        <a (click)="navigate('/list/internal/employees')">
+                          <i class="fa fa-list"></i>
+                          Internal Employee
+                        </a>
+                      </li>
+                      <li>
+                        <a (click)="navigate('/list/internal/unions')">
+                          <i class="fa fa-list"></i>
+                          Internal Union
+                        </a>
+                      </li>
+                      <li *ngIf="permission && permission.external_party_list">
+                        <a (click)="navigate('/list/external/employees')">
+                          <i class="fa fa-list"></i>
+                          External Party
+                        </a>
+                      </li>
+                    </span>
+                  </ul>
+                </li>
+
+                <li *ngIf="permission && (permission.case_create_page || permission.case_list || permission.case_plaint_list_lawyer || permission.case_decision_action_page || permission.case_close_page)">
+                  <a (click)="expandRow(1 , 1.3)">
+                    <i class="fa fa-database"> </i>
+                    Case Management
+                    <span>
+                      <i class="right-ico fa " [ngClass]="(1.3 === expandedIndexLevelOne)?'fa-chevron-up':'fa-chevron-down'"></i>
+                    </span>
+                  </a>
+                  <ul class="sub" [ngClass]="(1.3 === expandedIndexLevelOne)?'show':''">
+                    <span *ngIf="1.3 === expandedIndexLevelOne">
+                      <li *ngIf="permission && permission.case_create_page">
+                        <a (click)="navigate('/case/c/create')">
+                          <i class="fa fa-plus"></i>
+                          Create Case
+                        </a>
+                      </li>
+                      <li *ngIf="permission && permission.case_list">
+                        <a (click)="navigate('/case/c/list')">
+                          <i class=" fa fa-list"></i>
+                          Case List
+                        </a>
+                      </li>
+                      <li *ngIf="permission && (permission.case_plaint_list_lawyer || permission.case_plaint_list_other)">
+                        <a (click)="permission.case_plaint_list_other ? navigate('/lawyerPanel/lp/case/plaint/list') : navigate('/lawyerPanel/lp/case/list')">
+                          <i class=" fa fa-list"></i>
+                          Case Plaint
+                        </a>
+                      </li>
+
+                      <li *ngIf="permission && permission.case_decision_action_page">
+                        <a (click)="navigate('/court/c/decision/action')">
+                          <i class="fa fa-circle-o-notch"></i>
+                          Case Disposal
+                        </a>
+                      </li>
+                      <li *ngIf="permission && permission.case_close_page">
+                        <a (click)="navigate('/case/c/close')">
+                          <i class="fa fa-window-close-o"></i>
+                          Case Close
+                        </a>
+                      </li>
+                    </span>
+                  </ul>
+                </li>
+
+                <li *ngIf="permission && (permission.law_firm_list || permission.law_firm_add_page || permission.law_firm_user_add)">
+                  <a (click)="expandRow(1 , 1.4)">
+                    <i class="fa fa-gavel"></i>
+                    Law Firm Management
+                    <span>
+                      <i class="right-ico fa " [ngClass]="(1.4 === expandedIndexLevelOne)?'fa-chevron-up':'fa-chevron-down'"></i>
+                    </span>
+                  </a>
+                  <ul class="sub" [ngClass]="(1.4 === expandedIndexLevelOne)?'show':''">
+                    <span *ngIf="1.4 === expandedIndexLevelOne">
+                      <li *ngIf="permission && permission.law_firm_list">
+                        <a (click)="navigate('/lawfirm/list')">
+                          <i class="fa fa-list"></i>
+                          Law Firm List
+                        </a>
+                      </li>
+                      <li *ngIf="permission && permission.law_firm_add_page">
+                        <a (click)="navigate('/lawfirm/add')">
+                          <i class="fa fa-plus"></i>
+                          Add Law Firm
+                        </a>
+                      </li>
+                      <li *ngIf="permission && permission.law_firm_user_add">
+                        <a (click)="navigate('/lawfirm/user/add')">
+                          <i class="fa fa-plus"></i>
+                          Add Law Firm User
+                        </a>
+                      </li>
+                    </span>
+                  </ul>
+                </li>
+
+                <li *ngIf="permission && (permission.court_list || permission.judge_list)">
+                  <a (click)="expandRow(1 , 1.5)">
+                    <i class="fa fa-balance-scale"> </i>
+                    Court Management
+                    <span>
+                      <i class="right-ico fa " [ngClass]="(1.5 === expandedIndexLevelOne)?'fa-chevron-up':'fa-chevron-down'"></i>
+                    </span>
+                  </a>
+                  <ul class="sub" [ngClass]="(1.5 === expandedIndexLevelOne)?'show':''">
+                    <span *ngIf="1.5 === expandedIndexLevelOne">
+                      <li *ngIf="permission && permission.court_list">
+                        <a (click)="navigate('/court/c/list')">
+                          <i class="fa fa-list"></i>
+                          Court List
+                        </a>
+                      </li>
+                      <li *ngIf="permission && permission.judge_list">
+                        <a (click)="navigate('/court/judge/list')">
+                          <i class="fa fa-list"></i>
+                          Judge List
+                        </a>
+                      </li>
+
+                    </span>
+                  </ul>
+                </li>
+
+                <li *ngIf="permission && (permission.case_expense_list || permission.case_expense_add)">
+                  <a (click)="expandRow(1 , 1.6)">
+                    <i class="fa fa-money"></i>
+                    Expense Management
+                    <span>
+                      <i class="right-ico fa " [ngClass]="(1.6 === expandedIndexLevelOne)?'fa-chevron-up':'fa-chevron-down'"></i>
+                    </span>
+                  </a>
+                  <ul class="sub" [ngClass]="(1.6 === expandedIndexLevelOne)?'show':''">
+                    <span *ngIf="1.6 === expandedIndexLevelOne">
+                      <li *ngIf="permission && permission.case_expense_add">
+                        <a (click)="navigate('/payment/p/add')">
+                          <i class="fa fa-plus"></i>
+                          Add Expense
+                        </a>
+                      </li>
+                      <li *ngIf="permission && permission.case_expense_list">
+                        <a (click)="navigate('/payment/p/list')">
+                          <i class=" fa fa-list"></i>
+                          Expense List
+                        </a>
+                      </li>
+                    </span>
+                  </ul>
+                </li>
+
+                <li *ngIf="permission && (permission.settlement_prefiling_list || permission.settlement_postfiling_list  || permission.settlement_payment_page)">
+                  <a (click)="expandRow(1 , 1.7)">
+                    <i class="fa fa-handshake-o"></i>
+                    Settlement Management
+                    <span>
+                      <i class="right-ico fa " [ngClass]="(1.7 === expandedIndexLevelOne)?'fa-chevron-up':'fa-chevron-down'"></i>
+                    </span>
+                  </a>
+                  <ul class="sub" [ngClass]="(1.7 === expandedIndexLevelOne)?'show':''">
+                    <span *ngIf="1.7 === expandedIndexLevelOne">
+                      <li *ngIf="permission && permission.settlement_prefiling_list">
+                        <a (click)="navigate('/settlement/prefiling')">
+                          <i class=" fa fa-list"></i>
+                          Pre-Case File
+                        </a>
+                      </li>
+                      <li *ngIf="permission && permission.settlement_postfiling_list">
+                        <a (click)="navigate('/settlement/postfiling')">
+                          <i class=" fa fa-list"></i>
+                          Post-Case File
+                        </a>
+                      </li>
+                      <li *ngIf="permission && permission.settlement_payment_page">
+                        <a (click)="navigate('/settlement/payment')">
+                          <i class=" fa fa-ticket"></i>
+                          Receive Payment
+                        </a>
+                      </li>
+                    </span>
+                  </ul>
+                </li>
+
+                <li *ngIf="permission && (permission.negotiation_list || permission.negotiation_process_start)">
+                  <a (click)="expandRow(1 , 1.8)">
+                    <i class="fa fa-comments-o"></i>
+                    Negotiation Management
+                    <span>
+                      <i class="right-ico fa " [ngClass]="(1.8 === expandedIndexLevelOne)?'fa-chevron-up':'fa-chevron-down'"></i>
+                    </span>
+                  </a>
+                  <ul class="sub" [ngClass]="(1.8 === expandedIndexLevelOne)?'show':''">
+                    <span *ngIf="1.8 === expandedIndexLevelOne">
+                      <li *ngIf="permission && permission.negotiation_process_start">
+                        <a (click)="navigate('/negotiation/process')">
+                          <i class="fa fa-plus"></i>
+                          Start Negotiation
+                        </a>
+                      </li>
+                      <li *ngIf="permission && permission.negotiation_list">
+                        <a (click)="navigate('/negotiation/list')">
+                          <i class="fa fa-list"></i>
+                          Negotiation List
+                        </a>
+                      </li>
+                    </span>
+                  </ul>
+                </li>
+
+                <li *ngIf="permission && (permission.auction_list || permission.auction_held_list)">
+                  <a (click)="expandRow(1 , 1.9)">
+                    <i class="fa fa-superpowers"></i>
+                    Auction Management
+                    <span>
+                      <i class="right-ico fa " [ngClass]="(1.9 === expandedIndexLevelOne)?'fa-chevron-up':'fa-chevron-down'"></i>
+                    </span>
+                  </a>
+                  <ul class="sub" [ngClass]="(1.9 === expandedIndexLevelOne)?'show':''">
+                    <span *ngIf="1.9 === expandedIndexLevelOne">
+                      <li *ngIf="permission && permission.auction_list">
+                        <a (click)="navigate('/auction/schedule')">
+                          <i class="fa fa-list"></i>
+                          Schedule Auction
+                        </a>
+                      </li>
+
+                      <li *ngIf="permission && permission.auction_held_list">
+                        <a (click)="navigate('/auction/held')">
+                          <i class="fa fa-list"></i>
+                          Held Auction
+                        </a>
+                      </li>
+                    </span>
+                  </ul>
+                </li>
+
+                <li *ngIf="permission && permission.bail_list">
+                  <a (click)="expandRow(1 , 1.11)">
+                    <i class="fa fa-address-book-o"></i>
+                    Bail Management
+                    <span>
+                      <i class="right-ico fa " [ngClass]="(1.11 === expandedIndexLevelOne)?'fa-chevron-up':'fa-chevron-down'"></i>
+                    </span>
+                  </a>
+                  <ul class="sub" [ngClass]="(1.11 === expandedIndexLevelOne)?'show':''">
+                    <span *ngIf="1.11 === expandedIndexLevelOne">
+                      <li>
+                        <a (click)="navigate('/bail')">
+                          <i class="fa fa-list"></i>
+                          Bail List
+                        </a>
+                      </li>
+                    </span>
+                  </ul>
+                </li>
+
+                <li *ngIf="permission && permission.fir_list">
+                  <a (click)="expandRow(1 , 1.12)">
+                    <i class="fa fa-address-book"></i>
+                    FIR Management
+                    <span>
+                      <i class="right-ico fa " [ngClass]="(1.12 === expandedIndexLevelOne)?'fa-chevron-up':'fa-chevron-down'"></i>
+                    </span>
+                  </a>
+                  <ul class="sub" [ngClass]="(1.12 === expandedIndexLevelOne)?'show':''">
+                    <span *ngIf="1.12 === expandedIndexLevelOne">
+                      <li>
+                        <a (click)="navigate('/fir')">
+                          <i class="fa fa-list"></i>
+                          FIR List
+                        </a>
+                      </li>
+                    </span>
+                  </ul>
+                </li>
+
+                <li *ngIf="permission && permission.manage_role_page">
+                  <a (click)="expandRow(1 , 1.13)">
+                    <i class="fa fa-object-group"></i>
+                    Role And Permission
+                    <i class="right-ico fa " [ngClass]="(1.13 === expandedIndexLevelOne)?' fa-chevron-up':'fa-chevron-down'"></i>
+                  </a>
+                  <ul class="sub" [ngClass]="(1.13 === expandedIndexLevelOne)?'show':''">
+                    <span *ngIf="1.13 === expandedIndexLevelOne">
+                      <li>
+                        <a (click)="navigate('/admin/sf/manage-role')">
+                          <i class="fa fa-cog"></i>
+                          Manage Role
+                        </a>
+                      </li>
+                      <li>
+                        <a (click)="navigate('/admin/sf/assign-permission')">
+                          <i class=" fa fa-key"></i>
+                          Assign Permission
+                        </a>
+                      </li>
+                    </span>
+                  </ul>
+                </li>
+
+                <li *ngIf="permission && (permission.case_setup_page || permission.branch_setup_page)">
+                  <a (click)="expandRow(1 , 1.14)">
+                    <i class="fa fa-cogs"></i>
+                    Setup Form
+                    <i class="right-ico fa " [ngClass]="(1.14 === expandedIndexLevelOne)?'fa-chevron-up':'fa-chevron-down'"></i>
+                  </a>
+                  <ul class="sub" [ngClass]="(1.14 === expandedIndexLevelOne)?'show':''">
+                    <span *ngIf="1.14 === expandedIndexLevelOne">
+                      <li *ngIf="permission && permission.branch_setup_page">
+                        <a (click)="navigate('/admin/sf/manage-branch')">
+                          <i class="fa fa-cog"></i>
+                          Manage Branch
+                        </a>
+                      </li>
+
+                      <li *ngIf="permission && permission.case_setup_page">
+                        <a (click)="navigate('/admin/sf/case-setup')">
+                          <i class="fa fa-cog"></i>
+                          Case Setup
+                        </a>
+                      </li>
+                    </span>
+                  </ul>
+                </li>
+
+              </span>
+            </ul>
+          </li>
+
+          <li>
+            <a (click)="expandRow(2)">
+              <i class="fa fa-list-alt"></i>
+              Contract Module
+              <i class="right-ico fa " [ngClass]="(2 === expandedIndex)?'fa-chevron-up':'fa-chevron-down'"></i>
+            </a>
+            <ul class="sub" [ngClass]="(2 === expandedIndex)?'show':''">
+              <span *ngIf="2 === expandedIndex">
+                <li>
+                  <a (click)="navigate('/contract/dashboard')">
+                    <i class="fa fa-dashboard"></i>
+                    Dashboard
+                  </a>
+                </li>
+                <li *ngIf="permission && permission.contract_add">
+                  <a (click)="navigate('/contract/add')">
+                    <i class="fa fa-plus"></i>
+                    Create Contract
+                  </a>
+                </li>
+                <li *ngIf="permission && permission.contract_list">
+                  <a (click)="navigate('/contract/list')">
+                    <i class="fa fa-list"></i>
+                    Contract List
+                  </a>
+                </li>
+                <li *ngIf="permission && permission.external_party_list">
+                  <a (click)="navigate('/list/external/employees')">
+                    <i class="fa fa-list"></i>
+                    External Party
+                  </a>
+                </li>
+              </span>
+            </ul>
+          </li>
+
+          <li>
+            <a (click)="expandRow(3)">
+              <i class="fa fa-lightbulb-o"></i>
+              Advisory Module
+              <i class="right-ico fa " [ngClass]="(3 === expandedIndex)?'fa-chevron-up':'fa-chevron-down'"></i>
+            </a>
+            <ul class="sub" [ngClass]="(3 === expandedIndex)?'show':''">
+              <span *ngIf="3 === expandedIndex">
+                <li>
+                  <a (click)="navigate('/advisory/ad/dashboard')">
+                    <i class="fa fa-dashboard"></i>
+                    Dashboard
+                  </a>
+                </li>
+                <li *ngIf="permission && permission.request_create_page">
+                  <a (click)="navigate('/advisory/ad/create')">
+                    <i class="fa fa-plus"></i>
+                    Create Request
+                  </a>
+                </li>
+                <!-- <li *ngIf="permission && permission.request_advice_page"> -->
+                <li *ngIf="permission && permission.request_list">
+                  <a (click)="navigate('/advisory/ad/list')">
+                    <i class="fa fa-list"></i>
+                    Request List
+                  </a>
+                </li>
+                <li *ngIf="permission && permission.discussion_page" >
+                  <a (click)="navigate('/advisory/ad/discussion')">
+                    <i class="fa fa-comments-o"></i>
+                    Request Discussion
+                  </a>
+                </li>
+              </span>
+            </ul>
+          </li>
+
+          <li *ngIf="permission && (permission.daily_report===true || permission.main_report===true || permission.case_added_report===true || permission.case_closed_report===true || permission.payment_report===true || permission.lawfirm_general_report===true || permission.lawfirm_region_wise_report===true || permission.lawfirm_court_wise_report===true || permission.lawfirm_decree_percentile===true)">
+            <a (click)="expandRow(4)">
+              <!-- <i class="fa fa-lightbulb-o"></i> -->
+              <i class="fa fa-clipboard"></i>
+              Report Module
+              <i class="right-ico fa " [ngClass]="(4 === expandedIndex)?'fa-chevron-up':'fa-chevron-down'"></i>
+            </a>
+            <ul class="sub" [ngClass]="(4 === expandedIndex)?'show':''">
+              <span *ngIf="4 === expandedIndex">
+                <li *ngIf="permission && permission.daily_report">
+                  <a (click)="navigate('/report/rp/daily/litigation')">
+                    <i class="fa fa-file"></i>
+                    Daily Litigation Report
+                  </a>
+                </li>
+                <li *ngIf="permission && permission.main_report">
+                  <a (click)="navigate('/report/rp/main/litigation')">
+                    <i class="fa fa-file"></i>
+                    Main Litigation Report
+                  </a>
+                </li>
+                <li *ngIf="permission && permission.case_added_report">
+                  <a (click)="navigate('/report/rp/new/cases/added')">
+                    <i class="fa fa-file"></i>
+                    New Cases Added
+                  </a>
+                </li>
+                <li *ngIf="permission && permission.case_closed_report">
+                  <a (click)="navigate('/report/rp/new/cases/closed')">
+                    <i class="fa fa-file"></i>
+                    New Cases Closed
+                  </a>
+                </li>
+                <li *ngIf="permission && permission.payment_report">
+                  <a (click)="navigate('/report/rp/payment')">
+                    <i class="fa fa-file"></i>
+                    Payments
+                  </a>
+                </li>
+                <li *ngIf="permission && permission.lawfirm_general_report">
+                  <a (click)="navigate('/report/rp/lawfirm')">
+                    <i class="fa fa-file"></i>
+                    Law Firm General
+                  </a>
+                </li>
+                <li *ngIf="permission && permission.lawfirm_region_wise_report">
+                  <a (click)="navigate('/report/rp/lawfirm/region')">
+                    <i class="fa fa-file"></i>
+                    Law Firm Region Wise
+                  </a>
+                </li>
+                <li *ngIf="permission && permission.lawfirm_court_wise_report">
+                  <a (click)="navigate('/report/rp/lawfirm/court')">
+                    <i class="fa fa-file"></i>
+                    Law Firm Court Wise
+                  </a>
+                </li>
+                <li *ngIf="permission && permission.lawfirm_decree_percentile">
+                  <a (click)="navigate('/report/rp/lawfirm/decree/percentile')">
+                    <i class="fa fa-file"></i>
+                    Law Firm Decree Percentile
+                  </a>
+                </li>
+              </span>
+            </ul>
+          </li>
+
+          <li *ngIf="permission && (permission.npl_file_upload_log===true)">
+            <a (click)="expandRow(5)">
+              <!-- <i class="fa fa-lightbulb-o"></i> -->
+              <i class="fa fa-clipboard"></i>
+              Log
+              <i class="right-ico fa " [ngClass]="(5 === expandedIndex)?'fa-chevron-up':'fa-chevron-down'"></i>
+            </a>
+            <ul class="sub" [ngClass]="(5 === expandedIndex)?'show':''">
+              <span *ngIf="5 === expandedIndex">
+                <li *ngIf="permission && permission.npl_file_upload_log">
+                  <a (click)="navigate('/log/npl/list')">
+                    <i class="fa fa-file"></i>
+                    Npl File Upload
+                  </a>
+                </li>
+              </span>
+            </ul>
+          </li>
+
+          <li>
+            <a (click)="onlogOut()">
+              <i class="fa fa-sign-out"></i>Logout
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</div>
