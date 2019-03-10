@@ -11,7 +11,8 @@ import { Region } from '../../models/region';
 import { City } from '../../models/city';
 import { Branch } from '../../models/branch';
 import { Permission } from '../../models/permission';
-import { Schedule, ScheduleDetail, ScheduleShift } from '../../models/schedule.model';
+import { Schedule, ScheduleDetail, ScheduleShift, TimeSlot } from '../../models/schedule.model';
+import { Appointment } from '../../models/appointment';
 
 @Injectable()
 export class MappingService {
@@ -132,6 +133,8 @@ export class MappingService {
         if (scheduleData) {
             isSchedule.id = scheduleData.Id || null;
             isSchedule.scheduleId = scheduleData.Id || null;
+            isSchedule.doctorFirstName = scheduleData.FirstName || null;
+            isSchedule.doctorLastName = scheduleData.LastName || null;
             isSchedule.monthId = scheduleData.MonthName && scheduleData.MonthName > 0 ? (scheduleData.MonthName - 1) || null : null;
             isSchedule.year = scheduleData.YearName || null;
             isSchedule.startDate = scheduleData.StartDate || null;
@@ -193,8 +196,74 @@ export class MappingService {
             isScheduleShift.scheduleShiftId = scheduleShiftData.Id || null;
             isScheduleShift.startTime = scheduleShiftData.StartTime || false;
             isScheduleShift.endTime = scheduleShiftData.EndTime || null;
+            isScheduleShift.noOfPatientAllowed = scheduleShiftData.NoOfPatientAllowed || null;
+
+            let ts = [];
+
+            if (scheduleShiftData.TimeSlot && scheduleShiftData.TimeSlot.length > 0) {
+
+                scheduleShiftData.TimeSlot.forEach(element => {
+                    ts.push(this.mapTimeSlot(element));
+                });
+            }
+
+
+            isScheduleShift.timeSlots = ts;
         }
         return isScheduleShift;
+    }
+
+    public mapTimeSlot(res: any): TimeSlot {
+        const timeSlotData = res;
+        const isTimeSlot = new TimeSlot();
+        if (timeSlotData) {
+            isTimeSlot.id = timeSlotData.Id || null;
+            isTimeSlot.timeSlotId = timeSlotData.Id || null;
+            isTimeSlot.scheduleShiftId = timeSlotData.DoctorScheduleShiftId || null;
+            isTimeSlot.timeSlot = timeSlotData.TimeSlot || false;
+            isTimeSlot.isBooked = timeSlotData.IsBooked || null;
+        }
+        return isTimeSlot;
+    }
+
+    public mapAppointment(res: any): Appointment {
+        const appointmentData = res;
+        const isAppointment = new Appointment();
+        if (appointmentData) {
+            isAppointment.id = appointmentData.Id || null;
+            isAppointment.appointmentId = appointmentData.Id || null;
+            isAppointment.appointmentNumber = appointmentData.AppointmentNumber || null;
+
+            isAppointment.scheduleDate = appointmentData.ScheduleDate || null;
+
+            isAppointment.patientId = appointmentData.PatientId || null;
+            isAppointment.patientFirstName = appointmentData.PatientFirstName || null;
+            isAppointment.patientLastName = appointmentData.PatientLastName || null;
+
+            isAppointment.doctorId = appointmentData.DoctorId || null;
+            isAppointment.doctorFirstName = appointmentData.DoctorFirstName || null;
+            isAppointment.doctorLastName = appointmentData.DoctorLastName || null;
+
+            isAppointment.shiftId = appointmentData.DoctorScheduleShiftId || null;
+
+            isAppointment.timeSlotId = appointmentData.TimeSlotId || null;
+            isAppointment.timeSlot.timeSlot = appointmentData.TimeSlot || null;
+
+            isAppointment.comment = appointmentData.Description || null;
+
+            isAppointment.requestStatus = appointmentData.RequestStatus || null;
+            isAppointment.requestStatusReason = appointmentData.RequestStatusReason || null;
+            isAppointment.appointmentStatus = appointmentData.AppointmentStatus || null;
+            isAppointment.appointmentStatusReason = appointmentData.AppointmentStatusReason || null;
+
+            isAppointment.isActive = appointmentData.IsActive || false;
+            isAppointment.createdBy = appointmentData.CreatedBy || null;
+            isAppointment.updatedBy = appointmentData.UpdatedBy || null;
+            isAppointment.createdOn = appointmentData.CreatedOn || null;
+            isAppointment.updatedOn = appointmentData.UpdatedOn || null;
+
+        }
+        return isAppointment;
     }
 
     public mapDocument(res: any): Document {

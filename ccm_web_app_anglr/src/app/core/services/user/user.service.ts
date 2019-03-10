@@ -222,12 +222,12 @@ export class UserService {
         options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
 
         const getUrl = 'user/delete?id=' + (Id || null);
-    
+
         console.log('getUrl');
         console.log(getUrl);
 
         let body = {
-            Id : Id
+            Id: Id
         }
 
         return this._http.post(getUrl, body, options)
@@ -356,6 +356,26 @@ export class UserService {
         // let userId = token.userId;
         // user/list/search?p=0&c=2&s=null&r=null
         const getUrl = 'doctor/facilitator?doctorId=' + (doctorId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    // --------- Patient Associated Doctor
+    public getPatientAssociatedDoctor(patientId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        // let userId = token.userId;
+        // user/list/search?p=0&c=2&s=null&r=null
+        const getUrl = 'patient/associated/doctor?patientId=' + (patientId || null);
         return this._http.get(getUrl, options)
             .map((res: Response) => res)
             .catch((error: any) => {

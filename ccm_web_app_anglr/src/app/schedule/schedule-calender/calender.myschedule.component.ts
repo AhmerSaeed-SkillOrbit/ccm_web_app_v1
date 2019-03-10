@@ -3,6 +3,8 @@ import {
   ChangeDetectionStrategy,
   ViewEncapsulation, OnInit, OnDestroy, AfterViewInit, NgZone
 } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 import { CalendarEvent, CalendarMonthViewDay } from 'angular-calendar';
 // import { DoctorScheduleService, OffDays, Holidays, Schedule } from "../../core/services/doctor/doctor.schedule.service";
 import { DoctorScheduleService, OffDays, Holidays } from "../../core/services/doctor/doctor.schedule.service";
@@ -31,6 +33,7 @@ import {
 import { User } from '../../core/models/user';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 import { Schedule } from '../../core/models/schedule.model';
+import { AppointmentDialogeComponent } from '../../shared/appointment.dialoge/appointment.dialoge.component';
 // import { StatusService } from '../../core/services/user/status.service';
 
 type CalendarPeriod = 'day' | 'week' | 'month';
@@ -111,6 +114,8 @@ export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
   // currentyear;
   // currentmonth;
   offDays: OffDays[];
+
+  isSubmmited: boolean = false;
   LoadingPage = 'none';
   LoadingPageload = 'none';
   calenderView = 'block';
@@ -136,15 +141,25 @@ export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
 
   constructor(private dialog: MatDialog,
     // private _statusService: StatusService,
+    private route: ActivatedRoute, private _router: Router,
     private _authServices: AuthService,
     private _doctorScheduleService: DoctorScheduleService,
     private _uiService: UIService,
     private _mappingService: MappingService,
+    private datePipe: DatePipe,
     private _zone: NgZone
   ) {
     this.user = this._authServices.getUser();
 
-    this.docId = this.user.id;
+    const id = this.route.snapshot.params['id'];
+
+    if (id) {
+      this.docId = id;
+    }
+    else {
+      this.docId = this.user.id;
+    }
+
 
     this.currentDate = new Date();
     this.month = this.currentDate.getMonth();
@@ -248,23 +263,98 @@ export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
   }
 
   dayClicked(day: CalendarMonthViewDay): void {
+    let msg = new Message();
+    console.log("dayClicked day", day);
 
 
-    var date = day.date.getDate().toString();
-    var month = (day.date.getMonth() + 1).toString();
-    var year = day.date.getFullYear();
 
-    if (date.length < 2) {
-      date = '0' + date
+
+    if (this.user.role.roleCode == "patient") {
+
+      if (this.schedule.id) {
+        const date = this.datePipe.transform(day.date, 'yyyy-MM-dd');
+
+        // const sd = this.schedule.scheduleDetails.filter(sd => new Date(sd.scheduleDate) == day.date);
+        const sd = this.schedule.scheduleDetails.filter(sd => sd.scheduleDate == date);
+        console.log("sd ", sd);
+
+        if (sd.length > 0) {
+
+          if (sd[0].isOffDay) {
+
+            msg.msg = "Off Day."
+            // msg.title=""
+            // msg.iconType=""
+            this._uiService.showToast(msg, "");
+
+          }
+          else {
+
+            if (sd[0].scheduleShifts.length == 0) {
+              msg.msg = "No Shift Found."
+              // msg.title=""
+              // msg.iconType=""
+              this._uiService.showToast(msg, "");
+            }
+            else {
+              let dialog = this.dialog.open(AppointmentDialogeComponent, {
+                // maxWidth: "700px",
+                // minWidth: "550px",
+                width: "550px",
+                height: '465px',
+                // data: this.id,
+                data: {
+                  docId: this.docId,
+                  schedule: this.schedule,
+                  scheduleDetail: sd[0],
+                },
+              });
+              dialog.afterClosed().subscribe((result) => {
+                console.log("result", result);
+                if (result) {
+                  // this.refreshList();
+                }
+              });
+            }
+
+          }
+
+        }
+        else {
+
+          msg.msg = "No Schedule Found."
+          // msg.title=""
+          // msg.iconType=""
+          this._uiService.showToast(msg, "");
+        }
+      }
+      else {
+        msg.msg = "No Schedule Found."
+        // msg.title=""
+        // msg.iconType=""
+        this._uiService.showToast(msg, "");
+      }
+
+
+
     }
-    if (month.length < 2) {
-      month = '0' + month
-    }
+
+
+    // var date = day.date.getDate().toString();
+    // var month = (day.date.getMonth() + 1).toString();
+    // var year = day.date.getFullYear();
+
+    // if (date.length < 2) {
+    //   date = '0' + date
+    // }
+    // if (month.length < 2) {
+    //   month = '0' + month
+    // }
 
     // day.cssClass  = 'css-spiner';
 
     // this.getDocSchedule(this.docId);
-    this.getScheduleDay(year, month, date);
+    // this.getScheduleDay(year, month, date);
 
 
   }
@@ -348,10 +438,11 @@ export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
 
     this.LoadingPageload = 'block';
     this.calenderView = 'none';
+    this.isSubmmited = true;
     // this._doctorScheduleService.getDocSchedule(docId, this.user.id, this.month, this.year).subscribe(
     this._doctorScheduleService.getDocSchedule(docId, this.user.id, this.viewDate.getMonth(), this.viewDate.getFullYear()).subscribe(
-
       (response) => {
+        this.isSubmmited = false;
 
         console.log("schedule res", response);
         this.LoadingPageload = 'none';
@@ -381,7 +472,7 @@ export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
         // }
       },
       (error) => {
-
+        this.isSubmmited = false;
         this.LoadingPageload = 'none';
         this.calenderView = 'block';
         this.refreshView();

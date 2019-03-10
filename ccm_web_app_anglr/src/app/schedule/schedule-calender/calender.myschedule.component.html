@@ -21,11 +21,11 @@
   </div>
 
   <div class="col-md-4 text-center">
-    <button mat-icon-button style="float: left;" (click)="decrement()" [disabled]="prevBtnDisabled">
+    <button mat-icon-button style="float: left;" (click)="decrement()" [disabled]="prevBtnDisabled || isSubmmited">
       <mat-icon class="material-icons" style="font-size: 3em;" [style.color]=" prevBtnDisabled ? 'rgb(213, 226, 228)' : 'rgb(0,174,204)'"
         [style.cursor]=" prevBtnDisabled ? 'not-allowed' : 'pointer'">keyboard_arrow_left</mat-icon>
     </button>
-    <button mat-icon-button style="float: right;" (click)="increment()" [disabled]="nextBtnDisabled">
+    <button mat-icon-button style="float: right;" (click)="increment()" [disabled]="nextBtnDisabled || isSubmmited">
       <mat-icon class="material-icons" style="font-size: 3em;" [style.color]=" nextBtnDisabled ? 'rgb(213, 226, 228)' : 'rgb(0,174,204)'"
         [style.cursor]=" nextBtnDisabled ? 'not-allowed' : 'pointer'">keyboard_arrow_right</mat-icon>
     </button>
