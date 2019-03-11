@@ -146,22 +146,35 @@
                                         <thead>
                                             <tr role="row">
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" aria-label="First Name: activate to sort column ascending">S.No</th>
+                                                    rowspan="1" colspan="1" aria-label="First Name: activate to sort column ascending">
+                                                    S.No
+                                                </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">Appointment
-                                                    No.</th>
+                                                    rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">
+                                                    Appointment No.
+                                                </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">Schedule
-                                                    Date</th>
+                                                    rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">
+                                                    Patient Name
+                                                </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Patient
-                                                    Name</th>
+                                                    rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">
+                                                    Schedule Date
+                                                </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Status</th>
+                                                    rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">
+                                                    Time Slot
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">
+                                                    Status
+                                                </th>
                                                 <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Status</th> -->
                                                 <th class="text-center sorting_disabled" rowspan="1" colspan="1"
-                                                    aria-label="Actions" style="    width: 183px;">Actions</th>
+                                                    aria-label="Actions" style="    width: 183px;">
+                                                    Actions
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -171,10 +184,13 @@
                                                     {{ appointment?.appointmentNumber || "NA" }}
                                                 </td>
                                                 <td>
+                                                    {{ appointment?.patientFirstName || "NA" }}
+                                                </td>
+                                                <td>
                                                     {{ appointment?.scheduleDate | date:'dd-MMM-yyyy' }}
                                                 </td>
                                                 <td>
-                                                    {{ appointment?.patientFirstName || "NA" }}
+                                                    {{ appointment?.timeSlot?.timeSlot || "NA" }}
                                                 </td>
                                                 <td class="sorting_1">
                                                     {{ appointment?.requestStatus || "NA" }}
