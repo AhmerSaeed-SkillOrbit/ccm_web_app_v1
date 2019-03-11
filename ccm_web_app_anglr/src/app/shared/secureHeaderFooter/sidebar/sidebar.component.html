@@ -89,7 +89,7 @@
           </ul>
         </li>
 
-        <li *ngIf="(addDoctorSchedulePagePermission || viewDoctorSchedulePagePermission)">
+        <li *ngIf="(pendingRequestListPagePermission || acceptedRequestListPagePermission || rejectedRequestListPagePermission ||true)">
           <a (click)="expandRow(3)">
             <i class="icon-user-check"></i>
             <span>Appointment Management</span>
@@ -99,10 +99,10 @@
           </a>
           <ul class="sub" [ngClass]="(3 === expandedIndex) ? 'show' : ''">
             <span *ngIf="3 === expandedIndex">
-              <li *ngIf="doctorScheduleListPagePermission"><a [routerLink]="['/appointment/list/p']">Appointment
+              <li *ngIf="pendingRequestListPagePermission || true"><a [routerLink]="['/appointment/list/p']">Appointment
                   Request</a></li>
-              <li *ngIf="doctorScheduleListPagePermission"><a [routerLink]="['/appointment/list/a']">Appointment Accept</a></li>
-              <li *ngIf="doctorScheduleListPagePermission"><a [routerLink]="['/appointment/list/r']">Appointment Reject</a></li>
+              <li *ngIf="acceptedRequestListPagePermission || true"><a [routerLink]="['/appointment/list/a']">Appointment Accept</a></li>
+              <li *ngIf="rejectedRequestListPagePermission || true"><a [routerLink]="['/appointment/list/r']">Appointment Reject</a></li>
             </span>
           </ul>
         </li>

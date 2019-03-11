@@ -18,6 +18,7 @@ import { FormService } from '../../core/services/form/form.service';
 import { Schedule, ScheduleDetail, ScheduleShift } from '../../core/models/schedule.model';
 import { ScheduleService } from '../../core/services/schedule/schedule.service';
 import { Config } from '../../config/config';
+import { Permission } from '../../core/models/permission';
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
 // import { EasyPay } from '../core/models/payment/easypay.payment';
 
@@ -46,6 +47,7 @@ export class AddScheduleComponent implements OnInit {
 
     isUser: User = new User();
     user: User = new User();
+    userPermissions: Permission[] = [];
     isLogin: any;
 
     schedule: Schedule = new Schedule()
@@ -123,6 +125,7 @@ export class AddScheduleComponent implements OnInit {
     ngOnInit(): void {
 
         this.user = this._authService.getUser();
+        this.userPermissions = this._authService.getUserPermissions();
         console.log('this.user', this.user);
         this.isLogin = this._authService.isLoggedIn();
         // console.log('this.isLogin', this.isLogin);
@@ -134,7 +137,8 @@ export class AddScheduleComponent implements OnInit {
             // this.userId = id;
             // this.loadUserById();
 
-            this.addSchedulePermission = this._utilityService.checkUserPermission(this.user, 'add_doctor_schedule');
+            // this.addSchedulePermission = this._utilityService.checkUserPermission(this.user, 'add_doctor_schedule');
+            this.addSchedulePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_doctor_schedule');
             // this.addSchedulePermission = true;
 
             if (this.addSchedulePermission) {
@@ -144,6 +148,26 @@ export class AddScheduleComponent implements OnInit {
                 this._router.navigateByUrl('permission');
             }
         }
+
+    }
+
+    checkAndSetPermission() {
+        this.userPermissions = this._authService.getUserPermissions();
+
+
+        // <-- Appointment Management Permissions -->
+
+        // this.pendingRequestListPagePermission = this._utilityService.checkUserPermission(this.user, 'support_staff_list_page');
+        // this.pendingRequestListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'support_staff_list_page');
+        // this.pendingRequestListPagePermission = true;
+        // this.acceptedRequestListPagePermission = this._utilityService.checkUserPermission(this.user, 'support_staff_list_page');
+        // this.acceptedRequestListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'support_staff_list_page');
+        // this.acceptedRequestListPagePermission = true;
+        // this.rejectedRequestListPagePermission = this._utilityService.checkUserPermission(this.user, 'support_staff_list_page');
+        // this.rejectedRequestListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'support_staff_list_page');
+        // this.rejectedRequestListPagePermission = true;
+
+        // <-- /Appointment Management Permissions -->
 
     }
 

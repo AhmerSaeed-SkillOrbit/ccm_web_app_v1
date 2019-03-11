@@ -240,11 +240,13 @@ export class PendingRequestListComponent implements OnInit {
             if (result && result.status && btn === 'accept') {
                 // this.approveRequest(user, index);
                 // this.approveRequest(user, result.reason);
-                this.changeRequestStatus(appointment.id, btn, null);
+                // this.changeRequestStatus(appointment.id, btn, null);
+                this.changeRequestStatus(appointment.id, "accepted", null);
             }
             if (result && result.status && btn === 'reject') {
                 // this.rejectRequest(user, index);
-                this.changeRequestStatus(appointment.id, btn, result.reason);
+                // this.changeRequestStatus(appointment.id, btn, result.reason);
+                this.changeRequestStatus(appointment.id, "rejected", result.reason);
                 // this.approveRequest(user, null);
             }
         });
