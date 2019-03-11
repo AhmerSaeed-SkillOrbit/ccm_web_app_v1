@@ -28,7 +28,9 @@ import { FooterComponent } from './secureHeaderFooter/footer/footer.component';
 // import { CollapseModule, BsDropdownModule } from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
 import { from } from 'rxjs/observable/from';
-import { ConfirmationDialogComponent } from './dialog-box/confirmation.dialog.component';
+// import { ConfirmationDialogComponent } from './dialog-box/confirmation.dialog.component';
+import { ConfirmationDialogComponent } from './dialogs/confirmationDialog.component';
+import { AppointmentDialogeComponent } from './appointment.dialoge/appointment.dialoge.component';
 
 
 @NgModule({
@@ -60,6 +62,7 @@ import { ConfirmationDialogComponent } from './dialog-box/confirmation.dialog.co
         // HeaderNotificationComponent,
         FooterComponent,
         ConfirmationDialogComponent,
+        AppointmentDialogeComponent,
 
     ],
 
@@ -72,10 +75,11 @@ import { ConfirmationDialogComponent } from './dialog-box/confirmation.dialog.co
         MsgDialog, HeaderComponent, SidebarComponent,
         // HeaderNotificationComponent, 
         FooterComponent, ConfirmationDialogComponent,
+        AppointmentDialogeComponent,
     ],
 
     entryComponents: [
-        MsgDialog, ConfirmationDialogComponent,
+        MsgDialog, ConfirmationDialogComponent, AppointmentDialogeComponent
     ]
 })
 export class SharedModule {

@@ -73,8 +73,51 @@
                 <!-- Content area -->
                 <div class="content">
 
+                    <div class="row" *ngIf="user.role.roleCode=='patient'">
+                        <div class="panel panel-flat">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">Associated Doctor<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
+
+                            </div>
+
+                            <div class="panel-body">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <label for="">Name : </label>
+                                                {{ assocDoctor?.firstName || "NA" }}
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div *ngIf="assocDoctor.id">
+                                    <span matTooltipPosition="above" matTooltip="View Schedule">
+                                        <button type="button" class="btn btn-default btn-sm" (click)="nevigate('view-doctor-schedule')">
+                                            View Schedule
+                                            <i class="icon-play3 position-right"></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Dashboard content -->
-                    <div>
+                    <div class="row" *ngIf="user.roleCode=='patient'">
+
+                        <div class="cold-md-12">
+
+                            <div>
+
+                            </div>
+
+                        </div>
 
                     </div>
                     <!-- /dashboard content -->

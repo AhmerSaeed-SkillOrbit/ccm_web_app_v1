@@ -55,10 +55,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
     doctorListPagePermission = false;
     patientListPagePermission = false;
     supportStaffListPagePermission = false;
+    inviteFacilitatorPagePermission = false;
+
     addDoctorSchedulePagePermission = false;
     doctorScheduleListPagePermission = false;
     viewDoctorSchedulePagePermission = false;
-    inviteFacilitatorPagePermission = false;
+
+    pendingRequestListPagePermission = false;
+    acceptedRequestListPagePermission = false;
+    rejectedRequestListPagePermission = false;
+
 
     constructor(
         @Inject('IAuthService')
@@ -158,17 +164,38 @@ export class SidebarComponent implements OnInit, OnDestroy {
         // this.supportStaffListPagePermission = this._utilityService.checkUserPermission(this.user, 'support_staff_list_page');
         this.supportStaffListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'support_staff_list_page');
         // this.supportStaffListPagePermission = true;
+
+        // this.inviteFacilitatorPagePermission = this._utilityService.checkUserPermission(this.user, 'view_doctor_schedule');
+        // this.inviteFacilitatorPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_doctor_schedule');
+        this.inviteFacilitatorPagePermission = true;
+
+        // <-- Scheduler Management Permissions -->
+
         // this.addDoctorSchedulePagePermission = this._utilityService.checkUserPermission(this.user, 'add_doctor_schedule');
         this.addDoctorSchedulePagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_doctor_schedule');
         // this.addDoctorSchedulePagePermission = true;
         // this.viewDoctorSchedulePagePermission = this._utilityService.checkUserPermission(this.user, 'view_doctor_schedule');
-        this.doctorScheduleListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_doctor_schedule');
+        this.doctorScheduleListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'dcotor_schedule_list_page');
         // this.doctorScheduleListPagePermission = true;
         this.viewDoctorSchedulePagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_doctor_schedule');
         // this.viewDoctorSchedulePagePermission = true;
-        // this.inviteFacilitatorPagePermission = this._utilityService.checkUserPermission(this.user, 'view_doctor_schedule');
-        // this.inviteFacilitatorPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_doctor_schedule');
-        this.inviteFacilitatorPagePermission = true;
+
+        // <-- /Scheduler Management Permissions -->
+
+
+        // <-- Appointment Management Permissions -->
+
+        // this.pendingRequestListPagePermission = this._utilityService.checkUserPermission(this.user, 'support_staff_list_page');
+        this.pendingRequestListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'support_staff_list_page');
+        // this.pendingRequestListPagePermission = true;
+        // this.acceptedRequestListPagePermission = this._utilityService.checkUserPermission(this.user, 'support_staff_list_page');
+        this.acceptedRequestListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'support_staff_list_page');
+        // this.acceptedRequestListPagePermission = true;
+        // this.rejectedRequestListPagePermission = this._utilityService.checkUserPermission(this.user, 'support_staff_list_page');
+        this.rejectedRequestListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'support_staff_list_page');
+        // this.rejectedRequestListPagePermission = true;
+
+        // <-- /Appointment Management Permissions -->
 
     }
 

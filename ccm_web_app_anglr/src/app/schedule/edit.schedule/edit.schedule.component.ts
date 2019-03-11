@@ -18,21 +18,23 @@ import { FormService } from '../../core/services/form/form.service';
 import { Schedule, ScheduleDetail, ScheduleShift } from '../../core/models/schedule.model';
 import { ScheduleService } from '../../core/services/schedule/schedule.service';
 import { Config } from '../../config/config';
+import { Permission } from '../../core/models/permission';
+import { DoctorScheduleService } from '../../core/services/doctor/doctor.schedule.service';
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
 // import { EasyPay } from '../core/models/payment/easypay.payment';
 
 declare var libraryVar: any;
 
 @Component({
-    selector: 'add-schedule',
+    selector: 'edit-schedule',
     moduleId: module.id,
-    templateUrl: 'add.schedule.component.html',
+    templateUrl: 'edit.schedule.component.html',
     // styleUrls: ['invite.doctor.component.css']
     providers: [
         DatePipe // this pipe is used to change date format
     ],
 })
-export class AddScheduleComponent implements OnInit {
+export class EditScheduleComponent implements OnInit {
 
 
     hours: any;
@@ -46,12 +48,14 @@ export class AddScheduleComponent implements OnInit {
 
     isUser: User = new User();
     user: User = new User();
+    userPermissions: Permission[] = [];
     isLogin: any;
 
     schedule: Schedule = new Schedule()
 
-    newUser: User = new User();
-    userId: number = null;
+    docId: number = null;
+    month: number = null;
+    year: number = null;
 
 
     months = Config.months;
@@ -75,7 +79,7 @@ export class AddScheduleComponent implements OnInit {
 
     isSpinner = false;
 
-    addSchedulePermission = false;
+    updatePermission = false;
 
     isSubmitted: boolean = false;
 
@@ -89,6 +93,7 @@ export class AddScheduleComponent implements OnInit {
         private _mappingService: MappingService,
         private _utilityService: UtilityService,
         private _scheduleService: ScheduleService,
+        private _doctorScheduleService: DoctorScheduleService,
         private _formService: FormService,
         private route: ActivatedRoute, private _router: Router,
         private _formBuilder: FormBuilder,
@@ -100,14 +105,12 @@ export class AddScheduleComponent implements OnInit {
         //     this.years.push(index);
         // }
 
-        let min = new Date().getFullYear();
-        let max = min + 9;
+        // let min = new Date().getFullYear();
+        // let max = min + 9;
 
-        for (let index = min; index <= max; index++) {
-            this.years.push(index);
-        }
-
-        this.schedule.year = min;
+        // for (let index = min; index <= max; index++) {
+        //     this.years.push(index);
+        // }
 
 
         this.formScheduleDetail = _formBuilder.group({
@@ -118,32 +121,75 @@ export class AddScheduleComponent implements OnInit {
             'endDate': [null, Validators.compose([Validators.required])],
             'scheduleDetail': this._formBuilder.array([]),
         });
+
+        this.formScheduleDetail.controls['month'].disable();
+        this.formScheduleDetail.controls['year'].disable();
+        this.formScheduleDetail.controls['startDate'].disable();
+        this.formScheduleDetail.controls['endDate'].disable();
     }
 
     ngOnInit(): void {
 
         this.user = this._authService.getUser();
+        this.userPermissions = this._authService.getUserPermissions();
         console.log('this.user', this.user);
         this.isLogin = this._authService.isLoggedIn();
+        // const id = this.route.snapshot.params['id'];
+        const month = this.route.snapshot.params['m'];
+        const year = this.route.snapshot.params['y'];
         // console.log('this.isLogin', this.isLogin);
 
         if (!this.isLogin) {
             // this._router.navigateByUrl('login');
         } else {
 
-            // this.userId = id;
-            // this.loadUserById();
 
-            this.addSchedulePermission = this._utilityService.checkUserPermission(this.user, 'add_doctor_schedule');
+
+            // this.updatePermission = this._utilityService.checkUserPermission(this.user, 'update_doctor_schedule_detail');
+            this.updatePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'update_doctor_schedule_detail');
             // this.addSchedulePermission = true;
 
-            if (this.addSchedulePermission) {
+            if (this.updatePermission) {
+
+                // this.docId = id;
+                this.docId = this.user.id;
+                this.month = +month;
+                this.year = year;
+                this.loadScheduleById();
 
             }
             else {
                 this._router.navigateByUrl('permission');
             }
         }
+
+    }
+
+    loadScheduleById() {
+        // this._uiService.showSpinner();
+
+        this._doctorScheduleService.getDocSchedule(this.docId, this.user.id, this.month, this.year).subscribe(
+
+            (response) => {
+                // this._uiService.hideSpinner();
+                // console.log("schedule res", response);
+                let array = response.json().data;
+
+                this.schedule = this._mappingService.mapSchedule(array);
+
+                this.schedule.scheduleDetails.forEach(element => {
+                    
+                    
+                });
+
+                console.log("schedule", this.schedule);
+
+            },
+            (err) => {
+                // this._uiService.hideSpinner();
+                this._authService.errStatusCheckResponse(err);
+            }
+        );
 
     }
 

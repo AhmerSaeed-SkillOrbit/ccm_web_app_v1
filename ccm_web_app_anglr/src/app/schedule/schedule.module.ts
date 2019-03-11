@@ -12,6 +12,7 @@ import { MomentModule } from 'angular2-moment';
 import { MaterialModule } from "../material/material.module";
 import { SharedModule } from '../shared/shared.module';
 import { AddScheduleComponent } from './add.schedule/add.schedule.component';
+import { EditScheduleComponent } from './edit.schedule/edit.schedule.component';
 import { ViewScheduleComponent } from './view.schedule/view.schedule.component';
 // import { ScheduleComponent } from './schedule.component';
 import { CalenderMyscheduleComponent } from './schedule-calender/calender.myschedule.component';
@@ -24,6 +25,7 @@ import { ScheduleListComponent } from './list.schedule/schedule.list.component';
     declarations: [
 
         AddScheduleComponent,
+        EditScheduleComponent,
         ViewScheduleComponent,
         // ScheduleComponent,
         CalenderMyscheduleComponent,
@@ -44,7 +46,16 @@ import { ScheduleListComponent } from './list.schedule/schedule.list.component';
                 component: AddScheduleComponent
             },
             {
+                path: 'edit/:id/:m/:y',
+                component: EditScheduleComponent
+            },
+            {
                 path: 'view',
+                component: ViewScheduleComponent
+                // component: ScheduleComponent
+            },
+            {
+                path: 'view/:id',
                 component: ViewScheduleComponent
                 // component: ScheduleComponent
             },
