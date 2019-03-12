@@ -639,11 +639,13 @@ export class AddScheduleComponent implements OnInit {
         }
         else if (this.formScheduleDetail.valid) {
             this.isSubmitted = true;
+            this._uiService.showSpinner();
             // this.isSubmitStarted = true;
             const msg = new Message();
             this._scheduleService.scheduleDoctor(this.user.id, this.schedule).subscribe(
                 (res) => {
                     this.isSubmitted = false;
+                    this._uiService.hideSpinner();
                     // this._authServices.storeUser(this.userForm);
 
                     msg.msg = res.json() ? res.json().message : 'Schedule Successfully';
@@ -652,10 +654,13 @@ export class AddScheduleComponent implements OnInit {
                     msg.autoCloseAfter = 400;
                     this._uiService.showToast(msg, 'info');
 
+                    // schedule/list
+                    this._router.navigate(["/schedule/list"]);
                 },
                 (err) => {
                     console.log(err);
                     this.isSubmitted = false;
+                    this._uiService.hideSpinner();
                     this._authService.errStatusCheckResponse(err);
                 }
             );

@@ -197,16 +197,21 @@
                                                 </td>
                                                 <td class="text-center">
 
+                                                    <span *ngIf="viewPermission" matTooltipPosition="above" matTooltip="View Request">
+                                                        <!-- <i style="color:#0aa700;" class="icon-eye2" (click)="changeRequestStatus(appointment.id, 'rejected', '')"></i> -->
+                                                        <i style="color:#0aa700;" class="icon-eye2" (click)="openViewDialog(appointment)"></i>
+                                                    </span> &nbsp;
+
                                                     <span *ngIf="acceptPermission" matTooltipPosition="above"
                                                         matTooltip="Accept Request">
                                                         <!-- <i style="color:#0aa700;" class="icon-eye2" (click)="changeRequestStatus(appointment.id, 'rejected', '')"></i> -->
-                                                        <i style="color:#0aa700;" class="icon-eye2" (click)="confirmDialog(appointment, 'accept', i)"></i>
+                                                        <i style="color:#0aa700;" class="icon-check" (click)="confirmDialog(appointment, 'accept', i)"></i>
                                                     </span> &nbsp;
 
                                                     <span *ngIf="rejectPermission" matTooltipPosition="above"
                                                         matTooltip="Reject Request">
                                                         <!-- <i style="color:#f70a0a;" class="icon-bin" (click)="changeRequestStatus(appointment.id, 'reject', '')"></i> -->
-                                                        <i style="color:#f70a0a;" class="icon-bin" (click)="confirmDialog(appointment, 'reject', i)"></i>
+                                                        <i style="color:#f70a0a;" class="icon-cross2" (click)="confirmDialog(appointment, 'reject', i)"></i>
                                                     </span>
 
                                                 </td>

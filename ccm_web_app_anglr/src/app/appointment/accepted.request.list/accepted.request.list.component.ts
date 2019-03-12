@@ -16,6 +16,7 @@ import { MappingService } from '../../core/services/mapping/mapping.service';
 import { UtilityService } from '../../core/services/general/utility.service';
 import { AppointmentService } from '../../core/services/schedule/appointment.service';
 import { Appointment } from '../../core/models/appointment';
+import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmationDialog.component';
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
 // import { EasyPay } from '../core/models/payment/easypay.payment';
 
@@ -64,6 +65,7 @@ export class AcceptedRequestListComponent implements OnInit {
     listPagePermission = false;
     acceptPermission = false;
     rejectPermission = false;
+    cancelPermission = false;
 
     isSubmitted: boolean = false;
 
@@ -104,6 +106,8 @@ export class AcceptedRequestListComponent implements OnInit {
                 this.acceptPermission = true;
                 // this.rejectPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
                 this.rejectPermission = true;
+                // this.cancelPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+                this.cancelPermission = true;
 
                 this.loadAppointmentList();
             }
@@ -235,6 +239,54 @@ export class AcceptedRequestListComponent implements OnInit {
         }
     }
 
+    confirmDialog(appointment: Appointment, btn, index) {
+        let msg = "";
+        let title = "";
+        let type = "";
+
+        if (btn === 'accept') {
+            title = 'Accept Request';
+            msg = 'Are you sure you want to accept ' + appointment.appointmentNumber + ' appoitment request ?';
+            type = "accept";
+        }
+        else if (btn === 'reject') {
+            title = 'Reject Request';
+            msg = 'Are you sure you want to reject ' + appointment.appointmentNumber + ' appoitment request ?';
+            type = "reject";
+
+        }
+        else if (btn === 'cancel') {
+            title = 'Cancel Request';
+            msg = 'Are you sure you want to cancel ' + appointment.appointmentNumber + ' appoitment request ?';
+            type = "cancel";
+
+        }
+        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+            width: '400px',
+            // data: { message: msg, title: title, type: this.perFormAction.code, form: form }
+            data: { message: msg, title: title, type: type }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('dialog close', result);
+
+            if (result && result.status && btn === 'accept') {
+                // this.approveRequest(user, index);
+                // this.approveRequest(user, result.reason);
+                // this.changeRequestStatus(appointment.id, btn, null);
+                this.changeRequestStatus(appointment.id, "accepted", null);
+            }
+            if (result && result.status && btn === 'reject') {
+                // this.rejectRequest(user, index);
+                // this.changeRequestStatus(appointment.id, btn, result.reason);
+                this.changeRequestStatus(appointment.id, "rejected", result.reason);
+                // this.approveRequest(user, null);
+            }
+            if (result && result.status && btn === 'cancel') {
+                this.cancelRequest(appointment.id, result.reason);
+            }
+        });
+    }
+
     changeRequestStatus(appointmentId, status, reason) {
         const msg = new Message();
         // this._userService.deleteUser(userId)
@@ -259,12 +311,14 @@ export class AcceptedRequestListComponent implements OnInit {
 
     cancelRequest(appointmentId, reason) {
         const msg = new Message();
+        this._uiService.showSpinner();
         // this._userService.deleteUser(userId)
 
         this._appointmentService.appointmentRequestCancel(appointmentId, reason).subscribe(
             (res) => {
 
                 this.isSubmitted = false;
+                this._uiService.hideSpinner();
                 msg.msg = res.json().message ? res.json().message : 'Request Status updated successfully';
                 // msg.msg = 'You have successfully added an activity';
                 msg.msgType = MessageTypes.Information;
@@ -275,6 +329,7 @@ export class AcceptedRequestListComponent implements OnInit {
             (err) => {
                 console.log(err);
                 this.isSubmitted = false;
+                this._uiService.hideSpinner();
                 this._authService.errStatusCheckResponse(err);
             });
     }

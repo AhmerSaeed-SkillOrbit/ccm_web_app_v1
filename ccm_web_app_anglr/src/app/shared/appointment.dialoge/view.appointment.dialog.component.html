@@ -1,0 +1,87 @@
+<!-- <div mat-dialog-title class="">
+    <h1 mat-dialog-title>{{ title || "NA" }}</h1>
+</div> -->
+<mat-dialog-content>
+    <!-- <div class="row" [hidden]="!isSubmitted">
+        <div class="col-md-12">
+            <div class="loader" style="margin-top:150px">
+                <mat-spinner></mat-spinner>
+            </div>
+        </div>
+    </div> -->
+    <!-- <div [hidden]="isSubmitted"> -->
+    <div>
+        <div class="section">
+            <div class="vm-heading">
+
+                <div class="row align-item-center">
+                    <div class="col-md-12">
+                        <h1 mat-dialog-title>View Appointment</h1>
+                    </div>
+
+                    <div class="col-md-12">
+
+                        <!-- Task -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="label-heading">Task</label>
+                            </div>
+                            <div class="col-md-6">
+                                {{ appointment?.projectTaskName || "NA" }}
+                            </div>
+                        </div>
+
+                        <!-- Activity -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="label-heading">Activity</label>
+                            </div>
+                            <div class="col-md-6">
+                                {{ appointment?.projectActivity || "NA" }}
+                            </div>
+                        </div>
+
+                        <!-- Activity Date-->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="label-heading">Activity Date</label>
+                            </div>
+                            <div class="col-md-6">
+                                {{ appointment?.projectActivityDate | date:'dd-MMM-yyyy' || "NA" }}
+                            </div>
+                        </div>
+
+                        <!-- Comments -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="label-heading">Comments</label>
+                            </div>
+                            <div class="col-md-12">
+                                {{ appointment?.projectActivityComments || "NA" }}
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- <div class="col-md-12" >
+            <div class="loader">
+                <mat-spinner></mat-spinner>
+            </div>
+        </div> -->
+</mat-dialog-content>
+<mat-dialog-actions [hidden]="isSubmitted">
+    <div class="text-right full-width">
+        <button mat-flat-button color="secondary" [mat-dialog-close]="true" (click)="onNoClick()">Close</button>
+        <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+
+        <!-- <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="onYesClick()"></button> -->
+        <!-- <button mat-flat-button color="primary" [disabled]="!form.valid || isSubmitted" (click)="onSubmit()">
+            {{ appointment?.id ? "Update" : "Add" }}
+        </button> -->
+    </div>
+</mat-dialog-actions>
