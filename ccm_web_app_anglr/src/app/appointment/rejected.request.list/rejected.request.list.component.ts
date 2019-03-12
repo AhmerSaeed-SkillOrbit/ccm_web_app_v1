@@ -14,21 +14,20 @@ import { Message, MessageTypes } from '../../core/models/message';
 import { UserService } from '../../core/services/user/user.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 import { UtilityService } from '../../core/services/general/utility.service';
-import { DoctorScheduleService } from '../../core/services/doctor/doctor.schedule.service';
-import { Permission } from '../../core/models/permission';
-import { Schedule } from '../../core/models/schedule.model';
+import { AppointmentService } from '../../core/services/schedule/appointment.service';
+import { Appointment } from '../../core/models/appointment';
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
 // import { EasyPay } from '../core/models/payment/easypay.payment';
 
 declare var libraryVar: any;
 
 @Component({
-    selector: 'schedule-list',
+    selector: 'rejected-request-list',
     moduleId: module.id,
-    templateUrl: 'schedule.list.component.html',
+    templateUrl: 'rejected.request.list.component.html',
     // styleUrls: ['invite.doctor.component.css']
 })
-export class ScheduleListComponent implements OnInit {
+export class RejectedRequestListComponent implements OnInit {
     files: any;
     // dashboard: Dashboard = new Dashboard();
     currentURL: string;
@@ -36,14 +35,18 @@ export class ScheduleListComponent implements OnInit {
 
     isUser: User = new User();
     user: User = new User();
-    userPermissions: Permission[] = [];
     isLogin: any;
 
-    doctorId: number = null;
-    searchKeyword: string = null;
-    roleCode: string = null;
 
-    scheduleList: Schedule[] = [];
+    email: string = "";
+    mobileNo: string = "";
+    type: string = "doctor_patient";
+    userId: number = null;
+    searchKeyword: string = null;
+
+    status: string = null;
+
+    appointmentList: Appointment[] = [];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -59,56 +62,50 @@ export class ScheduleListComponent implements OnInit {
     upperLimit = 0;
 
     listPagePermission = false;
-    addPermission = false;
-    updatePermission = false;
-    deletePermission = false;
+    acceptPermission = false;
+    rejectPermission = false;
 
     isSubmitted: boolean = false;
 
     display = 'none';
 
-    constructor(@Inject('IAuthService') private _authService: IAuthService,
+    constructor(
+        @Inject('IAuthService') private _authService: IAuthService,
         public dialog: MatDialog,
         private _uiService: UIService,
         // public _messaging: MessagingService,
-        private _userService: UserService,
-        private _doctorScheduleService: DoctorScheduleService,
+        // private _userService: UserService,
+        private _appointmentService: AppointmentService,
         private _mappingService: MappingService,
         private _utilityService: UtilityService,
-        private route: ActivatedRoute, private _router: Router) {
+        private route: ActivatedRoute, private _router: Router
+    ) {
         this.currentURL = window.location.href;
     }
 
     ngOnInit(): void {
 
         this.user = this._authService.getUser();
-        this.userPermissions = this._authService.getUserPermissions();
         console.log('this.user', this.user);
         this.isLogin = this._authService.isLoggedIn();
         // console.log('this.isLogin', this.isLogin);
 
-
-        this.roleCode = "doctor";
-
-        this.doctorId = this.user.id;
+        this.status = "rejected";
 
         if (!this.isLogin) {
             // this._router.navigateByUrl('login');
         } else {
 
-            this.listPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'dcotor_schedule_list_page');
-            // this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'doctor_schedule_list_page');
-            // this.listPagePermission = true;
+            // this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'appointment_list_page');
+            this.listPagePermission = true;
 
             if (this.listPagePermission) {
-                this.addPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_doctor_schedule');
-                // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_doctor_schedule');
-                // this.addPermission = true;
-                this.updatePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'update_doctor_schedule_detail');
-                // this.updatePermission = this._utilityService.checkUserPermission(this.user, 'update_doctor_schedule');
-                // this.updatePermission = true;
+                // this.acceptPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+                this.acceptPermission = true;
+                // this.rejectPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+                this.rejectPermission = true;
 
-                this.loadScheduleList();
+                this.loadAppointmentList();
             }
             else {
                 this._router.navigateByUrl('permission');
@@ -124,7 +121,7 @@ export class ScheduleListComponent implements OnInit {
         // if(this.searchKeyword){
         this.pageIndex = 0;
         // this.pageChangeEvent();
-        this.loadScheduleList();
+        this.loadAppointmentList();
         // }
 
     }
@@ -135,7 +132,7 @@ export class ScheduleListComponent implements OnInit {
         this.filter = "";
         this.searchKeyword = "";
         // this.dataSource.filter = null;
-        this.loadScheduleList();
+        this.loadAppointmentList();
         // }
     }
 
@@ -145,45 +142,45 @@ export class ScheduleListComponent implements OnInit {
 
         this.pageIndex = event.pageIndex;
         this.pageSize = event.pageSize;
-        this.loadScheduleList();
+        this.loadAppointmentList();
 
         return event;
     }
 
-    loadScheduleList() {
+    loadAppointmentList() {
         const msg = new Message();
         this.length = 0;
-        this.scheduleList = [];
-        // this.dataSource = new MatTableDataSource<User>(this.scheduleList);
+        this.appointmentList = [];
+        // this.dataSource = new MatTableDataSource<User>(this.userList);
         if (this.listPagePermission) {
             this.isSpinner = true;
 
             // this._uiService.showSpinner();
 
-            this._doctorScheduleService.getDoctorScheduleListCount(this.doctorId).subscribe(
+            this._appointmentService.getAppointmentListCount(null, this.status).subscribe(
                 (res) => {
                     // this._uiService.hideSpinner();
                     this.length = res.json().data;
 
-                    this._doctorScheduleService.getDoctorScheduleListPagination(this.doctorId, this.pageIndex, this.pageSize).subscribe(
+                    this._appointmentService.getAppointmentPagination(this.pageIndex, this.pageSize, null, this.status).subscribe(
                         (res) => {
-                            // this.scheduleList = res.json();
+                            // this.userList = res.json();
                             // this._uiService.hideSpinner();
                             let array = res.json().data || [];
                             // console.log('res list:', array);
-                            var sList = [];
+                            var uList = [];
                             for (let i = 0; i < array.length; i++) {
-                                let s = this._mappingService.mapSchedule(array[i]);
-                                sList.push(s);
+                                let u = this._mappingService.mapAppointment(array[i]);
+                                uList.push(u);
                             }
-                            this.scheduleList = sList;
+                            this.appointmentList = uList;
 
-                            // this.dataSource = new MatTableDataSource<User>(this.scheduleList);
+                            // this.dataSource = new MatTableDataSource<User>(this.userList);
                             // this.dataSource.paginator = this.paginator;
-                            console.log('schedule List:', this.scheduleList);
+                            // console.log('user list:', this.userList);
 
-                            if (this.scheduleList.length == 0) {
-                                msg.msg = 'No Schedule Found';
+                            if (this.appointmentList.length == 0) {
+                                msg.msg = 'No Appointment Found';
                                 msg.msgType = MessageTypes.Information;
                                 msg.autoCloseAfter = 400;
                                 this._uiService.showToast(msg, 'info');
@@ -193,7 +190,7 @@ export class ScheduleListComponent implements OnInit {
                         (err) => {
                             console.log(err);
                             // this._uiService.hideSpinner();
-                            // this.dataSource = new MatTableDataSource<User>(this.scheduleList);
+                            // this.dataSource = new MatTableDataSource<User>(this.userList);
                             this._authService.errStatusCheck(err);
                             this.isSpinner = false;
                         }
@@ -215,13 +212,14 @@ export class ScheduleListComponent implements OnInit {
         }
     }
 
-    nevigate(type) {
 
-        if (type == "add") {
-            this._router.navigate(["/schedule/add"]);
-        }
+    resetForm() {
+        this.email = null;
+        this.display = 'block';
+    }
 
-
+    onCloseHandled(result) {
+        this.display = 'none';
     }
 
     onlogOut() {
@@ -236,4 +234,49 @@ export class ScheduleListComponent implements OnInit {
             this._router.navigate([redirectUrl]);
         }
     }
+
+    changeRequestStatus(appointmentId, status, reason) {
+        const msg = new Message();
+        // this._userService.deleteUser(userId)
+
+        this._appointmentService.appointmentRequestAction(appointmentId, status, reason).subscribe(
+            (res) => {
+
+                this.isSubmitted = false;
+                msg.msg = res.json().message ? res.json().message : 'Request Status updated successfully';
+                // msg.msg = 'You have successfully added an activity';
+                msg.msgType = MessageTypes.Information;
+                msg.autoCloseAfter = 400;
+                this._uiService.showToast(msg, 'info');
+                this._router.navigate([this.currentURL]);
+            },
+            (err) => {
+                console.log(err);
+                this.isSubmitted = false;
+                this._authService.errStatusCheckResponse(err);
+            });
+    }
+
+    cancelRequest(appointmentId, reason) {
+        const msg = new Message();
+        // this._userService.deleteUser(userId)
+
+        this._appointmentService.appointmentRequestCancel(appointmentId, reason).subscribe(
+            (res) => {
+
+                this.isSubmitted = false;
+                msg.msg = res.json().message ? res.json().message : 'Request Status updated successfully';
+                // msg.msg = 'You have successfully added an activity';
+                msg.msgType = MessageTypes.Information;
+                msg.autoCloseAfter = 400;
+                this._uiService.showToast(msg, 'info');
+                this._router.navigate([this.currentURL]);
+            },
+            (err) => {
+                console.log(err);
+                this.isSubmitted = false;
+                this._authService.errStatusCheckResponse(err);
+            });
+    }
+
 }

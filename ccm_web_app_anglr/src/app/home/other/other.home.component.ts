@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 // import { Dashboard } from '../core/models/dashboard';
 import { Message, MessageTypes } from '../../core/models/message';
 import { SetupService } from '../../core/services/setup/setup.service';
+import { UserService } from '../../core/services/user/user.service';
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
 // import { EasyPay } from '../core/models/payment/easypay.payment';
 
@@ -37,13 +38,16 @@ export class OtherHomeComponent implements OnInit {
     message;
     subscriptionAmount: number;
     subscription: any;
+
+
+    assocDoctor: User = new User();
     // influencerProfile = new InfluencerProfile();
     // easyPay = new EasyPay();
 
     constructor(@Inject('IAuthService') private _authService: IAuthService,
         private _uiService: UIService,
         // public _messaging: MessagingService,
-        // private _dashboardService: DashboardService,
+        private _userService: UserService,
         private _setupService: SetupService,
         // private _utility: UtilityService,
         private route: ActivatedRoute, private _router: Router) {
@@ -53,7 +57,7 @@ export class OtherHomeComponent implements OnInit {
     ngOnInit(): void {
 
         this.user = this._authService.getUser();
-        console.log('this.user', this.user);
+        console.log('in component this.user', this.user);
         this.isLogin = this._authService.isLoggedIn();
         // console.log('this.isLogin', this.isLogin);
 
@@ -61,79 +65,60 @@ export class OtherHomeComponent implements OnInit {
 
         if (!this.isLogin) {
             // this._router.navigateByUrl('login');
+            return;
         } else {
 
             if (this.user && this.user.role && this.user.role.roleCode == "super_admin") {
                 this._router.navigate(['/home/admin']);
+                return;
             }
             else {
                 // this._router.navigate(['/home/other']);
             }
         }
 
-        // this.loadDashboard(this.user.entityType);
-        // this.loadRoles();
+        if (this.user.role.roleCode == "patient") {
+            this.loadAssociatedDoctor();
+        }
+
 
     }
 
-    loadRoles() {
+
+    loadAssociatedDoctor() {
         // this._uiService.showSpinner();
-        this._setupService.getRoles().subscribe(
+        this._userService.getPatientAssociatedDoctor(this.user.id).subscribe(
             (res) => {
-                console.log("res", res);
                 // this._uiService.hideSpinner();
+
+                let data = res.json().data;
+                if (data) {
+                    this.assocDoctor.id = data.DoctorId;
+                    this.assocDoctor.userId = data.DoctorId;
+                    this.assocDoctor.firstName = data.DoctorFirstName;
+                    this.assocDoctor.lastName = data.DoctorLastName;
+                    this.assocDoctor.functionalTitle = data.DoctorFunctionalTitle;
+                }
+
+                console.log('assocDoctor', this.assocDoctor);
             },
             (err) => {
-                console.log("err", err);
                 // this._uiService.hideSpinner();
             }
         );
     }
 
-    loadDashboard(entityType) {
-        // this._uiService.showSpinner();
-        // this._dashboardService.getDashboard(entityType).subscribe(
-        //     (res) => {
-        //         this._uiService.hideSpinner();
-        //         this.dashboard = res.dashboard;
-        //         this.files = res.dashboard.caseStudies.files;
-        //         console.log('dashboard', this.dashboard);
-        //         this.influencerProfile = res.dashboard.influencerOfTheMonth.profile;
-        //     },
-        //     (err) => {
-        //         this._uiService.hideSpinner();
-        //     }
-        // );
-    }
+    nevigate(type) {
 
-    navigateTo(id) {
-        // console.log('navigation ID', id);
-
-        // if (this.user.entityType === 'brand' ) {
-        //     this._router.navigateByUrl('brand/campaign/details/' + id);
-        // } else if (this.user.entityType === 'influencer' ) {
-        //     // this._router.navigate(['influencer/campaign/details/'],id);
-        //     this._router.navigateByUrl('influencer/campaign/details/' + id);
-
-        // } else if (this.user.entityType === 'digital_agency' ) {
-        //     this._router.navigateByUrl('da/campaign/details/' + id);
-        // } else if (this.user.entityType === 'influencer_agent' ) {
+        if (type == 'view-doctor-schedule') {
+            this._router.navigateByUrl('schedule/view/' + this.assocDoctor.id);
+        }
+        // else if (this.user.entityType === 'influencer_agent') {
         //     this._router.navigateByUrl('ia/campaign/details/' + id);
         // }
 
     }
 
-    // viewAllCampaigns() {
-    //     if (this.user.entityType === 'brand' ) {
-    //         this._router.navigate(['brand/campaign/list']);
-    //     } else if (this.user.entityType === 'influencer' ) {
-    //         this._router.navigate(['influencer/campaign/list/']);
-    //     } else if (this.user.entityType === 'digital_agency' ) {
-    //         this._router.navigate(['da/campaign/list']);
-    //     } else if (this.user.entityType === 'influencer_agent' ) {
-    //         this._router.navigate(['ia/campaign/list']);
-    //     }
-    // }
 
 
     onlogOut() {

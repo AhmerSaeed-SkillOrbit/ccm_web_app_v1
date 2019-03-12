@@ -1,0 +1,117 @@
+<!-- <div mat-dialog-title class="">
+    <h1 mat-dialog-title>{{ title || "NA" }}</h1>
+</div> -->
+<mat-dialog-content>
+    <!-- <div class="row" [hidden]="!isSubmitted">
+        <div class="col-md-12">
+            <div class="loader" style="margin-top:150px">
+                <mat-spinner></mat-spinner>
+            </div>
+        </div>
+    </div> -->
+    <!-- <div [hidden]="isSubmitted"> -->
+    <div>
+        <div class="section">
+            <div class="vm-heading">
+                <!-- <form name="form" [formGroup]="form" (keydown.enter)="$event.preventDefault()"> -->
+                <form name="form" [formGroup]="form">
+                    <mat-progress-bar mode="indeterminate" *ngIf="isSubmitted"></mat-progress-bar>
+                    <div class="row align-item-center">
+                        <div class="col-md-12">
+                            <h1 mat-dialog-title>Appointment Request</h1>
+                        </div>
+
+                        <!-- Doctor Name -->
+                        <div class="col-lg-12">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Doctor Name" maxlength="100" name="doctorName"
+                                    formControlName="doctorName" value="{{ schedule?.doctorFirstName || 'NA' }}"
+                                    readonly />
+                                <!-- <mat-hint align="end">{{ projectActivityForm?.projectActivity?.length || 0 }}/100</mat-hint> -->
+                            </mat-form-field>
+                        </div>
+
+
+                        <!-- Date -->
+                        <div class="col-lg-12">
+                            <mat-form-field class="full-width">
+                                <input matInput [matDatepicker]="picker1" placeholder="Date" name="date" [(ngModel)]="scheduleDetail.scheduleDate"
+                                    formControlName="date" readonly>
+                                <mat-datepicker-toggle matSuffix [for]="picker1" disabled></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Shift -->
+                        <div class="col-lg-12">
+                            <mat-form-field class="full-width">
+                                <mat-select placeholder="Select Shift" formControlName="shift" [(ngModel)]="appointment.shiftId"
+                                    (change)="onShiftFocusOut()" required>
+                                    <mat-option>None</mat-option>
+                                    <mat-option *ngFor="let shift of scheduleDetail.scheduleShifts" [value]="shift.id">
+                                        {{ shift?.startTime || "NA" }} - {{ shift?.endTime || "NA" }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="form.controls['shift'].errors?.required">
+                                    Shift is
+                                    <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Time Slot -->
+                        <div class="col-lg-12">
+                            <mat-form-field class="full-width">
+                                <mat-select placeholder="Select Time Slot" formControlName="time" [(ngModel)]="appointment.timeSlotId"
+                                    (change)="onTimeSlotFocusOut()" required>
+                                    <mat-option>None</mat-option>
+                                    <mat-option *ngFor="let timeSlot of scheduleShift.timeSlots" [value]="timeSlot.id">
+                                        {{ timeSlot?.timeSlot || "NA" }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="form.controls['time'].errors?.required">
+                                    Time Slot is
+                                    <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Comment -->
+                        <div class="col-lg-12">
+                            <mat-form-field class="full-width">
+                                <textarea matInput placeholder="Comment" formControlName="comment" [(ngModel)]="appointment.comment"
+                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                    required trim>
+                                    </textarea>
+                                <mat-hint align="end">{{ appointment?.comment?.length ||
+                                    0 }}/500</mat-hint>
+                                <mat-error *ngIf="form.controls['comment'].errors?.required">
+                                    Comments is
+                                    <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="col-md-12" >
+            <div class="loader">
+                <mat-spinner></mat-spinner>
+            </div>
+        </div> -->
+</mat-dialog-content>
+<mat-dialog-actions [hidden]="isSubmitted">
+    <div class="text-right full-width">
+        <button mat-flat-button color="secondary" [mat-dialog-close]="true" (click)="onNoClick()">Close</button>
+        <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+
+        <!-- <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="onYesClick()"></button> -->
+        <button mat-flat-button color="primary" [disabled]="!form.valid || isSubmitted" (click)="onSubmit()">
+            {{ appointment?.id ? "Update" : "Add" }}
+        </button>
+    </div>
+</mat-dialog-actions>

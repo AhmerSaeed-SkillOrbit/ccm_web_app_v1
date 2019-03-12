@@ -109,32 +109,18 @@
                                 <!-- Year -->
                                 <div class="col-md-2">
                                     <mat-form-field class="full-width">
-                                        <mat-select placeholder="Year" formControlName="year" [(ngModel)]="schedule.year"
-                                            (ngModelChange)="onMonthYearFocusOut()" required>
-                                            <mat-option *ngFor="let year of years" [value]="year">
-                                                {{year}}
-                                            </mat-option>
-                                        </mat-select>
+                                        <input matInput type="text" placeholder="Year" formControlName="year"
+                                            [(ngModel)]="schedule.year">
                                     </mat-form-field>
                                 </div>
 
                                 <!-- Month -->
                                 <div class="col-md-2">
                                     <mat-form-field class="full-width">
-                                        <mat-select placeholder="Month" formControlName="month" [(ngModel)]="schedule.monthId"
-                                            (ngModelChange)="onMonthYearFocusOut()" required>
-                                            <mat-option *ngFor="
-                                            let month of months"
-                                                [value]="month.id">
-                                                {{month.shortName}}
-                                            </mat-option>
-                                        </mat-select>
+                                        <input matInput type="text" placeholder="Month" formControlName="month"
+                                            [(ngModel)]="schedule.month.shortName">
                                     </mat-form-field>
                                 </div>
-
-
-
-
 
                                 <!-- Start Date -->
                                 <!-- (dateChange)="dateChanged($event, 'startDate')" -->
@@ -203,7 +189,7 @@
                                         <div class="col-sm-8">
                                             <div class="row" *ngFor="let data of setTimeAllData; let i = index;">
 
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-6">
                                                     <mat-form-field class="full-width">
                                                         <input matInput type="time" placeholder="Start Time"
                                                             [(ngModel)]="data.startTime" [ngModelOptions]="{standalone: true}"
@@ -211,17 +197,10 @@
                                                     </mat-form-field>
                                                 </div>
 
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-6">
                                                     <mat-form-field class="full-width">
                                                         <input matInput type="time" placeholder="End Time" [(ngModel)]="data.endTime"
                                                             [ngModelOptions]="{standalone: true}" (ngModelChange)="onEndTimeAllFocusOut(i)">
-                                                    </mat-form-field>
-                                                </div>
-
-                                                <div class="col-sm-4">
-                                                    <mat-form-field class="full-width">
-                                                        <input matInput type="number" placeholder="Patient Allowed"
-                                                            [(ngModel)]="data.noOfPatientAllowed" [ngModelOptions]="{standalone: true}">
                                                     </mat-form-field>
                                                 </div>
                                             </div>

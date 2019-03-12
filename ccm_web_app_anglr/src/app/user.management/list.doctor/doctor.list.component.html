@@ -192,6 +192,14 @@
 
                                                     <!-- <a (click)=""> -->
 
+                                                    <!-- *ngIf="viewSchedulePermission" -->
+                                                    <span *ngIf="loggedInUser.role.roleCode !== 'patient'" matTooltipPosition="above"
+                                                        matTooltip="View Schedule">
+                                                        <a [routerLink]="['/schedule/view',user.id]">
+                                                            <i style="color:#0aa700;" class="icon-eye2"></i>
+                                                        </a>
+                                                    </span> &nbsp;
+
                                                     <span *ngIf="assignFacilitatorPermission" matTooltipPosition="above"
                                                         matTooltip="Assign Facilitator">
                                                         <a (click)="openAssignFacilitatorDialog(user)">
@@ -211,7 +219,8 @@
 
                                                     <!-- <a (click)=""> -->
 
-                                                    <span *ngIf="deletePermission" matTooltipPosition="above" matTooltip="Delete">
+                                                    <span *ngIf="deletePermission" matTooltipPosition="above"
+                                                        matTooltip="Delete">
                                                         <i style="color:#f70a0a;" class="icon-bin" (click)="userDelete(user.id)"></i>
                                                     </span>
                                                     <!-- <a>

@@ -14,6 +14,7 @@ import { SetupService } from "./services/setup/setup.service";
 import { DashboardService } from "./services/dashboard/dashboard.service";
 import { DoctorScheduleService } from "./services/doctor/doctor.schedule.service";
 import { ScheduleService } from "./services/schedule/schedule.service";
+import { AppointmentService } from "./services/schedule/appointment.service";
 import { FileService } from "./services/file/file.service";
 import { FormService } from "./services/form/form.service";
 
@@ -33,6 +34,7 @@ import { LoginGuard } from './services/guard/login.guard';
         RoutingInfoService, GeoLocationService,
         SetupService, DashboardService,
         ScheduleService,
+        AppointmentService,
         DoctorScheduleService,
         FileService,
         UtilityService,

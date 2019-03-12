@@ -16,3 +16,110 @@
     width:100%;
     height:100vh;
 }
+
+
+
+
+.navigation {
+    list-style: none;
+    padding: 0;
+}
+
+/* .navigation {
+    padding: 0.85rem 0;
+    position: relative;
+    border-radius: 2px;
+    color: #707070;
+    transition: background-color 300ms, color 300ms;
+    font-weight: 500;
+    display: block;
+}
+
+.navigation li a .mat-icon {
+    vertical-align: top;
+    position: absolute;
+    text-align: center;
+    margin-right: 0.6rem;
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+    top: 50%;
+    margin-top: -9px;
+    left: 10px;
+}
+
+.textright {
+    text-align: right;
+} */
+
+/* ul.navigation ul {
+    padding: 0 0;
+    background-color: rgba(33, 151, 75, 0.06);
+} */
+
+.top-nav {
+    text-align: right
+}
+
+ul.navigation ul.sub {
+    overflow: hidden;
+    height: 0;
+    transform: scaleY(0);
+    -webkit-transition: transform 0.3s ease-out;
+    /* Safari */
+    transition: transform 0.3s ease-out;
+}
+
+ul.navigation ul.sub.show {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    height: auto;
+    transform: scaleY(1);
+    -webkit-transition: transform 0.3s ease-out;
+    /* Safari */
+    transition: transform 0.3s ease-out;
+}
+
+/* .navigation>li {
+    border-bottom: 1px solid #ebebeb;
+} */
+
+/* .navigation li a {
+    padding: 0.675rem 1rem 0.675rem 0.5rem;
+    position: relative;
+    border-radius: 2px;
+    color: #707070;
+    transition: background-color 300ms, color 300ms;
+    font-weight: 400;
+    display: block;
+    font-size: 14px;
+    cursor: pointer;
+} */
+
+
+
+/* Loader CSS */
+
+.page-cs-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(229, 239, 242, 0.95);
+    z-index: 20;
+}
+
+.page-cs-loader img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -50px 0 0 -50px;
+}
+
+.page-cs-loader mat-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -50px 0 0 -50px;
+}

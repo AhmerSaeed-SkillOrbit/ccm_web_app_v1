@@ -36,6 +36,7 @@ export class ScheduleService implements OnDestroy {
                         ss.push({
                             StartTime: element1.startTime || "",
                             EndTime: element1.endTime || "",
+                            NoOfPatientAllowed: element1.noOfPatientAllowed || null,
                         });
                     });
                 }

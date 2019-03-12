@@ -11,23 +11,24 @@ import { PageEvent, MatDialog, MatTableDataSource, MatPaginator } from '@angular
 // import { Dashboard } from '../core/models/dashboard';
 import { Message, MessageTypes } from '../../core/models/message';
 // import { SetupService } from '../../core/services/setup/setup.service';
-import { InviteDialogComponent } from '../invite.dialoge/invite.dialog.component';
 import { UserService } from '../../core/services/user/user.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 import { UtilityService } from '../../core/services/general/utility.service';
-import { AssignFacilitatorDialogeComponent } from '../assign.facilitator.dialoge/assign.facilitator.dialoge.component';
+import { AppointmentService } from '../../core/services/schedule/appointment.service';
+import { Appointment } from '../../core/models/appointment';
+import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmationDialog.component';
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
 // import { EasyPay } from '../core/models/payment/easypay.payment';
 
 declare var libraryVar: any;
 
 @Component({
-    selector: 'doctor-list',
+    selector: 'pending-request-list',
     moduleId: module.id,
-    templateUrl: 'doctor.list.component.html',
+    templateUrl: 'pending.request.list.component.html',
     // styleUrls: ['invite.doctor.component.css']
 })
-export class DoctorListComponent implements OnInit {
+export class PendingRequestListComponent implements OnInit {
     files: any;
     // dashboard: Dashboard = new Dashboard();
     currentURL: string;
@@ -35,18 +36,18 @@ export class DoctorListComponent implements OnInit {
 
     isUser: User = new User();
     user: User = new User();
-    loggedInUser: User = new User();
     isLogin: any;
 
 
     email: string = "";
     mobileNo: string = "";
-    type: string = "superadmin_doctor";
+    type: string = "doctor_patient";
     userId: number = null;
     searchKeyword: string = null;
-    roleCode: string = null;
 
-    userList: User[] = [];
+    status: string = null;
+
+    appointmentList: Appointment[] = [];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -62,70 +63,54 @@ export class DoctorListComponent implements OnInit {
     upperLimit = 0;
 
     listPagePermission = false;
-    addPermission = false;
-    assignFacilitatorPermission = false;
-    viewSchedulePermission = false;
-    invitePermission = false;
-    updatePermission = false;
-    viewProfilePermission = false;
-    deletePermission = false;
+    acceptPermission = false;
+    rejectPermission = false;
 
     isSubmitted: boolean = false;
 
     display = 'none';
 
-    constructor(@Inject('IAuthService') private _authService: IAuthService,
+    constructor(
+        @Inject('IAuthService') private _authService: IAuthService,
         public dialog: MatDialog,
         private _uiService: UIService,
         // public _messaging: MessagingService,
-        private _userService: UserService,
+        // private _userService: UserService,
+        private _appointmentService: AppointmentService,
         private _mappingService: MappingService,
         private _utilityService: UtilityService,
-        private route: ActivatedRoute, private _router: Router) {
+        private route: ActivatedRoute, private _router: Router
+    ) {
         this.currentURL = window.location.href;
     }
 
     ngOnInit(): void {
 
         this.user = this._authService.getUser();
-        this.loggedInUser = this._authService.getUser();
-        this.userId = this.user.id;
-        console.log('test this.user', this.user);
+        console.log('this.user', this.user);
         this.isLogin = this._authService.isLoggedIn();
         // console.log('this.isLogin', this.isLogin);
 
-
-        this.roleCode = "doctor";
+        this.status = "pending";
 
         if (!this.isLogin) {
             // this._router.navigateByUrl('login');
         } else {
 
-            this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'doctor_list_page');
-            // this.listPagePermission = true;
+            // this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'appointment_list_page');
+            this.listPagePermission = true;
 
             if (this.listPagePermission) {
-                this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_doctor');
-                // this.addPermission = true;
-                // this.viewSchedulePermission = this._utilityService.checkUserPermission(this.user, 'assign_facilitator');
-                this.viewSchedulePermission = true;
-                this.assignFacilitatorPermission = this._utilityService.checkUserPermission(this.user, 'assign_facilitator');
-                // this.assignFacilitatorPermission = true;
-                this.invitePermission = this._utilityService.checkUserPermission(this.user, 'invite_doctor');
-                // this.invitePermission = true;
-                this.updatePermission = this._utilityService.checkUserPermission(this.user, 'update_doctor');
-                // this.addPermission = true;
-                this.viewProfilePermission = this._utilityService.checkUserPermission(this.user, 'view_doctor_profile');
-                // this.viewPermission = true;
-                this.deletePermission = this._utilityService.checkUserPermission(this.user, 'delete_doctor');
-                // this.addPermission = true;
+                // this.acceptPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+                this.acceptPermission = true;
+                // this.rejectPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+                this.rejectPermission = true;
 
-                this.loadUserList();
+                this.loadAppointmentList();
             }
             else {
                 this._router.navigateByUrl('permission');
             }
-
         }
 
     }
@@ -137,7 +122,7 @@ export class DoctorListComponent implements OnInit {
         // if(this.searchKeyword){
         this.pageIndex = 0;
         // this.pageChangeEvent();
-        this.loadUserList();
+        this.loadAppointmentList();
         // }
 
     }
@@ -148,7 +133,7 @@ export class DoctorListComponent implements OnInit {
         this.filter = "";
         this.searchKeyword = "";
         // this.dataSource.filter = null;
-        this.loadUserList();
+        this.loadAppointmentList();
         // }
     }
 
@@ -158,28 +143,27 @@ export class DoctorListComponent implements OnInit {
 
         this.pageIndex = event.pageIndex;
         this.pageSize = event.pageSize;
-        this.loadUserList();
+        this.loadAppointmentList();
 
         return event;
     }
 
-
-    loadUserList() {
+    loadAppointmentList() {
         const msg = new Message();
         this.length = 0;
-        this.userList = [];
+        this.appointmentList = [];
         // this.dataSource = new MatTableDataSource<User>(this.userList);
         if (this.listPagePermission) {
             this.isSpinner = true;
 
             // this._uiService.showSpinner();
 
-            this._userService.getUsersListCount(this.searchKeyword, this.roleCode).subscribe(
+            this._appointmentService.getAppointmentListCount(null, this.status).subscribe(
                 (res) => {
                     // this._uiService.hideSpinner();
                     this.length = res.json().data;
 
-                    this._userService.getUsersListPagination(this.pageIndex, this.pageSize, this.searchKeyword, this.roleCode).subscribe(
+                    this._appointmentService.getAppointmentPagination(this.pageIndex, this.pageSize, null, this.status).subscribe(
                         (res) => {
                             // this.userList = res.json();
                             // this._uiService.hideSpinner();
@@ -187,17 +171,17 @@ export class DoctorListComponent implements OnInit {
                             // console.log('res list:', array);
                             var uList = [];
                             for (let i = 0; i < array.length; i++) {
-                                let u = this._mappingService.mapUser(array[i]);
+                                let u = this._mappingService.mapAppointment(array[i]);
                                 uList.push(u);
                             }
-                            this.userList = uList;
+                            this.appointmentList = uList;
 
                             // this.dataSource = new MatTableDataSource<User>(this.userList);
                             // this.dataSource.paginator = this.paginator;
                             // console.log('user list:', this.userList);
 
-                            if (this.userList.length == 0) {
-                                msg.msg = 'No Users Found';
+                            if (this.appointmentList.length == 0) {
+                                msg.msg = 'No Appointment Found';
                                 msg.msgType = MessageTypes.Information;
                                 msg.autoCloseAfter = 400;
                                 this._uiService.showToast(msg, 'info');
@@ -229,93 +213,92 @@ export class DoctorListComponent implements OnInit {
         }
     }
 
-    openInviteDialog() {
+    confirmDialog(appointment: Appointment, btn, index) {
+        let msg = "";
+        let title = "";
+        let type = "";
 
-        let dialog = this.dialog.open(InviteDialogComponent, {
-            maxWidth: "700px",
-            minWidth: "550px",
-            // width: "550px",
-            // height: '465px',
-            // data: this.id,
-            data: {
-                type: this.type,
-                user: this.user,
-            },
-        });
-        dialog.afterClosed().subscribe((result) => {
-            console.log("result", result);
-            if (result) {
-                // this.refreshList();
-            }
-        })
-    }
-
-    openAssignFacilitatorDialog(doctor) {
-
-        let dialog = this.dialog.open(AssignFacilitatorDialogeComponent, {
-            maxWidth: "700px",
-            minWidth: "550px",
-            // width: "550px",
-            // height: '465px',
-            // data: this.id,
-            data: {
-                doctor: doctor,
-            },
-        });
-        dialog.afterClosed().subscribe((result) => {
-            console.log("result", result);
-            if (result) {
-                // this.refreshList();
-            }
-        })
-    }
-
-    resetForm() {
-        this.email = null;
-        this.display = 'block';
-    }
-
-    onCloseHandled(result) {
-        console.log("result", result);
-        this.display = 'none';
-
-        if (result) {
+        if (btn === 'accept') {
+            title = 'Approve Request';
+            msg = 'Are you sure you want to approve ' + appointment.appointmentNumber + ' appoitment request ?';
+            type = "accept";
+        }
+        else if (btn === 'reject') {
+            title = 'Reject Request';
+            msg = 'Are you sure you want to reject ' + appointment.appointmentNumber + ' appoitment request ?';
+            type = "reject";
 
         }
+        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+            width: '400px',
+            // data: { message: msg, title: title, type: this.perFormAction.code, form: form }
+            data: { message: msg, title: title, type: type }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('dialog close', result);
+
+            if (result && result.status && btn === 'accept') {
+                // this.approveRequest(user, index);
+                // this.approveRequest(user, result.reason);
+                // this.changeRequestStatus(appointment.id, btn, null);
+                this.changeRequestStatus(appointment.id, "accepted", null);
+            }
+            if (result && result.status && btn === 'reject') {
+                // this.rejectRequest(user, index);
+                // this.changeRequestStatus(appointment.id, btn, result.reason);
+                this.changeRequestStatus(appointment.id, "rejected", result.reason);
+                // this.approveRequest(user, null);
+            }
+        });
     }
 
-    sendInvite() {
-
+    changeRequestStatus(appointmentId, status, reason) {
         const msg = new Message();
-        this.isSubmitted = true;
+        this._uiService.showSpinner();
+        // this._userService.deleteUser(userId)
 
-        if (this.email) {
+        this._appointmentService.appointmentRequestAction(appointmentId, status, reason).subscribe(
+            (res) => {
 
-            this._userService.sendInvite(this.email, this.mobileNo, this.type, this.userId).subscribe(
-                (res) => {
+                this.isSubmitted = false;
+                this._uiService.hideSpinner();
+                msg.msg = res.json().message ? res.json().message : 'Request Status updated successfully';
+                // msg.msg = 'You have successfully added an activity';
+                msg.msgType = MessageTypes.Information;
+                msg.autoCloseAfter = 400;
+                this._uiService.showToast(msg, 'info');
 
-                    this.isSubmitted = false;
-                    msg.msg = res.json().message ? res.json().message : 'Invitation send successfully';
-                    // msg.msg = 'You have successfully added an activity';
-                    msg.msgType = MessageTypes.Information;
-                    msg.autoCloseAfter = 400;
-                    this._uiService.showToast(msg, 'info');
+                this.refreshList();
+                // this._router.navigate([this.currentURL]);
+            },
+            (err) => {
+                console.log(err);
+                this.isSubmitted = false;
+                this._uiService.hideSpinner();
+                this._authService.errStatusCheckResponse(err);
+            });
+    }
 
-                    this.onCloseHandled(true);
-                },
-                (err) => {
-                    console.log(err);
-                    this.isSubmitted = false;
-                    this._authService.errStatusCheckResponse(err);
-                });
-        }
-        else {
-            this.isSubmitted = false;
-            msg.msg = 'Email is required';
-            msg.msgType = MessageTypes.Error;
-            msg.autoCloseAfter = 400;
-            this._uiService.showToast(msg, '');
-        }
+    cancelRequest(appointmentId, reason) {
+        const msg = new Message();
+        // this._userService.deleteUser(userId)
+
+        this._appointmentService.appointmentRequestCancel(appointmentId, reason).subscribe(
+            (res) => {
+
+                this.isSubmitted = false;
+                msg.msg = res.json().message ? res.json().message : 'Request Status updated successfully';
+                // msg.msg = 'You have successfully added an activity';
+                msg.msgType = MessageTypes.Information;
+                msg.autoCloseAfter = 400;
+                this._uiService.showToast(msg, 'info');
+                this._router.navigate([this.currentURL]);
+            },
+            (err) => {
+                console.log(err);
+                this.isSubmitted = false;
+                this._authService.errStatusCheckResponse(err);
+            });
     }
 
     onlogOut() {
@@ -330,28 +313,5 @@ export class DoctorListComponent implements OnInit {
             this._router.navigate([redirectUrl]);
         }
     }
-
-    userDelete(userId) {
-        const msg = new Message();
-        console.log('delete user');
-        console.log(userId);
-
-        this._userService.deleteUser(userId).subscribe(
-            (res) => {
-
-                this.isSubmitted = false;
-                msg.msg = res.json().message ? res.json().message : 'Doctor deleted successfully';
-                msg.msgType = MessageTypes.Information;
-                msg.autoCloseAfter = 400;
-                this._uiService.showToast(msg, 'info');
-                this._router.navigate([this.currentURL]);
-            },
-            (err) => {
-                console.log(err);
-                this.isSubmitted = false;
-                this._authService.errStatusCheckResponse(err);
-            });
-    }
-
 
 }

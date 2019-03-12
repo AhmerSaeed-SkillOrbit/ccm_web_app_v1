@@ -109,6 +109,26 @@ export class DoctorScheduleService {
             }
             );
     }
+
+    // --------- get DoctorShift Via Id  
+    public getDoctorShiftViaId(shiftId): Observable<any> {
+
+        let token: Token;
+        token = this._authServices.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        // let userId = token.userId;
+        // doctor/schedule/list/count?userId=11
+        const getUrl = 'doctor/schedule/shift/single?doctorScheduleShiftId=' + (shiftId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
 }
 
 export class OffDays {
