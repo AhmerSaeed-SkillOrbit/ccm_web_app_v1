@@ -17,6 +17,7 @@ import { UtilityService } from '../../../core/services/general/utility.service';
 import { AppointmentService } from '../../../core/services/schedule/appointment.service';
 import { Appointment } from '../../../core/models/appointment';
 import { ConfirmationDialogComponent } from '../../../shared/dialogs/confirmationDialog.component';
+import { ViewAppointmentDialogeComponent } from '../../../shared/appointment.dialoge/view.appointment.dialoge.component';
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
 // import { EasyPay } from '../core/models/payment/easypay.payment';
 
@@ -240,6 +241,19 @@ export class PatientAcceptedRequestListComponent implements OnInit {
         } else {
             this._router.navigate([redirectUrl]);
         }
+    }
+
+    openViewDialog(appointment: Appointment) {
+        const dialogRef = this.dialog.open(ViewAppointmentDialogeComponent, {
+            width: '400px',
+            // data: { message: msg, title: title, type: this.perFormAction.code, form: form }
+            data: {
+                appointment: appointment
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('dialog close', result);
+        });
     }
 
     confirmDialog(appointment: Appointment, btn, index) {
