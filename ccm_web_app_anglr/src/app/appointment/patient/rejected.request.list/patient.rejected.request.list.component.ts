@@ -16,6 +16,7 @@ import { MappingService } from '../../../core/services/mapping/mapping.service';
 import { UtilityService } from '../../../core/services/general/utility.service';
 import { AppointmentService } from '../../../core/services/schedule/appointment.service';
 import { Appointment } from '../../../core/models/appointment';
+import { ViewAppointmentDialogeComponent } from '../../../shared/appointment.dialoge/view.appointment.dialoge.component';
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
 // import { EasyPay } from '../core/models/payment/easypay.payment';
 
@@ -237,6 +238,19 @@ export class PatientRejectedRequestListComponent implements OnInit {
         } else {
             this._router.navigate([redirectUrl]);
         }
+    }
+
+    openViewDialog(appointment: Appointment) {
+        const dialogRef = this.dialog.open(ViewAppointmentDialogeComponent, {
+            width: '400px',
+            // data: { message: msg, title: title, type: this.perFormAction.code, form: form }
+            data: {
+                appointment: appointment
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('dialog close', result);
+        });
     }
 
     changeRequestStatus(appointmentId, status, reason) {
