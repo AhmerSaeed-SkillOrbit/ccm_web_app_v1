@@ -27,7 +27,7 @@
                     <div class="page-header-content">
                         <div class="page-title">
                             <h4><i class="icon-arrow-left52 position-left"></i>
-                                <span class="text-semibold">Appointment Accepted Request</span>
+                                <span class="text-semibold">Appointment Rejected Request</span>
                                 - List
                             </h4>
                         </div>
@@ -85,7 +85,7 @@
                         <div class="panel panel-flat">
                             <div class="panel-heading">
                                 <h5 class="panel-title">
-                                    Appointment Accepted Request
+                                    Appointment Rejected Request
                                     <a class="heading-elements-toggle"><i class="icon-more"></i></a>
                                 </h5>
                             </div>
@@ -110,10 +110,10 @@
 
                             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
                                 <div class="datatable-header">
-                                    <div *ngIf="false" id="DataTables_Table_0_filter" class="dataTables_filter">
+                                    <div id="DataTables_Table_0_filter" class="dataTables_filter">
                                         <label>
                                             <span>Filter:</span>
-                                            <input type="search" [(ngModel)]="searchKeyword" class="" placeholder="Type to filter..."
+                                            <input type="search" [(ngModel)]="searchKeyword" class="" placeholder="Type to search..."
                                                 (keyup.enter)="search()">
                                         </label>
                                     </div>
@@ -196,10 +196,10 @@
                                                     {{ appointment?.requestStatus || "NA" }}
                                                 </td>
                                                 <td class="text-center">
-                                                    <span *ngIf="cancelPermission" matTooltipPosition="above"
-                                                        matTooltip="Cancel Request">
-                                                        <!-- <i style="color:#f70a0a;" class="icon-bin" (click)="changeRequestStatus(appointment.id, 'reject', '')"></i> -->
-                                                        <i style="color:#f70a0a;" class="icon-cross2" (click)="confirmDialog(appointment, 'cancel', i)"></i>
+
+                                                    <span *ngIf="viewPermission" matTooltipPosition="above" matTooltip="View Request">
+                                                        <!-- <i style="color:#0aa700;" class="icon-eye2" (click)="changeRequestStatus(appointment.id, 'rejected', '')"></i> -->
+                                                        <i style="color:#0aa700;" class="icon-eye2" (click)="openViewDialog(appointment)"></i>
                                                     </span> &nbsp;
 
                                                     <!-- <span *ngIf="rejectPermission" matTooltipPosition="above"

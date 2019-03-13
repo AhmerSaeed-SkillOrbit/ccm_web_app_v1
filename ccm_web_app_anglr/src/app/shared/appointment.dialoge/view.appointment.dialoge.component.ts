@@ -71,13 +71,41 @@ export class ViewAppointmentDialogeComponent {
             this.appointmentId = data.appointment.id || null;
             this.appointment = data.appointment || new Appointment();
 
-            // this.loadAppointment();
+            this.loadAppointment();
         }
 
 
     }
 
     loadAppointment() {
+
+        const msg = new Message();
+
+        this.isSubmitted = true;
+        // this._uiService.showSpinner();
+
+        this._appointmentService.getSingleAppointment(this.appointmentId).subscribe(
+            (res) => {
+
+                console.log("res ", res);
+                this.isSubmitted = false;
+                // this._uiService.hideSpinner();
+                // this.length = res.json().data;
+                let data = res.json().data;
+
+                this.appointment = this._mappingService.mapAppointment(data);
+
+
+                console.log("appointment ", this.appointment);
+
+            },
+            (err) => {
+                console.log(err);
+                this.isSubmitted = false;
+                // this._uiService.hideSpinner();
+                // this._authService.errStatusCheckResponse(err);
+            }
+        );
 
     }
 

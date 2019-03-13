@@ -44,8 +44,25 @@ export class AppointmentService implements OnDestroy {
             });
     }
 
-    // --------- Schedule List Count with 
-    public getAppointmentListCount(doctorId, status): Observable<any> {
+    public getSingleAppointment(appointmentId): Observable<any> {
+        // const getUrl = 'update/role';
+        const getUrl = 'appointment/single?appointmentId=' + (appointmentId || null);
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            });
+    }
+
+    // --------- Appointment List Count with 
+    public getAppointmentListCount(doctorId, status, searchKeyword = null): Observable<any> {
 
         let token: Token;
         token = this._authService.getTokenData();
@@ -56,7 +73,8 @@ export class AppointmentService implements OnDestroy {
         let userId = token.userId;
         // appointment/list/count?userId=11&rStatus='accepted || pending || rejected'
         // const getUrl = 'appointment/list/count?userId=' + (doctorId || null) + '&rStatus=' + (status || null);
-        const getUrl = 'appointment/list/count?userId=' + (userId || null) + '&rStatus=' + (status || null);
+        const getUrl = 'appointment/list/count?userId=' + (userId || null) + '&rStatus='
+            + (status || null) + '&search=' + (searchKeyword || null);
         return this._http.get(getUrl, options)
             .map((res: Response) => res)
             .catch((error: any) => {
@@ -65,8 +83,8 @@ export class AppointmentService implements OnDestroy {
             );
     }
 
-    // --------- Schedule List Pagination
-    public getAppointmentPagination(pageNo, limit, doctorId, status, ): Observable<any> {
+    // --------- Appointment List Pagination
+    public getAppointmentPagination(pageNo, limit, doctorId, status, searchKeyword = null): Observable<any> {
 
         let token: Token;
         token = this._authService.getTokenData();
@@ -77,7 +95,8 @@ export class AppointmentService implements OnDestroy {
         let userId = token.userId;
         // appointment/list?pageNo=0&limit=10&userId=11&rStatus='accpeted || pending || rejected'
         // const getUrl = 'appointment/list?pageNo=' + (pageNo || 0) + '&limit=' + (limit || 5) + '&userId=' + (doctorId || null) + '&rStatus=' + (status || null);
-        const getUrl = 'appointment/list?pageNo=' + (pageNo || 0) + '&limit=' + (limit || 5) + '&userId=' + (userId || null) + '&rStatus=' + (status || null);
+        const getUrl = 'appointment/list?pageNo=' + (pageNo || 0) + '&limit=' + (limit || 5) + '&userId=' + (userId || null)
+            + '&rStatus=' + (status || null) + '&search=' + (searchKeyword || null);
         return this._http.get(getUrl, options)
             .map((res: Response) => res)
             .catch((error: any) => {

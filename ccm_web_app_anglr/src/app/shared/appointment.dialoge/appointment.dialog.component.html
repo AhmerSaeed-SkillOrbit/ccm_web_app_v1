@@ -65,8 +65,10 @@
                                 <mat-select placeholder="Select Time Slot" formControlName="time" [(ngModel)]="appointment.timeSlotId"
                                     (change)="onTimeSlotFocusOut()" required>
                                     <mat-option>None</mat-option>
-                                    <mat-option *ngFor="let timeSlot of scheduleShift.timeSlots" [value]="timeSlot.id">
+                                    <mat-option *ngFor="let timeSlot of scheduleShift.timeSlots" [value]="timeSlot.id"
+                                        [disabled]="timeSlot.isBooked">
                                         {{ timeSlot?.timeSlot || "NA" }}
+                                        <span *ngIf="timeSlot.isBooked" style="float: right;">Booked</span>
                                     </mat-option>
                                 </mat-select>
                                 <mat-error *ngIf="form.controls['time'].errors?.required">
