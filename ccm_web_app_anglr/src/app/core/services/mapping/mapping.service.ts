@@ -135,7 +135,7 @@ export class MappingService {
             isSchedule.scheduleId = scheduleData.Id || null;
             isSchedule.doctorFirstName = scheduleData.FirstName || null;
             isSchedule.doctorLastName = scheduleData.LastName || null;
-            isSchedule.monthId = scheduleData.MonthName && scheduleData.MonthName > 0 ? (scheduleData.MonthName - 1) || null : null;
+            isSchedule.monthId = scheduleData.MonthName && scheduleData.MonthName > 0 ? (+scheduleData.MonthName - 1) || 0 : null;
             isSchedule.year = scheduleData.YearName || null;
             isSchedule.startDate = scheduleData.StartDate || null;
             isSchedule.endDate = scheduleData.EndDate || null;
@@ -171,17 +171,19 @@ export class MappingService {
         if (scheduleDetailData) {
             isScheduleDetail.id = scheduleDetailData.Id || null;
             isScheduleDetail.isOffDay = scheduleDetailData.IsOffDay || false;
-            isScheduleDetail.noOfShift = scheduleDetailData.noOfShift || null;
+            isScheduleDetail.noOfShift = scheduleDetailData.NoOfShift || null;
             isScheduleDetail.scheduleDate = scheduleDetailData.ScheduleDate || null;
 
             let ss = [];
             if (scheduleDetailData.ScheduleShifts && scheduleDetailData.ScheduleShifts.length > 0) {
                 scheduleDetailData.ScheduleShifts.forEach(element => {
                     ss.push(this.mapScheduleShift(element));
+                    // console.log("ss ", ss)
                 });
             }
 
             isScheduleDetail.scheduleShifts = ss;
+            // console.log("isScheduleDetail.scheduleShifts", isScheduleDetail.scheduleShifts);
         }
 
 
@@ -189,13 +191,20 @@ export class MappingService {
     }
 
     public mapScheduleShift(res: any): ScheduleShift {
+
+        // console.log("mapScheduleShift res", res)
+        // console.log("mapScheduleShift res.Id", res.Id)
         const scheduleShiftData = res;
         const isScheduleShift = new ScheduleShift();
         if (scheduleShiftData) {
             isScheduleShift.id = scheduleShiftData.Id || null;
             isScheduleShift.scheduleShiftId = scheduleShiftData.Id || null;
-            isScheduleShift.startTime = scheduleShiftData.StartTime || false;
+            isScheduleShift.startTime = scheduleShiftData.StartTime || null;
+            // isScheduleShift.startTime12h = scheduleShiftData.StartTime || null;
+            // isScheduleShift.startTime = this._utilityService.convertTime12to24(scheduleShiftData.StartTime);
             isScheduleShift.endTime = scheduleShiftData.EndTime || null;
+            // isScheduleShift.endTime12h = scheduleShiftData.EndTime || null;
+            // isScheduleShift.endTime = this._utilityService.convertTime12to24(scheduleShiftData.EndTime);
             isScheduleShift.noOfPatientAllowed = scheduleShiftData.NoOfPatientAllowed || null;
 
             let ts = [];

@@ -37,7 +37,7 @@ export class ConfirmationDialogComponent implements OnInit {
         this.type = data.type || this.type;
         // this.form = data.form;
 
-        if (this.type == "block" || this.type == "reject") {
+        if (this.type == "cancel" || this.type == "reject") {
             this.isFormShow = true;
             this.form = _formBuilder.group({
                 'reason': ["", Validators.compose([Validators.required])],

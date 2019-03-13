@@ -26,7 +26,9 @@ export class ScheduleDetail {
 export class ScheduleShift {
     id: number;
     scheduleShiftId: number;
+    startTime12h: string;
     startTime: string;
+    endTime12h: string;
     endTime: string;
     noOfPatientAllowed: number;
     timeSlots: TimeSlot[] = [];

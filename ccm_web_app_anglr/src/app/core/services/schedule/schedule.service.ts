@@ -7,7 +7,7 @@ import { AuthService } from "../auth/auth.service";
 import { DatePipe } from '@angular/common';
 
 import { Token } from '../../models/token';
-import { Schedule } from '../../models/schedule.model';
+import { Schedule, ScheduleDetail } from '../../models/schedule.model';
 
 @Injectable()
 export class ScheduleService implements OnDestroy {
@@ -78,6 +78,52 @@ export class ScheduleService implements OnDestroy {
         const options = new RequestOptions();
         options.headers = new Headers();
         options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            });
+    }
+
+    public updateScheduleDoctor(scheduleDetail?: ScheduleDetail): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        // const getUrl = 'update/role';
+        // const getUrl = 'doctor/schedule/save?doctorId=' + (doctorId || null);
+        const getUrl = 'doctor/schedule/update?userId=' + (userId || null);
+
+        let ss = [];
+
+        if (scheduleDetail.scheduleShifts.length > 0) {
+
+            scheduleDetail.scheduleShifts.forEach(element => {
+                ss.push({
+                    Id: element.id || null,
+                    StartTime: element.startTime || "",
+                    EndTime: element.endTime || "",
+                    NoOfPatientAllowed: element.noOfPatientAllowed || null,
+                });
+            });
+        }
+
+
+        const body = {
+            // StartDate: "2019-03-27",
+            DoctorScheduleDetailId: scheduleDetail.id || null,
+            ScheduleDate: scheduleDetail.scheduleDate || null,
+            IsOffDay: scheduleDetail.isOffDay || false,
+            NoOfShift: scheduleDetail.noOfShift || null,
+            ScheduleShift: ss
+        };
+
 
         return this._http.post(getUrl, body, options)
             .map((res: Response) => res)
