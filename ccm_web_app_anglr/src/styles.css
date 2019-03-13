@@ -97,6 +97,12 @@ ul.navigation ul.sub.show {
 } */
 
 
+label.label-heading {
+    font-weight: 600;
+    color: #666;
+    font-size: 14px;
+}
+
 
 /* Loader CSS */
 

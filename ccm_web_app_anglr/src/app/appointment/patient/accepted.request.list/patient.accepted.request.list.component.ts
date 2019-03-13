@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { User } from '../../core/models/user';
-import { IAuthService } from '../../core/services/auth/iauth.service';
-import { UIService } from '../../core/services/ui/ui.service';
+import { User } from '../../../core/models/user';
+import { IAuthService } from '../../../core/services/auth/iauth.service';
+import { UIService } from '../../../core/services/ui/ui.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEvent, MatDialog, MatTableDataSource, MatPaginator } from '@angular/material';
 // import { ScriptService } from '../core/services/script.service';
@@ -9,25 +9,26 @@ import { PageEvent, MatDialog, MatTableDataSource, MatPaginator } from '@angular
 // import { MessagingService } from '../messaging.service';
 // import { DashboardService } from '../core/services/general/dashboard.service';
 // import { Dashboard } from '../core/models/dashboard';
-import { Message, MessageTypes } from '../../core/models/message';
+import { Message, MessageTypes } from '../../../core/models/message';
 // import { SetupService } from '../../core/services/setup/setup.service';
-import { UserService } from '../../core/services/user/user.service';
-import { MappingService } from '../../core/services/mapping/mapping.service';
-import { UtilityService } from '../../core/services/general/utility.service';
-import { AppointmentService } from '../../core/services/schedule/appointment.service';
-import { Appointment } from '../../core/models/appointment';
+import { UserService } from '../../../core/services/user/user.service';
+import { MappingService } from '../../../core/services/mapping/mapping.service';
+import { UtilityService } from '../../../core/services/general/utility.service';
+import { AppointmentService } from '../../../core/services/schedule/appointment.service';
+import { Appointment } from '../../../core/models/appointment';
+import { ConfirmationDialogComponent } from '../../../shared/dialogs/confirmationDialog.component';
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
 // import { EasyPay } from '../core/models/payment/easypay.payment';
 
 declare var libraryVar: any;
 
 @Component({
-    selector: 'rejected-request-list',
+    selector: 'patient-accepted-request-list',
     moduleId: module.id,
-    templateUrl: 'rejected.request.list.component.html',
+    templateUrl: 'patient.accepted.request.list.component.html',
     // styleUrls: ['invite.doctor.component.css']
 })
-export class RejectedRequestListComponent implements OnInit {
+export class PatientAcceptedRequestListComponent implements OnInit {
     files: any;
     // dashboard: Dashboard = new Dashboard();
     currentURL: string;
@@ -62,8 +63,10 @@ export class RejectedRequestListComponent implements OnInit {
     upperLimit = 0;
 
     listPagePermission = false;
+    viewPermission = false;
     acceptPermission = false;
     rejectPermission = false;
+    cancelPermission = false;
 
     isSubmitted: boolean = false;
 
@@ -90,7 +93,7 @@ export class RejectedRequestListComponent implements OnInit {
         this.isLogin = this._authService.isLoggedIn();
         // console.log('this.isLogin', this.isLogin);
 
-        this.status = "rejected";
+        this.status = "accepted";
 
         if (!this.isLogin) {
             // this._router.navigateByUrl('login');
@@ -100,10 +103,14 @@ export class RejectedRequestListComponent implements OnInit {
             this.listPagePermission = true;
 
             if (this.listPagePermission) {
+                // this.viewPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+                this.viewPermission = true;
                 // this.acceptPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.acceptPermission = true;
+                // this.acceptPermission = true;
                 // this.rejectPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.rejectPermission = true;
+                // this.rejectPermission = true;
+                // this.cancelPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+                this.cancelPermission = true;
 
                 this.loadAppointmentList();
             }
@@ -157,12 +164,12 @@ export class RejectedRequestListComponent implements OnInit {
 
             // this._uiService.showSpinner();
 
-            this._appointmentService.getAppointmentListCount(null, this.status).subscribe(
+            this._appointmentService.getAppointmentListCount(null, this.status, this.searchKeyword).subscribe(
                 (res) => {
                     // this._uiService.hideSpinner();
                     this.length = res.json().data;
 
-                    this._appointmentService.getAppointmentPagination(this.pageIndex, this.pageSize, null, this.status).subscribe(
+                    this._appointmentService.getAppointmentPagination(this.pageIndex, this.pageSize, null, this.status, this.searchKeyword).subscribe(
                         (res) => {
                             // this.userList = res.json();
                             // this._uiService.hideSpinner();
@@ -235,6 +242,54 @@ export class RejectedRequestListComponent implements OnInit {
         }
     }
 
+    confirmDialog(appointment: Appointment, btn, index) {
+        let msg = "";
+        let title = "";
+        let type = "";
+
+        if (btn === 'accept') {
+            title = 'Accept Request';
+            msg = 'Are you sure you want to accept ' + appointment.appointmentNumber + ' appoitment request ?';
+            type = "accept";
+        }
+        else if (btn === 'reject') {
+            title = 'Reject Request';
+            msg = 'Are you sure you want to reject ' + appointment.appointmentNumber + ' appoitment request ?';
+            type = "reject";
+
+        }
+        else if (btn === 'cancel') {
+            title = 'Cancel Request';
+            msg = 'Are you sure you want to cancel ' + appointment.appointmentNumber + ' appoitment request ?';
+            type = "cancel";
+
+        }
+        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+            width: '400px',
+            // data: { message: msg, title: title, type: this.perFormAction.code, form: form }
+            data: { message: msg, title: title, type: type }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('dialog close', result);
+
+            if (result && result.status && btn === 'accept') {
+                // this.approveRequest(user, index);
+                // this.approveRequest(user, result.reason);
+                // this.changeRequestStatus(appointment.id, btn, null);
+                this.changeRequestStatus(appointment.id, "accepted", null);
+            }
+            if (result && result.status && btn === 'reject') {
+                // this.rejectRequest(user, index);
+                // this.changeRequestStatus(appointment.id, btn, result.reason);
+                this.changeRequestStatus(appointment.id, "rejected", result.reason);
+                // this.approveRequest(user, null);
+            }
+            if (result && result.status && btn === 'cancel') {
+                this.cancelRequest(appointment.id, result.reason);
+            }
+        });
+    }
+
     changeRequestStatus(appointmentId, status, reason) {
         const msg = new Message();
         // this._userService.deleteUser(userId)
@@ -259,22 +314,25 @@ export class RejectedRequestListComponent implements OnInit {
 
     cancelRequest(appointmentId, reason) {
         const msg = new Message();
+        this._uiService.showSpinner();
         // this._userService.deleteUser(userId)
 
         this._appointmentService.appointmentRequestCancel(appointmentId, reason).subscribe(
             (res) => {
 
                 this.isSubmitted = false;
+                this._uiService.hideSpinner();
                 msg.msg = res.json().message ? res.json().message : 'Request Status updated successfully';
                 // msg.msg = 'You have successfully added an activity';
                 msg.msgType = MessageTypes.Information;
                 msg.autoCloseAfter = 400;
                 this._uiService.showToast(msg, 'info');
-                this._router.navigate([this.currentURL]);
+                // this._router.navigate([this.currentURL]);
             },
             (err) => {
                 console.log(err);
                 this.isSubmitted = false;
+                this._uiService.hideSpinner();
                 this._authService.errStatusCheckResponse(err);
             });
     }
