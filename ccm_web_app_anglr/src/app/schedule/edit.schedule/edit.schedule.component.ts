@@ -559,8 +559,12 @@ export class EditScheduleComponent implements OnInit {
                     // this.schedule.scheduleDetails[index].endTime = null;
                 }
                 else {
-                    this.schedule.scheduleDetails[index].noOfShift = this.noOfShift;
-                    this.schedule.scheduleDetails[index].scheduleShifts = this.setTimeAllData;
+                    // this.schedule.scheduleDetails[index].noOfShift = this.noOfShift;
+                    // this.schedule.scheduleDetails[index].scheduleShifts = this.setTimeAllData;
+
+                    this.schedule.scheduleDetails[index].noOfShift = this._utilityService.deepCopy(this.noOfShift);
+                    this.schedule.scheduleDetails[index].scheduleShifts = this._utilityService.deepCopy(this.setTimeAllData);
+
                     // this.schedule.scheduleDetails[index].startTime = this.startTime;
                     // this.schedule.scheduleDetails[index].endTime = this.endTime;
                 }
@@ -574,7 +578,8 @@ export class EditScheduleComponent implements OnInit {
                         this.schedule.scheduleDetails[index].scheduleShifts = [];
                     }
                     else {
-                        this.schedule.scheduleDetails[index].scheduleShifts = this.setTimeAllData;
+                        // this.schedule.scheduleDetails[index].scheduleShifts = this.setTimeAllData;
+                        this.schedule.scheduleDetails[index].scheduleShifts = this._utilityService.deepCopy(this.setTimeAllData);
                     }
 
                 });
