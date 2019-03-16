@@ -86,7 +86,7 @@ export class ForumService {
 
     }
 
-    deleteForumTopic(forum: Forum) {
+    deleteForumTopic(forumTopicId) {
 
         let token: Token;
         token = this._authService.getTokenData();
@@ -96,7 +96,7 @@ export class ForumService {
 
         let userId = token.userId;
 
-        let getUrl = 'forum/topic/delete?userId=' + (userId || null) + '&forumTopicId=' + (forum.id || null);
+        let getUrl = 'forum/topic/delete?userId=' + (userId || null) + '&forumTopicId=' + (forumTopicId || null);
 
         const body = {};
 

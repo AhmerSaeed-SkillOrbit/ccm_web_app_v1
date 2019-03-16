@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export class Comment {
 
     id: number;
@@ -9,7 +11,10 @@ export class Comment {
     parentCommentId: number;
     isEdit: boolean = false;
     isActive: boolean;
-    createdBy: number;
+
+    // createdBy: number;
+    createdBy: User = new User();
+    
     updatedBy: number;
     createdOn: string;
     updatedOn: string;

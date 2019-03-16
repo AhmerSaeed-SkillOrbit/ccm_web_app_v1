@@ -6,7 +6,7 @@ import { CommonModule } from "@angular/common";
 
 import { MaterialModule } from "../material/material.module";
 import { SharedModule } from '../shared/shared.module';
-import { ForumComponent, DeleteComment } from './forum.component';
+import { ForumComponent, DeleteCommentForum } from './forum.component';
 
 import { AddUpdateForumDialogeComponent } from './add.update.forum.dialoge/add.update.forum.dialoge.component';
 
@@ -14,7 +14,7 @@ import { AddUpdateForumDialogeComponent } from './add.update.forum.dialoge/add.u
 @NgModule({
     declarations: [
         ForumComponent,
-        AddUpdateForumDialogeComponent, DeleteComment
+        AddUpdateForumDialogeComponent, DeleteCommentForum
     ],
     imports: [
         ReactiveFormsModule, FormsModule,
@@ -33,7 +33,7 @@ import { AddUpdateForumDialogeComponent } from './add.update.forum.dialoge/add.u
     ],
     entryComponents: [
         AddUpdateForumDialogeComponent,
-        DeleteComment
+        DeleteCommentForum
     ]
 })
 

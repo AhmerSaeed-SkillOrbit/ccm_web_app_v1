@@ -84,7 +84,7 @@
                             <div class="panel-body">
                                 <span matTooltipPosition="above" matTooltip="{{!addPermission ? 'Dont have permission' : 'Add New' }}">
                                     <button type="button" class="btn btn-default btn-sm" [disabled]="!addPermission"
-                                        (click)="openAddForumDialog()">
+                                        (click)="openAddUpdateForumDialog()">
                                         Add New
                                         <i class="icon-play3 position-right"></i>
                                     </button>
@@ -93,55 +93,65 @@
                         </div>
                     </div>
 
-
+                    <div class="row align-item-center">
+                        <mat-card class="example-card">
+                            <mat-card-header>
+                                <div mat-card-avatar class="example-header-image"></div>
+                                <mat-card-title>Shiba Inu</mat-card-title>
+                                <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+                            </mat-card-header>
+                            <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+                            <mat-card-content>
+                                <p>
+                                    The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog
+                                    from Japan.
+                                    A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was
+                                    originally
+                                    bred for hunting.
+                                </p>
+                            </mat-card-content>
+                            <mat-card-actions>
+                                <!-- <button mat-button>LIKE</button> -->
+                                <button mat-button>Comment</button>
+                            </mat-card-actions>
+                        </mat-card>
+                    </div>
                     <div class="row align-item-center">
                         <!-- Forum -->
                         <div class="col-md-8">
                             <div class="newsfeed" *ngFor="let newsFeed of newsFeeds; let $index=index;">
-                                <mat-card>
-                                    <mat-card-header>
-                                        <!-- <div mat-card-avatar class="example-header-image"></div> -->
-                                        <div mat-card-avatar>
-                                            <img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+                                <div class="feed-by clearfix">
+                                    <!-- <img class="feed-owner-thumb" src="assets/images/placeholder.jpg"> -->
+                                    <a class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm"
+                                            alt=""></a>
+                                    <!-- <img class="feed-owner-thumb" src="{{newsFeed?.basicInfo?.owner?.profilePic?.thumbnails?.large?.url}}"> -->
+
+                                    <div class="feed-creator-info">
+                                        <div class="name">{{ newsFeed?.basicInfo?.owner?.name }}</div>
+                                        <div class="time-loc">
+                                            <!-- <a>2 hrs ago</a> -->
+                                            <a>{{ newsFeed?.createdOn }}</a>
                                         </div>
-                                        <mat-card-title>{{ newsFeed?.createdBy?.firstName || "Unknown" }}</mat-card-title>
-                                        <mat-card-subtitle>{{ newsFeed?.createdOn }}</mat-card-subtitle>
-                                        <div class="rigth-btn text-center" *ngIf="(user.id == newsFeed?.createdBy?.id) ">
-                                            <ul class="icons-list">
-                                                <li class="dropdown">
-                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu7"></i></a>
-                                                    <ul class="dropdown-menu dropdown-menu-right">
-                                                        <li>
-                                                            <a (click)="openEditForumDialog(newsFeed)">
-                                                                <i class="icon-pencil"></i>
-                                                                Edit
-                                                            </a>
-                                                        </li>
-                                                        <!-- <li class="divider"></li> -->
-                                                        <li>
-                                                            <a (click)="onDeleteForum($index, newsFeed.id)">
-                                                                <i class="icon-cross2 text-danger"></i>
-                                                                Delete
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </mat-card-header>
-
-                                    <mat-card-content>
-                                        <mat-card-title>{{ newsFeed?.title }}</mat-card-title>
-                                        <p>{{ newsFeed?.description }}</p>
-                                    </mat-card-content>
-
-                                    <mat-card-actions class="forum-action">
-                                        <!-- <button mat-button>LIKE</button> -->
-                                        <button mat-button (click)="loadComment(newsFeed, $index)">
-                                            {{ newsFeed?.commentCount }} Comment
-                                        </button>
-                                    </mat-card-actions>
-
+                                    </div>
+                                </div>
+                                <div class="feed-details">
+                                    <div class="feed-content">
+                                        {{ newsFeed?.title }}
+                                    </div>
+                                    <div class="feed-content">
+                                        {{ newsFeed?.description }}
+                                    </div>
+                                    <div class="feed-img">
+                                        <!-- <img src="assets/img/hbt.jpeg"> -->
+                                    </div>
+                                    <div class="feed-stats"></div>
+                                    <div class="feed-action mbs pbs br-btm">
+                                        <span class="action-item" (click)="loadComment(newsFeed, $index)">
+                                            <i class="fa fa-comment"></i>
+                                            {{ newsFeed?.commentCount }}
+                                            Comment
+                                        </span>
+                                    </div>
                                     <div class="feed-comments">
                                         <div class="view-more" *ngIf="newsFeed.viewMoreComment < newsFeed.commentList?.length">
                                             <span (click)="newsFeed.viewMoreComment = newsFeed.viewMoreComment + 5 <= newsFeed.commentList.length ? newsFeed.viewMoreComment + 5 : newsFeed.commentList.length">
@@ -154,22 +164,18 @@
                                                 <!-- <div class="other-comment-box clearfix" *ngFor="let data of newsFeed.commentsDetail.list; let $index1=index;"> -->
 
 
-                                                <img class="comment-box-thumb-self" src="assets/images/placeholder.jpg"
-                                                    alt="profile-pic">
+                                                <!-- <img class="comment-box-thumb-self" src="assets/img/unilever.png" alt="profile-pic"> -->
                                                 <!-- <img class="comment-box-thumb-self" src="{{data?.commentBy?.profilePic?.data?.thumbnails?.small?.url}}"
                                                     alt="profile-pic"> -->
                                                 <div class="comment" *ngIf="!data?.isEdit">
-                                                    <a class="comment-name">
-                                                        {{ data?.createdBy?.firstName || "Unknown" }}
-                                                    </a>
-                                                    {{data?.comment}}
+                                                    <a class="comment-name">{{data?.commentBy?.name}}</a>{{data?.comment}}
                                                     <div class="time-loc">
                                                         <a>{{data?.commentDate}}</a>
                                                         <!-- <span>Edit</span> -->
-                                                        <span class="comment-action" *ngIf="((user.id == data?.createdBy?.id))"
+                                                        <span class="comment-action" *ngIf="((user.id == data?.createdBy))"
                                                             (click)="onEdit($index,$index1)">Edit</span>
-                                                        <span class="comment-action" *ngIf="((user.id == newsFeed?.createdBy?.id) || (user.id == data?.createdBy?.id))"
-                                                            (click)="onDeleteComment($index, $index1, data.commentId)">Delete</span>
+                                                        <span class="comment-action" *ngIf="((user.id == data?.createdBy))"
+                                                            (click)="onDelete($index, $index1, data.commentId)">Delete</span>
                                                     </div>
 
                                                 </div>
@@ -186,7 +192,7 @@
                                         </div>
 
                                         <div class="self-comment-box clearfix" *ngIf="newsFeed.isComment">
-                                            <img class="comment-box-thumb-self" src="assets/images/placeholder.jpg" alt="profile-pic">
+                                            <!-- <img class="comment-box-thumb-self" src="assets/images/placeholder.jpg" alt="profile-pic"> -->
                                             <!-- <img class="comment-box-thumb-self" src="{{user?.profilePic?.thumbnails?.small?.url}}"
                                                 alt="profile-pic"> -->
                                             <div class="comment-type">
@@ -194,11 +200,10 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                </mat-card>
+                                </div>
                             </div>
 
-                            <!-- <button (click)="loadMore()">Load More</button> -->
+                            <button (click)="loadMore()">Load More</button>
                         </div>
                         <!-- End of Forum -->
 

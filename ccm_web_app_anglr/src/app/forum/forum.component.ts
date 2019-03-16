@@ -82,7 +82,7 @@ export class ForumComponent implements OnInit {
         this.loadNewsFeed();
     }
 
-    openAddUpdateForumDialog() {
+    openAddForumDialog() {
 
         let dialog = this.dialog.open(AddUpdateForumDialogeComponent, {
             maxWidth: "700px",
@@ -90,7 +90,30 @@ export class ForumComponent implements OnInit {
             // width: "550px",
             // height: '465px',
             // data: this.id,
-            data: {},
+            data: {
+                type: "Add"
+            },
+        });
+        dialog.afterClosed().subscribe((result) => {
+            console.log("result", result);
+            if (result) {
+                // this.refreshList();
+            }
+        })
+    }
+
+    openEditForumDialog(forum: Forum) {
+
+        let dialog = this.dialog.open(AddUpdateForumDialogeComponent, {
+            maxWidth: "700px",
+            minWidth: "550px",
+            // width: "550px",
+            // height: '465px',
+            // data: this.id,
+            data: {
+                forum: forum,
+                type: "Edit"
+            },
         });
         dialog.afterClosed().subscribe((result) => {
             console.log("result", result);
@@ -160,57 +183,59 @@ export class ForumComponent implements OnInit {
 
         this._uiService.showSpinner();
 
-        // this._forumService.getCommentListCount(newsFeed.id).subscribe(
-        //     (res) => {
-        // this.newsFeedLength = res.json().data || 0;
-
-
-        this._forumService.getCommentListPagination(newsFeed.id, null, 10000).subscribe(
+        this._forumService.getCommentListCount(newsFeed.id).subscribe(
             (res) => {
-                this._uiService.hideSpinner();
+                // this.newsFeedLength = res.json().data || 0;
 
-                // this.newsFeeds = res.newsFeed;
+                let count = res.json().data || 0;
 
-                let array = res.json().data || [];
-                // console.log('res list:', array);
-                var uList = [];
-                for (let i = 0; i < array.length; i++) {
-                    let u = this._mappingService.mapComment(array[i]);
-                    uList.push(u);
-                }
+                // this._forumService.getCommentListPagination(newsFeed.id, null, 10000).subscribe(
+                this._forumService.getCommentListPagination(newsFeed.id, null, count).subscribe(
+                    (res) => {
+                        this._uiService.hideSpinner();
 
-                // this.newsFeeds = uList;
-                this.newsFeeds[index].commentCount = uList.length;
-                this.newsFeeds[index].commentList = uList;
+                        // this.newsFeeds = res.newsFeed;
+
+                        let array = res.json().data || [];
+                        // console.log('res list:', array);
+                        var uList = [];
+                        for (let i = 0; i < array.length; i++) {
+                            let u = this._mappingService.mapComment(array[i]);
+                            uList.push(u);
+                        }
+
+                        // this.newsFeeds = uList;
+                        this.newsFeeds[index].commentCount = uList.length;
+                        this.newsFeeds[index].commentList = uList;
 
 
 
-                // this.newsFeeds.forEach((newsFeed, index) => {
+                        // this.newsFeeds.forEach((newsFeed, index) => {
 
-                this.newsFeeds[index].viewMoreComment = this.newsFeeds[index].commentList.length > 5 ? 5 : this.newsFeeds[index].commentList.length;
-                // this.newsFeeds[index].commentsDetail.viewMore = this.newsFeeds[index].commentsDetail.list.length > 5 ? 5 : 0;
-                this.newsFeeds[index].isComment = true;
+                        this.newsFeeds[index].viewMoreComment = this.newsFeeds[index].commentList.length > 5 ? 5 : this.newsFeeds[index].commentList.length;
+                        // this.newsFeeds[index].commentsDetail.viewMore = this.newsFeeds[index].commentsDetail.list.length > 5 ? 5 : 0;
+                        this.newsFeeds[index].isComment = true;
 
-                //     newsFeed.commentList.forEach((comment, index1) => {
-                //         this.newsFeeds[index].commentList[index1].isEdit = false;
-                //     });
-                // });
+                        //     newsFeed.commentList.forEach((comment, index1) => {
+                        //         this.newsFeeds[index].commentList[index1].isEdit = false;
+                        //     });
+                        // });
 
-                // this.files = res.dashboard.caseStudies.files;
-                console.log('newsFeed', this.newsFeeds);
+                        // this.files = res.dashboard.caseStudies.files;
+                        console.log('newsFeed', this.newsFeeds);
+                    },
+                    (err) => {
+                        console.log('err', err);
+                        this._uiService.hideSpinner();
+                    }
+                );
+
             },
             (err) => {
                 console.log('err', err);
                 this._uiService.hideSpinner();
             }
         );
-
-        //     },
-        //     (err) => {
-        //         console.log('err', err);
-        //         this._uiService.hideSpinner();
-        //     }
-        // );
     }
 
     navigateTo(id) {
@@ -285,6 +310,7 @@ export class ForumComponent implements OnInit {
                 $event.target.value = null;
                 console.log('res', res);
 
+                this.loadComment(this.newsFeeds[index], index)
                 // this.loadSingleNewsFeed(newsFeedId, index)
             },
             (err) => {
@@ -394,17 +420,44 @@ export class ForumComponent implements OnInit {
 
     }
 
-    onDelete(index, index1, commentId) {
+    onDeleteComment(index, index1, commentId) {
         // if (this.deletePermission) {
-        const dialogRef = this.dialog.open(DeleteComment, {
+        const dialogRef = this.dialog.open(DeleteCommentForum, {
             width: '450px',
-            data: { value: 'comment', commentId }
+            data: { type: 'comment', id: commentId }
         });
         // console.log('value', value, '---id', id);
         dialogRef.afterClosed().subscribe(result => {
 
             if (result == "success") {
                 this.deleteComment(index, index1, commentId)
+            }
+        });
+        // }
+    }
+
+    deleteForum(index, forumId) {
+
+        console.log("forumId", forumId);
+        this.newsFeeds.splice(index, 1);
+
+        // const newsFeedId = this.newsFeeds[index].id;
+
+        // this.loadSingleNewsFeed(newsFeedId, index);
+
+    }
+
+    onDeleteForum(index, forumId) {
+        // if (this.deletePermission) {
+        const dialogRef = this.dialog.open(DeleteCommentForum, {
+            width: '450px',
+            data: { type: 'forum', id: forumId }
+        });
+        // console.log('value', value, '---id', id);
+        dialogRef.afterClosed().subscribe(result => {
+
+            if (result == "success") {
+                this.deleteForum(index, forumId)
             }
         });
         // }
@@ -513,25 +566,25 @@ export class ForumComponent implements OnInit {
 
 
 @Component({
-    selector: 'delete-comment',
-    templateUrl: 'comment.delete.html',
+    selector: 'delete-comment-forum',
+    templateUrl: 'delete.html',
     // styleUrls: ['../../campaign.component.css']
 })
 
-export class DeleteComment {
+export class DeleteCommentForum {
     fieldType: string;
     id: number;
     returnType: string = "none";
     constructor(
-        public dialogRef: MatDialogRef<DeleteComment>,
+        public dialogRef: MatDialogRef<DeleteCommentForum>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private _uiService: UIService,
         private _router: Router,
         // private _setupService: AdminSetupService
         private _forumService: ForumService,
     ) {
-        this.fieldType = data.value;
-        this.id = data.commentId;
+        this.fieldType = data.type;
+        this.id = data.id;
         // console.log('data', this.fieldType);
 
     }
@@ -549,6 +602,35 @@ export class DeleteComment {
                     this.dialogRef.close(this.returnType);
                     const msg = new Message();
                     msg.msg = 'You have deleted comment successfully';
+                    msg.msgType = MessageTypes.Information;
+                    msg.autoCloseAfter = 400;
+                    this._uiService.showToast(msg, 'info');
+                },
+                (err) => {
+                    this.returnType = "error";
+                    this.dialogRef.close(this.returnType);
+                    console.log(err);
+                    // const msg = new Message();
+                    // msg.msg = 'Sorry, an error has occured';
+                    // msg.msgType = MessageTypes.Error;
+                    // msg.autoCloseAfter = 400;
+                    // this._uiService.showToast(msg, '');
+
+                    const msg = new Message();
+                    const msgContent = err.json() && err.json().genericResponse && err.json().genericResponse.genericBody.message ? err.json().genericResponse.genericBody.message : "Sorry, an error has occured";
+                    msg.msg = msgContent;
+                    msg.msgType = MessageTypes.Error;
+                    msg.autoCloseAfter = 400;
+                    this._uiService.showToast(msg, '');
+                });
+        }
+        if (field === 'forum') {
+            this._forumService.deleteForumTopic(this.id).subscribe(
+                (res) => {
+                    this.returnType = "success";
+                    this.dialogRef.close(this.returnType);
+                    const msg = new Message();
+                    msg.msg = 'You have deleted topic successfully';
                     msg.msgType = MessageTypes.Information;
                     msg.autoCloseAfter = 400;
                     this._uiService.showToast(msg, 'info');

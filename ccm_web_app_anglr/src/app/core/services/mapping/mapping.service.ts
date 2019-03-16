@@ -321,6 +321,11 @@ export class MappingService {
             isForum.title = forumData.Title || null;
             isForum.description = forumData.Description || null;
 
+            isForum.createdBy = this.mapUser(forumData.CreatedBy);
+
+            isForum.createdOn = forumData.CreatedOn || null;
+            isForum.updatedOn = forumData.UpdatedOn || null;
+
             let cl = [];
 
             if (forumData.Comments && forumData.Comments.length > 0) {
@@ -363,7 +368,10 @@ export class MappingService {
             isComment.vote = commentData.Vote || null;
             isComment.parentCommentId = commentData.ParentCommentId || null;
             isComment.isActive = commentData.IsActive || false;
-            isComment.createdBy = commentData.CreatedBy || null;
+
+            // isComment.createdBy = commentData.CreatedBy || null;
+            isComment.createdBy = this.mapUser(commentData.CreatedBy);
+
             isComment.updatedBy = commentData.UpdatedBy || null;
             isComment.createdOn = commentData.CreatedOn || null;
             isComment.updatedOn = commentData.UpdatedOn || null;

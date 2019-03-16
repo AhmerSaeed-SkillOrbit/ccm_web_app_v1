@@ -32,17 +32,8 @@ import { Forum } from '../../core/models/forum';
 
 export class AddUpdateForumDialogeComponent {
 
-    tooltipSapId = Config.pattern.sapId.tooltip;
-    patternSapId = Config.pattern.sapId.regex;
-
-    tooltipCNIC = Config.pattern.cnic.tooltip;
-    patternCNIC = Config.pattern.cnic.regex;   // 42101-1234567-1
 
     formRegister: FormGroup;
-
-    isSubmited = false;
-    regions: Region[] = [];
-    countries: Country[] = [];
 
     user: User = new User();
 
@@ -51,6 +42,7 @@ export class AddUpdateForumDialogeComponent {
     isSubmitted = false;
     addPermission = false;
     buttonTooltip = "";
+    type: string = "Add";
 
     constructor(
         @Inject('IAuthService') private _authService: IAuthService,
@@ -69,8 +61,11 @@ export class AddUpdateForumDialogeComponent {
 
         this.user = this._authService.getUser();
         console.log("data", data);
+
+        this.type = data.type || this.type;
         if (data && data.forum && data.forum.id) {
             this.forumId = data.forum.id;
+            this.forum = this.utilityService.deepCopy(data.forum);
             // this.loadForumDetail();
         }
 
@@ -111,29 +106,62 @@ export class AddUpdateForumDialogeComponent {
         if (this.addPermission) {
             if (this.formRegister.valid) {
 
-                this.isSubmitted = true;
-                this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
+                if (this.forum && this.forum.id && this.forum != null) {
 
-                this._forumService.createForumTopic(this.forum).subscribe(
-                    (res) => {
-                        console.log(res);
-                        // this._uiService.hideSpinner();
-                        this.isSubmitted = false;
-                        this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
-                        msg.msg = res.json().message ? res.json().message : 'Forum Topic added successfully.';
-                        msg.msgType = MessageTypes.Information;
-                        msg.autoCloseAfter = 400;
-                        this._uiService.showToast(msg, 'info');
-                        this.dialogRef.close(true);
-                    },
-                    (err) => {
-                        console.log(err);
-                        this.isSubmitted = false;
-                        this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
-                        // this._uiService.hideSpinner();
-                        this._authService.errStatusCheckResponse(err);
-                    }
-                );
+                    this.isSubmitted = true;
+                    this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
+
+                    this._forumService.updateForumTopic(this.forum).subscribe(
+                        (res) => {
+                            console.log(res);
+                            // this._uiService.hideSpinner();
+                            this.isSubmitted = false;
+                            this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
+                            msg.msg = res.json().message ? res.json().message : 'Forum Topic updated successfully.';
+                            msg.msgType = MessageTypes.Information;
+                            msg.autoCloseAfter = 400;
+                            this._uiService.showToast(msg, 'info');
+                            this.dialogRef.close(true);
+                        },
+                        (err) => {
+                            console.log(err);
+                            this.isSubmitted = false;
+                            this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
+                            // this._uiService.hideSpinner();
+                            this._authService.errStatusCheckResponse(err);
+                        }
+                    );
+
+                }
+                else {
+
+                    this.isSubmitted = true;
+                    this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
+
+                    this._forumService.createForumTopic(this.forum).subscribe(
+                        (res) => {
+                            console.log(res);
+                            // this._uiService.hideSpinner();
+                            this.isSubmitted = false;
+                            this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
+                            msg.msg = res.json().message ? res.json().message : 'Forum Topic added successfully.';
+                            msg.msgType = MessageTypes.Information;
+                            msg.autoCloseAfter = 400;
+                            this._uiService.showToast(msg, 'info');
+                            this.dialogRef.close(true);
+                        },
+                        (err) => {
+                            console.log(err);
+                            this.isSubmitted = false;
+                            this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
+                            // this._uiService.hideSpinner();
+                            this._authService.errStatusCheckResponse(err);
+                        }
+                    );
+
+                }
+
+
             }
             else {
                 // console.log("asd")

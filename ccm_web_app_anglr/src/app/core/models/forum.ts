@@ -1,5 +1,6 @@
 import { Tag } from "./tag";
 import { Comment } from "./comment";
+import { User } from "./user";
 
 // import { BaseModel } from "./base.model";
 
@@ -10,6 +11,9 @@ export class Forum {
     forumId: number;
     title: string;
     description: string;
+
+    // createdBy: number;
+    createdBy: User = new User();
     createdOn: string;
     updatedOn: string;
 
