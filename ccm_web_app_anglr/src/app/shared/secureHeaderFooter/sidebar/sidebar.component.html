@@ -146,6 +146,21 @@
           </ul>
         </li>
 
+        <li>
+          <a (click)="expandRow(10)">
+            <i class="icon-stats-dots"></i>
+            <span>Forum</span>
+            <span>
+              <i class="right-ico fa" [ngClass]="(10 === expandedIndex) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+            </span>
+          </a>
+          <ul class="sub" [ngClass]="(10 === expandedIndex) ? 'show' : ''">
+            <span *ngIf="10 === expandedIndex">
+              <li><a [routerLink]="['/']">Add New</a></li>
+              <li><a [routerLink]="['/forum/feed']">Feed</a></li>
+            </span>
+          </ul>
+        </li>
 
         <li>
           <a (click)="expandRow(5)">

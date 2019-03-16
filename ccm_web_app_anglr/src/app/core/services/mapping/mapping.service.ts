@@ -13,6 +13,9 @@ import { Branch } from '../../models/branch';
 import { Permission } from '../../models/permission';
 import { Schedule, ScheduleDetail, ScheduleShift, TimeSlot } from '../../models/schedule.model';
 import { Appointment } from '../../models/appointment';
+import { Forum } from '../../models/forum';
+import { Tag } from '../../models/tag';
+import { Comment } from '../../models/comment';
 
 @Injectable()
 export class MappingService {
@@ -304,6 +307,69 @@ export class MappingService {
         }
 
         return isDocument;
+    }
+
+    public mapForum(res: any): Forum {
+
+        // console.log("mapScheduleShift res", res)
+        // console.log("mapScheduleShift res.Id", res.Id)
+        const forumData = res;
+        const isForum = new Forum();
+        if (forumData) {
+            isForum.id = forumData.Id || null;
+            isForum.forumId = forumData.Id || null;
+            isForum.title = forumData.Title || null;
+            isForum.description = forumData.Description || null;
+
+            let cl = [];
+
+            if (forumData.Comments && forumData.Comments.length > 0) {
+
+                forumData.Comments.forEach(element => {
+                    cl.push(this.mapComment(element));
+                });
+            }
+
+
+            isForum.commentList = cl;
+        }
+        return isForum;
+    }
+
+    public mapTag(res: any): Tag {
+        const tagData = res;
+        const isTag = new Tag();
+        if (tagData) {
+            isTag.id = tagData.Id || null;
+            isTag.tagId = tagData.Id || null;
+            isTag.name = tagData.Name || null;
+            isTag.code = tagData.Code || null;
+            isTag.toolTip = tagData.ToolTip || null;
+            isTag.description = tagData.Description || null;
+
+        }
+        return isTag;
+    }
+
+    public mapComment(res: any): Comment {
+        const commentData = res;
+        const isComment = new Comment();
+        if (commentData) {
+            isComment.id = commentData.Id || null;
+            isComment.commentId = commentData.Id || null;
+            isComment.forumTopicId = commentData.ForumTopicId || null;
+            isComment.comment = commentData.Comment || null;
+            isComment.userId = commentData.userId || null;
+            isComment.vote = commentData.Vote || null;
+            isComment.parentCommentId = commentData.ParentCommentId || null;
+            isComment.isActive = commentData.IsActive || false;
+            isComment.createdBy = commentData.CreatedBy || null;
+            isComment.updatedBy = commentData.UpdatedBy || null;
+            isComment.createdOn = commentData.CreatedOn || null;
+            isComment.updatedOn = commentData.UpdatedOn || null;
+
+        }
+        return isComment;
     }
 
 }

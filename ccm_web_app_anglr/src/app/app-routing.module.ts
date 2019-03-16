@@ -103,6 +103,15 @@ const routes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     // children: []
   },
+  {
+    path: 'forum',
+    loadChildren: './forum/forum.module#ForumModule',
+    // pathMatch: 'full',
+    // component: SchedulerComponent,
+    // component: ScheduleComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    // children: []
+  },
   // {
   //   path: 'user',
   //   loadChildren: './user/user.module#UserModule',
