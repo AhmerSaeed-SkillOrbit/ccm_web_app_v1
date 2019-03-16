@@ -175,7 +175,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.addDoctorSchedulePagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_doctor_schedule');
         // this.addDoctorSchedulePagePermission = true;
         // this.viewDoctorSchedulePagePermission = this._utilityService.checkUserPermission(this.user, 'view_doctor_schedule');
-        this.doctorScheduleListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'dcotor_schedule_list_page');
+        this.doctorScheduleListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'doctor_schedule_list_page');
         // this.doctorScheduleListPagePermission = true;
         this.viewDoctorSchedulePagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_doctor_schedule');
         // this.viewDoctorSchedulePagePermission = true;
