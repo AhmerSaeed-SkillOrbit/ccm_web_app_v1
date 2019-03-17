@@ -23,6 +23,8 @@ import { MappingService } from '../../core/services/mapping/mapping.service';
 import { Config } from '../../config/config';
 import { ForumService } from '../../core/services/general/forum.service';
 import { Forum } from '../../core/models/forum';
+import { SetupService } from '../../core/services/setup/setup.service';
+import { Tag } from '../../core/models/tag';
 
 
 @Component({
@@ -39,8 +41,12 @@ export class AddUpdateForumDialogeComponent {
 
     forumId: number = null;
     forum: Forum = new Forum();
+    tag: Tag = new Tag();
+    tagList: Tag[] = [];
     isSubmitted = false;
+    isAddNewTag = false;
     addPermission = false;
+    addTagPermission = false;
     buttonTooltip = "";
     type: string = "Add";
 
@@ -51,6 +57,7 @@ export class AddUpdateForumDialogeComponent {
         private _uiService: UIService,
         private utilityService: UtilityService,
         private _userService: UserService,
+        private _setupService: SetupService,
         private _forumService: ForumService,
         private _mappingService: MappingService,
         private _formService: FormService,
@@ -69,6 +76,8 @@ export class AddUpdateForumDialogeComponent {
             // this.loadForumDetail();
         }
 
+        // this.addTagPermission = this.utilityService.checkUserPermission(this.user, 'add_admin');
+        this.addTagPermission = true;
         // this.addPermission = this.utilityService.checkUserPermission(this.user, 'add_admin');
         this.addPermission = true;
         this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
@@ -80,6 +89,144 @@ export class AddUpdateForumDialogeComponent {
         });
 
         // this.loadCountries();
+        this.loadTags();
+    }
+
+    loadTags() {
+        // console.log("loadLC");
+        // if (this.branchListPermission) {
+
+        this._setupService.getTags().subscribe(
+            (res) => {
+                console.log("res", res);
+
+                this.tagList = [];
+
+
+                let array = res.json().data;
+                // console.log('res list:', array);
+
+                var rtList = [];
+
+                for (let i = 0; i < array.length; i++) {
+                    let u = this._mappingService.mapTag(array[i]);
+                    rtList.push(u);
+                }
+                this.tagList = rtList;
+                setTimeout(() => {
+                    this.checkTagSelect();
+                }, 10);
+
+
+
+                // if (this.lcUsers.length == 0) {
+                //     msg.msg = 'No Branchs Found';
+                //     msg.msgType = MessageTypes.Information;
+                //     msg.autoCloseAfter = 400;
+                //     this._uiService.showToast(msg, 'info');
+                // }
+                // this.isSpinner = false;
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
+        // }
+    }
+
+    checkTagSelect() {
+        console.log("checkTagSelect");
+        // console.log("this.contract.contractTagIds", this.forum.contractTagIds);
+        console.log("this.forum.tagIds", this.forum.tagIds);
+        console.log("this.tagList", this.tagList);
+
+
+        this.forum.tagIds.forEach(element => {
+            this.tagList.forEach((element1, index) => {
+                if (element == element1.id) {
+                    console.log("match");
+                    this.tagList[index].isSelected = true;
+                }
+
+            });
+        });
+        console.log("this.tagList", this.tagList);
+    }
+
+    addTag() {
+        console.log("addTag");
+        const msg = new Message();
+
+        // if (this.isAddNewTag == true) {
+
+        if (this.addTagPermission) {
+
+            if (this.tag.name && this.tag.name != "" && this.tag.name != null) {
+                this.isAddNewTag = true;
+
+                this._setupService.addTag(this.tag).subscribe(
+                    (res) => {
+                        console.log("res", res);
+                        this.isAddNewTag = false;
+                        this.tag = new Tag();
+
+                        console.log("success");
+                        // this._router.navigate(['/verification']);
+                        msg.msg = res.json() ? res.json().message : "Tag successfully Submitted.";
+
+                        // this.advisoryForm.id = res.json() ? res.json().data : 0;
+                        msg.msgType = MessageTypes.Information;
+                        msg.autoCloseAfter = 400;
+                        this._uiService.showToast(msg, 'info');
+                        this.loadTags();
+                        // this._router.navigate(['/advisory/ad/list']);
+                    },
+                    (err) => {
+                        this.isAddNewTag = false;
+                        console.log("err", err);
+                        this._authService.errStatusCheckResponse(err);
+                    }
+                );
+            }
+            else {
+                msg.msg = "Field is empty.";
+
+                // this.advisoryForm.id = res.json() ? res.json().data : 0;
+                msg.msgType = MessageTypes.Error;
+                msg.autoCloseAfter = 400;
+                this._uiService.showToast(msg, '');
+            }
+        }
+        else {
+            let msg = this.utilityService.permissionMsg();
+            this._uiService.showToast(msg, '');
+        }
+
+        // } else {
+        //     this.loadTags();
+        // }
+    }
+
+    onClickTag(tag: Tag) {
+
+        // if (!this.isAssignQueryFormDisabled) {
+        tag.isSelected = !tag.isSelected;
+        if (tag.isSelected) {
+            this.forum.tagIds.push(tag.id);
+            this.forum.tags.push(tag);
+        }
+        else {
+            let indexId = this.forum.tagIds.findIndex(rtId => rtId === tag.id);
+            let index = this.forum.tags.findIndex(rt => rt.id === tag.id);
+            // console.log("indexId", indexId);
+            // console.log("index", index);
+
+            this.forum.tagIds.splice(indexId, 1);
+            this.forum.tags.splice(index, 1);
+        }
+        // }
+
+
     }
 
     loadForumDetail() {

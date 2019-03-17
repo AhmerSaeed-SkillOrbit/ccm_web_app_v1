@@ -15,6 +15,7 @@ import { Country } from '../../models/country';
 import { Region } from '../../models/region';
 import { City } from '../../models/city';
 import { Branch } from '../../models/branch';
+import { Tag } from '../../models/tag';
 
 
 @Injectable()
@@ -624,7 +625,48 @@ export class SetupService {
             );
     }
 
+    public addTag(tag: Tag): Observable<any> {
+        const getUrl = 'tag/add';
+        const body =
+        {
+            Name: tag.name,
+            Code: tag.code,
+            Description: tag.description,
+            ToolTip: tag.toolTip,
+            // SortOrder: tag.sortOrder,
+        };
 
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
 
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            });
+    }
+
+    public getTags(): Observable<any> {
+        const getUrl = 'tag/list';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
 
 }

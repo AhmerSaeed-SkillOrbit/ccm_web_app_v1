@@ -29,17 +29,19 @@ export class ForumService {
 
         let getUrl = 'forum/topic/add';
 
-        // let t = [];
-
-        // if (forum.tags && forum.tags.le) {
-
-        // }
+        let ts = [];
+        if (forum.tags && forum.tags.length > 0) {
+            forum.tags.forEach(element => {
+                ts.push({ Id: element.id })
+            });
+        }
 
         const body = {
             UserId: userId || null,
             Title: forum.title || null,
             Description: forum.description || null,
-            Tag: forum.tags,
+            // Tag: forum.tags,
+            Tag: ts,
         };
 
         // return this._http.post(getUrl, body)
@@ -63,18 +65,20 @@ export class ForumService {
 
         let getUrl = 'forum/topic/update';
 
-        // let t = [];
-
-        // if (forum.tags && forum.tags.le) {
-
-        // }
+        let ts = [];
+        if (forum.tags && forum.tags.length > 0) {
+            forum.tags.forEach(element => {
+                ts.push({ Id: element.id })
+            });
+        }
 
         const body = {
             Id: forum.id || null,
             UserId: userId || null,
             Title: forum.title || null,
             Description: forum.description || null,
-            Tag: forum.tags,
+            // Tag: forum.tags,
+            Tag: ts,
         };
 
         // return this._http.post(getUrl, body)

@@ -17,6 +17,7 @@ export class Forum {
     createdOn: string;
     updatedOn: string;
 
+    tagIds: number[] = [];
     tags: Tag[] = [];
     // owner: {
     //     id: number,

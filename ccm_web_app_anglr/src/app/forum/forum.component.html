@@ -85,7 +85,7 @@
                                 <span matTooltipPosition="above" matTooltip="{{!addPermission ? 'Dont have permission' : 'Add New' }}">
                                     <button type="button" class="btn btn-default btn-sm" [disabled]="!addPermission"
                                         (click)="openAddForumDialog()">
-                                        Add New
+                                        Add New Topic
                                         <i class="icon-play3 position-right"></i>
                                     </button>
                                 </span>
@@ -133,12 +133,20 @@
                                     <mat-card-content>
                                         <mat-card-title>{{ newsFeed?.title }}</mat-card-title>
                                         <p>{{ newsFeed?.description }}</p>
+                                        <div>
+                                            <mat-chip-list>
+                                                <mat-chip *ngFor='let t of newsFeed.tags' color="primary" selected>
+                                                    {{ t.name || "NA" }}
+                                                </mat-chip>
+                                            </mat-chip-list>
+                                        </div>
                                     </mat-card-content>
 
                                     <mat-card-actions class="forum-action">
                                         <!-- <button mat-button>LIKE</button> -->
-                                        <button mat-button (click)="loadComment(newsFeed, $index)">
-                                            {{ newsFeed?.commentCount }} Comment
+                                        <button mat-button matTooltipPosition="above" matTooltip="View Comments"
+                                            (click)="loadComment(newsFeed, $index)">
+                                            {{ newsFeed?.commentCount }} Comments
                                         </button>
                                     </mat-card-actions>
 
@@ -199,6 +207,7 @@
                             </div>
 
                             <!-- <button (click)="loadMore()">Load More</button> -->
+                            <button (click)="loadMore()">Load More</button>
                         </div>
                         <!-- End of Forum -->
 

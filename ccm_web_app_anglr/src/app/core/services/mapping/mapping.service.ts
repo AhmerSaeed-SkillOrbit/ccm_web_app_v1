@@ -326,6 +326,23 @@ export class MappingService {
             isForum.createdOn = forumData.CreatedOn || null;
             isForum.updatedOn = forumData.UpdatedOn || null;
 
+            const t = [];
+            const tId = [];
+            if (forumData.Tags && forumData.Tags.length > 0) {
+                forumData.Tags.forEach(element => {
+                    if (element) {
+                        t.push(this.mapTag(element));
+                        tId.push(this.mapTag(element).id);
+                    }
+
+                });
+
+            }
+
+            isForum.tags = t;
+            isForum.tagIds = tId;
+
+
             let cl = [];
 
             if (forumData.Comments && forumData.Comments.length > 0) {
@@ -351,6 +368,12 @@ export class MappingService {
             isTag.code = tagData.Code || null;
             isTag.toolTip = tagData.ToolTip || null;
             isTag.description = tagData.Description || null;
+            isTag.sortOrder = tagData.SortOrder || null;
+            isTag.createdBy = tagData.CreatedBy || null;
+            isTag.updatedBy = tagData.UpdatedBy || null;
+            isTag.createdOn = tagData.CreatedOn || null;
+            isTag.updatedOn = tagData.UpdatedOn || null;
+            isTag.isActive = tagData.IsActive || false;
 
         }
         return isTag;
