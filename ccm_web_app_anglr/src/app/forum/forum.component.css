@@ -453,3 +453,18 @@ span.action-item.selected i {
 .dropdown-menu{
     min-width: 100px;
 }
+
+.comment-action{
+    cursor: pointer;
+}
+
+.comment-action.edit{
+    color: blue;
+}
+.comment-action.delete{
+    color: red;
+}
+
+.sub-heading{
+    font-size: 12px
+}

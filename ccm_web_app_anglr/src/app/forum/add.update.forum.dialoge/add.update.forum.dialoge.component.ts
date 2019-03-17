@@ -22,7 +22,7 @@ import { MappingService } from '../../core/services/mapping/mapping.service';
 
 import { Config } from '../../config/config';
 import { ForumService } from '../../core/services/general/forum.service';
-import { Forum } from '../../core/models/forum';
+import { ForumFeed } from '../../core/models/forum';
 import { SetupService } from '../../core/services/setup/setup.service';
 import { Tag } from '../../core/models/tag';
 
@@ -40,7 +40,7 @@ export class AddUpdateForumDialogeComponent {
     user: User = new User();
 
     forumId: number = null;
-    forum: Forum = new Forum();
+    forum: ForumFeed = new ForumFeed();
     tag: Tag = new Tag();
     tagList: Tag[] = [];
     isSubmitted = false;
@@ -170,16 +170,12 @@ export class AddUpdateForumDialogeComponent {
                         this.isAddNewTag = false;
                         this.tag = new Tag();
 
-                        console.log("success");
-                        // this._router.navigate(['/verification']);
-                        msg.msg = res.json() ? res.json().message : "Tag successfully Submitted.";
-
-                        // this.advisoryForm.id = res.json() ? res.json().data : 0;
-                        msg.msgType = MessageTypes.Information;
-                        msg.autoCloseAfter = 400;
-                        this._uiService.showToast(msg, 'info');
+                        // console.log("success");
+                        // msg.msg = res.json() ? res.json().message : "Tag successfully Submitted.";
+                        // msg.msgType = MessageTypes.Information;
+                        // msg.autoCloseAfter = 400;
+                        // this._uiService.showToast(msg, 'info');
                         this.loadTags();
-                        // this._router.navigate(['/advisory/ad/list']);
                     },
                     (err) => {
                         this.isAddNewTag = false;

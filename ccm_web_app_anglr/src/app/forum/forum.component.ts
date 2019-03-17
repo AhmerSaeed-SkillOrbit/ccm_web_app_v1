@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { User } from '../core/models/user';
 // import { Dashboard } from '../core/models/dashboard';
-import { Forum } from '../core/models/forum';
+import { ForumFeed } from '../core/models/forum';
 import { Message, MessageTypes } from '../core/models/message';
 
 import { IAuthService } from '../core/services/auth/iauth.service';
@@ -34,9 +34,9 @@ export class ForumComponent implements OnInit {
 
     files: any;
     // dashboard: Dashboard = new Dashboard();
-    // newsFeeds = new Array<Forum>();
+    // newsFeeds = new Array<ForumFeed>();
     newsFeedLength: number;
-    newsFeeds: Forum[] = [];
+    newsFeeds: ForumFeed[] = [];
     currentURL: string;
 
     isUser: User = new User();
@@ -78,7 +78,7 @@ export class ForumComponent implements OnInit {
         this.addPermission = true;
 
         // this.newsFeeds.push(new NewsFeed());
-        // this.newsFeeds.push(new Forum());
+        // this.newsFeeds.push(new ForumFeed());
         this.loadNewsFeed();
     }
 
@@ -98,11 +98,12 @@ export class ForumComponent implements OnInit {
             console.log("result", result);
             if (result) {
                 // this.refreshList();
+                this.loadNewsFeed();
             }
         })
     }
 
-    openEditForumDialog(forum: Forum) {
+    openEditForumDialog(forum: ForumFeed) {
 
         let dialog = this.dialog.open(AddUpdateForumDialogeComponent, {
             maxWidth: "700px",
@@ -119,12 +120,16 @@ export class ForumComponent implements OnInit {
             console.log("result", result);
             if (result) {
                 // this.refreshList();
+                this.loadNewsFeed();
             }
         })
     }
 
     loadNewsFeed() {
         this._uiService.showSpinner();
+        this.newsFeedLength = 0;
+        this.pageNo = 0;
+        this.newsFeeds = [];
 
         this._forumService.getTopicListCount().subscribe(
             (res) => {
@@ -141,7 +146,7 @@ export class ForumComponent implements OnInit {
                         // console.log('res list:', array);
                         var uList = [];
                         for (let i = 0; i < array.length; i++) {
-                            let u = this._mappingService.mapForum(array[i]);
+                            let u = this._mappingService.mapForumFeed(array[i]);
                             uList.push(u);
                         }
 
@@ -242,9 +247,9 @@ export class ForumComponent implements OnInit {
         console.log('navigation ID', id);
 
         if (this.user.entityType === 'brand') {
-            this._router.navigateByUrl('o/campaign/details/' + id);
+            // this._router.navigateByUrl('o/campaign/details/' + id);
         } else if (this.user.entityType === 'influencer') {
-            this._router.navigateByUrl('w/campaign/details/' + id);
+            // this._router.navigateByUrl('w/campaign/details/' + id);
         }
 
     }
@@ -376,7 +381,7 @@ export class ForumComponent implements OnInit {
 
     }
 
-    updateComment($event, forum: Forum, commentId, index, index1) {
+    updateComment($event, forum: ForumFeed, commentId, index, index1) {
         this._uiService.showSpinner();
         let comment = '';
         comment += $event.target.value;
@@ -492,9 +497,9 @@ export class ForumComponent implements OnInit {
     loadMore() {
         this._uiService.showSpinner();
 
-        // this.pageNo = this.newsFeeds.length;
-        this.pageNo += 1;
-        // this.bodyObj.limitValue += 5;
+        this.pageNo = this.newsFeeds.length;
+        // this.pageNo += 1;
+        // this.limitValue += 5;
 
         this._forumService.getTopicListPagination(this.pageNo, this.limitValue).subscribe(
             (res) => {

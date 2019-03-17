@@ -1,17 +1,19 @@
 import { Tag } from "./tag";
 import { Comment } from "./comment";
 import { User } from "./user";
+import { Role } from "./role";
 
 // import { BaseModel } from "./base.model";
 
 // export class Forum extends BaseModel {
-export class Forum {
+export class ForumFeed {
 
     id: number;
     forumId: number;
     title: string;
     description: string;
 
+    role: Role = new Role();
     // createdBy: number;
     createdBy: User = new User();
     createdOn: string;

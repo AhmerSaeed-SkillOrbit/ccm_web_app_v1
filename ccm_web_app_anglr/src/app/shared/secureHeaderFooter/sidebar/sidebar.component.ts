@@ -64,6 +64,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     pendingRequestListPagePermission = false;
     acceptedRequestListPagePermission = false;
     rejectedRequestListPagePermission = false;
+    
+    forumPermission = false;
 
 
     constructor(
@@ -196,6 +198,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
         // this.rejectedRequestListPagePermission = true;
 
         // <-- /Appointment Management Permissions -->
+
+        // this.forumPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'forum_feed');
+        this.forumPermission = true;
 
     }
 

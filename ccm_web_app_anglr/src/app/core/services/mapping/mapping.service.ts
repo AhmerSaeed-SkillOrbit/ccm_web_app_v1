@@ -13,7 +13,7 @@ import { Branch } from '../../models/branch';
 import { Permission } from '../../models/permission';
 import { Schedule, ScheduleDetail, ScheduleShift, TimeSlot } from '../../models/schedule.model';
 import { Appointment } from '../../models/appointment';
-import { Forum } from '../../models/forum';
+import { ForumFeed } from '../../models/forum';
 import { Tag } from '../../models/tag';
 import { Comment } from '../../models/comment';
 
@@ -105,8 +105,8 @@ export class MappingService {
         if (roleData) {
             isRole.id = roleData.Id || null;
             isRole.roleId = roleData.Id || null;
-            isRole.roleCode = roleData.RoleCodeName || null;
-            isRole.roleName = roleData.RoleName || null;
+            isRole.roleName = roleData.RoleName || roleData.Name || null;
+            isRole.roleCode = roleData.RoleCodeName || roleData.CodeName || null;
             // isRole.departmentId = roleData.departmentId || null;
         }
 
@@ -309,17 +309,19 @@ export class MappingService {
         return isDocument;
     }
 
-    public mapForum(res: any): Forum {
+    public mapForumFeed(res: any): ForumFeed {
 
         // console.log("mapScheduleShift res", res)
         // console.log("mapScheduleShift res.Id", res.Id)
         const forumData = res;
-        const isForum = new Forum();
+        const isForum = new ForumFeed();
         if (forumData) {
             isForum.id = forumData.Id || null;
             isForum.forumId = forumData.Id || null;
             isForum.title = forumData.Title || null;
             isForum.description = forumData.Description || null;
+
+            isForum.role = this.mapRole(forumData.Role);
 
             isForum.createdBy = this.mapUser(forumData.CreatedBy);
 

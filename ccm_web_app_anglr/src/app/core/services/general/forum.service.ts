@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 import { Token } from '../../models/token';
 
 import { AuthService } from "../auth/auth.service";
-import { Forum } from '../../models/forum';
+import { ForumFeed } from '../../models/forum';
 
 @Injectable()
 export class ForumService {
@@ -17,7 +17,7 @@ export class ForumService {
         private _authService: AuthService
     ) { }
 
-    createForumTopic(forum: Forum) {
+    createForumTopic(forum: ForumFeed) {
 
         let token: Token;
         token = this._authService.getTokenData();
@@ -53,7 +53,7 @@ export class ForumService {
 
     }
 
-    updateForumTopic(forum: Forum) {
+    updateForumTopic(forum: ForumFeed) {
 
         let token: Token;
         token = this._authService.getTokenData();
@@ -154,26 +154,20 @@ export class ForumService {
 
     }
 
-    getSingleNewsFeed(entityType, campId) {
+    getSingleNewsFeed(forumTopicId, getComment?: string) {
 
-        console.log('entityType', entityType);
-        console.log('campId', campId);
-        let getUrl = '';
-        const body = {
-            campaignId: campId ? campId : null
-        };
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
 
-        if (entityType === 'brand') {
-            getUrl = 'newsfeed/org/side/single?campaignId=' + body.campaignId;
+        let userId = token.userId;
 
-        }
-        if (entityType === 'influencer') {
-            getUrl = 'newsfeed/worker/side/single?campaignId=' + body.campaignId;
-        }
+        let getUrl = 'forum/topic/single?userId=' + (userId || null) + '&forumTopicId=' + (forumTopicId || null) + '&comment=' + (getComment || 'no');
 
-        // return this._http.post(getUrl, body)
         return this._http.get(getUrl)
-            .map(res => res.json().genericResponse.genericBody.data)
+            .map((res: Response) => res)
             .catch((err, caught) => {
                 return Observable.throw(err);
             });

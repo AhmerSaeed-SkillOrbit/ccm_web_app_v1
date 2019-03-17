@@ -32,14 +32,14 @@
                         </div>
 
                         <!-- <div class="heading-elements">
-                            <div class="heading-btn-group">
-                                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
-                                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i>
-                                    <span>Invoices</span></a>
-                                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i>
-                                    <span>Schedule</span></a>
-                            </div>
-                        </div> -->
+                                <div class="heading-btn-group">
+                                    <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+                                    <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i>
+                                        <span>Invoices</span></a>
+                                    <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i>
+                                        <span>Schedule</span></a>
+                                </div>
+                            </div> -->
                     </div>
 
                     <div class="breadcrumb-line">
@@ -49,23 +49,23 @@
                         </ul>
 
                         <!-- <ul class="breadcrumb-elements">
-                            <li><a href="#"><i class="icon-comment-discussion position-left"></i> Support</a></li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="icon-gear position-left"></i>
-                                    Settings
-                                    <span class="caret"></span>
-                                </a>
-
-                                <ul class="dropdown-menu dropdown-menu-right">
-                                    <li><a href="#"><i class="icon-user-lock"></i> Account security</a></li>
-                                    <li><a href="#"><i class="icon-statistics"></i> Analytics</a></li>
-                                    <li><a href="#"><i class="icon-accessibility"></i> Accessibility</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="#"><i class="icon-gear"></i> All settings</a></li>
-                                </ul>
-                            </li>
-                        </ul> -->
+                                <li><a href="#"><i class="icon-comment-discussion position-left"></i> Support</a></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="icon-gear position-left"></i>
+                                        Settings
+                                        <span class="caret"></span>
+                                    </a>
+    
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li><a href="#"><i class="icon-user-lock"></i> Account security</a></li>
+                                        <li><a href="#"><i class="icon-statistics"></i> Analytics</a></li>
+                                        <li><a href="#"><i class="icon-accessibility"></i> Accessibility</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#"><i class="icon-gear"></i> All settings</a></li>
+                                    </ul>
+                                </li>
+                            </ul> -->
                     </div>
                 </div>
                 <!-- /page header -->
@@ -74,30 +74,11 @@
                 <!-- Content area -->
                 <div class="content">
 
-                    <div class="row">
-                        <div class="panel panel-flat">
-                            <div class="panel-heading">
-                                <h5 class="panel-title">Forum<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
-
-                            </div>
-
-                            <div class="panel-body">
-                                <span matTooltipPosition="above" matTooltip="{{!addPermission ? 'Dont have permission' : 'Add New' }}">
-                                    <button type="button" class="btn btn-default btn-sm" [disabled]="!addPermission"
-                                        (click)="openAddForumDialog()">
-                                        Add New Topic
-                                        <i class="icon-play3 position-right"></i>
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
 
                     <div class="row align-item-center">
                         <!-- Forum -->
                         <div class="col-md-12">
-                            <div class="row newsfeed" *ngFor="let newsFeed of newsFeeds; let $index=index;">
+                            <div class="row newsfeed" *ngIf="newsFeed.id">
                                 <div class="col-md-12">
                                     <mat-card>
                                         <mat-card-header>
@@ -125,7 +106,7 @@
                                                             </li>
                                                             <!-- <li class="divider"></li> -->
                                                             <li>
-                                                                <a (click)="onDeleteForum($index, newsFeed.id)">
+                                                                <a (click)="onDeleteForum(newsFeed.id)">
                                                                     <i class="icon-cross2 text-danger"></i>
                                                                     Delete
                                                                 </a>
@@ -138,7 +119,7 @@
 
                                         <mat-card-content>
                                             <mat-card-title>
-                                                <a [routerLink]="['/forum/feed',newsFeed.id]">{{ newsFeed?.title }}</a>
+                                                <a>{{ newsFeed?.title }}</a>
                                             </mat-card-title>
                                             <p>{{ newsFeed?.description }}</p>
                                             <div>
@@ -153,7 +134,7 @@
                                         <mat-card-actions class="forum-action">
                                             <!-- <button mat-button>LIKE</button> -->
                                             <button mat-button matTooltipPosition="above" matTooltip="View Comments"
-                                                (click)="loadComment(newsFeed, $index)">
+                                                (click)="loadComment()">
                                                 {{ newsFeed?.commentCount }} Comments
                                             </button>
                                         </mat-card-actions>
@@ -173,7 +154,7 @@
                                                     <img class="comment-box-thumb-self" src="assets/images/placeholder.jpg"
                                                         alt="profile-pic">
                                                     <!-- <img class="comment-box-thumb-self" src="{{data?.commentBy?.profilePic?.data?.thumbnails?.small?.url}}"
-                                                    alt="profile-pic"> -->
+                                                        alt="profile-pic"> -->
                                                     <div class="comment" *ngIf="!data?.isEdit">
                                                         <a class="comment-name">
                                                             {{ data?.createdBy?.firstName || "Unknown" }}
@@ -183,17 +164,17 @@
                                                             <a>{{data?.commentDate}}</a>
                                                             <!-- <span>Edit</span> -->
                                                             <span class="comment-action edit" *ngIf="((user.id == data?.createdBy?.id))"
-                                                                (click)="onEdit($index,$index1)">Edit</span>
+                                                                (click)="onEdit($index1)">Edit</span>
                                                             <span class="comment-action delete" *ngIf="((user.id == newsFeed?.createdBy?.id) || (user.id == data?.createdBy?.id))"
-                                                                (click)="onDeleteComment($index, $index1, data.commentId)">Delete</span>
+                                                                (click)="onDeleteComment($index1, data.commentId)">Delete</span>
                                                         </div>
 
                                                     </div>
 
                                                     <div class="comment-type" *ngIf="data?.isEdit">
                                                         <input type="text" placeholder="Comment" name="comment" value="{{data?.comment}}"
-                                                            (keyup.enter)="updateComment($event, newsFeed, data.commentId, $index,$index1)">
-                                                        <span class="comment-action" (click)="onCancel($index,$index1)">Cancel</span>
+                                                            (keyup.enter)="updateComment($event, newsFeed, data.commentId,$index1)">
+                                                        <span class="comment-action" (click)="onCancel($index1)">Cancel</span>
                                                     </div>
 
 
@@ -205,10 +186,10 @@
                                                 <img class="comment-box-thumb-self" src="assets/images/placeholder.jpg"
                                                     alt="profile-pic">
                                                 <!-- <img class="comment-box-thumb-self" src="{{user?.profilePic?.thumbnails?.small?.url}}"
-                                                alt="profile-pic"> -->
+                                                    alt="profile-pic"> -->
                                                 <div class="comment-type">
                                                     <input type="text" placeholder="Comment" name="comment"
-                                                        (keyup.enter)="addComment($event, newsFeed.id, $index)">
+                                                        (keyup.enter)="addComment($event, newsFeed.id)">
                                                 </div>
                                             </div>
                                         </div>
@@ -221,8 +202,6 @@
 
                             </div>
 
-                            <!-- <button (click)="loadMore()">Load More</button> -->
-                            <button (click)="loadMore()">Load More</button>
                         </div>
                         <!-- End of Forum -->
 

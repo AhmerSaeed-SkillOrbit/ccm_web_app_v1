@@ -9,12 +9,14 @@ import { SharedModule } from '../shared/shared.module';
 import { ForumComponent, DeleteCommentForum } from './forum.component';
 
 import { AddUpdateForumDialogeComponent } from './add.update.forum.dialoge/add.update.forum.dialoge.component';
+import { ForumDetailComponent } from './forum.detail/forum.detail.component';
 
 
 @NgModule({
     declarations: [
         ForumComponent,
-        AddUpdateForumDialogeComponent, DeleteCommentForum
+        AddUpdateForumDialogeComponent, DeleteCommentForum,
+        ForumDetailComponent
     ],
     imports: [
         ReactiveFormsModule, FormsModule,
@@ -24,6 +26,10 @@ import { AddUpdateForumDialogeComponent } from './add.update.forum.dialoge/add.u
             {
                 path: 'feed',
                 component: ForumComponent
+            },
+            {
+                path: 'feed/:id',
+                component: ForumDetailComponent
             }
         ])
     ],
