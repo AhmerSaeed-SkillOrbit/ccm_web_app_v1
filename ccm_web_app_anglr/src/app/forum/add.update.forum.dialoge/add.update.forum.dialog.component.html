@@ -1,0 +1,110 @@
+<div class="dialog-box-content">
+    <form name="form" [formGroup]="formRegister" (keydown.enter)="$event.preventDefault()">
+        <mat-progress-bar mode="indeterminate" *ngIf="isSubmitted"></mat-progress-bar>
+        <div class="row align-item-center">
+            <div class="col-md-12">
+                <h1 mat-dialog-title>{{ type }} Topic</h1>
+            </div>
+
+            <div class="col-md-12">
+
+                <div class="row">
+
+                    <!-- Title -->
+                    <div class="col-md-12">
+                        <div class="form-group has-feedback has-feedback-left">
+                            <input type="text" class="form-control" placeholder="Title" formControlName="title"
+                                [(ngModel)]="forum.title">
+                            <div class="form-control-feedback">
+                                <i class="icon-user text-muted"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="col-md-12">
+                        <div class="form-group has-feedback has-feedback-left">
+                            <!-- <input type="text" class="form-control" placeholder="Description" formControlName="description"
+                                [(ngModel)]="forum.description"> -->
+                            <textarea class="form-control" placeholder="Description" formControlName="description"
+                                [(ngModel)]="forum.description"></textarea>
+                            <div class="form-control-feedback">
+                                <i class="icon-user text-muted"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tag -->
+                    <div class="col-md-12">
+                        <h2>Tag</h2>
+                        <div class="row">
+                            <!-- New Tag -->
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <mat-form-field class="full-width">
+                                            <input matInput maxlength="50" placeholder="Add New" [(ngModel)]="tag.name"
+                                                [ngModelOptions]="{standalone: true}" trim>
+                                            <mat-hint align="end">{{tag?.name?.length || 0}}/50</mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <span matTooltipPosition="above" matTooltip="{{!addTagPermission ? 'Dont have permission' : (isAddNewTag ? 'Processing' : 'Add!' ) }}">
+                                            <button mat-raised-button color="primary" [disabled]="!addTagPermission || isAddNewTag"
+                                                (click)="addTag()">Add </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Contract Tag list -->
+                            <div class="col-md-12">
+                                <!-- <mat-card class="management-card"> -->
+                                <div class="clearfix">
+                                    <!-- <mat-card-title>Select</mat-card-title> -->
+                                    <h2>Select</h2>
+                                    <div>
+                                        <mat-chip-list>
+                                            <mat-chip *ngFor='let t of tagList' (click)="onClickTag(t)"
+                                                [ngClass]="t.isSelected == true  ? 'mat-primary mat-chip-selected': 'mat-primary'">
+                                                {{ t.name || "NA" }}
+                                            </mat-chip>
+                                        </mat-chip-list>
+                                    </div>
+                                </div>
+                                <!-- </mat-card> -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div mat-dialog-actions class="row align-item-center dialog-btn-contianer">
+            <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+                <button mat-raised-button tabindex="-1" (click)="onNoClick()">CANCEL</button>
+
+                <span matTooltipPosition="above" matTooltip="{{!formRegister.valid ? 'Fill the required field' : buttonTooltip}}">
+                    <button mat-raised-button [disabled]="!formRegister.valid || isSubmitted" color="primary" (click)="onSubmit()"
+                        tabindex="2">SUBMIT</button>
+                </span>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<!-- <h2 mat-dialog-title>User Form</h2>
+<mat-dialog-content class="mat-typography">
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+</mat-dialog-actions> -->

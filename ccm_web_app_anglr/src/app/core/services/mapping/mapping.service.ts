@@ -13,6 +13,9 @@ import { Branch } from '../../models/branch';
 import { Permission } from '../../models/permission';
 import { Schedule, ScheduleDetail, ScheduleShift, TimeSlot } from '../../models/schedule.model';
 import { Appointment } from '../../models/appointment';
+import { ForumFeed } from '../../models/forum';
+import { Tag } from '../../models/tag';
+import { Comment } from '../../models/comment';
 
 @Injectable()
 export class MappingService {
@@ -102,8 +105,8 @@ export class MappingService {
         if (roleData) {
             isRole.id = roleData.Id || null;
             isRole.roleId = roleData.Id || null;
-            isRole.roleCode = roleData.RoleCodeName || null;
-            isRole.roleName = roleData.RoleName || null;
+            isRole.roleName = roleData.RoleName || roleData.Name || null;
+            isRole.roleCode = roleData.RoleCodeName || roleData.CodeName || null;
             // isRole.departmentId = roleData.departmentId || null;
         }
 
@@ -304,6 +307,102 @@ export class MappingService {
         }
 
         return isDocument;
+    }
+
+    public mapForumFeed(res: any): ForumFeed {
+
+        // console.log("mapScheduleShift res", res)
+        // console.log("mapScheduleShift res.Id", res.Id)
+        const forumData = res;
+        const isForum = new ForumFeed();
+        if (forumData) {
+            isForum.id = forumData.Id || null;
+            isForum.forumId = forumData.Id || null;
+            isForum.title = forumData.Title || null;
+            isForum.description = forumData.Description || null;
+
+            isForum.role = this.mapRole(forumData.Role);
+
+            isForum.createdBy = this.mapUser(forumData.CreatedBy);
+
+            isForum.createdOn = forumData.CreatedOn || null;
+            isForum.updatedOn = forumData.UpdatedOn || null;
+
+            const t = [];
+            const tId = [];
+            if (forumData.Tags && forumData.Tags.length > 0) {
+                forumData.Tags.forEach(element => {
+                    if (element) {
+                        t.push(this.mapTag(element));
+                        tId.push(this.mapTag(element).id);
+                    }
+
+                });
+
+            }
+
+            isForum.tags = t;
+            isForum.tagIds = tId;
+
+
+            let cl = [];
+
+            if (forumData.Comments && forumData.Comments.length > 0) {
+
+                forumData.Comments.forEach(element => {
+                    cl.push(this.mapComment(element));
+                });
+            }
+
+
+            isForum.commentList = cl;
+        }
+        return isForum;
+    }
+
+    public mapTag(res: any): Tag {
+        const tagData = res;
+        const isTag = new Tag();
+        if (tagData) {
+            isTag.id = tagData.Id || null;
+            isTag.tagId = tagData.Id || null;
+            isTag.name = tagData.Name || null;
+            isTag.code = tagData.Code || null;
+            isTag.toolTip = tagData.ToolTip || null;
+            isTag.description = tagData.Description || null;
+            isTag.sortOrder = tagData.SortOrder || null;
+            isTag.createdBy = tagData.CreatedBy || null;
+            isTag.updatedBy = tagData.UpdatedBy || null;
+            isTag.createdOn = tagData.CreatedOn || null;
+            isTag.updatedOn = tagData.UpdatedOn || null;
+            isTag.isActive = tagData.IsActive || false;
+
+        }
+        return isTag;
+    }
+
+    public mapComment(res: any): Comment {
+        const commentData = res;
+        const isComment = new Comment();
+        if (commentData) {
+            isComment.id = commentData.Id || null;
+            isComment.commentId = commentData.Id || null;
+            isComment.forumTopicId = commentData.ForumTopicId || null;
+            isComment.comment = commentData.Comment || null;
+            isComment.userId = commentData.userId || null;
+            isComment.vote = commentData.Vote || null;
+            isComment.parentCommentId = commentData.ParentCommentId || null;
+            isComment.isActive = commentData.IsActive || false;
+
+            // isComment.createdBy = commentData.CreatedBy || null;
+            isComment.createdBy = this.mapUser(commentData.CreatedBy);
+
+            isComment.updatedBy = commentData.UpdatedBy || null;
+            isComment.createdOn = commentData.CreatedOn || null;
+            isComment.updatedOn = commentData.UpdatedOn || null;
+
+        }
+        return isComment;
     }
 
 }

@@ -96,7 +96,7 @@ export class ScheduleListComponent implements OnInit {
             // this._router.navigateByUrl('login');
         } else {
 
-            this.listPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'dcotor_schedule_list_page');
+            this.listPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'doctor_schedule_list_page');
             // this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'doctor_schedule_list_page');
             // this.listPagePermission = true;
 

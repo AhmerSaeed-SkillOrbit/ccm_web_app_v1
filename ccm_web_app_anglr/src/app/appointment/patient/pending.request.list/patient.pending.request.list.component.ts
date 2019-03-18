@@ -238,12 +238,14 @@ export class PatientPendingRequestListComponent implements OnInit {
 
         if (btn === 'accept') {
             title = 'Accept Request';
-            msg = 'Are you sure you want to accept ' + appointment.appointmentNumber + ' appoitment request ?';
+            // msg = 'Are you sure you want to accept ' + appointment.appointmentNumber + ' appoitment request ?';
+            msg = 'Are you sure you want to Accept this Appointment? Appointment No: ' + appointment.appointmentNumber + '';
             type = "accept";
         }
         else if (btn === 'reject') {
             title = 'Reject Request';
-            msg = 'Are you sure you want to reject ' + appointment.appointmentNumber + ' appoitment request ?';
+            // msg = 'Are you sure you want to reject ' + appointment.appointmentNumber + ' appoitment request ?';
+            msg = 'Are you sure you want to Reject this Appointment? Appointment No: ' + appointment.appointmentNumber + '';
             type = "reject";
 
         }
