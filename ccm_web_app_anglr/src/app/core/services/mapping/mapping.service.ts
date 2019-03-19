@@ -341,6 +341,8 @@ export class MappingService {
 
             }
 
+            isForum.commentCount = forumData.CommentCount || null;
+
             isForum.tags = t;
             isForum.tagIds = tId;
 
@@ -393,6 +395,8 @@ export class MappingService {
             isComment.vote = commentData.Vote || null;
             isComment.parentCommentId = commentData.ParentCommentId || null;
             isComment.isActive = commentData.IsActive || false;
+
+            isComment.role = this.mapRole(commentData.Role);
 
             // isComment.createdBy = commentData.CreatedBy || null;
             isComment.createdBy = this.mapUser(commentData.CreatedBy);

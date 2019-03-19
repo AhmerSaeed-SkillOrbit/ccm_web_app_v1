@@ -455,13 +455,14 @@ span.action-item.selected i {
 }
 
 .comment-action{
-    cursor: pointer;
+    /* cursor: pointer; */
+    float: right;
 }
 
-.comment-action.edit{
+.comment-action .edit{
     color: blue;
 }
-.comment-action.delete{
+.comment-action .delete{
     color: red;
 }
 

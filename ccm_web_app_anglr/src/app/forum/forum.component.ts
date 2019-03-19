@@ -434,8 +434,10 @@ export class ForumComponent implements OnInit {
         // console.log('value', value, '---id', id);
         dialogRef.afterClosed().subscribe(result => {
 
+            console.log('result', result);
             if (result == "success") {
-                this.deleteComment(index, index1, commentId)
+                // this.deleteComment(index, index1, commentId);
+                this.loadComment(this.newsFeeds[index], index);
             }
         });
         // }
@@ -629,7 +631,7 @@ export class DeleteCommentForum {
                     this._uiService.showToast(msg, '');
                 });
         }
-        if (field === 'forum') {
+        else if (field === 'forum') {
             this._forumService.deleteForumTopic(this.id).subscribe(
                 (res) => {
                     this.returnType = "success";

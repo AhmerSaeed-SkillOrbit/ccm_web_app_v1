@@ -177,14 +177,18 @@
                                                     <div class="comment" *ngIf="!data?.isEdit">
                                                         <a class="comment-name">
                                                             {{ data?.createdBy?.firstName || "Unknown" }}
+                                                            <span class="sub-heading">{{ data?.role?.roleName }}</span>
                                                         </a>
                                                         {{data?.comment}}
                                                         <div class="time-loc">
-                                                            <a>{{data?.commentDate}}</a>
+                                                            <!-- <a>{{data?.commentDate}}</a> -->
+                                                            <a>{{data?.createdOn}}</a>
+                                                        </div>
+                                                        <div class="comment-action">
                                                             <!-- <span>Edit</span> -->
-                                                            <span class="comment-action edit" *ngIf="((user.id == data?.createdBy?.id))"
+                                                            <span class="edit pointer" *ngIf="((user.id == data?.createdBy?.id))"
                                                                 (click)="onEdit($index,$index1)">Edit</span>
-                                                            <span class="comment-action delete" *ngIf="((user.id == newsFeed?.createdBy?.id) || (user.id == data?.createdBy?.id))"
+                                                            <span class="delete pointer" *ngIf="((user.id == newsFeed?.createdBy?.id) || (user.id == data?.createdBy?.id))"
                                                                 (click)="onDeleteComment($index, $index1, data.commentId)">Delete</span>
                                                         </div>
 
@@ -193,7 +197,7 @@
                                                     <div class="comment-type" *ngIf="data?.isEdit">
                                                         <input type="text" placeholder="Comment" name="comment" value="{{data?.comment}}"
                                                             (keyup.enter)="updateComment($event, newsFeed, data.commentId, $index,$index1)">
-                                                        <span class="comment-action" (click)="onCancel($index,$index1)">Cancel</span>
+                                                        <span class="comment-action pointer" (click)="onCancel($index,$index1)">Cancel</span>
                                                     </div>
 
 
