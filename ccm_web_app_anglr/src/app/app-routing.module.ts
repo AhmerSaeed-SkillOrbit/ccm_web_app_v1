@@ -112,6 +112,15 @@ const routes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     // children: []
   },
+  {
+    path: 'ticket',
+    loadChildren: './ticket.management/ticket.management.module#TicketManagementModule',
+    // pathMatch: 'full',
+    // component: SchedulerComponent,
+    // component: ScheduleComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    // children: []
+  },
   // {
   //   path: 'user',
   //   loadChildren: './user/user.module#UserModule',

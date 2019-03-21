@@ -14,7 +14,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 // import { MessagingService } from '../messaging.service';
 
 // import { DashboardService } from '../core/services/general/dashboard.service';
-import { ForumService } from '../core/services/general/forum.service';
+import { ForumService } from '../core/services/forum/forum.service';
 import { MappingService } from '../core/services/mapping/mapping.service';
 import { AddUpdateForumDialogeComponent } from './add.update.forum.dialoge/add.update.forum.dialoge.component';
 
