@@ -105,12 +105,12 @@
                                                                 </a>
                                                             </li>
                                                             <!-- <li class="divider"></li> -->
-                                                            <li>
+                                                            <!-- <li>
                                                                 <a (click)="onDeleteTicket(ticketData.id)">
                                                                     <i class="icon-cross2 text-danger"></i>
                                                                     Delete
                                                                 </a>
-                                                            </li>
+                                                            </li> -->
                                                         </ul>
                                                     </li>
                                                 </ul>
@@ -122,15 +122,75 @@
                                                 <a>{{ ticketData?.title }}</a>
                                             </mat-card-title>
                                             <p>{{ ticketData?.description }}</p>
-                                            <div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="label-heading">Raised From</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            {{ ticketData?.raisedFrom || "NA" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="label-heading">Priority</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            {{ ticketData?.priority || "NA" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="label-heading">Type</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            {{ ticketData?.type || "NA" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="label-heading">Status</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            {{ ticketData?.trackStatus || "NA" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="label-heading">Assigned</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            {{ ticketData?.ticketAssignee?.length > 0 ?
+                                                            ticketData?.ticketAssignee[0]?.assignTo?.firstName || "NA"
+                                                            : "NA" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
 
+                                                <div class="col-md-6" *ngIf="user?.role?.roleName == 'support_staff'">
+                                                    <span matTooltipPosition="above" matTooltip="{{!addPermission ? 'Dont have permission' : 'Assign To' }}">
+                                                        <button mat-raised-button color="primary" [disabled]="!addPermission"
+                                                            (click)="openAssignTicketDialog()">
+                                                            Assign To
+                                                        </button>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </mat-card-content>
 
                                         <mat-card-actions class="ticket-action">
-                                            <!-- <button mat-button>LIKE</button> -->
-                                            <button mat-button matTooltipPosition="above" matTooltip="View Comments"
-                                                (click)="loadComment()">
+                                            <!-- (click)="loadComment()" -->
+                                            <button mat-button matTooltipPosition="above" matTooltip="View Replies"
+                                                (click)="loadTicketDetail(ticketData.id)">
                                                 {{ ticketData?.replyCount > 0 ? ticketData?.replyCount + " Replies" :
                                                 "Reply" }}
                                             </button>
@@ -153,9 +213,11 @@
                                                     <div class="comment" *ngIf="!data?.isEdit">
                                                         <a class="comment-name">
                                                             {{ data?.createdBy?.firstName || "Unknown" }}
-                                                            <span class="sub-heading">{{ data?.role?.roleName }}</span>
+                                                            <!-- <span class="sub-heading">{{ data?.role?.roleName }}</span> -->
+                                                            <span class="sub-heading">{{
+                                                                data?.createdBy?.role?.roleName }}</span>
                                                         </a>
-                                                        {{data?.comment}}
+                                                        {{data?.reply}}
                                                         <div class="time-loc">
                                                             <!-- <a>{{data?.commentDate}}</a> -->
                                                             <a>{{data?.createdOn}}</a>
@@ -166,14 +228,14 @@
                                                             <span class="edit pointer" *ngIf="((user.id == data?.createdBy?.id))"
                                                                 (click)="onEdit($index1)">Edit</span>
                                                             <span class="delete pointer" *ngIf="((user.id == ticketData?.createdBy?.id) || (user.id == data?.createdBy?.id))"
-                                                                (click)="onDeleteComment($index1, data.commentId)">Delete</span>
+                                                                (click)="onDeleteReply($index1, data.replyId)">Delete</span>
                                                         </div>
 
                                                     </div>
 
                                                     <div class="comment-type" *ngIf="data?.isEdit">
-                                                        <input type="text" placeholder="Comment" name="comment" value="{{data?.comment}}"
-                                                            (keyup.enter)="updateComment($event, ticketData, data.commentId,$index1)">
+                                                        <input type="text" placeholder="Comment" name="comment" value="{{data?.reply}}"
+                                                            (keyup.enter)="updateReply($event, ticketData, data.replyId, $index1)">
                                                         <span class="comment-action pointer" (click)="onCancel($index1)">Cancel</span>
                                                     </div>
 

@@ -14,22 +14,19 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { UtilityService } from '../../core/services/general/utility.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
-import { AddUpdateTicketDialogeComponent } from './../add.update.ticket.dialoge/add.update.ticket.dialoge.component';
+import { AddUpdateTicketDialogeComponent } from '../add.update.ticket.dialoge/add.update.ticket.dialoge.component';
 import { DeleteReplyTicket } from '../ticket.list/ticket.list.component';
 import { TicketService } from '../../core/services/ticket/ticket.service';
-
-// import { DeleteCommentForum } from '../forum.component';
-
-
+import { AssignTicketDialogeComponent } from '../assign.ticket.dialoge/assign.ticket.dialoge.component';
 
 declare var libraryVar: any;
 
 @Component({
     selector: 'ticket-discussion',
-    templateUrl: 'ticket.dicussion.component.html',
+    templateUrl: 'ticket.discussion.component.html',
     styleUrls: ['../ticket.component.css']
 })
-export class TicketDicussionComponent implements OnInit {
+export class TicketDiscussionComponent implements OnInit {
 
 
     ticketData: Ticket = new Ticket();
@@ -42,7 +39,6 @@ export class TicketDicussionComponent implements OnInit {
     isLogin: any;
 
     isEditBtn = true;
-    userComment: string;
 
     addPermission = false;
 
@@ -90,7 +86,7 @@ export class TicketDicussionComponent implements OnInit {
             // data: this.id,
             data: {
                 ticket: ticket,
-                type: "Edit"
+                fieldType: "edit"
             },
         });
         dialog.afterClosed().subscribe((result) => {
@@ -102,8 +98,29 @@ export class TicketDicussionComponent implements OnInit {
         })
     }
 
+    openAssignTicketDialog() {
 
-    loadComment() {
+        let dialog = this.dialog.open(AssignTicketDialogeComponent, {
+            maxWidth: "700px",
+            minWidth: "550px",
+            // width: "550px",
+            // height: '465px',
+            // data: this.id,
+            data: {
+                ticket: this.ticketData,
+            },
+        });
+        dialog.afterClosed().subscribe((result) => {
+            console.log("result", result);
+            if (result) {
+                // this.refreshList();
+                this.loadTicketDetail(this.ticketData.id);
+            }
+        })
+    }
+
+
+    loadReplys() {
 
         this._uiService.showSpinner();
 
@@ -113,8 +130,7 @@ export class TicketDicussionComponent implements OnInit {
 
                 let count = res.json().data || 0;
 
-                // this._ticketService.getCommentListPagination(ticket.id, null, 10000).subscribe(
-                this._ticketService.getTicketListPagination(null, count).subscribe(
+                this._ticketService.getReplyListPagination(this.ticketData.id, null, count).subscribe(
                     (res) => {
                         this._uiService.hideSpinner();
 
@@ -123,7 +139,7 @@ export class TicketDicussionComponent implements OnInit {
                         // console.log('res list:', array);
                         var uList = [];
                         for (let i = 0; i < array.length; i++) {
-                            let u = this._mappingService.mapComment(array[i]);
+                            let u = this._mappingService.mapReply(array[i]);
                             uList.push(u);
                         }
 
@@ -135,11 +151,10 @@ export class TicketDicussionComponent implements OnInit {
                         // this.ticketData.forEach((ticket, index) => {
 
                         this.ticketData.viewMoreReply = this.ticketData.replyList.length > 5 ? 5 : this.ticketData.replyList.length;
-                        // this.ticketData[index].commentsDetail.viewMore = this.ticketData[index].commentsDetail.list.length > 5 ? 5 : 0;
                         this.ticketData.isReply = true;
 
-                        //     ticket.commentList.forEach((comment, index1) => {
-                        //         this.ticketData[index].commentList[index1].isEdit = false;
+                        //     ticket.replyList.forEach((reply, index1) => {
+                        //         this.ticketData[index].replyList[index1].isEdit = false;
                         //     });
                         // });
 
@@ -175,17 +190,17 @@ export class TicketDicussionComponent implements OnInit {
         // console.log('ticket', this.ticketData);
 
         let count = 0;
-        // this.ticketData[index].commentsDetail.viewMore = 5;
+        // this.ticketData[index].replyDetail.viewMore = 5;
 
         if (view >= total) {
             count = 0;
-            // this.ticketData[index].commentsDetail.viewMore = count;
+            // this.ticketData[index].replyDetail.viewMore = count;
         }
         else {
             let check = total - view;
 
             count = check < 0 ? 0 : check;
-            // this.ticketData[index].commentsDetail.viewMore += 5;
+            // this.ticketData[index].replyDetail.viewMore += 5;
         }
         return count;
     }
@@ -207,18 +222,6 @@ export class TicketDicussionComponent implements OnInit {
         }
     }
 
-    addItem() {
-        console.log(this.userComment);
-        const getDate = new Date();
-        const commentDate = getDate.toLocaleTimeString();
-        const obj = {
-            name: this.user.fullName,
-            comment: this.userComment,
-            time: commentDate
-        };
-        this.userComment = '';
-    }
-
     addReply($event, ticketId, index) {
         this._uiService.showSpinner();
         let reply = '';
@@ -232,8 +235,8 @@ export class TicketDicussionComponent implements OnInit {
                 $event.target.value = null;
                 console.log('res', res);
 
-                this.loadComment()
-                // this.loadTicketDetail(ticketId, index)
+                // this.loadReply();
+                this.loadTicketDetail(ticketId);
             },
             (err) => {
                 console.log('err', err);
@@ -254,7 +257,7 @@ export class TicketDicussionComponent implements OnInit {
     hideAllTicketEdit() {
         this.ticketData.isReply = true;
 
-        this.ticketData.replyList.forEach((comment, index1) => {
+        this.ticketData.replyList.forEach((reply, index1) => {
             this.ticketData.replyList[index1].isEdit = false;
         });
     }
@@ -283,14 +286,14 @@ export class TicketDicussionComponent implements OnInit {
 
         let count = this.ticketData.replyList.length - this.ticketData.viewMoreReply + index;
 
-        this.ticketData.replyList.forEach((comment, index1) => {
+        this.ticketData.replyList.forEach((reply, index1) => {
             this.ticketData.replyList[index1].isEdit = false;
         });
         this.ticketData.isReply = true;
 
     }
 
-    updateComment($event, ticket: Ticket, replyId, index) {
+    updateReply($event, ticket: Ticket, replyId, index) {
         this._uiService.showSpinner();
         let reply = '';
         reply += $event.target.value;
@@ -304,12 +307,12 @@ export class TicketDicussionComponent implements OnInit {
             (res) => {
                 this._uiService.hideSpinner();
                 // $event.target.value = null;
-                this.ticketData.replyList[count].comment = reply;
+                this.ticketData.replyList[count].reply = reply;
                 this.ticketData.replyList[count].isEdit = false;
                 this.ticketData.isReply = true;
                 console.log('res', res);
 
-                // this.loadTicket(forum.id, index);
+                this.loadTicketDetail(ticket.id);
             },
             (err) => {
                 console.log('err', err);
@@ -319,7 +322,7 @@ export class TicketDicussionComponent implements OnInit {
 
     }
 
-    deleteComment(index, replyId) {
+    deleteReply(index, replyId) {
 
         console.log("replyId", replyId);
 
@@ -333,17 +336,17 @@ export class TicketDicussionComponent implements OnInit {
 
     }
 
-    onDeleteComment(index, commentId) {
+    onDeleteReply(index, replyId) {
         // if (this.deletePermission) {
         const dialogRef = this.dialog.open(DeleteReplyTicket, {
             width: '450px',
-            data: { type: 'comment', id: commentId }
+            data: { type: 'reply', id: replyId }
         });
         // console.log('value', value, '---id', id);
         dialogRef.afterClosed().subscribe(result => {
 
             if (result == "success") {
-                this.deleteComment(index, commentId)
+                this.deleteReply(index, replyId)
             }
         });
         // }
@@ -378,7 +381,12 @@ export class TicketDicussionComponent implements OnInit {
                 let data: Ticket = this._mappingService.mapTicket(res.json().data)
 
                 this.ticketData = data;
-                // this.loadComment();
+                // this.loadReply();
+
+                this.ticketData.viewMoreReply = this.ticketData.replyList.length > 5 ? 5 : this.ticketData.replyList.length;
+                this.ticketData.isReply = true;
+
+                console.log('this.ticketData', this.ticketData);
             },
             (err) => {
                 console.log('err', err);
@@ -389,11 +397,11 @@ export class TicketDicussionComponent implements OnInit {
 
     mapTicket(newTicket) {
 
-        this.ticketData.replyCount = newTicket.commentsDetail.count;
-        this.ticketData.replyList = newTicket.commentsDetail.list;
-        this.ticketData.viewMoreReply = newTicket.commentsDetail.list.length > this.ticketData.viewMoreReply ? this.ticketData.viewMoreReply : this.ticketData.replyList.length;
+        this.ticketData.replyCount = newTicket.replyDetail.count;
+        this.ticketData.replyList = newTicket.replyDetail.list;
+        this.ticketData.viewMoreReply = newTicket.replyDetail.list.length > this.ticketData.viewMoreReply ? this.ticketData.viewMoreReply : this.ticketData.replyList.length;
 
-        this.ticketData.replyList.forEach((comment, index1) => {
+        this.ticketData.replyList.forEach((reply, index1) => {
             this.ticketData.replyList[index1].isEdit = false;
         });
 

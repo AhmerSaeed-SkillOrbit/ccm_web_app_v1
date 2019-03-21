@@ -15,8 +15,8 @@ import { Schedule, ScheduleDetail, ScheduleShift, TimeSlot } from '../../models/
 import { Appointment } from '../../models/appointment';
 import { ForumFeed } from '../../models/forum';
 import { Tag } from '../../models/tag';
-import { Comment } from '../../models/comment';
-import { Ticket } from '../../models/ticket';
+import { Comment, Reply } from '../../models/comment';
+import { Ticket, TicketAssignee } from '../../models/ticket';
 
 @Injectable()
 export class MappingService {
@@ -421,10 +421,38 @@ export class MappingService {
             isTicket.ticketNumber = ticketData.TicketNumber || null;
             isTicket.description = ticketData.Description || null;
 
-            isTicket.otherType = ticketData.Description || null;
-            isTicket.priority = ticketData.Description || null;
-            isTicket.raisedFrom = ticketData.Description || null;
+            isTicket.type = ticketData.Type || null;
+            isTicket.otherType = ticketData.OtherType || null;
+            isTicket.priority = ticketData.Priority || null;
+            isTicket.raisedFrom = ticketData.RaisedFrom || null;
             isTicket.trackStatus = ticketData.TrackStatus || null;
+
+
+            isTicket.replyCount = ticketData.TicketReplyCount || null;
+            // isTicket.replyList = ticketData.TicketReply || [];
+
+            let rl = [];
+
+            if (ticketData.TicketReply && ticketData.TicketReply.length > 0) {
+
+                ticketData.TicketReply.forEach(element => {
+                    rl.push(this.mapReply(element));
+                });
+            }
+
+
+            isTicket.replyList = rl;
+
+            // isTicket.ticketAssignee = ticketData.TicketAssignee || [];
+            let ta = [];
+
+            if (ticketData.TicketAssignee && ticketData.TicketAssignee.length > 0) {
+
+                ticketData.TicketAssignee.forEach(element => {
+                    ta.push(this.mapTicketAssignee(element));
+                });
+            }
+            isTicket.ticketAssignee = ta;
 
             isTicket.role = this.mapRole(ticketData.Role);
 
@@ -435,6 +463,48 @@ export class MappingService {
 
         }
         return isTicket;
+    }
+
+    public mapTicketAssignee(res: any): TicketAssignee {
+
+        const ticketAssigneeData = res;
+        const isTicketAssignee = new TicketAssignee();
+        if (ticketAssigneeData) {
+            isTicketAssignee.id = ticketAssigneeData.Id || null;
+            isTicketAssignee.ticketAssigneeId = ticketAssigneeData.Id || null;
+            isTicketAssignee.assignBy = this.mapUser(ticketAssigneeData.AssignBy);
+            isTicketAssignee.assignByDescription = ticketAssigneeData.AssignByDescription || null;
+            isTicketAssignee.assignTo = this.mapUser(ticketAssigneeData.AssignTo);
+            isTicketAssignee.createdOn = ticketAssigneeData.CreatedOn || null;
+        }
+        return isTicketAssignee;
+    }
+
+    public mapReply(res: any): Reply {
+        const replytData = res;
+        const isReply = new Reply();
+        if (replytData) {
+            isReply.id = replytData.Id || null;
+            isReply.replyId = replytData.Id || null;
+            isReply.ticketId = replytData.TicketId || null;
+            isReply.reply = replytData.Reply || null;
+            isReply.userId = replytData.userId || null;
+            isReply.vote = replytData.Vote || null;
+            isReply.parentReplyId = replytData.ParentReplyId || null;
+            isReply.isActive = replytData.IsActive || false;
+
+            isReply.role = this.mapRole(replytData.Role);
+
+            // isReply.createdBy = replytData.CreatedBy || null;
+            // isReply.createdBy = this.mapUser(replytData.CreatedBy);
+            isReply.createdBy = this.mapUser(replytData.ReplyBy);
+
+            isReply.updatedBy = replytData.UpdatedBy || null;
+            isReply.createdOn = replytData.CreatedOn || null;
+            isReply.updatedOn = replytData.UpdatedOn || null;
+
+        }
+        return isReply;
     }
 
 }
