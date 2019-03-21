@@ -669,4 +669,44 @@ export class SetupService {
             );
     }
 
+    public getPriorityList(): Observable<any> {
+        const getUrl = 'ticket/priority/list';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+    
+    public getTypeList(): Observable<any> {
+        const getUrl = 'ticket/type/list';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+
 }

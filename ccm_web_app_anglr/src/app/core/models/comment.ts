@@ -1,4 +1,5 @@
 import { User } from "./user";
+import { Role } from "./role";
 
 export class Comment {
 
@@ -11,6 +12,8 @@ export class Comment {
     parentCommentId: number;
     isEdit: boolean = false;
     isActive: boolean;
+
+    role: Role = new Role();
 
     // createdBy: number;
     createdBy: User = new User();

@@ -16,6 +16,7 @@ import { Appointment } from '../../models/appointment';
 import { ForumFeed } from '../../models/forum';
 import { Tag } from '../../models/tag';
 import { Comment } from '../../models/comment';
+import { Ticket } from '../../models/ticket';
 
 @Injectable()
 export class MappingService {
@@ -341,6 +342,8 @@ export class MappingService {
 
             }
 
+            isForum.commentCount = forumData.CommentCount || null;
+
             isForum.tags = t;
             isForum.tagIds = tId;
 
@@ -394,6 +397,8 @@ export class MappingService {
             isComment.parentCommentId = commentData.ParentCommentId || null;
             isComment.isActive = commentData.IsActive || false;
 
+            isComment.role = this.mapRole(commentData.Role);
+
             // isComment.createdBy = commentData.CreatedBy || null;
             isComment.createdBy = this.mapUser(commentData.CreatedBy);
 
@@ -403,6 +408,33 @@ export class MappingService {
 
         }
         return isComment;
+    }
+
+    public mapTicket(res: any): Ticket {
+
+        const ticketData = res;
+        const isTicket = new Ticket();
+        if (ticketData) {
+            isTicket.id = ticketData.Id || null;
+            isTicket.ticketId = ticketData.Id || null;
+            isTicket.title = ticketData.Title || null;
+            isTicket.ticketNumber = ticketData.TicketNumber || null;
+            isTicket.description = ticketData.Description || null;
+
+            isTicket.otherType = ticketData.Description || null;
+            isTicket.priority = ticketData.Description || null;
+            isTicket.raisedFrom = ticketData.Description || null;
+            isTicket.trackStatus = ticketData.TrackStatus || null;
+
+            isTicket.role = this.mapRole(ticketData.Role);
+
+            isTicket.createdBy = this.mapUser(ticketData.CreatedBy);
+
+            isTicket.createdOn = ticketData.CreatedOn || null;
+            isTicket.updatedOn = ticketData.UpdatedOn || null;
+
+        }
+        return isTicket;
     }
 
 }

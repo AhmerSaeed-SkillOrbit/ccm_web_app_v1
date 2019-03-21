@@ -21,7 +21,7 @@ import { UserService } from '../../core/services/user/user.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 
 import { Config } from '../../config/config';
-import { ForumService } from '../../core/services/general/forum.service';
+import { ForumService } from '../../core/services/forum/forum.service';
 import { ForumFeed } from '../../core/models/forum';
 import { SetupService } from '../../core/services/setup/setup.service';
 import { Tag } from '../../core/models/tag';

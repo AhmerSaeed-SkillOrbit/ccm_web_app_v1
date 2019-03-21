@@ -14,7 +14,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 // import { MessagingService } from '../messaging.service';
 
 // import { DashboardService } from '../core/services/general/dashboard.service';
-import { ForumService } from '../core/services/general/forum.service';
+import { ForumService } from '../core/services/forum/forum.service';
 import { MappingService } from '../core/services/mapping/mapping.service';
 import { AddUpdateForumDialogeComponent } from './add.update.forum.dialoge/add.update.forum.dialoge.component';
 
@@ -434,8 +434,10 @@ export class ForumComponent implements OnInit {
         // console.log('value', value, '---id', id);
         dialogRef.afterClosed().subscribe(result => {
 
+            console.log('result', result);
             if (result == "success") {
-                this.deleteComment(index, index1, commentId)
+                // this.deleteComment(index, index1, commentId);
+                this.loadComment(this.newsFeeds[index], index);
             }
         });
         // }
@@ -629,7 +631,7 @@ export class DeleteCommentForum {
                     this._uiService.showToast(msg, '');
                 });
         }
-        if (field === 'forum') {
+        else if (field === 'forum') {
             this._forumService.deleteForumTopic(this.id).subscribe(
                 (res) => {
                     this.returnType = "success";

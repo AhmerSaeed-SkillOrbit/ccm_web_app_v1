@@ -3,35 +3,36 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { User } from '../../core/models/user';
 // import { Dashboard } from '../core/models/dashboard';
-import { ForumFeed } from '../../core/models/forum';
 import { Message, MessageTypes } from '../../core/models/message';
+import { Ticket } from '../../core/models/ticket';
 
 import { IAuthService } from '../../core/services/auth/iauth.service';
 import { UIService } from '../../core/services/ui/ui.service';
 // import { ScriptService } from '../../core/services/script.service';
-import { UtilityService } from '../../core/services/general/utility.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-// import { MessagingService } from '../messaging.service';
 
-// import { DashboardService } from '../core/services/general/dashboard.service';
-import { ForumService } from '../../core/services/forum/forum.service';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
+import { UtilityService } from '../../core/services/general/utility.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
-import { AddUpdateForumDialogeComponent } from './../add.update.forum.dialoge/add.update.forum.dialoge.component';
-import { DeleteCommentForum } from '../forum.component';
+import { AddUpdateTicketDialogeComponent } from './../add.update.ticket.dialoge/add.update.ticket.dialoge.component';
+import { DeleteReplyTicket } from '../ticket.list/ticket.list.component';
+import { TicketService } from '../../core/services/ticket/ticket.service';
+
+// import { DeleteCommentForum } from '../forum.component';
 
 
 
 declare var libraryVar: any;
 
 @Component({
-    selector: 'forum',
-    templateUrl: 'forum.detail.component.html',
-    styleUrls: ['../forum.component.css']
+    selector: 'ticket-discussion',
+    templateUrl: 'ticket.dicussion.component.html',
+    styleUrls: ['../ticket.component.css']
 })
-export class ForumDetailComponent implements OnInit {
+export class TicketDicussionComponent implements OnInit {
 
 
-    newsFeed: ForumFeed = new ForumFeed();
+    ticketData: Ticket = new Ticket();
     currentURL: string;
 
     isUser: User = new User();
@@ -48,7 +49,7 @@ export class ForumDetailComponent implements OnInit {
     constructor(@Inject('IAuthService') private _authService: IAuthService,
         private _uiService: UIService,
         public dialog: MatDialog,
-        private _forumService: ForumService,
+        private _ticketService: TicketService,
         private _utilityService: UtilityService,
         private _mappingService: MappingService,
         private route: ActivatedRoute, private _router: Router
@@ -69,29 +70,26 @@ export class ForumDetailComponent implements OnInit {
         const id = this.route.snapshot.params['id'];
 
         if (id) {
-            // this.newsFeed.id = id;
-            this.loadSingleNewsFeed(id);
+            // this.reply.id = id;
+            this.loadTicketDetail(id);
         }
 
 
         // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_doctor');
         this.addPermission = true;
 
-        // this.newsFeeds.push(new NewsFeed());
-        // this.newsFeeds.push(new ForumFeed());
-        // this.loadNewsFeed();
     }
 
-    openEditForumDialog(forum: ForumFeed) {
+    openEditTicketDialog(ticket: Ticket) {
 
-        let dialog = this.dialog.open(AddUpdateForumDialogeComponent, {
+        let dialog = this.dialog.open(AddUpdateTicketDialogeComponent, {
             maxWidth: "700px",
             minWidth: "550px",
             // width: "550px",
             // height: '465px',
             // data: this.id,
             data: {
-                forum: forum,
+                ticket: ticket,
                 type: "Edit"
             },
         });
@@ -99,7 +97,7 @@ export class ForumDetailComponent implements OnInit {
             console.log("result", result);
             if (result) {
                 // this.refreshList();
-                // this.loadNewsFeed();
+                // this.loadTicket();
             }
         })
     }
@@ -109,18 +107,17 @@ export class ForumDetailComponent implements OnInit {
 
         this._uiService.showSpinner();
 
-        this._forumService.getCommentListCount(this.newsFeed.id).subscribe(
+        this._ticketService.getReplyListCount(this.ticketData.id).subscribe(
             (res) => {
-                // this.newsFeedLength = res.json().data || 0;
+                // this.ticketLength = res.json().data || 0;
 
                 let count = res.json().data || 0;
 
-                // this._forumService.getCommentListPagination(newsFeed.id, null, 10000).subscribe(
-                this._forumService.getCommentListPagination(this.newsFeed.id, null, count).subscribe(
+                // this._ticketService.getCommentListPagination(ticket.id, null, 10000).subscribe(
+                this._ticketService.getTicketListPagination(null, count).subscribe(
                     (res) => {
                         this._uiService.hideSpinner();
 
-                        // this.newsFeeds = res.newsFeed;
 
                         let array = res.json().data || [];
                         // console.log('res list:', array);
@@ -130,25 +127,24 @@ export class ForumDetailComponent implements OnInit {
                             uList.push(u);
                         }
 
-                        // this.newsFeeds = uList;
-                        this.newsFeed.commentCount = uList.length;
-                        this.newsFeed.commentList = uList;
+                        this.ticketData.replyCount = uList.length;
+                        this.ticketData.replyList = uList;
 
 
 
-                        // this.newsFeeds.forEach((newsFeed, index) => {
+                        // this.ticketData.forEach((ticket, index) => {
 
-                        this.newsFeed.viewMoreComment = this.newsFeed.commentList.length > 5 ? 5 : this.newsFeed.commentList.length;
-                        // this.newsFeeds[index].commentsDetail.viewMore = this.newsFeeds[index].commentsDetail.list.length > 5 ? 5 : 0;
-                        this.newsFeed.isComment = true;
+                        this.ticketData.viewMoreReply = this.ticketData.replyList.length > 5 ? 5 : this.ticketData.replyList.length;
+                        // this.ticketData[index].commentsDetail.viewMore = this.ticketData[index].commentsDetail.list.length > 5 ? 5 : 0;
+                        this.ticketData.isReply = true;
 
-                        //     newsFeed.commentList.forEach((comment, index1) => {
-                        //         this.newsFeeds[index].commentList[index1].isEdit = false;
+                        //     ticket.commentList.forEach((comment, index1) => {
+                        //         this.ticketData[index].commentList[index1].isEdit = false;
                         //     });
                         // });
 
                         // this.files = res.dashboard.caseStudies.files;
-                        // console.log('newsFeed', this.newsFeed);
+                        // console.log('ticketData', this.ticketData);
                     },
                     (err) => {
                         console.log('err', err);
@@ -176,20 +172,20 @@ export class ForumDetailComponent implements OnInit {
     }
 
     viewMore(view, total) {
-        // console.log('newsFeed', this.newsFeeds);
+        // console.log('ticket', this.ticketData);
 
         let count = 0;
-        // this.newsFeeds[index].commentsDetail.viewMore = 5;
+        // this.ticketData[index].commentsDetail.viewMore = 5;
 
         if (view >= total) {
             count = 0;
-            // this.newsFeeds[index].commentsDetail.viewMore = count;
+            // this.ticketData[index].commentsDetail.viewMore = count;
         }
         else {
             let check = total - view;
 
             count = check < 0 ? 0 : check;
-            // this.newsFeeds[index].commentsDetail.viewMore += 5;
+            // this.ticketData[index].commentsDetail.viewMore += 5;
         }
         return count;
     }
@@ -223,21 +219,21 @@ export class ForumDetailComponent implements OnInit {
         this.userComment = '';
     }
 
-    addComment($event, newsFeedId, index) {
+    addReply($event, ticketId, index) {
         this._uiService.showSpinner();
-        let comment = '';
-        comment += $event.target.value;
-        console.log("newsFeedId", newsFeedId);
-        console.log("comment", comment);
+        let reply = '';
+        reply += $event.target.value;
+        console.log("ticketId", ticketId);
+        console.log("reply", reply);
 
-        this._forumService.createComment(newsFeedId, null, comment).subscribe(
+        this._ticketService.createReply(ticketId, null, reply).subscribe(
             (res) => {
                 this._uiService.hideSpinner();
                 $event.target.value = null;
                 console.log('res', res);
 
                 this.loadComment()
-                // this.loadSingleNewsFeed(newsFeedId, index)
+                // this.loadTicketDetail(ticketId, index)
             },
             (err) => {
                 console.log('err', err);
@@ -255,30 +251,29 @@ export class ForumDetailComponent implements OnInit {
 
     }
 
-    hideAllNewsFeedEdit() {
-        this.newsFeed.isComment = true;
+    hideAllTicketEdit() {
+        this.ticketData.isReply = true;
 
-        this.newsFeed.commentList.forEach((comment, index1) => {
-            this.newsFeed.commentList[index1].isEdit = false;
+        this.ticketData.replyList.forEach((comment, index1) => {
+            this.ticketData.replyList[index1].isEdit = false;
         });
     }
 
     onEdit(index) {
-        this.hideAllNewsFeedEdit();
+        this.hideAllTicketEdit();
 
-        // console.log('newsFeed', this.newsFeeds);
+        // console.log('ticketData', this.ticketData);
 
         console.log("index", index);
-        console.log("newsFeed.comment.length", this.newsFeed.commentList.length);
-        console.log("newsFeed.comment.viewMore", this.newsFeed.viewMoreComment);
+        console.log("ticketData.reply.length", this.ticketData.replyList.length);
+        console.log("ticketData.reply.viewMore", this.ticketData.viewMoreReply);
 
-        // let count = this.newsFeeds[index].commentsDetail.list.length - this.newsFeeds[index].commentsDetail.viewMore + index1 + 1;
-        let count = this.newsFeed.commentList.length - this.newsFeed.viewMoreComment + index;
+        let count = this.ticketData.replyList.length - this.ticketData.viewMoreReply + index;
         console.log("count", count);
 
 
-        this.newsFeed.commentList[count].isEdit = true;
-        this.newsFeed.isComment = false;
+        this.ticketData.replyList[count].isEdit = true;
+        this.ticketData.isReply = false;
 
     }
 
@@ -286,39 +281,35 @@ export class ForumDetailComponent implements OnInit {
 
         console.log("index", index);
 
-        // let count = this.newsFeeds[index].commentsDetail.viewMore + index1 + 1;
-        let count = this.newsFeed.commentList.length - this.newsFeed.viewMoreComment + index;
+        let count = this.ticketData.replyList.length - this.ticketData.viewMoreReply + index;
 
-        // this.newsFeeds[index].commentsDetail.list[count].isEdit = false;
-
-        this.newsFeed.commentList.forEach((comment, index1) => {
-            this.newsFeed.commentList[index1].isEdit = false;
+        this.ticketData.replyList.forEach((comment, index1) => {
+            this.ticketData.replyList[index1].isEdit = false;
         });
-        this.newsFeed.isComment = true;
+        this.ticketData.isReply = true;
 
     }
 
-    updateComment($event, forum: ForumFeed, commentId, index) {
+    updateComment($event, ticket: Ticket, replyId, index) {
         this._uiService.showSpinner();
-        let comment = '';
-        comment += $event.target.value;
-        console.log("forum", forum);
-        console.log("commentId", commentId);
-        console.log("comment", comment);
+        let reply = '';
+        reply += $event.target.value;
+        console.log("ticket", ticket);
+        console.log("replyId", replyId);
+        console.log("reply", reply);
 
-        // let count = this.newsFeeds[index].commentsDetail.viewMore + index1 + 1;
-        let count = this.newsFeed.commentList.length - this.newsFeed.viewMoreComment + index;
+        let count = this.ticketData.replyList.length - this.ticketData.viewMoreReply + index;
 
-        this._forumService.updateComment(forum.id, commentId, comment).subscribe(
+        this._ticketService.updateReply(ticket.id, replyId, reply).subscribe(
             (res) => {
                 this._uiService.hideSpinner();
                 // $event.target.value = null;
-                this.newsFeed.commentList[count].comment = comment;
-                this.newsFeed.commentList[count].isEdit = false;
-                this.newsFeed.isComment = true;
+                this.ticketData.replyList[count].comment = reply;
+                this.ticketData.replyList[count].isEdit = false;
+                this.ticketData.isReply = true;
                 console.log('res', res);
 
-                // this.loadSingleNewsFeed(forum.id, index);
+                // this.loadTicket(forum.id, index);
             },
             (err) => {
                 console.log('err', err);
@@ -328,23 +319,23 @@ export class ForumDetailComponent implements OnInit {
 
     }
 
-    deleteComment(index, commentId) {
+    deleteComment(index, replyId) {
 
-        console.log("commentId", commentId);
-        // let count = this.newsFeeds[index].commentsDetail.viewMore + index1 + 1;
-        let count = this.newsFeed.commentList.length - this.newsFeed.viewMoreComment + index;
+        console.log("replyId", replyId);
+
+        let count = this.ticketData.replyList.length - this.ticketData.viewMoreReply + index;
         // this.data.splice(index, 1);
-        this.newsFeed.commentList.splice(count, 1);
+        this.ticketData.replyList.splice(count, 1);
 
-        const newsFeedId = this.newsFeed.id;
+        const ticketId = this.ticketData.id;
 
-        // this.loadSingleNewsFeed(newsFeedId, index);
+        // this.loadTicketDetail(ticketId, index);
 
     }
 
     onDeleteComment(index, commentId) {
         // if (this.deletePermission) {
-        const dialogRef = this.dialog.open(DeleteCommentForum, {
+        const dialogRef = this.dialog.open(DeleteReplyTicket, {
             width: '450px',
             data: { type: 'comment', id: commentId }
         });
@@ -360,7 +351,7 @@ export class ForumDetailComponent implements OnInit {
 
     onDeleteForum(index, forumId) {
         // if (this.deletePermission) {
-        const dialogRef = this.dialog.open(DeleteCommentForum, {
+        const dialogRef = this.dialog.open(DeleteReplyTicket, {
             width: '450px',
             data: { type: 'forum', id: forumId }
         });
@@ -375,30 +366,19 @@ export class ForumDetailComponent implements OnInit {
         // }
     }
 
-    loadSingleNewsFeed(id) {
+    loadTicketDetail(id) {
         this._uiService.showSpinner();
 
-        this._forumService.getSingleNewsFeed(id).subscribe(
+        this._ticketService.getSingleTicket(id).subscribe(
             (res) => {
                 this._uiService.hideSpinner();
                 console.log('res', res);
 
-                // res.newsFeed
 
-                let data: ForumFeed = this._mappingService.mapForumFeed(res.json().data)
+                let data: Ticket = this._mappingService.mapTicket(res.json().data)
 
-                this.newsFeed = data;
-                this.loadComment();
-                // this.mapNewsFeed(data);
-
-                // this.newsFeeds = res.newsFeed;
-
-                // this.newsFeeds.forEach((newsFeed, index) => {
-                //     this.newsFeeds[index].commentsDetail.viewMore = 5;
-                // });
-
-                // this.files = res.dashboard.caseStudies.files;
-                // console.log('newsFeed', this.newsFeeds);
+                this.ticketData = data;
+                // this.loadComment();
             },
             (err) => {
                 console.log('err', err);
@@ -407,20 +387,14 @@ export class ForumDetailComponent implements OnInit {
         );
     }
 
-    mapNewsFeed(newNewsFeed) {
+    mapTicket(newTicket) {
 
-        // this.newsFeeds[index].commentsDetail.viewMore = this.newsFeeds[index].commentsDetail.list.length > 5 ? 5 : this.newsFeeds[index].commentsDetail.list.length;
-        // this.newsFeeds[index].commentsDetail.isComment = true;
+        this.ticketData.replyCount = newTicket.commentsDetail.count;
+        this.ticketData.replyList = newTicket.commentsDetail.list;
+        this.ticketData.viewMoreReply = newTicket.commentsDetail.list.length > this.ticketData.viewMoreReply ? this.ticketData.viewMoreReply : this.ticketData.replyList.length;
 
-        // this.newsFeeds[index].basicInfo = newNewsFeed.basicInfo;
-
-
-        this.newsFeed.commentCount = newNewsFeed.commentsDetail.count;
-        this.newsFeed.commentList = newNewsFeed.commentsDetail.list;
-        this.newsFeed.viewMoreComment = newNewsFeed.commentsDetail.list.length > this.newsFeed.viewMoreComment ? this.newsFeed.viewMoreComment : this.newsFeed.commentList.length;
-
-        this.newsFeed.commentList.forEach((comment, index1) => {
-            this.newsFeed.commentList[index1].isEdit = false;
+        this.ticketData.replyList.forEach((comment, index1) => {
+            this.ticketData.replyList[index1].isEdit = false;
         });
 
 
