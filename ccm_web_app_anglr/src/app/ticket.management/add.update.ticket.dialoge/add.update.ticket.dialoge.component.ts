@@ -240,7 +240,7 @@ export class AddUpdateTicketDialogeComponent {
 
 
                 // if (this.fieldType == "add") {
-                if (this.newTicket && this.newTicket.id && this.newTicket != null) {
+                if (!(this.newTicket && this.newTicket.id && this.newTicket != null )) {
 
                     this._ticketService.createTicket(this.newTicket).subscribe(
                         (res) => {
