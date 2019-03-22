@@ -17,7 +17,31 @@ export class Comment {
 
     // createdBy: number;
     createdBy: User = new User();
-    
+
+    updatedBy: number;
+    createdOn: string;
+    updatedOn: string;
+
+}
+
+export class Reply {
+
+    id: number;
+    replyId: number;
+    ticketId: number;
+    reply: string;
+
+    userId: number;
+    vote: string;
+    parentReplyId: number;
+    isEdit: boolean = false;
+    isActive: boolean;
+
+    role: Role = new Role();
+
+    // createdBy: number;
+    createdBy: User = new User();
+
     updatedBy: number;
     createdOn: string;
     updatedOn: string;

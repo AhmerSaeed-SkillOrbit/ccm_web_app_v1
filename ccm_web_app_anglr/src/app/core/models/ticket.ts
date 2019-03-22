@@ -1,6 +1,6 @@
 import { User } from "./user";
 import { Role } from "./role";
-import { Comment } from "./comment";
+import { Comment, Reply } from "./comment";
 
 // import { BaseModel } from "./base.model";
 
@@ -22,9 +22,11 @@ export class Ticket {
 
     trackStatus: string;
 
+    ticketAssignee: TicketAssignee[] = [];
+
     replyCount: number;
-    // commentlist: Array<Comment>;
-    replyList: Comment[] = [];
+    // replylist: Array<Reply>;
+    replyList: Reply[] = [];
     viewMoreReply: number;
     isReply: boolean = true;
 
@@ -62,4 +64,16 @@ export class Priority {
     createdOn: string;
     updatedBy: string;
     updatedOn: string;
+}
+
+export class TicketAssignee {
+
+    id: number;
+    ticketAssigneeId: number;
+    assignById: number;
+    assignBy: User = new User();
+    assignByDescription: string;
+    assignToId: number;
+    assignTo: User = new User();
+    createdOn: string;
 }

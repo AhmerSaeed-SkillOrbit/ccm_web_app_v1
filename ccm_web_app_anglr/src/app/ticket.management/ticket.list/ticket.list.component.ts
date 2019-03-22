@@ -318,7 +318,7 @@ export class TicketListComponent implements OnInit {
         console.log("nevigateTo data", data);
 
         if (type == "ticket-discussion") {
-            this._router.navigate(['/ticket/t/discussion/', data.id]);
+            this._router.navigate(['/ticket/t/discussion', data.id]);
         }
 
     }
@@ -343,6 +343,7 @@ export class DeleteReplyTicket {
         private _router: Router,
         // private _setupService: AdminSetupService
         private _forumService: ForumService,
+        private _ticketService: TicketService,
     ) {
         this.fieldType = data.type;
         this.id = data.id;
@@ -392,6 +393,35 @@ export class DeleteReplyTicket {
                     this.dialogRef.close(this.returnType);
                     const msg = new Message();
                     msg.msg = 'You have deleted topic successfully';
+                    msg.msgType = MessageTypes.Information;
+                    msg.autoCloseAfter = 400;
+                    this._uiService.showToast(msg, 'info');
+                },
+                (err) => {
+                    this.returnType = "error";
+                    this.dialogRef.close(this.returnType);
+                    console.log(err);
+                    // const msg = new Message();
+                    // msg.msg = 'Sorry, an error has occured';
+                    // msg.msgType = MessageTypes.Error;
+                    // msg.autoCloseAfter = 400;
+                    // this._uiService.showToast(msg, '');
+
+                    const msg = new Message();
+                    const msgContent = err.json() && err.json().genericResponse && err.json().genericResponse.genericBody.message ? err.json().genericResponse.genericBody.message : "Sorry, an error has occured";
+                    msg.msg = msgContent;
+                    msg.msgType = MessageTypes.Error;
+                    msg.autoCloseAfter = 400;
+                    this._uiService.showToast(msg, '');
+                });
+        }
+        else if (field === 'reply') {
+            this._ticketService.deleteReply(this.id).subscribe(
+                (res) => {
+                    this.returnType = "success";
+                    this.dialogRef.close(this.returnType);
+                    const msg = new Message();
+                    msg.msg = 'You have deleted reply successfully';
                     msg.msgType = MessageTypes.Information;
                     msg.autoCloseAfter = 400;
                     this._uiService.showToast(msg, 'info');

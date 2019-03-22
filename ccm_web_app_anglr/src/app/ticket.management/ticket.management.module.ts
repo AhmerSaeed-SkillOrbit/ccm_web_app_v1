@@ -8,15 +8,16 @@ import { MaterialModule } from "../material/material.module";
 import { SharedModule } from '../shared/shared.module';
 import { TicketListComponent, DeleteReplyTicket } from './ticket.list/ticket.list.component';
 import { AddUpdateTicketDialogeComponent } from './add.update.ticket.dialoge/add.update.ticket.dialoge.component';
-import { TicketDicussionComponent } from './ticket.dicussion/ticket.dicussion.component';
+import { AssignTicketDialogeComponent } from './assign.ticket.dialoge/assign.ticket.dialoge.component';
+import { TicketDiscussionComponent } from './ticket.discussion/ticket.discussion.component';
 
 
 
 @NgModule({
     declarations: [
         TicketListComponent, DeleteReplyTicket,
-        AddUpdateTicketDialogeComponent,
-        TicketDicussionComponent
+        AddUpdateTicketDialogeComponent, AssignTicketDialogeComponent,
+        TicketDiscussionComponent
     ],
     imports: [
         ReactiveFormsModule, FormsModule,
@@ -28,8 +29,8 @@ import { TicketDicussionComponent } from './ticket.dicussion/ticket.dicussion.co
                 component: TicketListComponent
             },
             {
-                path: 't/dicussion/:id',
-                component: TicketDicussionComponent
+                path: 't/discussion/:id',
+                component: TicketDiscussionComponent
             }
         ])
     ],
@@ -39,7 +40,7 @@ import { TicketDicussionComponent } from './ticket.dicussion/ticket.dicussion.co
     ],
     entryComponents: [
         DeleteReplyTicket,
-        AddUpdateTicketDialogeComponent
+        AddUpdateTicketDialogeComponent, AssignTicketDialogeComponent
     ]
 })
 

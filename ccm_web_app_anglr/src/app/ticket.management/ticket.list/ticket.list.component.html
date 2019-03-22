@@ -99,7 +99,7 @@
                                     </button>
                                 </span> -->
 
-                                <span matTooltipPosition="above" matTooltip="{{!addPermission ? 'Dont have permission' : 'Add New' }}">
+                                <span *ngIf="user?.role?.roleCode == 'patient'" matTooltipPosition="above" matTooltip="{{!addPermission ? 'Dont have permission' : 'Add New' }}">
                                     <button type="button" class="btn btn-default btn-sm" [disabled]="!addPermission"
                                         (click)="openAddUpdateDialog(null,'add')">
                                         Add New
@@ -157,14 +157,18 @@
                                                     rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">
                                                     Title
                                                 </th>
-                                                <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">
-                                                    Schedule Date
-                                                </th> -->
-                                                <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    Raised From
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">
-                                                    Time Slot
-                                                </th> -->
+                                                    Priority
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">
+                                                    Type
+                                                </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">
                                                     Status
@@ -186,6 +190,15 @@
                                                 <td>
                                                     {{ ticket?.title || "NA" }}
                                                 </td>
+                                                <td>
+                                                    {{ ticket?.raisedFrom || "NA" }}
+                                                </td>
+                                                <td>
+                                                    {{ ticket?.priority || "NA" }}
+                                                </td>
+                                                <td>
+                                                    {{ ticket?.type || "NA" }}
+                                                </td>
                                                 <!-- <td>
                                                     {{ ticket?.scheduleDate | date:'dd-MMM-yyyy' }}
                                                 </td> -->
@@ -196,7 +209,7 @@
                                                     {{ ticket?.trackStatus || "NA" }}
                                                 </td>
                                                 <td class="text-center">
-                                                    <span *ngIf="viewPermission" matTooltipPosition="above" matTooltip="Chat">
+                                                    <span *ngIf="viewPermission" matTooltipPosition="above" matTooltip="Reply">
                                                         <i style="color:#0aa700;" class="icon-clipboard2" (click)="nevigateTo(ticket,'ticket-discussion')"></i>
                                                     </span> &nbsp;
                                                     <!-- <span *ngIf="viewPermission" matTooltipPosition="above" matTooltip="View Request">
