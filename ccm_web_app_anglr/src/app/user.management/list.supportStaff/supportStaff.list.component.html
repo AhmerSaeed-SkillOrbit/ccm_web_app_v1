@@ -88,15 +88,16 @@
                             </div>
 
 
-                            <!-- <div class="panel-body">
-                                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal_default">
-                                    Invite New <i class="icon-play3 position-right"></i>
-                                </button>
-                            </div> -->
-                            <!-- <div class="panel-body">
-                                <button type="button" class="btn btn-default btn-sm" (click)="openInviteDialog()">Add
-                                    New <i class="icon-play3 position-right"></i></button>
-                            </div> -->
+                            <div class="panel-body">
+                                <span matTooltipPosition="above" matTooltip="{{!addPermission ? 'Dont have permission' : 'Add New' }}">
+                                    <button type="button" class="btn btn-default btn-sm" [disabled]="!addPermission"
+                                        (click)="openAddUpdateDialog()">
+                                        Add New
+                                        <i class="icon-play3 position-right"></i>
+                                    </button>
+                                </span>
+                            </div>
+                            
                             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
                                 <div class="datatable-header">
                                     <div id="DataTables_Table_0_filter" class="dataTables_filter">
@@ -193,7 +194,8 @@
                                                     <!-- <a (click)=""> -->
 
 
-                                                    <span *ngIf="deletePermission" matTooltipPosition="above" matTooltip="Delete">
+                                                    <span *ngIf="deletePermission" matTooltipPosition="above"
+                                                        matTooltip="Delete">
                                                         <i style="color:#f70a0a;" class="icon-bin" (click)="userDelete(user.id)"></i>
                                                     </span>
                                                     <!-- <a>
