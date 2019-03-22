@@ -99,7 +99,7 @@
                                     </button>
                                 </span> -->
 
-                                <span *ngIf="user?.role?.roleName == 'patient'" matTooltipPosition="above" matTooltip="{{!addPermission ? 'Dont have permission' : 'Add New' }}">
+                                <span *ngIf="user?.role?.roleCode == 'patient'" matTooltipPosition="above" matTooltip="{{!addPermission ? 'Dont have permission' : 'Add New' }}">
                                     <button type="button" class="btn btn-default btn-sm" [disabled]="!addPermission"
                                         (click)="openAddUpdateDialog(null,'add')">
                                         Add New

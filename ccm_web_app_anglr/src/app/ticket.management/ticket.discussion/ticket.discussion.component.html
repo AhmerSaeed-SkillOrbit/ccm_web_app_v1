@@ -176,7 +176,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-6" *ngIf="user?.role?.roleName == 'support_staff'">
+                                                <div class="col-md-6" *ngIf="user?.role?.roleCode == 'support_staff'">
                                                     <span matTooltipPosition="above" matTooltip="{{!addPermission ? 'Dont have permission' : 'Assign To' }}">
                                                         <button mat-raised-button color="primary" [disabled]="!addPermission"
                                                             (click)="openAssignTicketDialog()">
