@@ -306,4 +306,26 @@ export class TicketService {
             });
 
     }
+
+    updateTicketTrackStatus(ticket: Ticket, status: string) {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+        let getUrl = 'ticket/track/status/update?userId=' + (userId || null) + '&ticketId=' + (ticket.id || null) + '&trackStatus=' + (status || null);
+
+        const body = {};
+
+        // return this._http.post(getUrl, body)
+        return this._http.post(getUrl, body)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+
+    }
 }
