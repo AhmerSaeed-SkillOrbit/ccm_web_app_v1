@@ -209,5 +209,52 @@ export class UtilityService {
         return null;
 
     }
+
+    public replaceConfigText(text: string) {
+        
+        var newText = text ? text : "NA";
+
+        if (text == "sms") {
+            newText = "SMS";
+        }
+        else if (text == "portal") {
+            newText = "Portal";
+        }
+        else if (text == "open") {
+            newText = "Open";
+        }
+        else if (text == "close") {
+            newText = "Close";
+        }
+        else if (text == "in_progress") {
+            newText = "In-Progress";
+        }
+        else if (text == "feedback") {
+            newText = "Feedback";
+        }
+        else if (text == "normal") {
+            newText = "Normal";
+        }
+        else if (text == "consult") {
+            newText = "Consult";
+        }
+        else if (text == "other") {
+            newText = "Other";
+        }
+        else if (text == "emergency") {
+            newText = "Emergency";
+        }
+        else if (text == "high") {
+            newText = "High";
+        }
+        else if (text == "low") {
+            newText = "Low";
+        }
+        else if (text == "very_high") {
+            newText = "Very High";
+        }
+
+        return newText;
+    }
 }
 

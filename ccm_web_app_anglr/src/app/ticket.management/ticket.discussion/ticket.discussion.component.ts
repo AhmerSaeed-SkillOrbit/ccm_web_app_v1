@@ -18,6 +18,7 @@ import { AddUpdateTicketDialogeComponent } from '../add.update.ticket.dialoge/ad
 import { DeleteReplyTicket } from '../ticket.list/ticket.list.component';
 import { TicketService } from '../../core/services/ticket/ticket.service';
 import { AssignTicketDialogeComponent } from '../assign.ticket.dialoge/assign.ticket.dialoge.component';
+import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmationDialog.component';
 
 declare var libraryVar: any;
 
@@ -41,6 +42,8 @@ export class TicketDiscussionComponent implements OnInit {
     isEditBtn = true;
 
     addPermission = false;
+    assignPermission = false;
+    closePermission = false;
 
     constructor(@Inject('IAuthService') private _authService: IAuthService,
         private _uiService: UIService,
@@ -73,6 +76,10 @@ export class TicketDiscussionComponent implements OnInit {
 
         // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_doctor');
         this.addPermission = true;
+        // this.assignPermission = this._utilityService.checkUserPermission(this.user, 'add_doctor');
+        this.assignPermission = true;
+        // this.closePermission = this._utilityService.checkUserPermission(this.user, 'add_doctor');
+        this.closePermission = true;
 
     }
 
@@ -115,6 +122,26 @@ export class TicketDiscussionComponent implements OnInit {
             if (result) {
                 // this.refreshList();
                 this.loadTicketDetail(this.ticketData.id);
+            }
+        })
+    }
+
+    openCloseTicketDialog() {
+
+        let msg = 'Are you sure you want to Close this Ticket?';
+        let title = "Close Ticket";
+        let type = "close";
+
+        let dialog = this.dialog.open(ConfirmationDialogComponent, {
+            width: '400px',
+            // data: { message: msg, title: title, type: this.perFormAction.code, form: form }
+            data: { message: msg, title: title, type: type }
+        });
+        dialog.afterClosed().subscribe((result) => {
+            console.log("result", result);
+            if (result) {
+                // this.loadTicketDetail(this.ticketData.id);
+                this.closeTicket();
             }
         })
     }
@@ -408,6 +435,36 @@ export class TicketDiscussionComponent implements OnInit {
 
 
 
+    }
+
+    closeTicket() {
+        const msg = new Message();
+
+        this._uiService.showSpinner();
+
+        this._ticketService.updateTicketTrackStatus(this.ticketData, "close").subscribe(
+            (res) => {
+                this._uiService.hideSpinner();
+                console.log('res', res);
+
+                msg.msg = res.json().message ? res.json().message : 'Ticket Close Successfully';
+                msg.msgType = MessageTypes.Information;
+                msg.autoCloseAfter = 400;
+                this._uiService.showToast(msg, 'info');
+
+                this.loadTicketDetail(this.ticketData.id);
+            },
+            (err) => {
+                console.log('err', err);
+                this._uiService.hideSpinner();
+                this._authService.errStatusCheckResponse(err);
+            }
+        );
+
+    }
+
+    replaceText(text) {
+        return this._utilityService.replaceConfigText(text);
     }
 
 }

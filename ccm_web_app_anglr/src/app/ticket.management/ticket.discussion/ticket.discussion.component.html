@@ -129,40 +129,60 @@
                                                             <label class="label-heading">Raised From</label>
                                                         </div>
                                                         <div class="col-md-9">
-                                                            {{ ticketData?.raisedFrom || "NA" }}
+                                                            <!-- {{ ticketData?.raisedFrom || "NA" }} -->
+                                                            {{ replaceText(ticketData?.raisedFrom) }}
                                                         </div>
                                                     </div>
                                                 </div>
+
                                                 <div class="col-md-6">
                                                     <div class="row">
                                                         <div class="col-md-3">
                                                             <label class="label-heading">Priority</label>
                                                         </div>
                                                         <div class="col-md-9">
-                                                            {{ ticketData?.priority || "NA" }}
+                                                            <!-- {{ ticketData?.priority || "NA" }} -->
+                                                            {{ replaceText(ticketData?.priority) }}
                                                         </div>
                                                     </div>
                                                 </div>
+
                                                 <div class="col-md-6">
                                                     <div class="row">
                                                         <div class="col-md-3">
                                                             <label class="label-heading">Type</label>
                                                         </div>
                                                         <div class="col-md-9">
-                                                            {{ ticketData?.type || "NA" }}
+                                                            <!-- {{ ticketData?.type || "NA" }} -->
+                                                            {{ replaceText(ticketData?.type) }}
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <div class="col-md-6" *ngIf="ticketData?.type == 'other'">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="label-heading">Other Type</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <!-- {{ ticketData?.type || "NA" }} -->
+                                                            {{ replaceText(ticketData?.otherType) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 <div class="col-md-6">
                                                     <div class="row">
                                                         <div class="col-md-3">
                                                             <label class="label-heading">Status</label>
                                                         </div>
                                                         <div class="col-md-9">
-                                                            {{ ticketData?.trackStatus || "NA" }}
+                                                            <!-- {{ ticketData?.trackStatus || "NA" }} -->
+                                                            {{ replaceText(ticketData?.trackStatus) }}
                                                         </div>
                                                     </div>
                                                 </div>
+
                                                 <div class="col-md-6">
                                                     <div class="row">
                                                         <div class="col-md-3">
@@ -175,12 +195,23 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
 
+                                            <div class="row">
                                                 <div class="col-md-6" *ngIf="user?.role?.roleCode == 'support_staff'">
-                                                    <span matTooltipPosition="above" matTooltip="{{!addPermission ? 'Dont have permission' : 'Assign To' }}">
-                                                        <button mat-raised-button color="primary" [disabled]="!addPermission"
+                                                    <span matTooltipPosition="above" matTooltip="{{!assignPermission ? 'Dont have permission' : 'Assign To' }}">
+                                                        <button mat-raised-button color="primary" [disabled]="!assignPermission"
                                                             (click)="openAssignTicketDialog()">
                                                             Assign To
+                                                        </button>
+                                                    </span>
+                                                </div>
+
+                                                <div class="col-md-6" *ngIf="user?.role?.roleCode == 'patient' && !(ticketData?.trackStatus == 'close') ">
+                                                    <span matTooltipPosition="above" matTooltip="{{!closePermission ? 'Dont have permission' : 'Close' }}">
+                                                        <button mat-raised-button color="primary" [disabled]="!closePermission"
+                                                            (click)="openCloseTicketDialog()">
+                                                            Close
                                                         </button>
                                                     </span>
                                                 </div>

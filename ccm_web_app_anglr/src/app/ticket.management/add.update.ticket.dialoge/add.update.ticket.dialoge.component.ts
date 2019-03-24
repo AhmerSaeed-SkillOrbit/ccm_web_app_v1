@@ -62,7 +62,7 @@ export class AddUpdateTicketDialogeComponent {
         public dialogRef: MatDialogRef<AddUpdateTicketDialogeComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private _uiService: UIService,
-        private utilityService: UtilityService,
+        private _utilityService: UtilityService,
         private _userService: UserService,
         private _ticketService: TicketService,
         private _setupService: SetupService,
@@ -82,13 +82,13 @@ export class AddUpdateTicketDialogeComponent {
         console.log("data", data);
         if (data && data.ticket && data.ticket.id) {
             this.ticketId = data.ticket.id;
-            this.newTicket = this.utilityService.deepCopy(data.ticket);
+            this.newTicket = this._utilityService.deepCopy(data.ticket);
             // this.loadTicketDetail();
         }
 
-        // this.addPermission = this.utilityService.checkUserPermission(this.user, 'add_admin');
+        // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_admin');
         this.addPermission = true;
-        this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
+        this.buttonTooltip = this._utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
 
         this.form = fb.group({
 
@@ -228,6 +228,10 @@ export class AddUpdateTicketDialogeComponent {
 
     }
 
+    replaceText(text) {
+        return this._utilityService.replaceConfigText(text);
+    }
+
     onSubmit() {
         const msg = new Message;
         // this._uiService.showSpinner();
@@ -236,18 +240,18 @@ export class AddUpdateTicketDialogeComponent {
             if (this.form.valid) {
 
                 this.isSubmitted = true;
-                this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
+                this.buttonTooltip = this._utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
 
 
                 // if (this.fieldType == "add") {
-                if (!(this.newTicket && this.newTicket.id && this.newTicket != null )) {
+                if (!(this.newTicket && this.newTicket.id && this.newTicket != null)) {
 
                     this._ticketService.createTicket(this.newTicket).subscribe(
                         (res) => {
                             console.log(res);
                             // this._uiService.hideSpinner();
                             this.isSubmitted = false;
-                            this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
+                            this.buttonTooltip = this._utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
                             msg.msg = res.json().message ? res.json().message : 'Ticket added successfully.';
                             msg.msgType = MessageTypes.Information;
                             msg.autoCloseAfter = 400;
@@ -257,7 +261,7 @@ export class AddUpdateTicketDialogeComponent {
                         (err) => {
                             console.log(err);
                             this.isSubmitted = false;
-                            this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
+                            this.buttonTooltip = this._utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
                             // this._uiService.hideSpinner();
                             this._authService.errStatusCheckResponse(err);
                         }
@@ -269,7 +273,7 @@ export class AddUpdateTicketDialogeComponent {
                             console.log(res);
                             // this._uiService.hideSpinner();
                             this.isSubmitted = false;
-                            this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
+                            this.buttonTooltip = this._utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
                             msg.msg = res.json().message ? res.json().message : 'Ticket updated successfully.';
                             msg.msgType = MessageTypes.Information;
                             msg.autoCloseAfter = 400;
@@ -279,7 +283,7 @@ export class AddUpdateTicketDialogeComponent {
                         (err) => {
                             console.log(err);
                             this.isSubmitted = false;
-                            this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
+                            this.buttonTooltip = this._utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
                             // this._uiService.hideSpinner();
                             this._authService.errStatusCheckResponse(err);
                         }
@@ -292,7 +296,7 @@ export class AddUpdateTicketDialogeComponent {
             }
         }
         else {
-            let msg = this.utilityService.permissionMsg();
+            let msg = this._utilityService.permissionMsg();
             this._uiService.showToast(msg, '');
         }
     }

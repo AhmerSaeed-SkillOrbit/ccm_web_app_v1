@@ -159,6 +159,10 @@
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">
+                                                    Created By
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">
                                                     Raised From
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
@@ -182,7 +186,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr role="row" class="odd" *ngFor="let ticket of ticketList; let i=index">
+                                            <tr role="row" class="odd" *ngFor="let ticket of ticketList; let i=index"
+                                                [style.color]="ticket?.trackStatus == 'open' ? 'red' : '' ">
                                                 <td>{{ i + 1 }}</td>
                                                 <td>
                                                     {{ ticket?.ticketNumber || "NA" }}
@@ -191,13 +196,20 @@
                                                     {{ ticket?.title || "NA" }}
                                                 </td>
                                                 <td>
-                                                    {{ ticket?.raisedFrom || "NA" }}
+                                                    {{ ticket?.createdBy?.firstName || "NA" }}
+                                                    {{ ticket?.role?.roleName ? "("+ticket?.role?.roleName+")" : "" }}
                                                 </td>
                                                 <td>
-                                                    {{ ticket?.priority || "NA" }}
+                                                    <!-- {{ ticket?.raisedFrom || "NA" }} -->
+                                                    {{ replaceText(ticket?.raisedFrom) }}
                                                 </td>
                                                 <td>
-                                                    {{ ticket?.type || "NA" }}
+                                                    <!-- {{ ticket?.priority || "NA" }} -->
+                                                    {{ replaceText(ticket?.priority) }}
+                                                </td>
+                                                <td>
+                                                    <!-- {{ ticket?.type || "NA" }} -->
+                                                    {{ replaceText(ticket?.type) }}
                                                 </td>
                                                 <!-- <td>
                                                     {{ ticket?.scheduleDate | date:'dd-MMM-yyyy' }}
@@ -206,11 +218,15 @@
                                                     {{ ticket?.timeSlot?.timeSlot || "NA" }}
                                                 </td> -->
                                                 <td class="sorting_1">
-                                                    {{ ticket?.trackStatus || "NA" }}
+                                                    <!-- {{ ticket?.trackStatus || "NA" }} -->
+                                                    {{ replaceText(ticket?.trackStatus) }}
                                                 </td>
                                                 <td class="text-center">
                                                     <span *ngIf="viewPermission" matTooltipPosition="above" matTooltip="Reply">
-                                                        <i style="color:#0aa700;" class="icon-clipboard2" (click)="nevigateTo(ticket,'ticket-discussion')"></i>
+                                                        <!-- <i style="color:#0aa700;" class="icon-clipboard2" (click)="nevigateTo(ticket,'ticket-discussion')"></i> -->
+                                                        <a [routerLink]="['/ticket/t/discussion', ticket.id]" target="_blank">
+                                                            <i style="color:#0aa700;" class="icon-clipboard2"></i>
+                                                        </a>
                                                     </span> &nbsp;
                                                     <!-- <span *ngIf="viewPermission" matTooltipPosition="above" matTooltip="View Request">
                                                         <i style="color:#0aa700;" class="icon-eye2" (click)="openViewDialog(ticket)"></i>

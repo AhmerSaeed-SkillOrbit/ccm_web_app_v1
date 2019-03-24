@@ -313,12 +313,24 @@ export class TicketListComponent implements OnInit {
         });
     }
 
+    replaceText(text) {
+        return this._utilityService.replaceConfigText(text);
+    }
+
     nevigateTo(data, type) {
 
         console.log("nevigateTo data", data);
 
         if (type == "ticket-discussion") {
+            let url = "/ticket/t/discussion/" + data.id
             this._router.navigate(['/ticket/t/discussion', data.id]);
+            // this._router.navigate([url]).then(result => {
+            //     console.log("nevigateTo navigate ", result);
+            //     window.open(url, '_blank');
+            // });
+            // window.open(url, "_blank");
+            // window.open(FlowRouter.url("/ticket/t/discussion", data.id), '_blank')
+
         }
 
     }
