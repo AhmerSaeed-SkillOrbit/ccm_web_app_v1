@@ -133,3 +133,7 @@ label.label-heading {
 .pointer{
     cursor: pointer;
 }
+
+.toast-container {
+    position: fixed !important;
+}

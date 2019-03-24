@@ -16,9 +16,9 @@ import { TicketService } from '../../core/services/ticket/ticket.service';
 
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmationDialog.component';
 import { ViewAppointmentDialogeComponent } from '../../shared/appointment.dialoge/view.appointment.dialoge.component';
-import { AddUpdateTicketDialogeComponent } from '../add.update.ticket.dialoge/add.update.ticket.dialoge.component';
 import { ForumService } from '../../core/services/forum/forum.service';
 import { SetupService } from '../../core/services/setup/setup.service';
+import { AddUpdateTicketDialogeComponent } from '../../shared/add.update.ticket.dialoge/add.update.ticket.dialoge.component';
 
 declare var libraryVar: any;
 
@@ -41,7 +41,7 @@ export class TicketListComponent implements OnInit {
     userId: number = null;
     searchKeyword: string = null;
     type: string = null;
-    tractStatus: string = null;
+    trackStatus: string = null;
     priority: string = null;
 
     status: string = null;
@@ -70,7 +70,7 @@ export class TicketListComponent implements OnInit {
 
     ticketPriorities: Priority[] = [];
     ticketTypes: Type[] = [];
-    ticketTractStatuses: TrackStatus[] = [];
+    ticketTrackStatuses: TrackStatus[] = [];
 
     isSubmitted: boolean = false;
 
@@ -145,7 +145,7 @@ export class TicketListComponent implements OnInit {
         this.searchKeyword = null;
         this.priority = null;
         this.type = null;
-        this.tractStatus = null;
+        this.trackStatus = null;
 
         this.refreshList();
     }
@@ -158,7 +158,7 @@ export class TicketListComponent implements OnInit {
 
         // this.priority = null;
         // this.type = null;
-        // this.tractStatus = null;
+        // this.trackStatus = null;
 
         // this.dataSource.filter = null;
         this.loadTicketList();
@@ -282,9 +282,9 @@ export class TicketListComponent implements OnInit {
                     }
                 }
 
-                this.ticketTractStatuses = tList;
+                this.ticketTrackStatuses = tList;
 
-                console.log('ticketTractStatuses: ' + this.ticketTractStatuses);
+                console.log('ticketTrackStatuses: ' + this.ticketTrackStatuses);
 
             },
             (err) => {
@@ -305,12 +305,12 @@ export class TicketListComponent implements OnInit {
 
             // this._uiService.showSpinner();
 
-            this._ticketService.getTicketListCount(this.searchKeyword, this.type, this.tractStatus, this.priority).subscribe(
+            this._ticketService.getTicketListCount(this.searchKeyword, this.type, this.trackStatus, this.priority).subscribe(
                 (res) => {
                     // this._uiService.hideSpinner();
                     this.length = res.json().data;
 
-                    this._ticketService.getTicketListPagination(this.pageIndex, this.pageSize, this.searchKeyword, this.type, this.tractStatus, this.priority).subscribe(
+                    this._ticketService.getTicketListPagination(this.pageIndex, this.pageSize, this.searchKeyword, this.type, this.trackStatus, this.priority).subscribe(
                         (res) => {
                             // this.userList = res.json();
                             // this._uiService.hideSpinner();
@@ -404,19 +404,6 @@ export class TicketListComponent implements OnInit {
 
     onTrackStatusSelect() {
         this.search();
-    }
-
-    openViewDialog(ticket: Ticket) {
-        const dialogRef = this.dialog.open(ViewAppointmentDialogeComponent, {
-            width: '400px',
-            // data: { message: msg, title: title, type: this.perFormAction.code, form: form }
-            data: {
-                ticket: ticket
-            }
-        });
-        dialogRef.afterClosed().subscribe(result => {
-            console.log('dialog close', result);
-        });
     }
 
     confirmDialog(ticket: Ticket, btn, index) {

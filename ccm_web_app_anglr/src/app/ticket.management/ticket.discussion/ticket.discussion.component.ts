@@ -14,11 +14,11 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { UtilityService } from '../../core/services/general/utility.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
-import { AddUpdateTicketDialogeComponent } from '../add.update.ticket.dialoge/add.update.ticket.dialoge.component';
 import { DeleteReplyTicket } from '../ticket.list/ticket.list.component';
 import { TicketService } from '../../core/services/ticket/ticket.service';
-import { AssignTicketDialogeComponent } from '../assign.ticket.dialoge/assign.ticket.dialoge.component';
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmationDialog.component';
+import { AssignTicketDialogeComponent } from '../../shared/assign.ticket.dialoge/assign.ticket.dialoge.component';
+import { AddUpdateTicketDialogeComponent } from '../../shared/add.update.ticket.dialoge/add.update.ticket.dialoge.component';
 
 declare var libraryVar: any;
 

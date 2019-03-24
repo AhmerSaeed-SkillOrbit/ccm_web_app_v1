@@ -149,7 +149,7 @@ export class AssignFacilitatorDialogeComponent {
         );
     }
 
-    loadFacilitatorUserList() {
+    loadFacilitatorUserList_bk() {
         const msg = new Message();
         // this.length = 0;
         this.facilitatorList = [];
@@ -173,6 +173,72 @@ export class AssignFacilitatorDialogeComponent {
                         uList.push(u);
                     }
 
+                }
+                this.facilitatorList = uList;
+
+                this.dataSource = new MatTableDataSource<User>(this.facilitatorList);
+                this.dataSource.paginator = this.paginator;
+                // console.log('user list:', this.userList);
+
+                if (this.dataSource.data.length > 0 && this.assocFacilitatorList.length > 0) {
+
+                    this.dataSource.data.forEach(row => {
+                        this.assocFacilitatorList.forEach(row1 => {
+                            if (row1.id == row.id) {
+                                this.selection.select(row);
+                            }
+                        })
+                    })
+
+                }
+
+                if (this.facilitatorList.length == 0) {
+                    msg.msg = 'No Facilitator Found';
+                    msg.msgType = MessageTypes.Information;
+                    msg.autoCloseAfter = 400;
+                    this._uiService.showToast(msg, 'info');
+                }
+                this.isSpinner = false;
+            },
+            (err) => {
+                console.log(err);
+                // this._uiService.hideSpinner();
+                // this.dataSource = new MatTableDataSource<User>(this.userList);
+                this._authService.errStatusCheck(err);
+                this.isSpinner = false;
+            }
+        );
+
+
+        // }
+        // else {
+        //     this.isSpinner = false;
+        //     let msg = this._utilityService.permissionMsg();
+        //     this._uiService.showToast(msg, '');
+        // }
+    }
+
+    loadFacilitatorUserList() {
+        const msg = new Message();
+        // this.length = 0;
+        this.facilitatorList = [];
+        this.dataSource = new MatTableDataSource<User>(this.facilitatorList);
+        // if (this.listPagePermission) {
+        this.isSpinner = true;
+
+        // this._uiService.showSpinner();
+
+
+        this._userService.getUserListViaRole(this.roleCode).subscribe(
+            (res) => {
+                // this.userList = res.json();
+                // this._uiService.hideSpinner();
+                let array = res.json().data || [];
+                console.log('facilitator list:', array);
+                var uList = [];
+                for (let i = 0; i < array.length; i++) {
+                    let u = this._mappingService.mapUser(array[i]);
+                    uList.push(u);
                 }
                 this.facilitatorList = uList;
 
