@@ -4,7 +4,7 @@ import { PageEvent, MatDialog, MatTableDataSource, MatPaginator, MAT_DIALOG_DATA
 
 import { Message, MessageTypes } from '../../core/models/message';
 import { User } from '../../core/models/user';
-import { Ticket } from '../../core/models/ticket';
+import { Ticket, Type, Priority, TrackStatus } from '../../core/models/ticket';
 
 import { IAuthService } from '../../core/services/auth/iauth.service';
 import { UIService } from '../../core/services/ui/ui.service';
@@ -18,6 +18,7 @@ import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmationDi
 import { ViewAppointmentDialogeComponent } from '../../shared/appointment.dialoge/view.appointment.dialoge.component';
 import { AddUpdateTicketDialogeComponent } from '../add.update.ticket.dialoge/add.update.ticket.dialoge.component';
 import { ForumService } from '../../core/services/forum/forum.service';
+import { SetupService } from '../../core/services/setup/setup.service';
 
 declare var libraryVar: any;
 
@@ -39,6 +40,9 @@ export class TicketListComponent implements OnInit {
 
     userId: number = null;
     searchKeyword: string = null;
+    type: string = null;
+    tractStatus: string = null;
+    priority: string = null;
 
     status: string = null;
 
@@ -64,6 +68,10 @@ export class TicketListComponent implements OnInit {
     rejectPermission = false;
     cancelPermission = false;
 
+    ticketPriorities: Priority[] = [];
+    ticketTypes: Type[] = [];
+    ticketTractStatuses: TrackStatus[] = [];
+
     isSubmitted: boolean = false;
 
     constructor(
@@ -72,6 +80,7 @@ export class TicketListComponent implements OnInit {
         private _uiService: UIService,
         // public _messaging: MessagingService,
         // private _userService: UserService,
+        private _setupService: SetupService,
         private _ticketService: TicketService,
         private _mappingService: MappingService,
         private _utilityService: UtilityService,
@@ -108,6 +117,9 @@ export class TicketListComponent implements OnInit {
                 // this.cancelPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
                 this.cancelPermission = true;
 
+                this.loadPriority();
+                this.loadType();
+                this.loadTrackStatus();
                 this.loadTicketList();
             }
             else {
@@ -129,11 +141,25 @@ export class TicketListComponent implements OnInit {
 
     }
 
+    reset() {
+        this.searchKeyword = null;
+        this.priority = null;
+        this.type = null;
+        this.tractStatus = null;
+
+        this.refreshList();
+    }
+
     refreshList() {
         // if (this.userListPermission) {
         this.isSpinner = true;
         this.filter = "";
         this.searchKeyword = "";
+
+        // this.priority = null;
+        // this.type = null;
+        // this.tractStatus = null;
+
         // this.dataSource.filter = null;
         this.loadTicketList();
         // }
@@ -150,6 +176,125 @@ export class TicketListComponent implements OnInit {
         return event;
     }
 
+    loadPriority() {
+        // this._uiService.showSpinner();
+        this._setupService.getPriorityList().subscribe(
+            (res) => {
+                // this._uiService.hideSpinner();
+                console.log('get priorities', res.json().data);
+
+                // let array = res.json().data || [];
+                // var uList = [];
+                // for (let i = 0; i < array.length; i++) {
+                //     let u = this._mappingService.mapTicket(array[i]);
+                //     uList.push(u);
+                // }
+                // this.ticketPriorities = uList;
+
+                let array = res.json().data || null;
+                var pList = [];
+                if (array) {
+                    for (let key in array) {
+                        let p: Priority = new Priority();
+                        p.name = array[key];
+                        p.code = key;
+                        pList.push(p);
+                        // console.log('key: ' + key + ',  value: ' + array[key]);
+                    }
+                }
+
+                this.ticketPriorities = pList;
+                console.log('ticketPriorities: ' + this.ticketPriorities);
+
+            },
+            (err) => {
+                console.log(err);
+                // this._uiService.hideSpinner();
+                // this._authService.errStatusCheckResponse(err);
+            }
+        );
+    }
+
+    loadType() {
+        // this._uiService.showSpinner();
+        this._setupService.getTypeList().subscribe(
+            (res) => {
+                // this._uiService.hideSpinner();
+                console.log('get type', res.json().data);
+
+                // let array = res.json().data || [];
+                // var uList = [];
+                // for (let i = 0; i < array.length; i++) {
+                //     let u = this._mappingService.mapTicket(array[i]);
+                //     uList.push(u);
+                // }
+                // this.ticketTypes = uList;
+
+                let array = res.json().data || null;
+                var tList = [];
+                if (array) {
+                    for (let key in array) {
+                        let t: Type = new Type();
+                        t.name = array[key];
+                        t.code = key;
+                        tList.push(t);
+                        // console.log('key: ' + key + ',  value: ' + array[key]);
+                    }
+                }
+
+                this.ticketTypes = tList;
+
+                console.log('ticketTypes: ' + this.ticketTypes);
+
+            },
+            (err) => {
+                console.log(err);
+                // this._uiService.hideSpinner();
+                // this._authService.errStatusCheckResponse(err);
+            }
+        );
+    }
+
+    loadTrackStatus() {
+        // this._uiService.showSpinner();
+        this._setupService.getTrackStatusList().subscribe(
+            (res) => {
+                // this._uiService.hideSpinner();
+                console.log('get type', res.json().data);
+
+                // let array = res.json().data || [];
+                // var uList = [];
+                // for (let i = 0; i < array.length; i++) {
+                //     let u = this._mappingService.mapTicket(array[i]);
+                //     uList.push(u);
+                // }
+                // this.ticketTypes = uList;
+
+                let array = res.json().data || null;
+                var tList = [];
+                if (array) {
+                    for (let key in array) {
+                        let t: Type = new Type();
+                        t.name = array[key];
+                        t.code = key;
+                        tList.push(t);
+                        // console.log('key: ' + key + ',  value: ' + array[key]);
+                    }
+                }
+
+                this.ticketTractStatuses = tList;
+
+                console.log('ticketTractStatuses: ' + this.ticketTractStatuses);
+
+            },
+            (err) => {
+                console.log(err);
+                // this._uiService.hideSpinner();
+                // this._authService.errStatusCheckResponse(err);
+            }
+        );
+    }
+
     loadTicketList() {
         const msg = new Message();
         this.length = 0;
@@ -160,12 +305,12 @@ export class TicketListComponent implements OnInit {
 
             // this._uiService.showSpinner();
 
-            this._ticketService.getTicketListCount().subscribe(
+            this._ticketService.getTicketListCount(this.searchKeyword, this.type, this.tractStatus, this.priority).subscribe(
                 (res) => {
                     // this._uiService.hideSpinner();
                     this.length = res.json().data;
 
-                    this._ticketService.getTicketListPagination(this.pageIndex, this.pageSize).subscribe(
+                    this._ticketService.getTicketListPagination(this.pageIndex, this.pageSize, this.searchKeyword, this.type, this.tractStatus, this.priority).subscribe(
                         (res) => {
                             // this.userList = res.json();
                             // this._uiService.hideSpinner();
@@ -247,6 +392,18 @@ export class TicketListComponent implements OnInit {
         } else {
             this._router.navigate([redirectUrl]);
         }
+    }
+
+    onPrioritySelect() {
+        this.search();
+    }
+
+    onTypeSelect() {
+        this.search();
+    }
+
+    onTrackStatusSelect() {
+        this.search();
     }
 
     openViewDialog(ticket: Ticket) {

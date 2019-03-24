@@ -66,6 +66,20 @@ export class Priority {
     updatedOn: string;
 }
 
+export class TrackStatus {
+
+    id: number;
+    trackStatusId: number;
+    name: string;
+    code: string;
+
+    // createdBy: number;
+    createdBy: User = new User();
+    createdOn: string;
+    updatedBy: string;
+    updatedOn: string;
+}
+
 export class TicketAssignee {
 
     id: number;

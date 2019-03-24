@@ -117,6 +117,49 @@
                                                 (keyup.enter)="search()">
                                         </label>
                                     </div>
+                                    <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                        <mat-form-field>
+                                            <mat-label>Priority</mat-label>
+                                            <mat-select placeholder="Priority" [(ngModel)]="priority" (change)="onPrioritySelect()">
+                                                <mat-option>None</mat-option>
+                                                <mat-option *ngFor="let ticketPriority of ticketPriorities" [value]="ticketPriority.code">
+                                                    <!-- {{ ticketPriority.name }} -->
+                                                    {{ replaceText(ticketPriority?.name) }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                        <mat-form-field>
+                                            <mat-label>Type</mat-label>
+                                            <mat-select placeholder="Type" [(ngModel)]="type" (change)="onTypeSelect()">
+                                                <mat-option>None</mat-option>
+                                                <mat-option *ngFor="let ticketType of ticketTypes" [value]="ticketType.code">
+                                                    <!-- {{ ticketType.name }} -->
+                                                    {{ replaceText(ticketType?.name) }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                        <mat-form-field>
+                                            <mat-label>Track Status</mat-label>
+                                            <mat-select placeholder="Track Status" [(ngModel)]="trackStatus" (change)="onTrackStatusSelect()">
+                                                <mat-option>None</mat-option>
+                                                <mat-option *ngFor="let ticketTrackStatus of ticketTrackStatuses"
+                                                    [value]="ticketTrackStatus.code">
+                                                    <!-- {{ ticketTrackStatus.name }} -->
+                                                    {{ replaceText(ticketTrackStatus?.name) }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                        <button mat-raised-button color="primary" (click)="reset()"> Reset <i class="material-icons">refresh</i></button>
+                                    </div>
                                     <!-- <div class="dataTables_length" id="DataTables_Table_0_length">
                                         <label>
                                             <span>Show:</span>

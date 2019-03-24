@@ -168,7 +168,13 @@
           </ul>
         </li>
 
-        <li>
+        <li *ngIf="ticketPermission">
+          <a [routerLink]="['/ticket/t/list']">
+            <i class="icon-ticket"></i>
+            <span>Support Ticket</span>
+          </a>
+        </li>
+        <li *ngIf="false">
           <a (click)="expandRow(5)">
             <i class="icon-ticket"></i>
             <span>Tickets Managment</span>
