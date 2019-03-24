@@ -64,8 +64,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
     pendingRequestListPagePermission = false;
     acceptedRequestListPagePermission = false;
     rejectedRequestListPagePermission = false;
-    
+
     forumPermission = false;
+
+    ticketPermission = false;
 
 
     constructor(
@@ -201,6 +203,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
         // this.forumPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'forum_feed');
         this.forumPermission = true;
+
+        // this.ticketPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'forum_feed');
+        this.ticketPermission = true;
 
     }
 

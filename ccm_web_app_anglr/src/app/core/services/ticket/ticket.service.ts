@@ -101,7 +101,7 @@ export class TicketService {
 
     }
 
-    getTicketListCount() {
+    getTicketListCount(searchKeyword, type, trackStatus, priority) {
 
         let token: Token;
         token = this._authService.getTokenData();
@@ -111,7 +111,8 @@ export class TicketService {
 
         let userId = token.userId;
 
-        let getUrl = "ticket/list/count?userId=" + (userId || null);
+        let getUrl = "ticket/list/count?userId=" + (userId || null) + "&searchKeyword=" + (searchKeyword || null) +
+            "&type=" + (type || null) + "&trackStatus=" + (trackStatus || null) + "&priority=" + (priority || null);
 
         return this._http.get(getUrl, options)
             .map((res: Response) => res)
@@ -121,7 +122,7 @@ export class TicketService {
 
     }
 
-    getTicketListPagination(pageNo, limit) {
+    getTicketListPagination(pageNo, limit, searchKeyword, type, trackStatus, priority) {
 
         let token: Token;
         token = this._authService.getTokenData();
@@ -131,7 +132,9 @@ export class TicketService {
 
         let userId = token.userId;
 
-        let getUrl = "ticket/list?userId=" + (userId || null) + "&pageNo=" + (pageNo || 0) + "&limit=" + (limit || 5);
+        let getUrl = "ticket/list?userId=" + (userId || null) + "&pageNo=" + (pageNo || 0) + "&limit=" + (limit || 5) +
+            "&searchKeyword=" + (searchKeyword || null) + "&type=" + (type || null) + "&trackStatus=" +
+            (trackStatus || null) + "&priority=" + (priority || null);
 
 
         return this._http.get(getUrl, options)

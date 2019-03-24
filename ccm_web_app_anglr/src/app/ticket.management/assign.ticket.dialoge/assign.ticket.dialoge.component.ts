@@ -90,7 +90,7 @@ export class AssignTicketDialogeComponent {
         this.form = fb.group({
 
             'assignTo': [this.newTicketAssignee.assignToId, Validators.compose([Validators.required])],
-            'description': [this.newTicketAssignee.assignByDescription, Validators.compose([Validators.required])]
+            // 'description': [this.newTicketAssignee.assignByDescription, Validators.compose([Validators.required])]
         });
 
         this.loadSupportStaff();
