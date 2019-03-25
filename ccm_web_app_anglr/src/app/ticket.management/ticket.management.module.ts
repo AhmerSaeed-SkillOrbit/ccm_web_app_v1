@@ -7,8 +7,7 @@ import { CommonModule } from "@angular/common";
 import { MaterialModule } from "../material/material.module";
 import { SharedModule } from '../shared/shared.module';
 import { TicketListComponent, DeleteReplyTicket } from './ticket.list/ticket.list.component';
-import { AddUpdateTicketDialogeComponent } from './add.update.ticket.dialoge/add.update.ticket.dialoge.component';
-import { AssignTicketDialogeComponent } from './assign.ticket.dialoge/assign.ticket.dialoge.component';
+
 import { TicketDiscussionComponent } from './ticket.discussion/ticket.discussion.component';
 
 
@@ -16,7 +15,7 @@ import { TicketDiscussionComponent } from './ticket.discussion/ticket.discussion
 @NgModule({
     declarations: [
         TicketListComponent, DeleteReplyTicket,
-        AddUpdateTicketDialogeComponent, AssignTicketDialogeComponent,
+        
         TicketDiscussionComponent
     ],
     imports: [
@@ -40,7 +39,7 @@ import { TicketDiscussionComponent } from './ticket.discussion/ticket.discussion
     ],
     entryComponents: [
         DeleteReplyTicket,
-        AddUpdateTicketDialogeComponent, AssignTicketDialogeComponent
+        
     ]
 })
 
