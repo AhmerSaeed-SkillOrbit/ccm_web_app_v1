@@ -151,6 +151,7 @@ export class UserService {
             LastName: user.lastName || null,
             EmailAddress: user.email || null,
             // Password: user.password || null,
+            CountryPhoneCode: user.countryPhoneCode || null,
             MobileNumber: user.mobileNumber || null,
             TelephoneNumber: user.phoneNumber || null,
             OfficeAddress: user.officeAddress || null,
@@ -191,6 +192,7 @@ export class UserService {
             LastName: user.lastName || null,
             // EmailAddress: user.email || null,
             // Password: user.password || null,
+            CountryPhoneCode: user.countryPhoneCode || null,
             MobileNumber: user.mobileNumber || null,
             TelephoneNumber: user.phoneNumber || null,
             OfficeAddress: user.officeAddress || null,
@@ -260,10 +262,11 @@ export class UserService {
             });
     }
 
-    sendInvite(email, mobileNo, type, userId): Observable<any> {
+    sendInvite(email, mobileNo, phoneCode, type, userId): Observable<any> {
         const url = 'invite';
         const body = {
             email: email || null,
+            CountryPhoneCode: phoneCode || null,
             mobileNumber: mobileNo || null,
             type: type || null,
             userId: userId || null

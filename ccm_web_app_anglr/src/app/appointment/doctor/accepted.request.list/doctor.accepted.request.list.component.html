@@ -200,7 +200,7 @@
                                                         <!-- <i style="color:#0aa700;" class="icon-eye2" (click)="changeRequestStatus(appointment.id, 'rejected', '')"></i> -->
                                                         <i style="color:#0aa700;" class="icon-eye2" (click)="openViewDialog(appointment)"></i>
                                                     </span> &nbsp;
-                                                    
+
                                                     <span *ngIf="cancelPermission" matTooltipPosition="above"
                                                         matTooltip="Cancel Request">
                                                         <!-- <i style="color:#f70a0a;" class="icon-bin" (click)="changeRequestStatus(appointment.id, 'reject', '')"></i> -->
@@ -222,7 +222,7 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <spinner [visible]='isSpinner'></spinner>
+                                    <spinner class="spinner-box" [visible]='isSpinner'></spinner>
                                 </div>
                                 <!-- <div class="datatable-footer">
                                     <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing

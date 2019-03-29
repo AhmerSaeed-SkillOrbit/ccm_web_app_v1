@@ -50,6 +50,7 @@ export class AddScheduleComponent implements OnInit {
     userPermissions: Permission[] = [];
     isLogin: any;
 
+    currentMonth: number;
     schedule: Schedule = new Schedule()
 
     newUser: User = new User();
@@ -101,6 +102,12 @@ export class AddScheduleComponent implements OnInit {
         // for (let index = this.minYear; index <= this.maxYear; index++) {
         //     this.years.push(index);
         // }
+
+        this.currentDate = new Date();
+        this.currentMonth = this.currentDate.getMonth();
+
+        console.log("this.currentMonth", this.currentMonth);
+
 
         let min = new Date().getFullYear();
         let max = min + 9;
@@ -280,6 +287,8 @@ export class AddScheduleComponent implements OnInit {
     }
 
     onMonthYearFocusOut() {
+
+        console.log("this.schedule.monthId", this.schedule.monthId)
 
         if ((this.schedule.monthId || this.schedule.monthId == 0) && this.schedule.year) {
 
@@ -495,7 +504,7 @@ export class AddScheduleComponent implements OnInit {
                 else {
                     // this.schedule.scheduleDetails[index].noOfShift = this.noOfShift;
                     // this.schedule.scheduleDetails[index].scheduleShifts = this.setTimeAllData;
-                    
+
                     this.schedule.scheduleDetails[index].noOfShift = this._utilityService.deepCopy(this.noOfShift);
                     this.schedule.scheduleDetails[index].scheduleShifts = this._utilityService.deepCopy(this.setTimeAllData);
 

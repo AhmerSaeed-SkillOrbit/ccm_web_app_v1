@@ -186,11 +186,13 @@ export class AuthService implements IAuthService, OnDestroy {
     }
 
     forgotPassword(user: User): Observable<any> {
-        const url = this.getAPIFullUrl('user/reset/password/' + user.email);
+        const url = this.getAPIFullUrl('forgetPass');
         const options = new RequestOptions();
         options.headers = new Headers();
         options.headers.append('Content-Type', 'application/json');
-        const body = {};
+        const body = {
+            EmailAddress: user.email || null
+        };
 
         return this._http.post(url, body, options)
             .catch((err, caught) => {
@@ -200,7 +202,7 @@ export class AuthService implements IAuthService, OnDestroy {
 
 
     resetPassword(user: User, key: string): Observable<any> {
-        const url = this.getFullUrl('user/registration/verify');
+        const url = this.getFullUrl('resetPass');
 
         const options = new RequestOptions();
         options.headers = new Headers();
@@ -210,7 +212,7 @@ export class AuthService implements IAuthService, OnDestroy {
             VerificationKey: key,
             UserPassword: user.password,
         };
-        return this._http.put(url, body)
+        return this._http.post(url, body)
             .catch((err, caught) => {
                 return Observable.throw(err);
             });

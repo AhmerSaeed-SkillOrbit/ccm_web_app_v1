@@ -20,6 +20,7 @@ export class User extends BaseModel {
     email: string;
 
     fullName: string;
+    countryPhoneCode: String;
     mobileNumber: String;
     phoneNumber: String;
 

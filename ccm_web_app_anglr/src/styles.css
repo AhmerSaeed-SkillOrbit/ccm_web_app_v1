@@ -137,3 +137,7 @@ label.label-heading {
 .toast-container {
     position: fixed !important;
 }
+
+.spinner-box {
+    padding: 1px;
+}

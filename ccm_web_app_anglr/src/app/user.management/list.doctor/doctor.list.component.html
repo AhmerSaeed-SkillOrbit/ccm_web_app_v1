@@ -193,8 +193,8 @@
                                                     <!-- <a (click)=""> -->
 
                                                     <!-- *ngIf="viewSchedulePermission" -->
-                                                    <span *ngIf="loggedInUser.role.roleCode !== 'patient'" matTooltipPosition="above"
-                                                        matTooltip="View Schedule">
+                                                    <span *ngIf="loggedInUser.role.roleCode !== 'patient'"
+                                                        matTooltipPosition="above" matTooltip="View Schedule">
                                                         <a [routerLink]="['/schedule/view',user.id]">
                                                             <i style="color:#0aa700;" class="icon-eye2"></i>
                                                         </a>
@@ -238,7 +238,7 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <spinner [visible]='isSpinner'></spinner>
+                                    <spinner class="spinner-box" [visible]='isSpinner'></spinner>
                                 </div>
                                 <!-- <div class="datatable-footer">
                                     <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing

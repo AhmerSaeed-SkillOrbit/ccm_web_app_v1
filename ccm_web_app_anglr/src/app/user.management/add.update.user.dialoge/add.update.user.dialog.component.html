@@ -32,14 +32,23 @@
                         </div>
                     </div>
 
-                    <!-- Email Address -->
+                    <!-- Country Phone Code -->
                     <div class="col-md-6">
-                        <div class="form-group has-feedback has-feedback-left">
-                            <input type="email" class="form-control" placeholder="Email Address" formControlName="email"
-                                [(ngModel)]="newUser.email">
-                            <div class="form-control-feedback">
-                                <i class="icon-user text-muted"></i>
-                            </div>
+                        <div class="form-field">
+
+                            <mat-form-field class="full-width">
+                                <mat-select [(ngModel)]="newUser.countryPhoneCode" formControlName="phoneCode"
+                                    placeholder="Select Country Phone Code" required>
+                                    <mat-option>None</mat-option>
+                                    <mat-option value="+1">+1</mat-option>
+                                    <mat-option value="+92">+92</mat-option>
+                                </mat-select>
+                                <!-- <mat-error *ngIf="formRegister.controls['designationId'].errors?.required">
+                                            Designation is
+                                            <strong>required</strong>
+                                        </mat-error> -->
+                            </mat-form-field>
+
                         </div>
                     </div>
 
@@ -59,6 +68,17 @@
                         <div class="form-group has-feedback has-feedback-left">
                             <input type="number" class="form-control" placeholder="Telephone Number" formControlName="telephoneNumber"
                                 [(ngModel)]="newUser.phoneNumber">
+                            <div class="form-control-feedback">
+                                <i class="icon-user text-muted"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Email Address -->
+                    <div class="col-md-6">
+                        <div class="form-group has-feedback has-feedback-left">
+                            <input type="email" class="form-control" placeholder="Email Address" formControlName="email"
+                                [(ngModel)]="newUser.email">
                             <div class="form-control-feedback">
                                 <i class="icon-user text-muted"></i>
                             </div>

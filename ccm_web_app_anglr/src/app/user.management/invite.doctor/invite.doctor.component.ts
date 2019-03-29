@@ -45,6 +45,7 @@ export class InviteDoctorComponent implements OnInit {
 
 
     email: string = "";
+    countryCode: string = "";
     mobileNo: string = "";
     type: string = "superadmin_doctor";
     userId: number = null;
@@ -129,7 +130,7 @@ export class InviteDoctorComponent implements OnInit {
 
         if (this.email) {
 
-            this._userService.sendInvite(this.email, this.mobileNo, this.type, this.userId).subscribe(
+            this._userService.sendInvite(this.email, this.mobileNo, this.countryCode, this.type, this.userId).subscribe(
                 (res) => {
 
                     this.isSubmitted = false;

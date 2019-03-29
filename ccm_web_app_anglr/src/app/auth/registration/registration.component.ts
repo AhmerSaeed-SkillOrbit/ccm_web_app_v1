@@ -357,8 +357,9 @@ export class RegistrationComponent implements OnInit {
             (res) => {
                 this.tokenVerifying = false;
                 this.tokenVerified = true;
-
                 this.invitationAccepted = true;
+
+                this.user.email = res.json().data;
 
                 // setTimeout(function () {
                 //     console.log("test verified")
