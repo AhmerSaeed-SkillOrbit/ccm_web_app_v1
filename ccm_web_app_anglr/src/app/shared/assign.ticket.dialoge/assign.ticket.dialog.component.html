@@ -1,0 +1,68 @@
+<div class="dialog-box-content">
+    <form name="form" [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+        <mat-progress-bar mode="indeterminate" *ngIf="isSubmitted"></mat-progress-bar>
+        <div class="row align-item-center">
+            <div class="col-md-12">
+                <h1 mat-dialog-title> Assign Ticket </h1>
+            </div>
+
+            <div class="col-md-12">
+
+                <div class="row">
+
+                    <!-- Assign To -->
+                    <div class="col-md-6">
+
+                        <mat-form-field class="full-width">
+                            <mat-select placeholder="Assign To" formControlName="assignTo" [(ngModel)]="newTicketAssignee.assignToId"
+                                (change)="onPrioritySelect($event)" required>
+                                <mat-option>None</mat-option>
+                                <mat-option *ngFor="let u of userList" [value]="u.id">
+                                    {{ u.firstName }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="col-md-12" *ngIf="false">
+
+                        <mat-form-field class="full-width">
+                            <textarea matInput placeholder="Description" formControlName="description" [(ngModel)]="newTicketAssignee.assignByDescription"
+                                (focusout)="onDescriptionFocusOut()" maxlength="1000" matTextareaAutosize
+                                matAutosizeMinRows="3" matAutosizeMaxRows="15" required></textarea>
+                            <mat-hint align="end">
+                                {{newTicketAssignee?.assignByDescription?.length || 0}}/1000
+                            </mat-hint>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div mat-dialog-actions class="row align-item-center dialog-btn-contianer">
+            <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+                <button mat-raised-button tabindex="-1" (click)="onNoClick()">CANCEL</button>
+
+                <span matTooltipPosition="above" matTooltip="{{!form.valid ? 'Fill the required field' : buttonTooltip}}">
+                    <button mat-raised-button [disabled]="isSubmitted" color="primary" (click)="onSubmit()" tabindex="2">SUBMIT</button>
+                </span>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<!-- <h2 mat-dialog-title>User Form</h2>
+<mat-dialog-content class="mat-typography">
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+</mat-dialog-actions> -->

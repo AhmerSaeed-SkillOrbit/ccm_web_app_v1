@@ -110,10 +110,10 @@
 
                             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
                                 <div class="datatable-header">
-                                    <div *ngIf="false" id="DataTables_Table_0_filter" class="dataTables_filter">
+                                    <div id="DataTables_Table_0_filter" class="dataTables_filter">
                                         <label>
                                             <span>Filter:</span>
-                                            <input type="search" [(ngModel)]="searchKeyword" class="" placeholder="Type to filter..."
+                                            <input type="search" [(ngModel)]="searchKeyword" class="" placeholder="Type to search..."
                                                 (keyup.enter)="search()">
                                         </label>
                                     </div>
@@ -155,7 +155,7 @@
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">
-                                                    Patient Name
+                                                    Doctor Name
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">
@@ -184,7 +184,7 @@
                                                     {{ appointment?.appointmentNumber || "NA" }}
                                                 </td>
                                                 <td>
-                                                    {{ appointment?.patientFirstName || "NA" }}
+                                                    {{ appointment?.doctorFirstName || "NA" }}
                                                 </td>
                                                 <td>
                                                     {{ appointment?.scheduleDate | date:'dd-MMM-yyyy' }}
@@ -197,10 +197,10 @@
                                                 </td>
                                                 <td class="text-center">
 
-                                                    <!-- <span *ngIf="acceptPermission" matTooltipPosition="above"
-                                                        matTooltip="Accept Request">
-                                                        <i style="color:#0aa700;" class="icon-eye2" (click)="changeRequestStatus(appointment.id, 'rejected', '')"></i>
-                                                    </span> &nbsp; -->
+                                                    <span *ngIf="viewPermission" matTooltipPosition="above" matTooltip="View Request">
+                                                        <!-- <i style="color:#0aa700;" class="icon-eye2" (click)="changeRequestStatus(appointment.id, 'rejected', '')"></i> -->
+                                                        <i style="color:#0aa700;" class="icon-eye2" (click)="openViewDialog(appointment)"></i>
+                                                    </span> &nbsp;
 
                                                     <!-- <span *ngIf="rejectPermission" matTooltipPosition="above"
                                                         matTooltip="Reject Request">

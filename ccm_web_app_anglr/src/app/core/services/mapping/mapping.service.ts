@@ -13,6 +13,10 @@ import { Branch } from '../../models/branch';
 import { Permission } from '../../models/permission';
 import { Schedule, ScheduleDetail, ScheduleShift, TimeSlot } from '../../models/schedule.model';
 import { Appointment } from '../../models/appointment';
+import { ForumFeed } from '../../models/forum';
+import { Tag } from '../../models/tag';
+import { Comment, Reply } from '../../models/comment';
+import { Ticket, TicketAssignee } from '../../models/ticket';
 
 @Injectable()
 export class MappingService {
@@ -102,8 +106,8 @@ export class MappingService {
         if (roleData) {
             isRole.id = roleData.Id || null;
             isRole.roleId = roleData.Id || null;
-            isRole.roleCode = roleData.RoleCodeName || null;
-            isRole.roleName = roleData.RoleName || null;
+            isRole.roleName = roleData.RoleName || roleData.Name || null;
+            isRole.roleCode = roleData.RoleCodeName || roleData.CodeName || null;
             // isRole.departmentId = roleData.departmentId || null;
         }
 
@@ -134,7 +138,7 @@ export class MappingService {
             isSchedule.scheduleId = scheduleData.Id || null;
             isSchedule.doctorFirstName = scheduleData.FirstName || null;
             isSchedule.doctorLastName = scheduleData.LastName || null;
-            isSchedule.monthId = scheduleData.MonthName && scheduleData.MonthName > 0 ? (scheduleData.MonthName - 1) || null : null;
+            isSchedule.monthId = scheduleData.MonthName && scheduleData.MonthName > 0 ? (+scheduleData.MonthName - 1) || 0 : null;
             isSchedule.year = scheduleData.YearName || null;
             isSchedule.startDate = scheduleData.StartDate || null;
             isSchedule.endDate = scheduleData.EndDate || null;
@@ -170,17 +174,19 @@ export class MappingService {
         if (scheduleDetailData) {
             isScheduleDetail.id = scheduleDetailData.Id || null;
             isScheduleDetail.isOffDay = scheduleDetailData.IsOffDay || false;
-            isScheduleDetail.noOfShift = scheduleDetailData.noOfShift || null;
+            isScheduleDetail.noOfShift = scheduleDetailData.NoOfShift || null;
             isScheduleDetail.scheduleDate = scheduleDetailData.ScheduleDate || null;
 
             let ss = [];
             if (scheduleDetailData.ScheduleShifts && scheduleDetailData.ScheduleShifts.length > 0) {
                 scheduleDetailData.ScheduleShifts.forEach(element => {
                     ss.push(this.mapScheduleShift(element));
+                    // console.log("ss ", ss)
                 });
             }
 
             isScheduleDetail.scheduleShifts = ss;
+            // console.log("isScheduleDetail.scheduleShifts", isScheduleDetail.scheduleShifts);
         }
 
 
@@ -188,13 +194,20 @@ export class MappingService {
     }
 
     public mapScheduleShift(res: any): ScheduleShift {
+
+        // console.log("mapScheduleShift res", res)
+        // console.log("mapScheduleShift res.Id", res.Id)
         const scheduleShiftData = res;
         const isScheduleShift = new ScheduleShift();
         if (scheduleShiftData) {
             isScheduleShift.id = scheduleShiftData.Id || null;
             isScheduleShift.scheduleShiftId = scheduleShiftData.Id || null;
-            isScheduleShift.startTime = scheduleShiftData.StartTime || false;
+            isScheduleShift.startTime = scheduleShiftData.StartTime || null;
+            // isScheduleShift.startTime12h = scheduleShiftData.StartTime || null;
+            // isScheduleShift.startTime = this._utilityService.convertTime12to24(scheduleShiftData.StartTime);
             isScheduleShift.endTime = scheduleShiftData.EndTime || null;
+            // isScheduleShift.endTime12h = scheduleShiftData.EndTime || null;
+            // isScheduleShift.endTime = this._utilityService.convertTime12to24(scheduleShiftData.EndTime);
             isScheduleShift.noOfPatientAllowed = scheduleShiftData.NoOfPatientAllowed || null;
 
             let ts = [];
@@ -294,6 +307,203 @@ export class MappingService {
         }
 
         return isDocument;
+    }
+
+    public mapForumFeed(res: any): ForumFeed {
+
+        // console.log("mapScheduleShift res", res)
+        // console.log("mapScheduleShift res.Id", res.Id)
+        const forumData = res;
+        const isForum = new ForumFeed();
+        if (forumData) {
+            isForum.id = forumData.Id || null;
+            isForum.forumId = forumData.Id || null;
+            isForum.title = forumData.Title || null;
+            isForum.description = forumData.Description || null;
+
+            isForum.role = this.mapRole(forumData.Role);
+
+            isForum.createdBy = this.mapUser(forumData.CreatedBy);
+
+            isForum.createdOn = forumData.CreatedOn || null;
+            isForum.updatedOn = forumData.UpdatedOn || null;
+
+            const t = [];
+            const tId = [];
+            if (forumData.Tags && forumData.Tags.length > 0) {
+                forumData.Tags.forEach(element => {
+                    if (element) {
+                        t.push(this.mapTag(element));
+                        tId.push(this.mapTag(element).id);
+                    }
+
+                });
+
+            }
+
+            isForum.commentCount = forumData.CommentCount || null;
+
+            isForum.tags = t;
+            isForum.tagIds = tId;
+
+
+            let cl = [];
+
+            if (forumData.Comments && forumData.Comments.length > 0) {
+
+                forumData.Comments.forEach(element => {
+                    cl.push(this.mapComment(element));
+                });
+            }
+
+
+            isForum.commentList = cl;
+        }
+        return isForum;
+    }
+
+    public mapTag(res: any): Tag {
+        const tagData = res;
+        const isTag = new Tag();
+        if (tagData) {
+            isTag.id = tagData.Id || null;
+            isTag.tagId = tagData.Id || null;
+            isTag.name = tagData.Name || null;
+            isTag.code = tagData.Code || null;
+            isTag.toolTip = tagData.ToolTip || null;
+            isTag.description = tagData.Description || null;
+            isTag.sortOrder = tagData.SortOrder || null;
+            isTag.createdBy = tagData.CreatedBy || null;
+            isTag.updatedBy = tagData.UpdatedBy || null;
+            isTag.createdOn = tagData.CreatedOn || null;
+            isTag.updatedOn = tagData.UpdatedOn || null;
+            isTag.isActive = tagData.IsActive || false;
+
+        }
+        return isTag;
+    }
+
+    public mapComment(res: any): Comment {
+        const commentData = res;
+        const isComment = new Comment();
+        if (commentData) {
+            isComment.id = commentData.Id || null;
+            isComment.commentId = commentData.Id || null;
+            isComment.forumTopicId = commentData.ForumTopicId || null;
+            isComment.comment = commentData.Comment || null;
+            isComment.userId = commentData.userId || null;
+            isComment.vote = commentData.Vote || null;
+            isComment.parentCommentId = commentData.ParentCommentId || null;
+            isComment.isActive = commentData.IsActive || false;
+
+            isComment.role = this.mapRole(commentData.Role);
+
+            // isComment.createdBy = commentData.CreatedBy || null;
+            isComment.createdBy = this.mapUser(commentData.CreatedBy);
+
+            isComment.updatedBy = commentData.UpdatedBy || null;
+            isComment.createdOn = commentData.CreatedOn || null;
+            isComment.updatedOn = commentData.UpdatedOn || null;
+
+        }
+        return isComment;
+    }
+
+    public mapTicket(res: any): Ticket {
+
+        const ticketData = res;
+        const isTicket = new Ticket();
+        if (ticketData) {
+            isTicket.id = ticketData.Id || null;
+            isTicket.ticketId = ticketData.Id || null;
+            isTicket.title = ticketData.Title || null;
+            isTicket.ticketNumber = ticketData.TicketNumber || null;
+            isTicket.description = ticketData.Description || null;
+
+            isTicket.type = ticketData.Type || null;
+            isTicket.otherType = ticketData.OtherType || null;
+            isTicket.priority = ticketData.Priority || null;
+            isTicket.raisedFrom = ticketData.RaisedFrom || null;
+            isTicket.trackStatus = ticketData.TrackStatus || null;
+
+
+            isTicket.replyCount = ticketData.TicketReplyCount || null;
+            // isTicket.replyList = ticketData.TicketReply || [];
+
+            let rl = [];
+
+            if (ticketData.TicketReply && ticketData.TicketReply.length > 0) {
+
+                ticketData.TicketReply.forEach(element => {
+                    rl.push(this.mapReply(element));
+                });
+            }
+
+
+            isTicket.replyList = rl;
+
+            // isTicket.ticketAssignee = ticketData.TicketAssignee || [];
+            let ta = [];
+
+            if (ticketData.TicketAssignee && ticketData.TicketAssignee.length > 0) {
+
+                ticketData.TicketAssignee.forEach(element => {
+                    ta.push(this.mapTicketAssignee(element));
+                });
+            }
+            isTicket.ticketAssignee = ta;
+
+            isTicket.role = this.mapRole(ticketData.Role);
+
+            isTicket.createdBy = this.mapUser(ticketData.CreatedBy);
+
+            isTicket.createdOn = ticketData.CreatedOn || null;
+            isTicket.updatedOn = ticketData.UpdatedOn || null;
+
+        }
+        return isTicket;
+    }
+
+    public mapTicketAssignee(res: any): TicketAssignee {
+
+        const ticketAssigneeData = res;
+        const isTicketAssignee = new TicketAssignee();
+        if (ticketAssigneeData) {
+            isTicketAssignee.id = ticketAssigneeData.Id || null;
+            isTicketAssignee.ticketAssigneeId = ticketAssigneeData.Id || null;
+            isTicketAssignee.assignBy = this.mapUser(ticketAssigneeData.AssignBy);
+            isTicketAssignee.assignByDescription = ticketAssigneeData.AssignByDescription || null;
+            isTicketAssignee.assignTo = this.mapUser(ticketAssigneeData.AssignTo);
+            isTicketAssignee.createdOn = ticketAssigneeData.CreatedOn || null;
+        }
+        return isTicketAssignee;
+    }
+
+    public mapReply(res: any): Reply {
+        const replytData = res;
+        const isReply = new Reply();
+        if (replytData) {
+            isReply.id = replytData.Id || null;
+            isReply.replyId = replytData.Id || null;
+            isReply.ticketId = replytData.TicketId || null;
+            isReply.reply = replytData.Reply || null;
+            isReply.userId = replytData.userId || null;
+            isReply.vote = replytData.Vote || null;
+            isReply.parentReplyId = replytData.ParentReplyId || null;
+            isReply.isActive = replytData.IsActive || false;
+
+            isReply.role = this.mapRole(replytData.Role);
+
+            // isReply.createdBy = replytData.CreatedBy || null;
+            // isReply.createdBy = this.mapUser(replytData.CreatedBy);
+            isReply.createdBy = this.mapUser(replytData.ReplyBy);
+
+            isReply.updatedBy = replytData.UpdatedBy || null;
+            isReply.createdOn = replytData.CreatedOn || null;
+            isReply.updatedOn = replytData.UpdatedOn || null;
+
+        }
+        return isReply;
     }
 
 }

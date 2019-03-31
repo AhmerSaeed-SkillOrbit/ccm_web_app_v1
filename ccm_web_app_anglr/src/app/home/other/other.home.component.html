@@ -106,6 +106,27 @@
 
                             </div>
                         </div>
+
+
+
+                        <div class="panel panel-flat">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">
+                                    Tickets
+                                    <a class="heading-elements-toggle"><i class="icon-more"></i></a>
+                                </h5>
+                            </div>
+
+                            <div class="panel-body">
+
+                                <span *ngIf="user?.role?.roleCode == 'patient'" matTooltipPosition="above" matTooltip="Add New">
+                                    <button type="button" class="btn btn-default btn-sm" (click)="openAddUpdateDialog(null,'add')">
+                                        Add New
+                                        <i class="icon-play3 position-right"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Dashboard content -->

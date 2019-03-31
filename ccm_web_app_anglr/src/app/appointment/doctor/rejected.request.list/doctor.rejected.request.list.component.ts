@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { User } from '../../core/models/user';
-import { IAuthService } from '../../core/services/auth/iauth.service';
-import { UIService } from '../../core/services/ui/ui.service';
+import { User } from '../../../core/models/user';
+import { IAuthService } from '../../../core/services/auth/iauth.service';
+import { UIService } from '../../../core/services/ui/ui.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEvent, MatDialog, MatTableDataSource, MatPaginator } from '@angular/material';
 // import { ScriptService } from '../core/services/script.service';
@@ -9,25 +9,26 @@ import { PageEvent, MatDialog, MatTableDataSource, MatPaginator } from '@angular
 // import { MessagingService } from '../messaging.service';
 // import { DashboardService } from '../core/services/general/dashboard.service';
 // import { Dashboard } from '../core/models/dashboard';
-import { Message, MessageTypes } from '../../core/models/message';
+import { Message, MessageTypes } from '../../../core/models/message';
 // import { SetupService } from '../../core/services/setup/setup.service';
-import { UserService } from '../../core/services/user/user.service';
-import { MappingService } from '../../core/services/mapping/mapping.service';
-import { UtilityService } from '../../core/services/general/utility.service';
-import { AppointmentService } from '../../core/services/schedule/appointment.service';
-import { Appointment } from '../../core/models/appointment';
+import { UserService } from '../../../core/services/user/user.service';
+import { MappingService } from '../../../core/services/mapping/mapping.service';
+import { UtilityService } from '../../../core/services/general/utility.service';
+import { AppointmentService } from '../../../core/services/schedule/appointment.service';
+import { Appointment } from '../../../core/models/appointment';
+import { ViewAppointmentDialogeComponent } from '../../../shared/appointment.dialoge/view.appointment.dialoge.component';
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
 // import { EasyPay } from '../core/models/payment/easypay.payment';
 
 declare var libraryVar: any;
 
 @Component({
-    selector: 'rejected-request-list',
+    selector: 'doctor-rejected-request-list',
     moduleId: module.id,
-    templateUrl: 'rejected.request.list.component.html',
+    templateUrl: 'doctor.rejected.request.list.component.html',
     // styleUrls: ['invite.doctor.component.css']
 })
-export class RejectedRequestListComponent implements OnInit {
+export class DoctorRejectedRequestListComponent implements OnInit {
     files: any;
     // dashboard: Dashboard = new Dashboard();
     currentURL: string;
@@ -62,6 +63,7 @@ export class RejectedRequestListComponent implements OnInit {
     upperLimit = 0;
 
     listPagePermission = false;
+    viewPermission = false;
     acceptPermission = false;
     rejectPermission = false;
 
@@ -100,10 +102,14 @@ export class RejectedRequestListComponent implements OnInit {
             this.listPagePermission = true;
 
             if (this.listPagePermission) {
+                
+                // this.viewPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+                this.viewPermission = true;
+
                 // this.acceptPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.acceptPermission = true;
+                // this.acceptPermission = true;
                 // this.rejectPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.rejectPermission = true;
+                // this.rejectPermission = true;
 
                 this.loadAppointmentList();
             }
@@ -157,12 +163,12 @@ export class RejectedRequestListComponent implements OnInit {
 
             // this._uiService.showSpinner();
 
-            this._appointmentService.getAppointmentListCount(null, this.status).subscribe(
+            this._appointmentService.getAppointmentListCount(null, this.status, this.searchKeyword).subscribe(
                 (res) => {
                     // this._uiService.hideSpinner();
                     this.length = res.json().data;
 
-                    this._appointmentService.getAppointmentPagination(this.pageIndex, this.pageSize, null, this.status).subscribe(
+                    this._appointmentService.getAppointmentPagination(this.pageIndex, this.pageSize, null, this.status, this.searchKeyword).subscribe(
                         (res) => {
                             // this.userList = res.json();
                             // this._uiService.hideSpinner();
@@ -235,6 +241,19 @@ export class RejectedRequestListComponent implements OnInit {
         }
     }
 
+    openViewDialog(appointment: Appointment) {
+        const dialogRef = this.dialog.open(ViewAppointmentDialogeComponent, {
+            width: '400px',
+            // data: { message: msg, title: title, type: this.perFormAction.code, form: form }
+            data: {
+                appointment: appointment
+            }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('dialog close', result);
+        });
+    }
+
     changeRequestStatus(appointmentId, status, reason) {
         const msg = new Message();
         // this._userService.deleteUser(userId)
@@ -270,7 +289,7 @@ export class RejectedRequestListComponent implements OnInit {
                 msg.msgType = MessageTypes.Information;
                 msg.autoCloseAfter = 400;
                 this._uiService.showToast(msg, 'info');
-                this._router.navigate([this.currentURL]);
+                // this._router.navigate([this.currentURL]);
             },
             (err) => {
                 console.log(err);

@@ -100,19 +100,26 @@
           <p>{{ selectedDatesWorkingDay.EndTime }}</p>  -->
 
 
-          <p *ngIf="scheduleDetail?.scheduleShifts?.length > 0">
-            {{ scheduleDetail.scheduleShifts[0].startTime || "NA" }}
-          </p>
-          <p *ngIf="scheduleDetail?.scheduleShifts?.length > 0">
-            {{ scheduleDetail.scheduleShifts[0].endTime || "NA" }}
-          </p>
+          <div style="background-color: rgb(180, 111, 111);" *ngIf="scheduleDetail?.scheduleShifts?.length > 0">
+            <p *ngIf="scheduleDetail?.scheduleShifts?.length > 0">
+              {{ scheduleDetail.scheduleShifts[0].startTime || "NA" }}
+            </p>
+            <p *ngIf="scheduleDetail?.scheduleShifts?.length > 0">
+              {{ scheduleDetail.scheduleShifts[0].endTime || "NA" }}
+            </p>
+          </div>
+
           <hr *ngIf="scheduleDetail?.scheduleShifts?.length > 1">
-          <p *ngIf="scheduleDetail?.scheduleShifts?.length > 1">
-            {{ scheduleDetail.scheduleShifts[1].startTime || "NA" }}
-          </p>
-          <p *ngIf="scheduleDetail?.scheduleShifts?.length > 1">
-            {{ scheduleDetail.scheduleShifts[1].endTime || "NA" }}
-          </p>
+
+          <div style="background-color: #918e8e;" *ngIf="scheduleDetail?.scheduleShifts?.length > 1">
+            <p *ngIf="scheduleDetail?.scheduleShifts?.length > 1">
+              {{ scheduleDetail.scheduleShifts[1].startTime || "NA" }}
+            </p>
+            <p *ngIf="scheduleDetail?.scheduleShifts?.length > 1">
+              {{ scheduleDetail.scheduleShifts[1].endTime || "NA" }}
+            </p>
+          </div>
+
         </small>
         <br>
         <!-- <small *ngIf="selectedDatesWorkingDay.details.length > 1" style="

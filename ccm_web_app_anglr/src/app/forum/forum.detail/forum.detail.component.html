@@ -1,0 +1,240 @@
+<div>
+
+    <!-- Main navbar -->
+    <secure-header>
+    </secure-header>
+    <!-- /main navbar -->
+
+
+    <!-- Page container -->
+    <div class="page-container">
+
+        <!-- Page content -->
+        <div class="page-content">
+
+            <!-- Main sidebar -->
+            <!-- @include('structure/sidebar') -->
+            <!-- <sidebar></sidebar> -->
+            <sidebar class="sidebar sidebar-main"></sidebar>
+            <!-- /main sidebar -->
+
+
+            <!-- Main content -->
+            <div class="content-wrapper">
+
+                <!-- Page header -->
+                <div class="page-header page-header-default">
+                    <div class="page-header-content">
+                        <div class="page-title">
+                            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Forum</span>
+                                <!-- - Patients -->
+                            </h4>
+                        </div>
+
+                        <!-- <div class="heading-elements">
+                                <div class="heading-btn-group">
+                                    <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+                                    <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i>
+                                        <span>Invoices</span></a>
+                                    <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i>
+                                        <span>Schedule</span></a>
+                                </div>
+                            </div> -->
+                    </div>
+
+                    <div class="breadcrumb-line">
+                        <ul class="breadcrumb">
+                            <li><a href="index.html"><i class="icon-home2 position-left"></i> Home</a></li>
+                            <li class="active">Dashboard</li>
+                        </ul>
+
+                        <!-- <ul class="breadcrumb-elements">
+                                <li><a href="#"><i class="icon-comment-discussion position-left"></i> Support</a></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="icon-gear position-left"></i>
+                                        Settings
+                                        <span class="caret"></span>
+                                    </a>
+    
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li><a href="#"><i class="icon-user-lock"></i> Account security</a></li>
+                                        <li><a href="#"><i class="icon-statistics"></i> Analytics</a></li>
+                                        <li><a href="#"><i class="icon-accessibility"></i> Accessibility</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#"><i class="icon-gear"></i> All settings</a></li>
+                                    </ul>
+                                </li>
+                            </ul> -->
+                    </div>
+                </div>
+                <!-- /page header -->
+
+
+                <!-- Content area -->
+                <div class="content">
+
+
+                    <div class="row align-item-center">
+                        <!-- Forum -->
+                        <div class="col-md-12">
+                            <div class="row newsfeed" *ngIf="newsFeed.id">
+                                <div class="col-md-12">
+                                    <mat-card>
+                                        <mat-card-header>
+                                            <!-- <div mat-card-avatar class="example-header-image"></div> -->
+                                            <div mat-card-avatar>
+                                                <img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+                                            </div>
+                                            <mat-card-title>
+                                                {{ newsFeed?.createdBy?.firstName || "Unknown" }}
+                                                <span class="sub-heading">{{ newsFeed?.role?.roleName }}</span>
+                                            </mat-card-title>
+                                            <!-- <mat-card-subtitle>{{ newsFeed?.role?.roleName }}</mat-card-subtitle> -->
+                                            <mat-card-subtitle>{{ newsFeed?.createdOn }}</mat-card-subtitle>
+                                            <div class="rigth-btn text-center" *ngIf="(user.id == newsFeed?.createdBy?.id) ">
+                                                <ul class="icons-list">
+                                                    <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                                                class="icon-menu7"></i></a>
+                                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                            <li>
+                                                                <a (click)="openEditForumDialog(newsFeed)">
+                                                                    <i class="icon-pencil"></i>
+                                                                    Edit
+                                                                </a>
+                                                            </li>
+                                                            <!-- <li class="divider"></li> -->
+                                                            <li>
+                                                                <a (click)="onDeleteForum(newsFeed.id)">
+                                                                    <i class="icon-cross2 text-danger"></i>
+                                                                    Delete
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </mat-card-header>
+
+                                        <mat-card-content>
+                                            <mat-card-title>
+                                                <a>{{ newsFeed?.title }}</a>
+                                            </mat-card-title>
+                                            <p>{{ newsFeed?.description }}</p>
+                                            <div>
+                                                <mat-chip-list>
+                                                    <mat-chip *ngFor='let t of newsFeed.tags' color="primary" selected>
+                                                        {{ t.name || "NA" }}
+                                                    </mat-chip>
+                                                </mat-chip-list>
+                                            </div>
+                                        </mat-card-content>
+
+                                        <mat-card-actions class="forum-action">
+                                            <!-- <button mat-button>LIKE</button> -->
+                                            <button mat-button matTooltipPosition="above" matTooltip="View Comments"
+                                                (click)="loadComment()">
+                                                {{ newsFeed?.commentCount }} Comments
+                                            </button>
+                                        </mat-card-actions>
+
+                                        <div class="feed-comments">
+                                            <div class="view-more" *ngIf="newsFeed.viewMoreComment < newsFeed.commentList?.length">
+                                                <span (click)="newsFeed.viewMoreComment = newsFeed.viewMoreComment + 5 <= newsFeed.commentList.length ? newsFeed.viewMoreComment + 5 : newsFeed.commentList.length">
+                                                    View previous comments
+                                                </span>
+                                            </div>
+                                            <div class="other-comments">
+
+                                                <div class="other-comment-box clearfix" *ngFor="let data of newsFeed.commentList | slice: viewMore(newsFeed.viewMoreComment, newsFeed.commentList.length) ; let $index1=index;">
+                                                    <!-- <div class="other-comment-box clearfix" *ngFor="let data of newsFeed.commentsDetail.list; let $index1=index;"> -->
+
+
+                                                    <img class="comment-box-thumb-self" src="assets/images/placeholder.jpg"
+                                                        alt="profile-pic">
+                                                    <!-- <img class="comment-box-thumb-self" src="{{data?.commentBy?.profilePic?.data?.thumbnails?.small?.url}}"
+                                                        alt="profile-pic"> -->
+                                                    <div class="comment" *ngIf="!data?.isEdit">
+                                                        <a class="comment-name">
+                                                            {{ data?.createdBy?.firstName || "Unknown" }}
+                                                            <span class="sub-heading">{{ data?.role?.roleName }}</span>
+                                                        </a>
+                                                        {{data?.comment}}
+                                                        <div class="time-loc">
+                                                            <!-- <a>{{data?.commentDate}}</a> -->
+                                                            <a>{{data?.createdOn}}</a>
+
+                                                        </div>
+                                                        <div class="comment-action">
+                                                            <!-- <span>Edit</span> -->
+                                                            <span class="edit pointer" *ngIf="((user.id == data?.createdBy?.id))"
+                                                                (click)="onEdit($index1)">Edit</span>
+                                                            <span class="delete pointer" *ngIf="((user.id == newsFeed?.createdBy?.id) || (user.id == data?.createdBy?.id))"
+                                                                (click)="onDeleteComment($index1, data.commentId)">Delete</span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="comment-type" *ngIf="data?.isEdit">
+                                                        <input type="text" placeholder="Comment" name="comment" value="{{data?.comment}}"
+                                                            (keyup.enter)="updateComment($event, newsFeed, data.commentId,$index1)">
+                                                        <span class="comment-action pointer" (click)="onCancel($index1)">Cancel</span>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="self-comment-box clearfix" *ngIf="newsFeed.isComment">
+                                                <img class="comment-box-thumb-self" src="assets/images/placeholder.jpg"
+                                                    alt="profile-pic">
+                                                <!-- <img class="comment-box-thumb-self" src="{{user?.profilePic?.thumbnails?.small?.url}}"
+                                                    alt="profile-pic"> -->
+                                                <div class="comment-type">
+                                                    <input type="text" placeholder="Comment" name="comment"
+                                                        (keyup.enter)="addComment($event, newsFeed.id)">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </mat-card>
+                                </div>
+                                <div class="row">
+                                    <div class="clearfix" style="height: 15px;"></div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- End of Forum -->
+
+                    </div>
+
+
+                    <!-- Dashboard content -->
+                    <div>
+
+                    </div>
+                    <!-- /dashboard content -->
+
+
+
+                    <!-- Footer -->
+                    <!-- @include('structure/footer') -->
+                    <secure-footer>
+                    </secure-footer>
+                    <!-- /footer -->
+
+                </div>
+                <!-- /content area -->
+
+            </div>
+            <!-- /main content -->
+
+        </div>
+        <!-- /page content -->
+    </div>
+    <!-- Page container -->
+</div>

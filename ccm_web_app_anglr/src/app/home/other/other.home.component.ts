@@ -3,6 +3,7 @@ import { User } from '../../core/models/user';
 import { IAuthService } from '../../core/services/auth/iauth.service';
 import { UIService } from '../../core/services/ui/ui.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
 // import { ScriptService } from '../core/services/script.service';
 // import { UtilityService } from '../core/services/general/utility.service';
 // import { MessagingService } from '../messaging.service';
@@ -11,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Message, MessageTypes } from '../../core/models/message';
 import { SetupService } from '../../core/services/setup/setup.service';
 import { UserService } from '../../core/services/user/user.service';
+import { AddUpdateTicketDialogeComponent } from '../../shared/add.update.ticket.dialoge/add.update.ticket.dialoge.component';
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
 // import { EasyPay } from '../core/models/payment/easypay.payment';
 
@@ -46,6 +48,7 @@ export class OtherHomeComponent implements OnInit {
 
     constructor(@Inject('IAuthService') private _authService: IAuthService,
         private _uiService: UIService,
+        public dialog: MatDialog,
         // public _messaging: MessagingService,
         private _userService: UserService,
         private _setupService: SetupService,
@@ -119,6 +122,26 @@ export class OtherHomeComponent implements OnInit {
 
     }
 
+    openAddUpdateDialog(ticket, type) {
+
+        let dialog = this.dialog.open(AddUpdateTicketDialogeComponent, {
+            maxWidth: "700px",
+            minWidth: "550px",
+            // width: "550px",
+            // height: '465px',
+            // data: this.id,
+            data: {
+                fieldType: type,
+                ticket: ticket
+            },
+        });
+        dialog.afterClosed().subscribe((result) => {
+            console.log("result", result);
+            if (result) {
+                this._router.navigateByUrl('ticket/t/list');
+            }
+        })
+    }
 
 
     onlogOut() {

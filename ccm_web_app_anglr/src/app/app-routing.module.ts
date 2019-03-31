@@ -104,6 +104,24 @@ const routes: Routes = [
     // children: []
   },
   {
+    path: 'forum',
+    loadChildren: './forum/forum.module#ForumModule',
+    // pathMatch: 'full',
+    // component: SchedulerComponent,
+    // component: ScheduleComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    // children: []
+  },
+  {
+    path: 'ticket',
+    loadChildren: './ticket.management/ticket.management.module#TicketManagementModule',
+    // pathMatch: 'full',
+    // component: SchedulerComponent,
+    // component: ScheduleComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    // children: []
+  },
+  {
     path: 'patient',
     loadChildren: './patient.record/patient.record.module#PatientRecordModule',
     // pathMatch: 'full',

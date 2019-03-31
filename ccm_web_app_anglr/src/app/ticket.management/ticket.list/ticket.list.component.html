@@ -27,7 +27,7 @@
                     <div class="page-header-content">
                         <div class="page-title">
                             <h4><i class="icon-arrow-left52 position-left"></i>
-                                <span class="text-semibold">Appointment Accepted Request</span>
+                                <span class="text-semibold">Ticket</span>
                                 - List
                             </h4>
                         </div>
@@ -85,37 +85,80 @@
                         <div class="panel panel-flat">
                             <div class="panel-heading">
                                 <h5 class="panel-title">
-                                    Appointment Accepted Request
+                                    Tickets
                                     <a class="heading-elements-toggle"><i class="icon-more"></i></a>
                                 </h5>
                             </div>
 
-                            <!-- <div class="panel-body">
-                                <span matTooltipPosition="above" matTooltip="{{!invitePermission ? 'Dont have permission' : 'Invite New' }}">
+                            <div class="panel-body">
+                                <!-- <span matTooltipPosition="above" matTooltip="{{!invitePermission ? 'Dont have permission' : 'Invite New' }}">
                                     <button type="button" class="btn btn-default btn-sm" [disabled]="!invitePermission"
                                         (click)="openInviteDialog()">
                                         Invite New
                                         <i class="icon-play3 position-right"></i>
                                     </button>
-                                </span>
+                                </span> -->
 
-                                <span matTooltipPosition="above" matTooltip="{{!addPermission ? 'Dont have permission' : 'Add New' }}">
+                                <span *ngIf="user?.role?.roleCode == 'patient'" matTooltipPosition="above" matTooltip="{{!addPermission ? 'Dont have permission' : 'Add New' }}">
                                     <button type="button" class="btn btn-default btn-sm" [disabled]="!addPermission"
-                                        (click)="openAddUpdateDialog()">
+                                        (click)="openAddUpdateDialog(null,'add')">
                                         Add New
                                         <i class="icon-play3 position-right"></i>
                                     </button>
                                 </span>
-                            </div> -->
+                            </div>
 
                             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
                                 <div class="datatable-header">
-                                    <div *ngIf="false" id="DataTables_Table_0_filter" class="dataTables_filter">
+                                    <div id="DataTables_Table_0_filter" class="dataTables_filter">
                                         <label>
                                             <span>Filter:</span>
-                                            <input type="search" [(ngModel)]="searchKeyword" class="" placeholder="Type to filter..."
+                                            <input type="search" [(ngModel)]="searchKeyword" class="" placeholder="Type to search..."
                                                 (keyup.enter)="search()">
                                         </label>
+                                    </div>
+                                    <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                        <mat-form-field>
+                                            <mat-label>Priority</mat-label>
+                                            <mat-select placeholder="Priority" [(ngModel)]="priority" (change)="onPrioritySelect()">
+                                                <mat-option>None</mat-option>
+                                                <mat-option *ngFor="let ticketPriority of ticketPriorities" [value]="ticketPriority.code">
+                                                    <!-- {{ ticketPriority.name }} -->
+                                                    {{ replaceText(ticketPriority?.name) }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                        <mat-form-field>
+                                            <mat-label>Type</mat-label>
+                                            <mat-select placeholder="Type" [(ngModel)]="type" (change)="onTypeSelect()">
+                                                <mat-option>None</mat-option>
+                                                <mat-option *ngFor="let ticketType of ticketTypes" [value]="ticketType.code">
+                                                    <!-- {{ ticketType.name }} -->
+                                                    {{ replaceText(ticketType?.name) }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                        <mat-form-field>
+                                            <mat-label>Track Status</mat-label>
+                                            <mat-select placeholder="Track Status" [(ngModel)]="trackStatus" (change)="onTrackStatusSelect()">
+                                                <mat-option>None</mat-option>
+                                                <mat-option *ngFor="let ticketTrackStatus of ticketTrackStatuses"
+                                                    [value]="ticketTrackStatus.code">
+                                                    <!-- {{ ticketTrackStatus.name }} -->
+                                                    {{ replaceText(ticketTrackStatus?.name) }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                        <button mat-raised-button color="primary" (click)="reset()"> Reset <i class="material-icons">refresh</i></button>
                                     </div>
                                     <!-- <div class="dataTables_length" id="DataTables_Table_0_length">
                                         <label>
@@ -151,19 +194,27 @@
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">
-                                                    Appointment No.
+                                                    Ticket No.
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">
-                                                    Patient Name
+                                                    Title
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">
-                                                    Schedule Date
+                                                    Created By
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">
+                                                    Raised From
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">
-                                                    Time Slot
+                                                    Priority
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">
+                                                    Type
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">
@@ -178,28 +229,52 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr role="row" class="odd" *ngFor="let appointment of appointmentList; let i=index">
+                                            <tr role="row" class="odd" *ngFor="let ticket of ticketList; let i=index"
+                                                [style.color]="ticket?.trackStatus == 'open' ? 'red' : '' ">
                                                 <td>{{ i + 1 }}</td>
                                                 <td>
-                                                    {{ appointment?.appointmentNumber || "NA" }}
+                                                    {{ ticket?.ticketNumber || "NA" }}
                                                 </td>
                                                 <td>
-                                                    {{ appointment?.patientFirstName || "NA" }}
+                                                    {{ ticket?.title || "NA" }}
                                                 </td>
                                                 <td>
-                                                    {{ appointment?.scheduleDate | date:'dd-MMM-yyyy' }}
+                                                    {{ ticket?.createdBy?.firstName || "NA" }}
+                                                    {{ ticket?.role?.roleName ? "("+ticket?.role?.roleName+")" : "" }}
                                                 </td>
                                                 <td>
-                                                    {{ appointment?.timeSlot?.timeSlot || "NA" }}
+                                                    <!-- {{ ticket?.raisedFrom || "NA" }} -->
+                                                    {{ replaceText(ticket?.raisedFrom) }}
                                                 </td>
+                                                <td>
+                                                    <!-- {{ ticket?.priority || "NA" }} -->
+                                                    {{ replaceText(ticket?.priority) }}
+                                                </td>
+                                                <td>
+                                                    <!-- {{ ticket?.type || "NA" }} -->
+                                                    {{ replaceText(ticket?.type) }}
+                                                </td>
+                                                <!-- <td>
+                                                    {{ ticket?.scheduleDate | date:'dd-MMM-yyyy' }}
+                                                </td> -->
+                                                <!-- <td>
+                                                    {{ ticket?.timeSlot?.timeSlot || "NA" }}
+                                                </td> -->
                                                 <td class="sorting_1">
-                                                    {{ appointment?.requestStatus || "NA" }}
+                                                    <!-- {{ ticket?.trackStatus || "NA" }} -->
+                                                    {{ replaceText(ticket?.trackStatus) }}
                                                 </td>
                                                 <td class="text-center">
+                                                    <span *ngIf="viewPermission" matTooltipPosition="above" matTooltip="Reply">
+                                                        <!-- <i style="color:#0aa700;" class="icon-clipboard2" (click)="nevigateTo(ticket,'ticket-discussion')"></i> -->
+                                                        <a [routerLink]="['/ticket/t/discussion', ticket.id]" target="_blank">
+                                                            <i style="color:#0aa700;" class="icon-clipboard2"></i>
+                                                        </a>
+                                                    </span> &nbsp;
 
-                                                    <!-- <span *ngIf="acceptPermission" matTooltipPosition="above"
-                                                        matTooltip="Accept Request">
-                                                        <i style="color:#0aa700;" class="icon-eye2" (click)="changeRequestStatus(appointment.id, 'rejected', '')"></i>
+                                                    <!-- <span *ngIf="cancelPermission" matTooltipPosition="above"
+                                                        matTooltip="Delete Ticket">
+                                                        <i style="color:#f70a0a;" class="icon-cross2" (click)="confirmDialog(ticket, 'delete', i)"></i>
                                                     </span> &nbsp; -->
 
                                                     <!-- <span *ngIf="rejectPermission" matTooltipPosition="above"
@@ -210,7 +285,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div class="" *ngIf="(appointmentList.length == 0) && !isSpinner">
+                                    <div class="" *ngIf="(ticketList?.length == 0) && !isSpinner">
                                         <div class="snipet download-btn">
                                             <button (click)="refreshList()" mat-raised-button>
                                                 <i class="material-icons">refresh</i> No Data Found

@@ -1,0 +1,112 @@
+<div class="dialog-box-content">
+    <form name="form" [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+        <mat-progress-bar mode="indeterminate" *ngIf="isSubmitted"></mat-progress-bar>
+        <div class="row align-item-center">
+            <div class="col-md-12">
+                <h1 mat-dialog-title> {{ fieldType == "add" ? "Add New" : "Edit" }} </h1>
+            </div>
+
+            <div class="col-md-12">
+
+                <div class="row">
+
+                    <!-- Title -->
+                    <div class="col-md-6">
+                        <div class="form-group has-feedback has-feedback-left">
+                            <input type="text" class="form-control" placeholder="Title" formControlName="title"
+                                [(ngModel)]="newTicket.title">
+                            <div class="form-control-feedback">
+                                <i class="icon-user text-muted"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="col-md-6">
+                        <div class="form-group has-feedback has-feedback-left">
+                            <input type="text" class="form-control" placeholder="Description" formControlName="description"
+                                [(ngModel)]="newTicket.description">
+                            <div class="form-control-feedback">
+                                <i class="icon-user text-muted"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Priority -->
+                    <div class="col-md-6">
+                        <div class="form-group has-feedback has-feedback-left">
+                            <!-- <input type="email" class="form-control" placeholder="Priority" formControlName="priority"
+                                [(ngModel)]="newTicket.priority"> -->
+
+                            <select class="form-control" placeholder="Priority" formControlName="priority" [(ngModel)]="newTicket.priority">
+                                <option value="">None</option>
+                                <option *ngFor="let priority of ticketPriorities" [value]="priority.code">
+                                    {{ priority.name }}
+                                </option>
+                            </select>
+                            <div class="form-control-feedback">
+                                <i class="icon-user text-muted"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Type -->
+                    <div class="col-md-6">
+                        <div class="form-group has-feedback has-feedback-left">
+                            <!-- <input type="number" class="form-control" placeholder="type" formControlName="type"
+                                [(ngModel)]="newTicket.priority"> -->
+
+                            <select class="form-control" placeholder="Type" formControlName="type" [(ngModel)]="newTicket.type">
+                                <option value="">None</option>
+                                <option *ngFor="let type of ticketTypes" [value]="type.code">
+                                    {{ type.name }}
+                                </option>
+                            </select>
+                            <div class="form-control-feedback">
+                                <i class="icon-user text-muted"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- OtherType -->
+                    <div class="col-md-6">
+                        <div class="form-group has-feedback has-feedback-left">
+                            <input type="text" class="form-control" placeholder="Other Type" formControlName="otherType"
+                                [(ngModel)]="newTicket.otherType">
+                            <div class="form-control-feedback">
+                                <i class="icon-user text-muted"></i>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div mat-dialog-actions class="row align-item-center dialog-btn-contianer">
+            <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+                <button mat-raised-button tabindex="-1" (click)="onNoClick()">CANCEL</button>
+
+                <span matTooltipPosition="above" matTooltip="{{!form.valid ? 'Fill the required field' : buttonTooltip}}">
+                    <button mat-raised-button [disabled]="isSubmitted" color="primary" (click)="onSubmit()"
+                        tabindex="2">SUBMIT</button>
+                </span>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<!-- <h2 mat-dialog-title>User Form</h2>
+<mat-dialog-content class="mat-typography">
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+</mat-dialog-actions> -->

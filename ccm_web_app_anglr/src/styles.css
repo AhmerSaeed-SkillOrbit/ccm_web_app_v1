@@ -97,6 +97,12 @@ ul.navigation ul.sub.show {
 } */
 
 
+label.label-heading {
+    font-weight: 600;
+    color: #666;
+    font-size: 14px;
+}
+
 
 /* Loader CSS */
 
@@ -144,4 +150,11 @@ span.label-dt:last-child .comma {
     /* color: #22974b;
     font-size: 18px; */
     font-weight:bold;
+}
+.pointer{
+    cursor: pointer;
+}
+
+.toast-container {
+    position: fixed !important;
 }

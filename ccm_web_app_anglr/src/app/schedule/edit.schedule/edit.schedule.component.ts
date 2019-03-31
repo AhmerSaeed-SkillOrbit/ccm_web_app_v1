@@ -51,6 +51,7 @@ export class EditScheduleComponent implements OnInit {
     userPermissions: Permission[] = [];
     isLogin: any;
 
+    isMapping = false;
     schedule: Schedule = new Schedule()
 
     docId: number = null;
@@ -166,27 +167,70 @@ export class EditScheduleComponent implements OnInit {
     }
 
     loadScheduleById() {
-        // this._uiService.showSpinner();
+        this._uiService.showSpinner();
+        const control = <FormArray>this.formScheduleDetail.controls['scheduleDetail'];
 
         this._doctorScheduleService.getDocSchedule(this.docId, this.user.id, this.month, this.year).subscribe(
 
             (response) => {
-                // this._uiService.hideSpinner();
+                this._uiService.hideSpinner();
                 // console.log("schedule res", response);
                 let array = response.json().data;
 
                 this.schedule = this._mappingService.mapSchedule(array);
+                console.log("schedule1 ", this.schedule);
 
-                this.schedule.scheduleDetails.forEach(element => {
-                    
-                    
+                this.isMapping = true;
+
+                this.clearFormArray(<FormArray>this.formScheduleDetail.controls['scheduleDetail']);
+
+                this.schedule.scheduleDetails.forEach((element, index) => {
+                    this.addSD();
+                    if (element.isOffDay) {
+                        this.schedule.scheduleDetails[index].noOfShift = null;
+                        control.at(index).get('shift').disable();
+                        this.clearFormArray((<FormArray>this.formScheduleDetail.controls['scheduleDetail']).at(index).get('scheduleShift') as FormArray);
+                        this.schedule.scheduleDetails[index].scheduleShifts = [];
+                    }
+                    else {
+                        // element.scheduleShifts.forEach(element1 => {
+
+                        // });
+
+                        if (this.schedule.scheduleDetails[index].noOfShift && this.schedule.scheduleDetails[index].noOfShift >= 0) {
+                            // this.clearFormArray(this.scheduleDetailArray);
+                            this.clearFormArray((<FormArray>this.formScheduleDetail.controls['scheduleDetail']).at(index).get('scheduleShift') as FormArray);
+                            let sLength = this.schedule.scheduleDetails[index].scheduleShifts.length;
+
+                            let max = this.schedule.scheduleDetails[index].noOfShift;
+
+
+                            for (let i = 0; i < max; i++) {
+
+                                if (i > (sLength - 1)) {
+                                    let ssData = new ScheduleShift();
+                                    this.schedule.scheduleDetails[index].scheduleShifts.push(ssData);
+                                }
+                                this.addSS(index);
+                            }
+
+                            // let ssData = new ScheduleShift();
+                            // this.schedule.scheduleDetails[index].scheduleShifts.push(ssData);
+                            // this.addScheduleDetails();
+                        }
+                    }
                 });
 
-                console.log("schedule", this.schedule);
+                setTimeout(() => {
+                    this.isMapping = false;
+                }, 1000);
+
+
+                console.log("schedule2", this.schedule);
 
             },
             (err) => {
-                // this._uiService.hideSpinner();
+                this._uiService.hideSpinner();
                 this._authService.errStatusCheckResponse(err);
             }
         );
@@ -515,8 +559,12 @@ export class EditScheduleComponent implements OnInit {
                     // this.schedule.scheduleDetails[index].endTime = null;
                 }
                 else {
-                    this.schedule.scheduleDetails[index].noOfShift = this.noOfShift;
-                    this.schedule.scheduleDetails[index].scheduleShifts = this.setTimeAllData;
+                    // this.schedule.scheduleDetails[index].noOfShift = this.noOfShift;
+                    // this.schedule.scheduleDetails[index].scheduleShifts = this.setTimeAllData;
+
+                    this.schedule.scheduleDetails[index].noOfShift = this._utilityService.deepCopy(this.noOfShift);
+                    this.schedule.scheduleDetails[index].scheduleShifts = this._utilityService.deepCopy(this.setTimeAllData);
+
                     // this.schedule.scheduleDetails[index].startTime = this.startTime;
                     // this.schedule.scheduleDetails[index].endTime = this.endTime;
                 }
@@ -530,7 +578,8 @@ export class EditScheduleComponent implements OnInit {
                         this.schedule.scheduleDetails[index].scheduleShifts = [];
                     }
                     else {
-                        this.schedule.scheduleDetails[index].scheduleShifts = this.setTimeAllData;
+                        // this.schedule.scheduleDetails[index].scheduleShifts = this.setTimeAllData;
+                        this.schedule.scheduleDetails[index].scheduleShifts = this._utilityService.deepCopy(this.setTimeAllData);
                     }
 
                 });
@@ -554,9 +603,10 @@ export class EditScheduleComponent implements OnInit {
         }
     }
 
-    onStartTimeFocusOut(index) {
-        console.log("onStartTimeFocusOut index", index);
-        // console.log("this.schedule.scheduleDetails[index].startTime", this.schedule.scheduleDetails[index].startTime);
+    onStartTimeFocusOut(index, index2) {
+        // console.log("onStartTimeFocusOut index", index);
+        // console.log("startTime", this.schedule.scheduleDetails[index].startTime);
+        // console.log("startTime", this.schedule.scheduleDetails[index].scheduleShifts[index2].startTime);
         // this.schedule.scheduleDetails[index].startTime
 
     }
@@ -576,35 +626,39 @@ export class EditScheduleComponent implements OnInit {
     }
 
     onShiftFocusOut(index) {
+        console.log("onShiftFocusOut index", index);
 
-        this.schedule.scheduleDetails[index].noOfShift;
-
-        if (this.schedule.scheduleDetails[index].noOfShift && this.schedule.scheduleDetails[index].noOfShift >= 0) {
-            // this.clearFormArray(this.scheduleDetailArray);
-            this.clearFormArray((<FormArray>this.formScheduleDetail.controls['scheduleDetail']).at(index).get('scheduleShift') as FormArray);
-            this.schedule.scheduleDetails[index].scheduleShifts = [];
-
-            let max = this.schedule.scheduleDetails[index].noOfShift;
+        if (!this.isMapping) {
 
 
-            for (let i = 0; i < max; i++) {
+            this.schedule.scheduleDetails[index].noOfShift;
 
-                let ssData = new ScheduleShift();
+            if (this.schedule.scheduleDetails[index].noOfShift && this.schedule.scheduleDetails[index].noOfShift >= 0) {
+                // this.clearFormArray(this.scheduleDetailArray);
+                this.clearFormArray((<FormArray>this.formScheduleDetail.controls['scheduleDetail']).at(index).get('scheduleShift') as FormArray);
+                this.schedule.scheduleDetails[index].scheduleShifts = [];
 
-                this.schedule.scheduleDetails[index].scheduleShifts.push(ssData);
-                this.addSS(index);
+                let max = this.schedule.scheduleDetails[index].noOfShift;
+
+
+                for (let i = 0; i < max; i++) {
+
+                    let ssData = new ScheduleShift();
+
+                    this.schedule.scheduleDetails[index].scheduleShifts.push(ssData);
+                    this.addSS(index);
+
+                }
+
+                // let ssData = new ScheduleShift();
+                // this.schedule.scheduleDetails[index].scheduleShifts.push(ssData);
+                // this.addScheduleDetails();
+            }
+            else {
 
             }
 
-            // let ssData = new ScheduleShift();
-            // this.schedule.scheduleDetails[index].scheduleShifts.push(ssData);
-            // this.addScheduleDetails();
         }
-        else {
-
-        }
-
-
     }
 
     getDates(startDate, stopDate) {
@@ -638,11 +692,22 @@ export class EditScheduleComponent implements OnInit {
         return dateArray;
     }
 
-    onSubmit() {
+    updateSchedule(scheduleDetail, index) {
+
+        console.log("index", index);
+        const control = <FormArray>this.formScheduleDetail.controls['scheduleDetail'];
         // this.scrollTo(0,0,0)
         // this.isSubmitted = !this.isSubmitted;
 
-        if (this.formScheduleDetail.invalid) {
+        console.log("control", control);
+        console.log("control", control.controls[0]);
+        console.log("control", control.controls[0].valid);
+
+        // control.at(index).get('shift').disable();
+
+        // if (this.formScheduleDetail.invalid) {
+        if (!control.controls[index].valid) {
+            // if (control.at(index).invalid) {
             const msg = new Message();
             msg.title = '';
             msg.iconType = '';
@@ -659,16 +724,20 @@ export class EditScheduleComponent implements OnInit {
             this._uiService.showToast(msg, '');
 
         }
-        else if (this.formScheduleDetail.valid) {
+        // else if (control.at(index).valid) {
+        else if (control.controls[index].valid) {
             this.isSubmitted = true;
+
+            this._uiService.showSpinner();
             // this.isSubmitStarted = true;
             const msg = new Message();
-            this._scheduleService.scheduleDoctor(this.user.id, this.schedule).subscribe(
+            this._scheduleService.updateScheduleDoctor(scheduleDetail).subscribe(
                 (res) => {
                     this.isSubmitted = false;
+                    this._uiService.hideSpinner();
                     // this._authServices.storeUser(this.userForm);
 
-                    msg.msg = res.json() ? res.json().message : 'Schedule Successfully';
+                    msg.msg = res.json() ? res.json().message : 'Schedule Detail Successfully Updated';
                     // msg.msg = 'You have successfully signed up';
                     msg.msgType = MessageTypes.Information;
                     msg.autoCloseAfter = 400;
@@ -678,6 +747,7 @@ export class EditScheduleComponent implements OnInit {
                 (err) => {
                     console.log(err);
                     this.isSubmitted = false;
+                    this._uiService.hideSpinner();
                     this._authService.errStatusCheckResponse(err);
                 }
             );

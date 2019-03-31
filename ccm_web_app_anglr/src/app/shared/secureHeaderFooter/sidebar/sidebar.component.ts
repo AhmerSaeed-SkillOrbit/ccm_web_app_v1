@@ -65,6 +65,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
     acceptedRequestListPagePermission = false;
     rejectedRequestListPagePermission = false;
 
+    forumPermission = false;
+
+    ticketPermission = false;
+
 
     constructor(
         @Inject('IAuthService')
@@ -175,7 +179,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.addDoctorSchedulePagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_doctor_schedule');
         // this.addDoctorSchedulePagePermission = true;
         // this.viewDoctorSchedulePagePermission = this._utilityService.checkUserPermission(this.user, 'view_doctor_schedule');
-        this.doctorScheduleListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'dcotor_schedule_list_page');
+        this.doctorScheduleListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'doctor_schedule_list_page');
         // this.doctorScheduleListPagePermission = true;
         this.viewDoctorSchedulePagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_doctor_schedule');
         // this.viewDoctorSchedulePagePermission = true;
@@ -196,6 +200,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
         // this.rejectedRequestListPagePermission = true;
 
         // <-- /Appointment Management Permissions -->
+
+        // this.forumPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'forum_feed');
+        this.forumPermission = true;
+
+        // this.ticketPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'forum_feed');
+        this.ticketPermission = true;
 
     }
 
