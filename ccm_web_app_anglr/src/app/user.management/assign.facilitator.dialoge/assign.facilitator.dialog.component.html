@@ -10,8 +10,7 @@
                 <div class="col-sm-12 scrollable mtl">
                     <div class="example-header">
                         <mat-form-field>
-                            <input matInput [(ngModel)]="filter" (keyup)="applyFilter($event.target.value)"
-                                placeholder="Filter">
+                            <input matInput [(ngModel)]="filter" (keyup)="applyFilter($event.target.value)" placeholder="Filter">
                         </mat-form-field>
                     </div>
 
@@ -51,7 +50,7 @@
                             </button>
                         </div>
                     </div>
-                    <spinner [visible]='isSpinner'></spinner>
+                    <spinner class="spinner-box" [visible]='isSpinner'></spinner>
 
                     <mat-paginator #paginator [pageSize]="5" [pageSizeOptions]="[5]" [showFirstLastButtons]="true">
                     </mat-paginator>
@@ -71,7 +70,8 @@
                     tabindex="2">SUBMIT</button>
             </span> -->
             <span matTooltipPosition="above" [matTooltip]="!(selection.selected.length > 0) ? 'Select atleast one' : (isSubmitted ? 'Processing' : 'Assign' ) ">
-                <button mat-raised-button [disabled]="!(selection.selected.length > 0) || isSubmitted" color="primary" (click)="onSubmit()" tabindex="2">Assign</button>
+                <button mat-raised-button [disabled]="!(selection.selected.length > 0) || isSubmitted" color="primary"
+                    (click)="onSubmit()" tabindex="2">Assign</button>
             </span>
         </div>
     </div>

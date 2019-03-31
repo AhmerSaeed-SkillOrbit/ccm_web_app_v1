@@ -11,6 +11,8 @@ import { RegistrationComponent } from "./registration/registration.component";
 import { VerificationComponent } from "./verfication/verification.component";
 import { AuthService } from '../core/services/auth/auth.service';
 import { SharedModule } from "../shared/shared.module";
+import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
+import { ResetPasswordComponent } from "./forgot-password/reset-password.component";
 
 @NgModule({
     imports: [RouterModule, ReactiveFormsModule, FormsModule, MaterialModule, SharedModule],
@@ -20,6 +22,7 @@ import { SharedModule } from "../shared/shared.module";
         LoginComponent,
         RegistrationComponent,
         VerificationComponent,
+        ForgotPasswordComponent, ResetPasswordComponent
     ],
     providers: [AuthService]
 })

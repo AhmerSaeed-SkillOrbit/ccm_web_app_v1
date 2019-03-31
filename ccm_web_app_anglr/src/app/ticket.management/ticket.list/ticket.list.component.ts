@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEvent, MatDialog, MatTableDataSource, MatPaginator, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Observable, Subscription } from 'rxjs';
 
 import { Message, MessageTypes } from '../../core/models/message';
 import { User } from '../../core/models/user';
@@ -74,6 +75,8 @@ export class TicketListComponent implements OnInit {
 
     isSubmitted: boolean = false;
 
+    private _sub: Subscription;
+
     constructor(
         @Inject('IAuthService') private _authService: IAuthService,
         public dialog: MatDialog,
@@ -121,6 +124,17 @@ export class TicketListComponent implements OnInit {
                 this.loadType();
                 this.loadTrackStatus();
                 this.loadTicketList();
+
+                // setInterval(() => {
+                //     console.log("test :")
+                //     // this.reset();
+                // }, 10000);
+
+                this._sub = Observable.interval(1000 * 500).subscribe(x => {
+                    // console.log("test :");
+                    this.reset();
+                });
+
             }
             else {
                 this._router.navigateByUrl('permission');
@@ -477,6 +491,12 @@ export class TicketListComponent implements OnInit {
 
         }
 
+    }
+
+    ngOnDestroy(): void {
+        if (this._sub) {
+            this._sub.unsubscribe();
+        }
     }
 
 }

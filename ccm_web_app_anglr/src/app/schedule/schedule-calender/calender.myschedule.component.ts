@@ -34,6 +34,8 @@ import { User } from '../../core/models/user';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 import { Schedule } from '../../core/models/schedule.model';
 import { AppointmentDialogeComponent } from '../../shared/appointment.dialoge/appointment.dialoge.component';
+import { Config } from '../../config/config';
+import { BehaviorSubject } from 'rxjs';
 // import { StatusService } from '../../core/services/user/status.service';
 
 type CalendarPeriod = 'day' | 'week' | 'month';
@@ -95,6 +97,9 @@ export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
   view: CalendarPeriod = 'month';
 
   viewDate: Date = new Date();
+  appData = new BehaviorSubject<Date>(this.viewDate);
+  // private appData = new BehaviorSubject<any[]>([]);
+
   TimeZone;
   selectedMonthViewDay: CalendarMonthViewDay;
 
@@ -139,6 +144,14 @@ export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
   year: number = null;
   currentDate: any;
 
+  minYear = Config.year.min;
+  maxYear = Config.year.max;
+  years = [];
+
+  months = Config.months;
+
+  sch: Schedule = new Schedule()
+
   constructor(private dialog: MatDialog,
     // private _statusService: StatusService,
     private route: ActivatedRoute, private _router: Router,
@@ -161,6 +174,14 @@ export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
     }
 
 
+    let min = new Date().getFullYear();
+    let max = min + 9;
+
+    for (let index = min; index <= max; index++) {
+      this.years.push(index);
+    }
+
+
     this.currentDate = new Date();
     this.month = this.currentDate.getMonth();
     this.year = this.currentDate.getFullYear();
@@ -169,6 +190,14 @@ export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
       if (value === 'refresh') {
         this.today();
       }
+    });
+
+    // let data = this.viewDate;
+    this.appData.subscribe((data) => {
+      console.log('New data', data);
+
+      this.sch.year = this.viewDate.getFullYear();
+      this.sch.monthId = this.viewDate.getMonth();
     });
     // this.dateOrViewChanged();
     // this.getTimezone();
@@ -182,11 +211,55 @@ export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.dialog.closeAll();
   }
+
+  onMonthYearFocusOut() {
+    console.log("onMonthYearFocusOut");
+    if ((this.sch.year) && (this.sch.monthId || this.sch.monthId == 0)) {
+
+      console.log("sch.year", this.sch.year);
+      console.log("viewDate.getFullYear()", this.viewDate.getFullYear());
+      console.log("sch.monthId", this.sch.monthId);
+      console.log("viewDate.getMonth()", this.viewDate.getMonth());
+
+      let yearDiff = this.sch.year - this.viewDate.getFullYear();
+      console.log("yearDiff", yearDiff);
+
+      let monthDiff = this.sch.monthId - this.viewDate.getMonth();
+      console.log("monthDiff", monthDiff);
+
+      if (yearDiff > 0 || yearDiff < 0) {
+        console.log("check 1");
+        // if (yearDiff < 0) {
+        //   yearDiff = yearDiff * (-1);
+        // }
+        // this.changeDate(addPeriod(this.view, this.viewDate, 1));
+        this.changeDate(addPeriod(this.view, this.viewDate, yearDiff * 12));
+      }
+      else if (monthDiff > 0 || monthDiff < 0) {
+        console.log("check 2");
+        // if (monthDiff < 0) {
+        //   monthDiff = monthDiff * (-1);
+        // }
+        // this.changeDate(addPeriod(this.view, this.viewDate, 1));
+        this.changeDate(addPeriod(this.view, this.viewDate, monthDiff));
+      }
+      // this.changeDate(addPeriod(this.view, this.viewDate, 1));
+      // this.changeDate(this.viewDate);
+      // this.dateOrViewChanged();
+
+      this.getDocSchedule(this.docId);
+    }
+
+  }
+
   increment(): void {
+    console.log("increment");
     this.changeDate(addPeriod(this.view, this.viewDate, 1));
 
-    console.log("decrement month ", (this.viewDate.getMonth() + 1));
-    console.log("decrement year ", this.viewDate.getFullYear());
+    console.log("month ", (this.viewDate.getMonth() + 1));
+    console.log("year ", this.viewDate.getFullYear());
+
+    this.appData.next(this.viewDate);
 
     this.getDocSchedule(this.docId);
     // this.getSchedule(this.viewDate.getFullYear(), (this.viewDate.getMonth() + 1))
@@ -196,10 +269,12 @@ export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
   }
 
   decrement(): void {
+    console.log("decrement");
     this.changeDate(subPeriod(this.view, this.viewDate, 1));
 
-    console.log("decrement month ", (this.viewDate.getMonth() + 1));
-    console.log("decrement year ", this.viewDate.getFullYear());
+    console.log("month ", (this.viewDate.getMonth() + 1));
+    console.log("year ", this.viewDate.getFullYear());
+    this.appData.next(this.viewDate);
 
     this.getDocSchedule(this.docId);
     // this.getSchedule(this.viewDate.getFullYear(), (this.viewDate.getMonth() + 1))
@@ -208,6 +283,7 @@ export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
   }
 
   today(): void {
+    console.log("today");
     //  this.changeDate(new Date());
 
     this.getDocSchedule(this.docId);
@@ -217,20 +293,26 @@ export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
   }
 
   dateIsValid(date: Date): boolean {
+    console.log("dateIsValid");
+
     return date >= this.minDate && date <= this.maxDate;
   }
 
   changeDate(date: Date): void {
+    console.log("changeDate");
     this.viewDate = date;
     this.dateOrViewChanged();
   }
 
   changeView(view: CalendarPeriod): void {
+    console.log("changeView");
     this.view = view;
     this.dateOrViewChanged();
   }
 
   dateOrViewChanged(): void {
+    console.log("dateOrViewChanged");
+
     this.prevBtnDisabled = !this.dateIsValid(
       endOfPeriod(this.view, subPeriod(this.view, this.viewDate, 1))
     );
@@ -243,8 +325,9 @@ export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
       this.changeDate(this.maxDate);
     }
   }
-  getTimezone() {
 
+  getTimezone() {
+    console.log("getTimezone");
     var d = new Date();
     var offset = d.getTimezoneOffset();
 
@@ -263,8 +346,10 @@ export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
   }
 
   dayClicked(day: CalendarMonthViewDay): void {
+    console.log("dayClicked");
+
     let msg = new Message();
-    console.log("dayClicked day", day);
+    console.log("day", day);
 
 
 
@@ -360,6 +445,7 @@ export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
   }
 
   getScheduleDay(currentyear, currentmonth, currentday) {
+    console.log("getScheduleDay");
 
     this.clickedBox = currentyear + '-' + currentmonth + '-' + currentday;
     // for (var index = 0; index < this.selectedDatesWorkingDay1.DoctorScheduleDetails.length; index++) {
@@ -433,8 +519,9 @@ export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
   }
 
   getDocSchedule(docId) {
-    console.log("decrement month ", (this.viewDate.getMonth() + 1));
-    console.log("decrement year ", this.viewDate.getFullYear());
+    console.log("getDocSchedule");
+    console.log("month ", (this.viewDate.getMonth() + 1));
+    console.log("year ", this.viewDate.getFullYear());
 
     this.LoadingPageload = 'block';
     this.calenderView = 'none';
@@ -444,7 +531,7 @@ export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
       (response) => {
         this.isSubmmited = false;
 
-        console.log("schedule res", response);
+        // console.log("schedule res", response);
         this.LoadingPageload = 'none';
         this.calenderView = 'block';
         // if (response.status == 200) {
@@ -492,6 +579,7 @@ export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
 
   // events$: Observable<Array<CalendarEvent<{ offDays: OffDays }>>>;
   refreshView(): void {
+    console.log("refreshView");
     this.cssClass = this.cssClass === RED_CELL ? BLUE_CELL : RED_CELL;
     this.refresh.next();
   }
@@ -527,16 +615,20 @@ export class CalenderMyscheduleComponent implements OnInit, OnDestroy {
   }
 
   hourSegmentClicked(date: Date) {
+    console.log("hourSegmentClicked");
+
     this.selectedDayViewDate = date;
     this.addSelectedDayViewClass();
   }
 
   beforeDayViewRender(dayView: DayViewHour[]) {
+    console.log("beforeDayViewRender");
     this.dayView = dayView;
     this.addSelectedDayViewClass();
   }
 
   private addSelectedDayViewClass() {
+    console.log("addSelectedDayViewClass");
     this.dayView.forEach(hourSegment => {
       hourSegment.segments.forEach(segment => {
         delete segment.cssClass;

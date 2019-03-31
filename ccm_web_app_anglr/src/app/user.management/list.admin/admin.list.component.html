@@ -200,7 +200,8 @@
                                                     </a>&nbsp; -->
 
                                                     <!-- <a (click)=""> -->
-                                                    <span *ngIf="deletePermission" matTooltipPosition="above" matTooltip="Delete">
+                                                    <span *ngIf="deletePermission" matTooltipPosition="above"
+                                                        matTooltip="Delete">
                                                         <i style="color:#f70a0a;" class="icon-bin" (click)="userDelete(user.id)"></i>
                                                     </span>
                                                 </td>
@@ -215,7 +216,7 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <spinner [visible]='isSpinner'></spinner>
+                                    <spinner class="spinner-box" [visible]='isSpinner'></spinner>
                                 </div>
                                 <!-- <div class="datatable-footer">
                                     <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing
