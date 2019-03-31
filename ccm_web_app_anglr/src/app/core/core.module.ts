@@ -13,6 +13,7 @@ import { GeoLocationService } from "./services/location/geo-location.service";
 import { SetupService } from "./services/setup/setup.service";
 import { DashboardService } from "./services/dashboard/dashboard.service";
 import { DoctorScheduleService } from "./services/doctor/doctor.schedule.service";
+import { PatientRecordService } from "./services/patient/patient.record.service";
 import { ScheduleService } from "./services/schedule/schedule.service";
 import { AppointmentService } from "./services/schedule/appointment.service";
 import { FileService } from "./services/file/file.service";
@@ -36,6 +37,7 @@ import { LoginGuard } from './services/guard/login.guard';
         ScheduleService,
         AppointmentService,
         DoctorScheduleService,
+        PatientRecordService,
         FileService,
         UtilityService,
         MappingService,

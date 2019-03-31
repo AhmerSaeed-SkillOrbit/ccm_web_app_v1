@@ -1,0 +1,199 @@
+<div>
+
+    <!-- Main navbar -->
+    <secure-header>
+    </secure-header>
+    <!-- /main navbar -->
+
+
+    <!-- Page container -->
+    <div class="page-container">
+
+        <!-- Page content -->
+        <div class="page-content">
+
+            <!-- Main sidebar -->
+            <!-- @include('structure/sidebar') -->
+            <!-- <sidebar></sidebar> -->
+            <sidebar class="sidebar sidebar-main"></sidebar>
+            <!-- /main sidebar -->
+
+
+            <!-- Main content -->
+            <div class="content-wrapper">
+
+                <!-- Page header -->
+                <div class="page-header page-header-default">
+                    <div class="page-header-content">
+                        <div class="page-title">
+                            <h4>
+                                <i class="icon-arrow-left52 position-left"></i>
+                                <span class="text-semibold">
+                                    Patient
+                                </span>
+                                - Record
+                            </h4>
+                        </div>
+
+                        <!-- <div class="heading-elements">
+                            <div class="heading-btn-group">
+                                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+                                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i>
+                                    <span>Invoices</span></a>
+                                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i>
+                                    <span>Schedule</span></a>
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <div class="breadcrumb-line">
+                        <ul class="breadcrumb">
+                            <li><a href="index.html"><i class="icon-home2 position-left"></i> Home</a></li>
+                            <li class="active">Dashboard</li>
+                        </ul>
+
+                        <!-- <ul class="breadcrumb-elements">
+                            <li><a href="#"><i class="icon-comment-discussion position-left"></i> Support</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="icon-gear position-left"></i>
+                                    Settings
+                                    <span class="caret"></span>
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="#"><i class="icon-user-lock"></i> Account security</a></li>
+                                    <li><a href="#"><i class="icon-statistics"></i> Analytics</a></li>
+                                    <li><a href="#"><i class="icon-accessibility"></i> Accessibility</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#"><i class="icon-gear"></i> All settings</a></li>
+                                </ul>
+                            </li>
+                        </ul> -->
+                    </div>
+                </div>
+                <!-- /page header -->
+
+
+                <!-- Content area -->
+                <div class="content">
+
+
+
+                    <!-- Page Sub Content -->
+                    <!-- @yield('content') -->
+
+
+                    <!-- <div class="row">
+                        <div class="panel panel-flat">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">Support Staffs<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
+
+                            </div>
+
+
+
+
+                        </div>
+                    </div> -->
+
+
+
+                    <!-- content -->
+                    <div class="row align-item-center">
+                        <div class="col-lg-12 col-md-12 col-xs-12 tr-campaign case">
+                            <mat-card class="two-row-card">
+                                <div class="tr-sec-box">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <mat-card-title>Patient Record</mat-card-title>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <mat-tab-group (focusChange)="focusChange($event)" (selectedIndexChange)="selectedIndexChange($event)"
+                                                (selectedTabChange)="selectedTabChange($event)">
+                                                <mat-tab label="General Information">
+
+                                                    <!-- <ng-template matTabContent>
+                                                    </ng-template> -->
+
+                                                    <!-- [isTabActive]="tab.isDefaultTab" -->
+                                                    <general-info-tab [isTabActive]="true" [id]="patientId"></general-info-tab>
+                                                </mat-tab>
+
+                                                <mat-tab label="Preliminary Assessment">
+                                                    <!-- [isTabActive]="tab.isDefaultTab" -->
+                                                    <preliminary-assessment-tab [isTabActive]="false"></preliminary-assessment-tab>
+                                                </mat-tab>
+
+                                                <mat-tab label="Medication">
+                                                    <!-- [isTabActive]="tab.isDefaultTab" -->
+                                                    <medication-tab [isTabActive]="false"></medication-tab>
+                                                </mat-tab>
+
+                                                <mat-tab label="Psychological Review">
+                                                    <!-- [isTabActive]="tab.isDefaultTab" -->
+                                                    <psychological-review-tab [isTabActive]="false"></psychological-review-tab>
+                                                </mat-tab>
+
+                                                <mat-tab label="Social / Envoirnmental Review">
+                                                    <!-- [isTabActive]="tab.isDefaultTab" -->
+                                                    <social-envoirnmental-review-tab [isTabActive]="false"></social-envoirnmental-review-tab>
+                                                </mat-tab>
+
+                                                <mat-tab label="Preventive Screening">
+                                                    <!-- [isTabActive]="tab.isDefaultTab" -->
+                                                    <preventive-screening-tab [isTabActive]="false"></preventive-screening-tab>
+                                                </mat-tab>
+
+                                                <mat-tab label="Historical Information">
+                                                    <!-- [isTabActive]="tab.isDefaultTab" -->
+                                                    <historical-information-tab [isTabActive]="false"></historical-information-tab>
+                                                </mat-tab>
+
+                                                <mat-tab label="General Questions">
+                                                    <!-- [isTabActive]="tab.isDefaultTab" -->
+                                                    <general-questions-tab [isTabActive]="false"></general-questions-tab>
+                                                </mat-tab>
+
+
+
+
+                                            </mat-tab-group>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-card>
+                        </div>
+                    </div>
+                    <!-- /content -->
+
+
+
+                    <!-- /Page Sub Content -->
+
+
+
+
+
+                    <!-- Footer -->
+                    <!-- @include('structure/footer') -->
+                    <secure-footer>
+                    </secure-footer>
+                    <!-- /footer -->
+
+                </div>
+                <!-- /content area -->
+
+            </div>
+            <!-- /main content -->
+
+        </div>
+        <!-- /page content -->
+    </div>
+    <!-- Page container -->
+</div>

@@ -11,15 +11,17 @@ import { Branch } from './branch';
 export class User extends BaseModel {
 
     userId: number;
-    sapId: string;
+    unqiuePatientId: string;
+    fullName: string;
     firstName: string;
+    middleName: string;
     lastName: string;
     joiningDate: string;
     password: any;
     confirmPassword: any;
     email: string;
 
-    fullName: string;
+    primaryTelephoneNumber: String;
     mobileNumber: String;
     phoneNumber: String;
 
@@ -33,6 +35,8 @@ export class User extends BaseModel {
     functionalTitle: String;
     age: String;
     ageGroup: String;
+    dateOfBirth: String;
+    gender: String;
 
     country: Country = new Country();
     // country: string;
@@ -71,7 +75,7 @@ export class User extends BaseModel {
     roles: Role[] = [];
     permissions: Permission[];
     userRolePermission: Role = new Role();
-    
+
     role: Role = new Role();
     roleId: number;
     roleName: string;
@@ -90,7 +94,6 @@ export class User extends BaseModel {
     // createdBy: string;
     // updatedOn: string;
     // updatedBy: string;
-    gender: string;
 
     utcDSTOffset: number;
     // employer: string;

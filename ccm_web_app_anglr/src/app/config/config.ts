@@ -132,6 +132,18 @@ export const Config = {
             code: "company",
         }
     ],
+    gender: [
+        {
+            id: 1,
+            name: "Male",
+            code: "Male",
+        },
+        {
+            id: 2,
+            name: "Female",
+            code: "Female",
+        }
+    ],
     months: [
         {
             id: 0,

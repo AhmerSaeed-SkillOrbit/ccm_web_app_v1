@@ -123,3 +123,25 @@ ul.navigation ul.sub.show {
     left: 50%;
     margin: -50px 0 0 -50px;
 }
+
+.form-field label {
+    font-size: 15px;
+    display: block;
+    color: #222;
+}
+
+.label-dt {
+    display: inline-block;
+    font-size: 14px;
+    color: #323232;
+}
+
+span.label-dt:last-child .comma {
+    display: none;
+}
+
+.case label {
+    /* color: #22974b;
+    font-size: 18px; */
+    font-weight:bold;
+}

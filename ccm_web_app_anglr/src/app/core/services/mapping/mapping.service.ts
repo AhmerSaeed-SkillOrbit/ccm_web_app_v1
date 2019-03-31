@@ -124,7 +124,6 @@ export class MappingService {
         return isPermission;
     }
 
-
     public mapSchedule(res: any): Schedule {
         // const scheduleData = res;
 

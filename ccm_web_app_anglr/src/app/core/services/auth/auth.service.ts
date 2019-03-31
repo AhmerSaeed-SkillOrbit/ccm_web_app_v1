@@ -58,39 +58,6 @@ export class AuthService implements IAuthService, OnDestroy {
         return environment.apiBaseUrl + url;
     }
 
-    protected mapUser(res: any): User {
-        const userData = res.json();
-        const isUser = new User();
-        isUser.id = userData.id;
-        isUser.sapId = userData.sapId;
-        isUser.email = userData.userEmail;
-        isUser.password = userData.userPassword;
-        isUser.firstName = userData.firstName;
-        isUser.lastName = userData.lastName;
-
-        isUser.cnic = userData.cnic;
-        isUser.mobileNumber = userData.mobileNum;
-        isUser.phoneNumber = userData.phoneNum;
-
-        // isUser.roleId =  userData.roleId;
-        isUser.countryId = userData.countryId;
-        isUser.stateId = userData.stateId;
-        isUser.regionId = userData.regionId;
-        isUser.cityId = userData.cityId;
-        isUser.branchId = userData.branchId;
-
-        // isUser.accountVerified = userData.isActive;
-        isUser.isActive = userData.isActive;
-        isUser.isBlocked = userData.isBlocked;
-        isUser.lastLogin = userData.lastLogin;
-        isUser.createdOn = userData.createdOn;
-        isUser.createdBy = userData.createdBy;
-        isUser.updatedOn = userData.updatedOn;
-        isUser.updatedBy = userData.updatedBy;
-
-        return isUser;
-    }
-
     /**
      * Build API url
      * @param res
