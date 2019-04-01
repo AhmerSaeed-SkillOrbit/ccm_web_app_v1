@@ -196,6 +196,11 @@
                                                     </span>
                                                 </td> -->
                                                 <td class="text-center">
+                                                    <span matTooltipPosition="above" matTooltip="Record">
+                                                        <a [routerLink]="['/patient/record',user.id]">
+                                                            <i style="color:#ffa808;" class=" icon-pencil"></i>
+                                                        </a>
+                                                    </span> &nbsp;
                                                     <span *ngIf="updatePermission" matTooltipPosition="above"
                                                         matTooltip="Edit">
                                                         <a [routerLink]="['/um/edit',user.id]">

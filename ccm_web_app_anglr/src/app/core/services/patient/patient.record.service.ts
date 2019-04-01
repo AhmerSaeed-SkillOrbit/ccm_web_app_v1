@@ -7,8 +7,7 @@ import { AuthService } from "../auth/auth.service";
 import { DatePipe } from '@angular/common';
 
 import { Token } from '../../models/token';
-import { Schedule } from '../../models/schedule.model';
-import { Appointment } from '../../models/appointment';
+import { User } from '../../models/user';
 
 @Injectable()
 export class PatientRecordService implements OnDestroy {
@@ -39,123 +38,45 @@ export class PatientRecordService implements OnDestroy {
             );
     }
 
-    public addAppointment(patientId, doctorId, appointment?: Appointment): Observable<any> {
-        // const getUrl = 'update/role';
-        const getUrl = 'appointment/add';
-
-        const body = {
-            PatientId: patientId || null,
-            DoctorId: doctorId || null,
-            DoctorScheduleShiftId: appointment.shiftId || null,
-            ShiftTimeSlotId: appointment.timeSlotId || null,
-            Description: appointment.comment || null,
-        };
-
+    public saveGeneralInfo(user: User): Observable<any> {
         let token: Token;
         token = this._authService.getTokenData();
         const options = new RequestOptions();
         options.headers = new Headers();
         options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        const getUrl = 'general/info/save?id=' + (user.id || null);
+        let body = {
+
+            Id: user.id,
+            FirstName: user.firstName || null,
+            LastName: user.lastName || null,
+            // EmailAddress: user.email || null,
+            // Password: user.password || null,
+            CountryPhoneCode: user.countryPhoneCode || null,
+            MobileNumber: user.mobileNumber || null,
+            TelephoneNumber: user.phoneNumber || null,
+            OfficeAddress: user.officeAddress || null,
+            ResidentialAddress: user.residentialAddress || null,
+            Gender: user.gender || null,
+            FunctionalTitle: user.functionalTitle || null,
+            Age: user.age || null,
+            AgeGroup: user.ageGroup || null,
+
+
+            // CountryId: user.countryId,
+            // RegionId: user.regionId,
+            // CityId: user.cityId,
+            // BranchId: user.branchId
+        }
 
         return this._http.post(getUrl, body, options)
             .map((res: Response) => res)
-            .catch((error: any) => {
-                return Observable.throw(error);
+            .catch((err, caught) => {
+                return Observable.throw(err);
             });
     }
 
-    // --------- Schedule List Count with 
-    public getAppointmentListCount(doctorId, status): Observable<any> {
-
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-
-        let userId = token.userId;
-        // appointment/list/count?userId=11&rStatus='accepted || pending || rejected'
-        // const getUrl = 'appointment/list/count?userId=' + (doctorId || null) + '&rStatus=' + (status || null);
-        const getUrl = 'appointment/list/count?userId=' + (userId || null) + '&rStatus=' + (status || null);
-        return this._http.get(getUrl, options)
-            .map((res: Response) => res)
-            .catch((error: any) => {
-                return Observable.throw(error);
-            }
-            );
-    }
-
-    // --------- Schedule List Pagination
-    public getAppointmentPagination(pageNo, limit, doctorId, status, ): Observable<any> {
-
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-
-        let userId = token.userId;
-        // appointment/list?pageNo=0&limit=10&userId=11&rStatus='accpeted || pending || rejected'
-        // const getUrl = 'appointment/list?pageNo=' + (pageNo || 0) + '&limit=' + (limit || 5) + '&userId=' + (doctorId || null) + '&rStatus=' + (status || null);
-        const getUrl = 'appointment/list?pageNo=' + (pageNo || 0) + '&limit=' + (limit || 5) + '&userId=' + (userId || null) + '&rStatus=' + (status || null);
-        return this._http.get(getUrl, options)
-            .map((res: Response) => res)
-            .catch((error: any) => {
-                return Observable.throw(error);
-            }
-            );
-    }
-
-    public appointmentRequestAction(appointmentId, status, reason): Observable<any> {
-        // const getUrl = 'update/role';
-
-
-        const body = {
-            rStatus: status,
-            reason: reason || null,
-        };
-
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-
-        let userId = token.userId;
-
-        const getUrl = 'appointment/request/status/update?aId=' + (appointmentId || null) + '&userId=' + (userId || null);
-
-        return this._http.post(getUrl, body, options)
-            .map((res: Response) => res)
-            .catch((error: any) => {
-                return Observable.throw(error);
-            });
-    }
-
-    public appointmentRequestCancel(appointmentId, reason): Observable<any> {
-        // const getUrl = 'update/role';
-
-        const body = {
-            reason: reason || null,
-        };
-
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-
-        let userId = token.userId;
-
-        // appointment/cancel?aId=1&userId=11
-        const getUrl = 'appointment/cancel?aId=' + (appointmentId || null) + '&userId=' + (userId || null);
-
-        return this._http.post(getUrl, body, options)
-            .map((res: Response) => res)
-            .catch((error: any) => {
-                return Observable.throw(error);
-            });
-    }
 
     ngOnDestroy() {
 

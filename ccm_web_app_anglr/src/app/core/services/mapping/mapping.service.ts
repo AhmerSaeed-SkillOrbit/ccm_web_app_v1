@@ -34,6 +34,7 @@ export class MappingService {
             isUser.id = userData.Id || null;
             isUser.userId = userData.Id || null;
             isUser.firstName = userData.FirstName || null;
+            isUser.middleName = userData.MiddleName || null;
             isUser.lastName = userData.LastName || null;
             isUser.email = userData.EmailAddress || null;
             isUser.functionalTitle = userData.FunctionalTitle || null;
@@ -46,6 +47,7 @@ export class MappingService {
             isUser.cnic = userData.Cnic || null;
             isUser.age = userData.Age || null;
             isUser.ageGroup = userData.AgeGroup || null;
+            isUser.gender = userData.Gender || null;
             // isUser.associationType = userData.AssociationType || null;
             isUser.blockReason = userData.BlockReason || null;
 
