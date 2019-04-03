@@ -122,42 +122,47 @@
                                                     </ng-template> -->
 
                                                     <!-- [isTabActive]="tab.isDefaultTab" -->
-                                                    <general-info-tab [isTabActive]="true" [id]="patientId"></general-info-tab>
+                                                    <general-info-tab [isTabActive]="tab.generalInfo" [id]="patientId"></general-info-tab>
                                                 </mat-tab>
 
                                                 <mat-tab label="Preliminary Assessment">
                                                     <!-- [isTabActive]="tab.isDefaultTab" -->
-                                                    <preliminary-assessment-tab [isTabActive]="false"></preliminary-assessment-tab>
+                                                    <preliminary-assessment-tab [isTabActive]="tab.preliminaryAssessment"
+                                                        [id]="patientId"></preliminary-assessment-tab>
                                                 </mat-tab>
 
                                                 <mat-tab label="Medication">
                                                     <!-- [isTabActive]="tab.isDefaultTab" -->
-                                                    <medication-tab [isTabActive]="false"></medication-tab>
+                                                    <medication-tab [isTabActive]="tab.medication" [id]="patientId"></medication-tab>
                                                 </mat-tab>
 
                                                 <mat-tab label="Psychological Review">
                                                     <!-- [isTabActive]="tab.isDefaultTab" -->
-                                                    <psychological-review-tab [isTabActive]="false"></psychological-review-tab>
+                                                    <psychological-review-tab [isTabActive]="tab.psychologicalReview"
+                                                        [id]="patientId"></psychological-review-tab>
                                                 </mat-tab>
 
                                                 <mat-tab label="Social / Envoirnmental Review">
                                                     <!-- [isTabActive]="tab.isDefaultTab" -->
-                                                    <social-envoirnmental-review-tab [isTabActive]="false"></social-envoirnmental-review-tab>
+                                                    <social-envoirnmental-review-tab [isTabActive]="tab.socialEnvoirnmentalReview"
+                                                        [id]="patientId"></social-envoirnmental-review-tab>
                                                 </mat-tab>
 
                                                 <mat-tab label="Preventive Screening">
                                                     <!-- [isTabActive]="tab.isDefaultTab" -->
-                                                    <preventive-screening-tab [isTabActive]="false"></preventive-screening-tab>
+                                                    <preventive-screening-tab [isTabActive]="tab.preventiveScreening"
+                                                        [id]="patientId"></preventive-screening-tab>
                                                 </mat-tab>
 
                                                 <mat-tab label="Historical Information">
                                                     <!-- [isTabActive]="tab.isDefaultTab" -->
-                                                    <historical-information-tab [isTabActive]="false"></historical-information-tab>
+                                                    <historical-information-tab [isTabActive]="tab.historicalInformation"
+                                                        [id]="patientId"></historical-information-tab>
                                                 </mat-tab>
 
                                                 <mat-tab label="General Questions">
                                                     <!-- [isTabActive]="tab.isDefaultTab" -->
-                                                    <general-questions-tab [isTabActive]="false"></general-questions-tab>
+                                                    <general-questions-tab [isTabActive]="tab.generalQuestions" [id]="patientId"></general-questions-tab>
                                                 </mat-tab>
 
 

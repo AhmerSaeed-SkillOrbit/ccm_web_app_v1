@@ -214,78 +214,24 @@ export const Config = {
         1,
         2
     ],
-    // expertises: [
-    //     {
-    //         id: 1,
-    //         name: "Expertise 1",
-    //         code: "expertise_1",
-    //     },
-    //     {
-    //         id: 2,
-    //         name: "Expertise 2",
-    //         code: "expertise_3",
-    //     }
-    // ],
-    expertise: {
+
+    activeMedicine: {
         min: 1,
         max: 50
     },
-    blacListEvent: {
+    allergyMedicine: {
         min: 1,
         max: 50
     },
-    reference: {
-        min: 2,
-        max: 10
-    },
-    associatePartner: {
+    allergyNonMedicine: {
         min: 1,
         max: 50
     },
-    managingPartner: {
+    vaccine: {
         min: 1,
         max: 50
     },
-    lawyerRecommendation: {
-        min: 1,
-        max: 50
-    },
-    director: {
-        min: 1,
-        max: 50
-    },
-    collateral: {
-        min: 1,
-        max: 50
-    },
-    collateralDetail: {
-        min: 1,
-        max: 50
-    },
-    collateralValuation: {
-        min: 1,
-        max: 50
-    },
-    settlementPaymentTerm: {
-        min: 1,
-        max: 50
-    },
-    courtCompliance: {
-        min: 1,
-        max: 50
-    },
-    externalParty: {
-        min: 1,
-        max: 50
-    },
-    internalUnion: {
-        min: 1,
-        max: 50
-    },
-    firParty: {
-        min: 1,
-        max: 50
-    },
+
     finalRemarks: [
         {
             id: 1,

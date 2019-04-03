@@ -22,6 +22,7 @@ import { Region } from '../../core/models/region';
 import { Country } from '../../core/models/country';
 
 import { SetupService } from '../../core/services/setup/setup.service';
+import { LogService } from '../../core/services/log/log.service';
 // import { ReportService } from '../../core/services/report/report.service';
 
 
@@ -52,8 +53,17 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
 
     payLoadChangeDetected: boolean;
 
-    isShowCaseNature: boolean = true;
-    showFlag: boolean = false;
+    tab = {
+        generalInfo: false,
+        preliminaryAssessment: false,
+        medication: false,
+        psychologicalReview: false,
+        socialEnvoirnmentalReview: false,
+        preventiveScreening: false,
+        historicalInformation: false,
+        generalQuestions: false,
+
+    }
 
     @ViewChild('dateRangePicker') dateRangePicker;
 
@@ -63,6 +73,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
         @Inject('IAuthService') private _authService: IAuthService,
         private _setupService: SetupService,
         private utilityService: UtilityService,
+        // private _logService: LogService,
         private datePipe: DatePipe,
         private route: ActivatedRoute,
         public dialog: MatDialog,
@@ -93,6 +104,8 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
         //     this._router.navigate(['/permission']);
         // }
 
+        this.tab.generalInfo = true;
+
     }
 
     ngAfterViewInit() {
@@ -110,65 +123,6 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
         //     this.payLoadChangeDetected = true;
         // }
 
-        // if (this.payLoad.dateFrom !== this.oldPayLoad.dateFrom) {
-        //     console.log("ngDoCheck dateFrom");
-        //     this.payLoadChangeDetected = true;
-        // }
-
-        // if (this.payLoad.showFlag !== this.oldPayLoad.showFlag) {
-        //     console.log("ngDoCheck showFlag");
-        //     this.payLoadChangeDetected = true;
-        // }
-
-        // if (this.payLoad.dateTo !== this.oldPayLoad.dateTo) {
-        //     console.log("ngDoCheck dateTo");
-        //     this.payLoadChangeDetected = true;
-        // }
-
-        // if (this.payLoad.caseLcUserId !== this.oldPayLoad.caseLcUserId) {
-
-        //     console.log("ngDoCheck caseLcUserId");
-        //     this.payLoadChangeDetected = true;
-        //     // this.changeLog.push(`DoCheck: Hero name changed to "${this.hero.name}" from "${this.oldHeroName}"`);
-        //     // this.oldHeroName = this.hero.name;
-        // }
-
-        // if (this.payLoad.regionId !== this.oldPayLoad.regionId) {
-        //     console.log("ngDoCheck regionId");
-        //     this.payLoadChangeDetected = true;
-        // }
-
-        // if (this.payLoad.departmentId !== this.oldPayLoad.departmentId) {
-        //     console.log("ngDoCheck departmentId");
-        //     this.payLoadChangeDetected = true;
-        // }
-
-        // if (this.payLoad.caseTerritoryId !== this.oldPayLoad.caseTerritoryId) {
-        //     console.log("ngDoCheck caseTerritoryId");
-        //     this.payLoadChangeDetected = true;
-        // }
-
-        // if (this.payLoad.criticalOptionCode != this.oldPayLoad.criticalOptionCode) {
-        //     console.log("ngDoCheck criticalOptionCode");
-        //     this.payLoadChangeDetected = true;
-        // }
-
-        // if (this.payLoad.caseStatusCode != this.oldPayLoad.caseStatusCode) {
-        //     console.log("ngDoCheck caseStatusCode");
-        //     this.payLoadChangeDetected = true;
-        // }
-
-        // if (this.payLoad.caseNatureCode != this.oldPayLoad.caseNatureCode) {
-        //     console.log("ngDoCheck caseNatureCode");
-        //     this.payLoadChangeDetected = true;
-        // }
-
-        // if (this.payLoad.keyword != this.oldPayLoad.keyword) {
-        //     console.log("ngDoCheck keyword");
-        //     this.payLoadChangeDetected = true;
-        // }
-
-
 
         // if (this.payLoadChangeDetected) {
 
@@ -181,6 +135,11 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
 
 
         this.payLoadChangeDetected = false;
+    }
+
+    focusChange(event) {
+        console.log("focusChange event", event);
+
     }
 
     selectedIndexChange(event) {
@@ -206,8 +165,119 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
         // });
     }
 
+
     selectedTabChange(event) {
-        console.log("event", event);
+        console.log("selectedTabChange");
+        console.log("event ", event);
+        // this._logService.logMessage('selectedTabChange event');
+        // this._logService.logMessage(event);
+
+        if (event && event.tab) {
+
+            if (event.tab.textLabel == "General Information") {
+
+                this.tab.generalInfo = true;
+                this.tab.preliminaryAssessment = false;
+                this.tab.medication = false;
+                this.tab.psychologicalReview = false;
+                this.tab.socialEnvoirnmentalReview = false;
+                this.tab.preventiveScreening = false;
+                this.tab.historicalInformation = false;
+                this.tab.generalQuestions = false;
+            }
+            else if (event.tab.textLabel == "Preliminary Assessment") {
+
+                this.tab.generalInfo = false;
+                this.tab.preliminaryAssessment = true;
+                this.tab.medication = false;
+                this.tab.psychologicalReview = false;
+                this.tab.socialEnvoirnmentalReview = false;
+                this.tab.preventiveScreening = false;
+                this.tab.historicalInformation = false;
+                this.tab.generalQuestions = false;
+            }
+            else if (event.tab.textLabel == "Medication") {
+                this.tab.generalInfo = false;
+                this.tab.preliminaryAssessment = false;
+                this.tab.medication = true;
+                this.tab.psychologicalReview = false;
+                this.tab.socialEnvoirnmentalReview = false;
+                this.tab.preventiveScreening = false;
+                this.tab.historicalInformation = false;
+                this.tab.generalQuestions = false;
+            }
+            else if (event.tab.textLabel == "Psychological Review") {
+                this.tab.generalInfo = false;
+                this.tab.preliminaryAssessment = false;
+                this.tab.medication = false;
+                this.tab.psychologicalReview = true;
+                this.tab.socialEnvoirnmentalReview = false;
+                this.tab.preventiveScreening = false;
+                this.tab.historicalInformation = false;
+                this.tab.generalQuestions = false;
+            }
+            else if (event.tab.textLabel == "Social / Envoirnmental Review") {
+                this.tab.generalInfo = false;
+                this.tab.preliminaryAssessment = false;
+                this.tab.medication = false;
+                this.tab.psychologicalReview = false;
+                this.tab.socialEnvoirnmentalReview = true;
+                this.tab.preventiveScreening = false;
+                this.tab.historicalInformation = false;
+                this.tab.generalQuestions = false;
+            }
+            else if (event.tab.textLabel == "Preventive Screening") {
+                this.tab.generalInfo = false;
+                this.tab.preliminaryAssessment = false;
+                this.tab.medication = false;
+                this.tab.psychologicalReview = false;
+                this.tab.socialEnvoirnmentalReview = false;
+                this.tab.preventiveScreening = true;
+                this.tab.historicalInformation = false;
+                this.tab.generalQuestions = false;
+            }
+            else if (event.tab.textLabel == "Historical Information") {
+                this.tab.generalInfo = false;
+                this.tab.preliminaryAssessment = false;
+                this.tab.medication = false;
+                this.tab.psychologicalReview = false;
+                this.tab.socialEnvoirnmentalReview = false;
+                this.tab.preventiveScreening = false;
+                this.tab.historicalInformation = false;
+                this.tab.generalQuestions = false;
+            }
+            else if (event.tab.textLabel == "General Questions") {
+                this.tab.generalInfo = false;
+                this.tab.preliminaryAssessment = false;
+                this.tab.medication = false;
+                this.tab.psychologicalReview = false;
+                this.tab.socialEnvoirnmentalReview = false;
+                this.tab.preventiveScreening = false;
+                this.tab.historicalInformation = false;
+                this.tab.generalQuestions = true;
+            }
+            else {
+                this.tab.generalInfo = false;
+                this.tab.preliminaryAssessment = false;
+                this.tab.medication = false;
+                this.tab.psychologicalReview = false;
+                this.tab.socialEnvoirnmentalReview = false;
+                this.tab.preventiveScreening = false;
+                this.tab.historicalInformation = false;
+                this.tab.generalQuestions = false;
+            }
+
+        }
+        else {
+            this.tab.generalInfo = false;
+            this.tab.preliminaryAssessment = false;
+            this.tab.medication = false;
+            this.tab.psychologicalReview = false;
+            this.tab.socialEnvoirnmentalReview = false;
+            this.tab.preventiveScreening = false;
+            this.tab.historicalInformation = false;
+            this.tab.generalQuestions = false;
+        }
     }
 
     ngOnDestroy() {

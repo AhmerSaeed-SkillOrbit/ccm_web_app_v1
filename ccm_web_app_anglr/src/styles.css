@@ -162,3 +162,12 @@ span.label-dt:last-child .comma {
 .spinner-box {
     padding: 1px;
 }
+
+.line-dash{
+    border: none;
+    border-top: 1px dashed #ddd;
+    color: #fff;
+    background-color: #fff;
+    height: 1px;
+    width: 100%;
+}

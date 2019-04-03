@@ -5,6 +5,7 @@
 
 export const environment = {
   production: true,
+  showLog: true,
 
   // dev
   // authBaseUrl: 'https://api.businessdirectory360.com/api/',

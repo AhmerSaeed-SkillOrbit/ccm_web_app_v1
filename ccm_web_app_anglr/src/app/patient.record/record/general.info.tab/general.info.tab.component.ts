@@ -83,11 +83,9 @@ export class GeneralInfoTabComponent implements OnInit {
 
         console.log("this.payLoad in parent on init =-=-==-=-=");
 
-        if (this.id) {
-
-            this.loadGeneralInfo();
-
-        }
+        // if (this.id) {
+        //     this.loadGeneralInfo();
+        // }
 
     }
 
@@ -99,7 +97,9 @@ export class GeneralInfoTabComponent implements OnInit {
         if (changes['isTabActive']) {
 
             if (this.isTabActive) {
-                // this.loadReport();
+                if (this.id) {
+                    this.loadGeneralInfo();
+                }
             }
 
         }

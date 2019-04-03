@@ -17,6 +17,7 @@ import { ForumFeed } from '../../models/forum';
 import { Tag } from '../../models/tag';
 import { Comment, Reply } from '../../models/comment';
 import { Ticket, TicketAssignee } from '../../models/ticket';
+import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine } from '../../models/user.record';
 
 @Injectable()
 export class MappingService {
@@ -506,6 +507,69 @@ export class MappingService {
 
         }
         return isReply;
+    }
+
+    public mapActiveMedication(res: any): ActiveMedication {
+        const activeMedicationData = res;
+        const isActiveMedication = new ActiveMedication();
+        if (activeMedicationData) {
+            isActiveMedication.id = activeMedicationData.Id || null;
+            isActiveMedication.activeMedicationId = activeMedicationData.Id || null;
+            isActiveMedication.medicineName = activeMedicationData.MedicineName || null;
+            isActiveMedication.dose = activeMedicationData.DoseNumber || null;
+            isActiveMedication.startBy = activeMedicationData.StartBy || null;
+            isActiveMedication.startDate = activeMedicationData.StartDate || null;
+            isActiveMedication.whyComments = activeMedicationData.WhyComments || null;
+            isActiveMedication.isActive = activeMedicationData.IsActive || false;
+        }
+
+        return isActiveMedication;
+    }
+
+    public mapAllergyMedication(res: any): AllergyMedication {
+        const allergyMedicationData = res;
+        const isAllergyMedication = new AllergyMedication();
+        if (allergyMedicationData) {
+            isAllergyMedication.id = allergyMedicationData.Id || null;
+            isAllergyMedication.allergyMedicationId = allergyMedicationData.Id || null;
+            isAllergyMedication.medicineName = allergyMedicationData.MedicineName || null;
+            isAllergyMedication.reaction = allergyMedicationData.MedicineReaction || null;
+            isAllergyMedication.dateOccured = allergyMedicationData.ReactionDate || null;
+            isAllergyMedication.isReactionSevere = allergyMedicationData.IsReactionSevere || false;
+            isAllergyMedication.isActive = allergyMedicationData.IsActive || false;
+        }
+
+        return isAllergyMedication;
+    }
+
+    public mapAllergyNonMedication(res: any): AllergyNonMedication {
+        const allergyNonMedicationData = res;
+        const isAllergyNonMedication = new AllergyNonMedication();
+        if (allergyNonMedicationData) {
+            isAllergyNonMedication.id = allergyNonMedicationData.Id || null;
+            isAllergyNonMedication.allergyNonMedicationId = allergyNonMedicationData.Id || null;
+            isAllergyNonMedication.substanceName = allergyNonMedicationData.SubstanceName || null;
+            isAllergyNonMedication.reaction = allergyNonMedicationData.SubstanceReaction || null;
+            isAllergyNonMedication.dateOccured = allergyNonMedicationData.ReactionDate || null;
+            isAllergyNonMedication.isReactionSevere = allergyNonMedicationData.IsReactionSevere || false;
+            isAllergyNonMedication.isActive = allergyNonMedicationData.IsActive || false;
+        }
+
+        return isAllergyNonMedication;
+    }
+
+    public mapVaccine(res: any): Vaccine {
+        const vaccineData = res;
+        const isVaccine = new Vaccine();
+        if (vaccineData) {
+            isVaccine.id = vaccineData.Id || null;
+            isVaccine.vaccineId = vaccineData.Id || null;
+            isVaccine.vaccineName = vaccineData.SubstanceName || null;
+            isVaccine.vaccineDate = vaccineData.ReactionDate || null;
+            isVaccine.isActive = vaccineData.IsActive || false;
+        }
+
+        return isVaccine;
     }
 
 }
