@@ -118,9 +118,14 @@
                                         <hr class="line-dash">
                                         <!-- <div class="line-dash"></div> -->
                                     </div>
-                                    <div class="col-sm-12 text-right" *ngIf="activeMedications.length > minActiveMedicine">
+
+                                    <!-- <div class="col-sm-12 text-right" *ngIf="activeMedications.length > minActiveMedicine"> -->
+                                    <div class="col-sm-12 text-right">
                                         <!-- *ngIf="activeMedications.length > minActiveMedicine" -->
-                                        <button mat-raised-button color="primary" (click)="remove(i,'activeMedicationListForm')">Remove</button>
+                                        <button *ngIf="activeMedications.length > minActiveMedicine" mat-raised-button
+                                            color="primary" (click)="remove(i,'activeMedicationListForm')">Remove</button>
+                                        <button *ngIf="activeMedications[i].id" mat-raised-button color="primary"
+                                            (click)="onUpdateActiveMedication(i)">Update</button>
 
                                         <!-- <hr> -->
                                         <hr class="line-dash">
@@ -256,9 +261,14 @@
                                         <hr class="line-dash">
                                         <!-- <div class="line-dash"></div> -->
                                     </div>
-                                    <div class="col-sm-12 text-right" *ngIf="allergyMedications.length > minAllergyMedicine">
+
+                                    <!-- <div class="col-sm-12 text-right" *ngIf="allergyMedications.length > minAllergyMedicine"> -->
+                                    <div class="col-sm-12 text-right">
                                         <!-- *ngIf="allergyMedications.length > minAllergyMedicine" -->
-                                        <button mat-raised-button color="primary" (click)="remove(i,'medicationAllergiesIntolerancesForm')">Remove</button>
+                                        <button *ngIf="allergyMedications.length > minAllergyMedicine"
+                                            mat-raised-button color="primary" (click)="remove(i,'medicationAllergiesIntolerancesForm')">Remove</button>
+                                        <button *ngIf="allergyMedications[i].id" mat-raised-button color="primary"
+                                            (click)="onUpdateAllergyMedication(i)">Update</button>
 
                                         <!-- <hr> -->
                                         <hr class="line-dash">
@@ -394,9 +404,14 @@
                                         <hr class="line-dash">
                                         <!-- <div class="line-dash"></div> -->
                                     </div>
-                                    <div class="col-sm-12 text-right" *ngIf="allergyNonMedications.length > minAllergyNonMedicine">
+
+                                    <!-- <div class="col-sm-12 text-right" *ngIf="allergyNonMedications.length > minAllergyNonMedicine"> -->
+                                    <div class="col-sm-12 text-right">
                                         <!-- *ngIf="allergyNonMedications.length > minAllergyNonMedicine" -->
-                                        <button mat-raised-button color="primary" (click)="remove(i,'allergiesNonMedicationForm')">Remove</button>
+                                        <button *ngIf="allergyNonMedications.length > minAllergyNonMedicine"
+                                            mat-raised-button color="primary" (click)="remove(i,'allergiesNonMedicationForm')">Remove</button>
+                                        <button *ngIf="allergyNonMedications[i].id" mat-raised-button color="primary"
+                                            (click)="onUpdateAllergyNonMedication(i)">Update</button>
 
                                         <!-- <hr> -->
                                         <hr class="line-dash">
@@ -502,9 +517,12 @@
                                         <hr class="line-dash">
                                         <!-- <div class="line-dash"></div> -->
                                     </div>
-                                    <div class="col-sm-12 text-right" *ngIf="vaccines.length > minVaccine">
+                                    <!-- <div class="col-sm-12 text-right" *ngIf="vaccines.length > minVaccine"> -->
+                                    <div class="col-sm-12 text-right">
                                         <!-- *ngIf="activeMedications.length > minVaccine" -->
-                                        <button mat-raised-button color="primary" (click)="remove(i,'immunizationsForm')">Remove</button>
+                                        <button *ngIf="vaccines.length > minVaccine" mat-raised-button color="primary"
+                                            (click)="remove(i,'immunizationsForm')">Remove</button>
+                                        <button *ngIf="vaccines[i].id" mat-raised-button color="primary" (click)="onUpdateImmunizations(i)">Update</button>
 
                                         <!-- <hr> -->
                                         <hr class="line-dash">

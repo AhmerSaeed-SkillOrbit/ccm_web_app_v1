@@ -7,6 +7,7 @@ export class ActiveMedication {
     activeMedicationId: number;
     medicineName: string;
     dose: string;
+    direction: string;
     startDate: string;
     startBy: string;
     whyComments: string;

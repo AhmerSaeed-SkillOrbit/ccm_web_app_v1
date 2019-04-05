@@ -564,8 +564,8 @@ export class MappingService {
         if (vaccineData) {
             isVaccine.id = vaccineData.Id || null;
             isVaccine.vaccineId = vaccineData.Id || null;
-            isVaccine.vaccineName = vaccineData.SubstanceName || null;
-            isVaccine.vaccineDate = vaccineData.ReactionDate || null;
+            isVaccine.vaccineName = vaccineData.Vaccine || null;
+            isVaccine.vaccineDate = vaccineData.VaccineDate || null;
             isVaccine.isActive = vaccineData.IsActive || false;
         }
 
