@@ -22,6 +22,63 @@
 
                         <div class="row">
                             <div class="col-sm-12">
+
+                                <div class="row">
+                                    <!-- ableToMessage -->
+                                    <div class="col-md-6">
+
+                                        <!-- [checked]="checked" -->
+                                        I Know How To Call On My Cell Phone?
+                                        <mat-slide-toggle color="primary" formControlName="ableToCall" [(ngModel)]="personalContactInfo.ableToCall">
+                                            Yes
+                                        </mat-slide-toggle>
+                                    </div>
+
+                                    <!-- feasibleCallTime -->
+                                    <div class="col-md-6">
+                                        <div class="form-field">
+                                            <mat-form-field class="full-width">
+                                                <mat-label>Feasible Call Time</mat-label>
+                                                <input matInput placeholder="e.g. 10:30 Am - 07:00 Pm" [(ngModel)]="personalContactInfo.feasibleCallTime"
+                                                    formControlName="feasibleCallTime">
+                                                <!-- <mat-error>
+                                                        feasibleCallTime is
+                                                        <strong>required</strong>
+                                                    </mat-error> -->
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <!-- ableToMessage -->
+                                    <div class="col-md-6">
+
+                                        <!-- [checked]="checked" -->
+                                        I Know How To Text On My Cell Phone?
+                                        <mat-slide-toggle color="primary" formControlName="ableToMessage" [(ngModel)]="personalContactInfo.ableToMessage">
+                                            Yes
+                                        </mat-slide-toggle>
+                                    </div>
+
+                                    <!-- feasibleMessageTime -->
+                                    <div class="col-md-6">
+                                        <div class="form-field">
+                                            <mat-form-field class="full-width">
+                                                <mat-label>Feasible Message Time</mat-label>
+                                                <input matInput placeholder="e.g. 10:30 Am - 07:00 Pm" [(ngModel)]="personalContactInfo.feasibleMessageTime"
+                                                    formControlName="feasibleMessageTime">
+                                                <!-- <mat-error>
+                                                            feasibleMessageTime is
+                                                            <strong>required</strong>
+                                                        </mat-error> -->
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                </div>
+
                                 <div class="row">
 
                                     <!-- Day Time Phone Number -->
@@ -29,7 +86,7 @@
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
                                                 <input matInput placeholder="Day Time Phone Number" [(ngModel)]="personalContactInfo.dayTimePhoneNumber"
-                                                    formControlName="dayTimePhoneNumber" required>
+                                                    formControlName="dayTimePhoneNumber">
                                                 <!-- <mat-error>
                                                     Day Time Phone Number is
                                                     <strong>required</strong>
@@ -70,7 +127,7 @@
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
                                                 <input matInput placeholder="Night Time Phone Number" [(ngModel)]="personalContactInfo.nightTimePhoneNumber"
-                                                    formControlName="nightTimePhoneNumber" required>
+                                                    formControlName="nightTimePhoneNumber">
                                                 <!-- <mat-error>
                                                     Night Time Phone Number is
                                                     <strong>required</strong>
@@ -141,6 +198,42 @@
 
                                     </div>
 
+
+                                </div>
+
+                                <div class="row">
+
+                                    <!-- Want To Change -->
+                                    <div class="col-md-12">
+                                        <div class="form-field">
+                                            <mat-form-field class="full-width">
+                                                <textarea matInput placeholder="Want To Change" formControlName="wantToChange"
+                                                    [(ngModel)]="personalContactInfo.wantToChange" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                    trim></textarea>
+                                                <!-- <mat-error>
+                                                    Want To Change is
+                                                    <strong>required</strong>
+                                                </mat-error> -->
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <!-- Effort To Change -->
+                                    <div class="col-md-12">
+                                        <div class="form-field">
+                                            <mat-form-field class="full-width">
+                                                <textarea matInput placeholder="Effort To Change" formControlName="effortToChange"
+                                                    [(ngModel)]="personalContactInfo.effortToChange" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                    trim></textarea>
+                                                <!-- <mat-error>
+                                                    Effort To Change is
+                                                    <strong>required</strong>
+                                                </mat-error> -->
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
 
                                 </div>
                                 <!-- <hr> -->
@@ -1290,6 +1383,323 @@
 
                                 </div>
 
+
+                                <!-- <hr> -->
+                                <hr class="line-dash">
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-md-4"></div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <button type="submit" class="btn bg-blue btn-block" [disabled]="isSubmitted">
+                                Save <i class="icon-arrow-right14 position-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+
+            </form>
+
+            <hr>
+
+            <form [formGroup]="resourceInfoFormGroup" (ngSubmit)="onSubmitResourceInfo()">
+
+                <div class="row">
+
+
+                    <div class="col-md-12">
+
+                        <!-- <h1>Resources And Assistance Assessment</h1> -->
+                        <h1>Resource Information</h1>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+
+
+                                <div class="row">
+
+                                    <!-- isForgetMedicine -->
+                                    <div class="col-md-12">
+
+                                        <!-- [checked]="checked" -->
+                                        I Frequently Forget To Take My Medication ?
+                                        <mat-slide-toggle color="primary" formControlName="isForgetMedicine"
+                                            [(ngModel)]="resourceInfo.isForgetMedicine">
+                                            Yes
+                                        </mat-slide-toggle>
+                                    </div>
+
+                                    <!-- isForgetMedicineComment -->
+                                    <div class="col-md-12">
+                                        <div class="form-field">
+                                            <mat-form-field class="full-width">
+                                                <textarea matInput placeholder="Comments" formControlName="isForgetMedicineComment"
+                                                    [(ngModel)]="resourceInfo.isForgetMedicineComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                    trim></textarea>
+                                                <!-- <mat-error>
+                                                    Comments is
+                                                    <strong>required</strong>
+                                                </mat-error> -->
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <!-- isForgetAppointment -->
+                                    <div class="col-md-12">
+
+                                        <!-- [checked]="checked" -->
+                                        I Frequently Miss My Doctor Appointments?
+                                        <mat-slide-toggle color="primary" formControlName="isForgetAppointment"
+                                            [(ngModel)]="resourceInfo.isForgetAppointment">
+                                            Yes
+                                        </mat-slide-toggle>
+                                    </div>
+
+                                    <!-- isForgetAppointmentComment -->
+                                    <div class="col-md-12">
+                                        <div class="form-field">
+                                            <mat-form-field class="full-width">
+                                                <textarea matInput placeholder="Comments" formControlName="isForgetAppointmentComment"
+                                                    [(ngModel)]="resourceInfo.isForgetAppointmentComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                    trim></textarea>
+                                                <!-- <mat-error>
+                                                    Comments is
+                                                    <strong>required</strong>
+                                                </mat-error> -->
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <!-- isGoWhenSick -->
+                                    <div class="col-md-12">
+
+                                        <!-- [checked]="checked" -->
+                                        I Always Choose To Go To The ER When I Am Sick?
+                                        <mat-slide-toggle color="primary" formControlName="isGoWhenSick" [(ngModel)]="resourceInfo.isGoWhenSick">
+                                            Yes
+                                        </mat-slide-toggle>
+                                    </div>
+
+                                    <!-- isGoWhenSickComment -->
+                                    <div class="col-md-12">
+                                        <div class="form-field">
+                                            <mat-form-field class="full-width">
+                                                <textarea matInput placeholder="Comments" formControlName="isGoWhenSickComment"
+                                                    [(ngModel)]="resourceInfo.isGoWhenSickComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                    trim></textarea>
+                                                <!-- <mat-error>
+                                                    Comments is
+                                                    <strong>required</strong>
+                                                </mat-error> -->
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <!-- goWithoutFood -->
+                                    <div class="col-md-12">
+
+                                        <!-- [checked]="checked" -->
+                                        Sometimes I Go Without Food To Eat At Home?
+                                        <mat-slide-toggle color="primary" formControlName="goWithoutFood" [(ngModel)]="resourceInfo.goWithoutFood">
+                                            Yes
+                                        </mat-slide-toggle>
+                                    </div>
+
+                                    <!-- goWithoutFoodComment -->
+                                    <div class="col-md-12">
+                                        <div class="form-field">
+                                            <mat-form-field class="full-width">
+                                                <textarea matInput placeholder="Comments" formControlName="goWithoutFoodComment"
+                                                    [(ngModel)]="resourceInfo.goWithoutFoodComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                    trim></textarea>
+                                                <!-- <mat-error>
+                                                    Comments is
+                                                    <strong>required</strong>
+                                                </mat-error> -->
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <!-- isPowerShutOff -->
+                                    <div class="col-md-12">
+
+                                        <!-- [checked]="checked" -->
+                                        Sometime My Power Or Utilities Get Shut Off?
+                                        <mat-slide-toggle color="primary" formControlName="isPowerShutOff" [(ngModel)]="resourceInfo.isPowerShutOff">
+                                            Yes
+                                        </mat-slide-toggle>
+                                    </div>
+
+                                    <!-- isPowerShutOffComment -->
+                                    <div class="col-md-12">
+                                        <div class="form-field">
+                                            <mat-form-field class="full-width">
+                                                <textarea matInput placeholder="Comments" formControlName="isPowerShutOffComment"
+                                                    [(ngModel)]="resourceInfo.isPowerShutOffComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                    trim></textarea>
+                                                <!-- <mat-error>
+                                                    Comments is
+                                                    <strong>required</strong>
+                                                </mat-error> -->
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <!-- getUnAbleToDress -->
+                                    <div class="col-md-12">
+
+                                        <!-- [checked]="checked" -->
+                                        Sometimes I Am Unable To Get Dressed In Am?
+                                        <mat-slide-toggle color="primary" formControlName="getUnAbleToDress"
+                                            [(ngModel)]="resourceInfo.getUnAbleToDress">
+                                            Yes
+                                        </mat-slide-toggle>
+                                    </div>
+
+                                    <!-- getUnAbleToDressComment -->
+                                    <div class="col-md-12">
+                                        <div class="form-field">
+                                            <mat-form-field class="full-width">
+                                                <textarea matInput placeholder="Comments" formControlName="getUnAbleToDressComment"
+                                                    [(ngModel)]="resourceInfo.getUnAbleToDressComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                    trim></textarea>
+                                                <!-- <mat-error>
+                                                    Comments is
+                                                    <strong>required</strong>
+                                                </mat-error> -->
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <!-- hardToPrepareFood -->
+                                    <div class="col-md-12">
+
+                                        <!-- [checked]="checked" -->
+                                        It Is Hard For Me To Prepare Food For Me To Eat?
+                                        <mat-slide-toggle color="primary" formControlName="hardToPrepareFood"
+                                            [(ngModel)]="resourceInfo.hardToPrepareFood">
+                                            Yes
+                                        </mat-slide-toggle>
+                                    </div>
+
+                                    <!-- hardToPrepareFoodComment -->
+                                    <div class="col-md-12">
+                                        <div class="form-field">
+                                            <mat-form-field class="full-width">
+                                                <textarea matInput placeholder="Comments" formControlName="hardToPrepareFoodComment"
+                                                    [(ngModel)]="resourceInfo.hardToPrepareFoodComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                    trim></textarea>
+                                                <!-- <mat-error>
+                                                    Comments is
+                                                    <strong>required</strong>
+                                                </mat-error> -->
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <!-- isFrequentlySad -->
+                                    <div class="col-md-12">
+
+                                        <!-- [checked]="checked" -->
+                                        I Am Frequently Sad And Avoid Other People?
+                                        <mat-slide-toggle color="primary" formControlName="isFrequentlySad" [(ngModel)]="resourceInfo.isFrequentlySad">
+                                            Yes
+                                        </mat-slide-toggle>
+                                    </div>
+
+                                    <!-- isFrequentlySadComment -->
+                                    <div class="col-md-12">
+                                        <div class="form-field">
+                                            <mat-form-field class="full-width">
+                                                <textarea matInput placeholder="Comments" formControlName="isFrequentlySadComment"
+                                                    [(ngModel)]="resourceInfo.isFrequentlySadComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                    trim></textarea>
+                                                <!-- <mat-error>
+                                                    Comments is
+                                                    <strong>required</strong>
+                                                </mat-error> -->
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <!-- hardToTakeBath -->
+                                    <div class="col-md-12">
+
+                                        <!-- [checked]="checked" -->
+                                        it Is Hard For Me To Bath / Keep Myself Clean?
+                                        <mat-slide-toggle color="primary" formControlName="hardToTakeBath" [(ngModel)]="resourceInfo.hardToTakeBath">
+                                            Yes
+                                        </mat-slide-toggle>
+                                    </div>
+
+                                    <!-- hardToTakeBathComment -->
+                                    <div class="col-md-12">
+                                        <div class="form-field">
+                                            <mat-form-field class="full-width">
+                                                <textarea matInput placeholder="Comments" formControlName="hardToTakeBathComment"
+                                                    [(ngModel)]="resourceInfo.hardToTakeBathComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                    trim></textarea>
+                                                <!-- <mat-error>
+                                                    Comments is
+                                                    <strong>required</strong>
+                                                </mat-error> -->
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                </div>
 
                                 <!-- <hr> -->
                                 <hr class="line-dash">

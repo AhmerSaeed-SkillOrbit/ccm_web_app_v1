@@ -608,7 +608,7 @@ export class MappingService {
             isPersonalContactInfo.canUseInternet = personalContactInfoData.CanUseInternet || false;
 
             isPersonalContactInfo.wantToChange = personalContactInfoData.WantToChange || null;
-            isPersonalContactInfo.effortToChange = personalContactInfoData.effortToChange || null;
+            isPersonalContactInfo.effortToChange = personalContactInfoData.EffortToChange || null;
 
             isPersonalContactInfo.isActive = personalContactInfoData.IsActive || false;
         }

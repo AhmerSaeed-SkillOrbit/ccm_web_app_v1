@@ -57,6 +57,7 @@ export class PersonalContactInfo {
     feasibleMessageTime: string;
     feasibleMessageTimeFrom: string;
     feasibleMessageTimeTo: string;
+
     feasibleCallTime: string;
     feasibleCallTimeFrom: string;
     feasibleCallTimeTo: string;
@@ -75,8 +76,8 @@ export class PersonalContactInfo {
 
     // wantToChange: boolean = false;
     // effortToChange: boolean = false;
-    wantToChange: string = "no";    // "yes", "no"
-    effortToChange: string = "no";  // "yes", "no"
+    wantToChange: string;    // "yes", "no"
+    effortToChange: string;  // "yes", "no"
 
 
     isActive: boolean = true;

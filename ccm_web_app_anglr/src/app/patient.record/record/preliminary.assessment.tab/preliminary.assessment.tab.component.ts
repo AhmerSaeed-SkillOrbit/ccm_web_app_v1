@@ -93,13 +93,15 @@ export class PreliminaryAssessmentTabComponent implements OnInit {
         this.personalContactInfoFormGroup = this._formBuilder.group({
 
             'ableToCall': [null, Validators.compose([])],
+            'feasibleCallTime': [null, Validators.compose([])],
             'ableToMessage': [null, Validators.compose([])],
+            'feasibleMessageTime': [null, Validators.compose([])],
 
-            'dayTimePhoneNumber': [null, Validators.compose([Validators.required])],
+            'dayTimePhoneNumber': [null, Validators.compose([])],
             'canCallOnDayTimePhone': [null, Validators.compose([])],
             'canMsgOnDayTimePhone': [null, Validators.compose([])],
 
-            'nightTimePhoneNumber': [null, Validators.compose([Validators.required])],
+            'nightTimePhoneNumber': [null, Validators.compose([])],
             'canCallOnNightTimePhone': [null, Validators.compose([])],
             'canMsgOnNightTimePhone': [null, Validators.compose([])],
 
@@ -275,6 +277,7 @@ export class PreliminaryAssessmentTabComponent implements OnInit {
                     this.loadInsuranceInformation();
                     this.loadSelfAssessmentInformation();
                     this.loadAbilityConcernInformation();
+                    this.loadResourceInformation();
                 }
             }
 

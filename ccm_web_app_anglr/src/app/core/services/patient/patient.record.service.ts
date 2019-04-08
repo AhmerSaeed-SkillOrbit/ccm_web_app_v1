@@ -489,11 +489,11 @@ export class PatientRecordService implements OnDestroy {
             AbleToMessage: personalContactInfo.ableToMessage || false,
             AbleToCall: personalContactInfo.ableToCall || false,
 
-            // FeasibleMessageTime: personalContactInfo.feasibleMessageTime,
-            FeasibleMessageTime: personalContactInfo.feasibleMessageTimeFrom + " - " + personalContactInfo.feasibleMessageTimeTo,
+            FeasibleMessageTime: personalContactInfo.feasibleMessageTime,
+            // FeasibleMessageTime: personalContactInfo.feasibleMessageTimeFrom + " - " + personalContactInfo.feasibleMessageTimeTo,
 
-            // FeasibleCallTime: personalContactInfo.feasibleCallTime,
-            FeasibleCallTime: personalContactInfo.feasibleCallTimeFrom + " - " + personalContactInfo.feasibleCallTimeTo,
+            FeasibleCallTime: personalContactInfo.feasibleCallTime,
+            // FeasibleCallTime: personalContactInfo.feasibleCallTimeFrom + " - " + personalContactInfo.feasibleCallTimeTo,
 
             DayTimePhoneNumber: personalContactInfo.dayTimePhoneNumber || null,
             CanCallOnDayTimePhone: personalContactInfo.canCallOnDayTimePhone || false,
