@@ -44,3 +44,253 @@ export class Vaccine {
     vaccineDate: string;
     isActive: boolean;
 }
+
+
+export class PersonalContactInfo {
+
+    id: number;
+    personalContactInfoId: number;
+
+    ableToMessage: boolean = false;
+    ableToCall: boolean = false;
+
+    feasibleMessageTime: string;
+    feasibleMessageTimeFrom: string;
+    feasibleMessageTimeTo: string;
+    feasibleCallTime: string;
+    feasibleCallTimeFrom: string;
+    feasibleCallTimeTo: string;
+
+    dayTimePhoneNumber: string;
+    canCallOnDayTimePhone: boolean = false;
+    canMsgOnDayTimePhone: boolean = false;
+
+    nightTimePhoneNumber: string;
+    canCallOnNightTimePhone: boolean = false;
+    canMsgOnNightTimePhone: boolean = false;
+
+    isInternetAvailable: boolean = false;
+    isInternetHelper: boolean = false;
+    canUseInternet: boolean = false;
+
+    // wantToChange: boolean = false;
+    // effortToChange: boolean = false;
+    wantToChange: string = "no";    // "yes", "no"
+    effortToChange: string = "no";  // "yes", "no"
+
+
+    isActive: boolean = true;
+}
+
+export class AlternateContactInfo {
+
+    id: number;
+    alternateContactInfoId: number;
+
+    careGiverName: string;
+    careGiverPhoneNumber: string;
+    emergencyContactName: string;
+    emergencyContactPhoneNumber: string;
+    financerName: string;
+    financerPhoneNumber: string;
+    healthCarerName: string;
+    healthCarerPhoneNumber: string;
+    comment: string;
+
+    isActive: boolean = true;
+}
+
+export class InsuranceInfo {
+
+    id: number;
+    insuranceInfoId: number;
+
+    insuranceType: string;
+    insuranceOtherType: string;
+    insurancePolicyNumber: string;
+
+    coverageType: string;
+    coverageOtherType: string;
+    coveragePolicyNumber: string;
+
+    comment: string;
+
+    isActive: boolean = true;
+}
+
+export class InsuranceType {
+
+    id: number;
+    insuranceTypeId: number;
+    name: string;
+    code: string;
+
+    createdBy: string;
+    // createdBy: User = new User();
+    createdOn: string;
+    updatedBy: string;
+    updatedOn: string;
+}
+
+export class InsuranceCoverageType {
+
+    id: number;
+    insuranceCoverageTypeId: number;
+    name: string;
+    code: string;
+
+    createdBy: string;
+    // createdBy: User = new User();
+    createdOn: string;
+    updatedBy: string;
+    updatedOn: string;
+}
+
+export class SelfAssessmentInfo {
+
+    id: number;
+    selfAssessmentInfoId: number;
+
+    liveType: string;
+    liveOtherType: string;
+    liveComment: string;
+
+    challengeWith: string;
+    challengeOtherType: string;
+    challengeComment: string;
+
+    primaryLanguage: string;
+    primaryLanguageOther: string;
+    primaryLanguageComment: string;
+
+    learnBestBy: string;
+    learnBestByOther: string;
+    learnBestByComment: string;
+
+    thingImpactHealth: string;
+    thingImpactHealthOther: string;
+    thingImpactHealthComment: string;
+
+    isDietaryRequire: boolean = false;
+    dietaryRequireDescription: string;
+
+    assistanceAvailable: string;
+
+    isActive: boolean = true;
+}
+
+export class LiveType {
+
+    id: number;
+    liveTypeId: number;
+    name: string;
+    code: string;
+
+    createdBy: string;
+    // createdBy: User = new User();
+    createdOn: string;
+    updatedBy: string;
+    updatedOn: string;
+}
+
+export class ChallengeType {
+
+    id: number;
+    challengeTypeId: number;
+    name: string;
+    code: string;
+
+    createdBy: string;
+    // createdBy: User = new User();
+    createdOn: string;
+    updatedBy: string;
+    updatedOn: string;
+}
+
+export class PrimaryLanguage {
+
+    id: number;
+    primaryLanguageId: number;
+    name: string;
+    code: string;
+
+    createdBy: string;
+    // createdBy: User = new User();
+    createdOn: string;
+    updatedBy: string;
+    updatedOn: string;
+}
+
+export class LearnBestBy {
+
+    id: number;
+    learnBestById: number;
+    name: string;
+    code: string;
+
+    createdBy: string;
+    // createdBy: User = new User();
+    createdOn: string;
+    updatedBy: string;
+    updatedOn: string;
+}
+
+export class ThingImpactHealth {
+
+    id: number;
+    thingImpactHealthId: number;
+    name: string;
+    code: string;
+
+    createdBy: string;
+    // createdBy: User = new User();
+    createdOn: string;
+    updatedBy: string;
+    updatedOn: string;
+}
+
+export class AssistanceAvailable {
+
+    id: number;
+    assistanceAvailableId: number;
+    name: string;
+    code: string;
+
+    createdBy: string;
+    // createdBy: User = new User();
+    createdOn: string;
+    updatedBy: string;
+    updatedOn: string;
+}
+
+export class AbilityConcernInfo {
+
+    id: number;
+    abilityConcernId: number;
+
+    manageChronicCondition: boolean = false;
+    manageChronicConditionComment: string;
+    decreaseEnergyLevel: boolean = false;
+    decreaseEnergyLevelComment: string;
+    canCleanHome: boolean = false;
+    canCleanHomeComment: string;
+    emotionalCurrentIssue: boolean = false;
+    emotionalCurrentIssueComment: string;
+    manageMedication: boolean = false;
+    manageMedicationComment: string;
+    obtainHealthyFood: boolean = false;
+    obtainHealthyFoodComment: string;
+    copeLifeIssue: boolean = false;
+    copeLifeIssueComment: string;
+    isCurrentlyDnr: boolean = false;
+    currentlyDnrComment: string;
+    isCurrentlyPoa: boolean = false;
+    currentlyPoaComment: string;
+    isCurrentlyDirective: boolean = false;
+    currentlyDirectiveComment: string;
+    isAbleToMoveDaily: boolean = false;
+    ableToMoveDailyComment: string;
+    concernDetailComment: string;
+
+    isActive: boolean = true;
+}

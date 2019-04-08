@@ -17,7 +17,7 @@ import { ForumFeed } from '../../models/forum';
 import { Tag } from '../../models/tag';
 import { Comment, Reply } from '../../models/comment';
 import { Ticket, TicketAssignee } from '../../models/ticket';
-import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine } from '../../models/user.record';
+import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo } from '../../models/user.record';
 
 @Injectable()
 export class MappingService {
@@ -570,6 +570,189 @@ export class MappingService {
         }
 
         return isVaccine;
+    }
+
+
+    public mapPersonalContactInfo(res: any): PersonalContactInfo {
+        const personalContactInfoData = res;
+        const isPersonalContactInfo = new PersonalContactInfo();
+        if (personalContactInfoData) {
+            isPersonalContactInfo.id = personalContactInfoData.Id || null;
+            isPersonalContactInfo.personalContactInfoId = personalContactInfoData.Id || null;
+
+            isPersonalContactInfo.ableToMessage = personalContactInfoData.AbleToMessage || false;
+            isPersonalContactInfo.ableToCall = personalContactInfoData.AbleToCall || false;
+
+            isPersonalContactInfo.feasibleMessageTime = personalContactInfoData.FeasibleMessageTime || null;
+            if (isPersonalContactInfo.feasibleMessageTime) {
+                isPersonalContactInfo.feasibleMessageTimeFrom = "";
+                isPersonalContactInfo.feasibleMessageTimeTo = "";
+            }
+
+            isPersonalContactInfo.feasibleCallTime = personalContactInfoData.FeasibleCallTime || null;
+            if (isPersonalContactInfo.feasibleCallTime) {
+                isPersonalContactInfo.feasibleCallTimeFrom = "";
+                isPersonalContactInfo.feasibleCallTimeTo = "";
+            }
+
+            isPersonalContactInfo.dayTimePhoneNumber = personalContactInfoData.DayTimePhoneNumber || null;
+            isPersonalContactInfo.canCallOnDayTimePhone = personalContactInfoData.CanCallOnDayTimePhone || false;
+            isPersonalContactInfo.canMsgOnDayTimePhone = personalContactInfoData.CanMsgOnDayTimePhone || false;
+
+            isPersonalContactInfo.nightTimePhoneNumber = personalContactInfoData.NightTimePhoneNumber || null;
+            isPersonalContactInfo.canCallOnNightTimePhone = personalContactInfoData.CanCallOnNightTimePhone || false;
+            isPersonalContactInfo.canMsgOnNightTimePhone = personalContactInfoData.CanMsgOnNightTimePhone || false;
+
+            isPersonalContactInfo.isInternetAvailable = personalContactInfoData.IsInternetAvailable || false;
+            isPersonalContactInfo.isInternetHelper = personalContactInfoData.IsInternetHelper || false;
+            isPersonalContactInfo.canUseInternet = personalContactInfoData.CanUseInternet || false;
+
+            isPersonalContactInfo.wantToChange = personalContactInfoData.WantToChange || null;
+            isPersonalContactInfo.effortToChange = personalContactInfoData.effortToChange || null;
+
+            isPersonalContactInfo.isActive = personalContactInfoData.IsActive || false;
+        }
+
+        return isPersonalContactInfo;
+    }
+
+    public mapAlternateContactInfo(res: any): AlternateContactInfo {
+        const alternateContactInfoData = res;
+        const isAlternateContactInfo = new AlternateContactInfo();
+        if (alternateContactInfoData) {
+            isAlternateContactInfo.id = alternateContactInfoData.Id || null;
+            isAlternateContactInfo.alternateContactInfoId = alternateContactInfoData.Id || null;
+
+            isAlternateContactInfo.careGiverName = alternateContactInfoData.CareGiverName || null;
+            isAlternateContactInfo.careGiverPhoneNumber = alternateContactInfoData.CareGiverPhoneNumber || null;
+
+            isAlternateContactInfo.emergencyContactName = alternateContactInfoData.EmergencyContactName || null;
+            isAlternateContactInfo.emergencyContactPhoneNumber = alternateContactInfoData.EmergencyContactPhoneNumber || null;
+
+            isAlternateContactInfo.financerName = alternateContactInfoData.FinancerName || null;
+            isAlternateContactInfo.financerPhoneNumber = alternateContactInfoData.FinancerPhoneNumber || null;
+
+            isAlternateContactInfo.healthCarerName = alternateContactInfoData.HealthCarerName || null;
+            isAlternateContactInfo.healthCarerPhoneNumber = alternateContactInfoData.HealthCarerPhoneNumber || null;
+
+            isAlternateContactInfo.comment = alternateContactInfoData.Comment || null;
+
+            isAlternateContactInfo.isActive = alternateContactInfoData.IsActive || false;
+        }
+
+        return isAlternateContactInfo;
+    }
+
+    public mapInsuranceInfo(res: any): InsuranceInfo {
+        const insuranceInfoData = res;
+        const isInsuranceInfo = new InsuranceInfo();
+        if (insuranceInfoData) {
+            isInsuranceInfo.id = insuranceInfoData.Id || null;
+            isInsuranceInfo.insuranceInfoId = insuranceInfoData.Id || null;
+
+            isInsuranceInfo.insuranceType = insuranceInfoData.InsuranceType || null;
+            isInsuranceInfo.insuranceOtherType = insuranceInfoData.InsuranceOtherType || null;
+            isInsuranceInfo.insurancePolicyNumber = insuranceInfoData.InsurancePolicyNumber || null;
+
+            isInsuranceInfo.coverageType = insuranceInfoData.CoverageType || null;
+            isInsuranceInfo.coverageOtherType = insuranceInfoData.CoverageOtherType || null;
+            isInsuranceInfo.coveragePolicyNumber = insuranceInfoData.CoveragePolicyNumber || null;
+
+            isInsuranceInfo.comment = insuranceInfoData.Comment || null;
+
+            isInsuranceInfo.isActive = insuranceInfoData.IsActive || false;
+        }
+
+        return isInsuranceInfo;
+    }
+
+    public mapSelfAssessmentInfo(res: any): SelfAssessmentInfo {
+        const selfAssessmentInfoData = res;
+        const isSelfAssessmentInfo = new SelfAssessmentInfo();
+        if (selfAssessmentInfoData) {
+            isSelfAssessmentInfo.id = selfAssessmentInfoData.Id || null;
+            isSelfAssessmentInfo.selfAssessmentInfoId = selfAssessmentInfoData.Id || null;
+
+            isSelfAssessmentInfo.liveType = selfAssessmentInfoData.LiveType || null;
+            isSelfAssessmentInfo.liveOtherType = selfAssessmentInfoData.LiveOtherType || null;
+            isSelfAssessmentInfo.liveComment = selfAssessmentInfoData.LiveComment || null;
+
+            isSelfAssessmentInfo.challengeWith = selfAssessmentInfoData.ChallengeWith || null;
+            isSelfAssessmentInfo.challengeOtherType = selfAssessmentInfoData.ChallengeOtherType || null;
+            isSelfAssessmentInfo.challengeComment = selfAssessmentInfoData.ChallengeComment || null;
+
+            isSelfAssessmentInfo.primaryLanguage = selfAssessmentInfoData.PrimaryLanguage || null;
+            isSelfAssessmentInfo.primaryLanguageOther = selfAssessmentInfoData.PrimaryLanguageOther || null;
+            isSelfAssessmentInfo.primaryLanguageComment = selfAssessmentInfoData.PrimaryLanguageComment || null;
+
+            isSelfAssessmentInfo.learnBestBy = selfAssessmentInfoData.LearnBestBy || null;
+            isSelfAssessmentInfo.learnBestByOther = selfAssessmentInfoData.LearnBestByOther || null;
+            isSelfAssessmentInfo.learnBestByComment = selfAssessmentInfoData.LearnBestByComment || null;
+
+            isSelfAssessmentInfo.thingImpactHealth = selfAssessmentInfoData.ThingImpactHealth || null;
+            isSelfAssessmentInfo.thingImpactHealthOther = selfAssessmentInfoData.ThingImpactHealthOther || null;
+            isSelfAssessmentInfo.thingImpactHealthComment = selfAssessmentInfoData.ThingImpactHealthComment || null;
+
+            isSelfAssessmentInfo.isDietaryRequire = selfAssessmentInfoData.IsDietaryRequire || false;
+            isSelfAssessmentInfo.dietaryRequireDescription = selfAssessmentInfoData.DietaryRequireDescription || null;
+
+            isSelfAssessmentInfo.assistanceAvailable = selfAssessmentInfoData.AssistanceAvailable || null;
+
+
+            isSelfAssessmentInfo.isActive = selfAssessmentInfoData.IsActive || false;
+        }
+
+        return isSelfAssessmentInfo;
+    }
+
+    public mapAbilityConcernInfo(res: any): AbilityConcernInfo {
+        const abilityConcernInfoData = res;
+        const isAbilityConcernInfo = new AbilityConcernInfo();
+        if (abilityConcernInfoData) {
+            isAbilityConcernInfo.id = abilityConcernInfoData.Id || null;
+            isAbilityConcernInfo.abilityConcernId = abilityConcernInfoData.Id || null;
+
+
+            isAbilityConcernInfo.manageChronicCondition = abilityConcernInfoData.ManageChronicCondition || false;
+            isAbilityConcernInfo.manageChronicConditionComment = abilityConcernInfoData.ManageChronicConditionComment || null;
+
+            isAbilityConcernInfo.decreaseEnergyLevel = abilityConcernInfoData.DecreaseEnergyLevel || false;
+            isAbilityConcernInfo.decreaseEnergyLevelComment = abilityConcernInfoData.DecreaseEnergyLevelComment || null;
+
+            isAbilityConcernInfo.canCleanHome = abilityConcernInfoData.CanCleanHome || false;
+            isAbilityConcernInfo.canCleanHomeComment = abilityConcernInfoData.CanCleanHomeComment || null;
+
+            isAbilityConcernInfo.emotionalCurrentIssue = abilityConcernInfoData.EmotionalCurrentIssue || false;
+            isAbilityConcernInfo.emotionalCurrentIssueComment = abilityConcernInfoData.EmotionalCurrentIssueComment || null;
+
+            isAbilityConcernInfo.manageMedication = abilityConcernInfoData.ManageMedication || false;
+            isAbilityConcernInfo.manageMedicationComment = abilityConcernInfoData.ManageMedicationComment || null;
+
+            isAbilityConcernInfo.obtainHealthyFood = abilityConcernInfoData.ObtainHealthyFood || false;
+            isAbilityConcernInfo.obtainHealthyFoodComment = abilityConcernInfoData.ObtainHealthyFoodComment || null;
+
+            isAbilityConcernInfo.copeLifeIssue = abilityConcernInfoData.CopeLifeIssue || false;
+            isAbilityConcernInfo.copeLifeIssueComment = abilityConcernInfoData.CopeLifeIssueComment || null;
+
+            isAbilityConcernInfo.isCurrentlyDnr = abilityConcernInfoData.IsCurrentlyDnr || false;
+            isAbilityConcernInfo.currentlyDnrComment = abilityConcernInfoData.CurrentlyDnrComment || null;
+
+            isAbilityConcernInfo.isCurrentlyPoa = abilityConcernInfoData.IsCurrentlyPoa || false;
+            isAbilityConcernInfo.currentlyPoaComment = abilityConcernInfoData.CurrentlyPoaComment || null;
+
+            isAbilityConcernInfo.isCurrentlyDirective = abilityConcernInfoData.IsCurrentlyDirective || false;
+            isAbilityConcernInfo.currentlyDirectiveComment = abilityConcernInfoData.CurrentlyDirectiveComment || null;
+
+            isAbilityConcernInfo.isAbleToMoveDaily = abilityConcernInfoData.IsAbleToMoveDaily || false;
+            isAbilityConcernInfo.ableToMoveDailyComment = abilityConcernInfoData.AbleToMoveDailyComment || null;
+
+            isAbilityConcernInfo.concernDetailComment = abilityConcernInfoData.ConcernDetailComment || null;
+
+
+            isAbilityConcernInfo.isActive = abilityConcernInfoData.IsActive || false;
+        }
+
+        return isAbilityConcernInfo;
     }
 
 }

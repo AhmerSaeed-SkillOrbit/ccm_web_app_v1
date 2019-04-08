@@ -73,7 +73,7 @@ export class InviteDialogComponent implements OnInit {
         this.inviteForm = fb.group({
             'email': [this.email, Validators.compose([Validators.required, Validators.email])],
             'phoneCode': [this.email, Validators.compose([Validators.required])],
-            'mobileNumber': [this.mobileNo, Validators.compose([])]
+            'mobileNumber': [this.mobileNo, Validators.compose([Validators.required])]
         });
 
 

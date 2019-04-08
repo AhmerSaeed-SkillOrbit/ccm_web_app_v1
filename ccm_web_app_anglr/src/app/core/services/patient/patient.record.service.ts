@@ -8,7 +8,7 @@ import { DatePipe } from '@angular/common';
 
 import { Token } from '../../models/token';
 import { User } from '../../models/user';
-import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine } from '../../models/user.record';
+import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo } from '../../models/user.record';
 
 @Injectable()
 export class PatientRecordService implements OnDestroy {
@@ -443,6 +443,320 @@ export class PatientRecordService implements OnDestroy {
             Vaccine: vaccine.vaccineName || null,
             VaccineDate: vaccine.vaccineDate || null,
             IsActive: vaccine.isActive || false,
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+    public getPersonalContactInfo(patientId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        // active/medicine/all?patientId=65&userId=11
+        const getUrl = 'patient/assessment/single?patientId=' + (patientId || null) + "&userId=" + (userId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public addUpdatePersonalContactInfo(personalContactInfo: PersonalContactInfo, patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'save/patient/assessment?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+
+        let body = {
+            Id: personalContactInfo.id || null,
+
+            AbleToMessage: personalContactInfo.ableToMessage || false,
+            AbleToCall: personalContactInfo.ableToCall || false,
+
+            // FeasibleMessageTime: personalContactInfo.feasibleMessageTime,
+            FeasibleMessageTime: personalContactInfo.feasibleMessageTimeFrom + " - " + personalContactInfo.feasibleMessageTimeTo,
+
+            // FeasibleCallTime: personalContactInfo.feasibleCallTime,
+            FeasibleCallTime: personalContactInfo.feasibleCallTimeFrom + " - " + personalContactInfo.feasibleCallTimeTo,
+
+            DayTimePhoneNumber: personalContactInfo.dayTimePhoneNumber || null,
+            CanCallOnDayTimePhone: personalContactInfo.canCallOnDayTimePhone || false,
+            CanMsgOnDayTimePhone: personalContactInfo.canMsgOnDayTimePhone || false,
+
+            NightTimePhoneNumber: personalContactInfo.nightTimePhoneNumber || null,
+            CanCallOnNightTimePhone: personalContactInfo.canCallOnNightTimePhone || false,
+            CanMsgOnNightTimePhone: personalContactInfo.canMsgOnNightTimePhone || false,
+
+            IsInternetAvailable: personalContactInfo.isInternetAvailable || false,
+            IsInternetHelper: personalContactInfo.isInternetHelper || false,
+            CanUseInternet: personalContactInfo.canUseInternet || false,
+            WantToChange: personalContactInfo.wantToChange || null,
+            EffortToChange: personalContactInfo.effortToChange || null,
+
+
+
+            IsActive: personalContactInfo.isActive || false,
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+    public getAlternateContactInfo(patientId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        // active/medicine/all?patientId=65&userId=11
+        const getUrl = 'patient/assessment/alternate/contact/single?patientId=' + (patientId || null) + "&userId=" + (userId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public addUpdateAlternateContactInfo(alternateContactInfo: AlternateContactInfo, patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'save/patient/assessment/alternate/contact?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+
+        let body = {
+            Id: alternateContactInfo.id || null,
+
+            CareGiverName: alternateContactInfo.careGiverName || null,
+            CareGiverPhoneNumber: alternateContactInfo.careGiverPhoneNumber || null,
+            EmergencyContactName: alternateContactInfo.emergencyContactName || null,
+            EmergencyContactPhoneNumber: alternateContactInfo.emergencyContactPhoneNumber || null,
+            FinancerName: alternateContactInfo.financerName || null,
+            FinancerPhoneNumber: alternateContactInfo.financerPhoneNumber || null,
+            HealthCarerName: alternateContactInfo.healthCarerName || null,
+            HealthCarerPhoneNumber: alternateContactInfo.healthCarerPhoneNumber || null,
+
+            Comment: alternateContactInfo.comment || null,
+
+
+            IsActive: alternateContactInfo.isActive || false,
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+    public getInsuranceInfo(patientId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        // active/medicine/all?patientId=65&userId=11
+        const getUrl = 'patient/assessment/insurance/single?patientId=' + (patientId || null) + "&userId=" + (userId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public addUpdateInsuranceInfo(insuranceInfo: InsuranceInfo, patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'save/patient/assessment/insurance?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+
+        let body = {
+            Id: insuranceInfo.id || null,
+
+            InsuranceType: insuranceInfo.insuranceType || null,
+            InsuranceOtherType: insuranceInfo.insuranceOtherType || null,
+            InsurancePolicyNumber: insuranceInfo.insurancePolicyNumber || null,
+
+            CoverageType: insuranceInfo.coverageType || null,
+            CoverageOtherType: insuranceInfo.coverageOtherType || null,
+            CoveragePolicyNumber: insuranceInfo.coveragePolicyNumber || null,
+
+            Comment: insuranceInfo.comment || null,
+
+
+            IsActive: insuranceInfo.isActive || false,
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+    public getSelfAssessmentInfo(patientId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'patient/assessment/self/single?patientId=' + (patientId || null) + "&userId=" + (userId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public addUpdateSelfAssessmentInfo(selfAssessmentInfo: SelfAssessmentInfo, patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'save/patient/assessment/self?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+
+        let body = {
+            Id: selfAssessmentInfo.id || null,
+
+            LiveType: selfAssessmentInfo.liveType || null,
+            LiveOtherType: selfAssessmentInfo.liveOtherType || null,
+            LiveComment: selfAssessmentInfo.liveComment || null,
+
+            ChallengeWith: selfAssessmentInfo.challengeWith || null,
+            ChallengeOtherType: selfAssessmentInfo.challengeOtherType || null,
+            ChallengeComment: selfAssessmentInfo.challengeComment || null,
+
+            PrimaryLanguage: selfAssessmentInfo.primaryLanguage || null,
+            PrimaryLanguageOther: selfAssessmentInfo.primaryLanguageOther || null,
+            PrimaryLanguageComment: selfAssessmentInfo.primaryLanguageComment || null,
+
+            LearnBestBy: selfAssessmentInfo.learnBestBy || null,
+            LearnBestByOther: selfAssessmentInfo.learnBestByOther || null,
+            LearnBestByComment: selfAssessmentInfo.learnBestByComment || null,
+
+            ThingImpactHealth: selfAssessmentInfo.thingImpactHealth || null,
+            ThingImpactHealthOther: selfAssessmentInfo.thingImpactHealthOther || null,
+            ThingImpactHealthComment: selfAssessmentInfo.thingImpactHealthComment || null,
+
+            IsDietaryRequire: selfAssessmentInfo.isDietaryRequire || false,
+            DietaryRequireDescription: selfAssessmentInfo.dietaryRequireDescription || null,
+
+            AssistanceAvailable: selfAssessmentInfo.assistanceAvailable || null,
+
+
+            IsActive: selfAssessmentInfo.isActive || false,
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+    public getAbilityConcernInfo(patientId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'patient/assessment/ability/concern/single?patientId=' + (patientId || null) + "&userId=" + (userId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public addUpdateAbilityConcernInfo(abilityConcernInfo: AbilityConcernInfo, patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'save/patient/assessment/ability/concern?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+
+        let body = {
+            Id: abilityConcernInfo.id || null,
+            ManageChronicCondition: abilityConcernInfo.manageChronicCondition || false,
+            ManageChronicConditionComment: abilityConcernInfo.manageChronicConditionComment || null,
+            DecreaseEnergyLevel: abilityConcernInfo.decreaseEnergyLevel || false,
+            DecreaseEnergyLevelComment: abilityConcernInfo.decreaseEnergyLevelComment || null,
+            CanCleanHome: abilityConcernInfo.canCleanHome || false,
+            CanCleanHomeComment: abilityConcernInfo.canCleanHomeComment || null,
+            EmotionalCurrentIssue: abilityConcernInfo.emotionalCurrentIssue || false,
+            EmotionalCurrentIssueComment: abilityConcernInfo.emotionalCurrentIssueComment || null,
+            ManageMedication: abilityConcernInfo.manageMedication || false,
+            ManageMedicationComment: abilityConcernInfo.manageMedicationComment || null,
+            ObtainHealthyFood: abilityConcernInfo.obtainHealthyFood || false,
+            ObtainHealthyFoodComment: abilityConcernInfo.obtainHealthyFoodComment || null,
+            CopeLifeIssue: abilityConcernInfo.copeLifeIssue || false,
+            CopeLifeIssueComment: abilityConcernInfo.copeLifeIssueComment || null,
+            IsCurrentlyDnr: abilityConcernInfo.isCurrentlyDnr || false,
+            CurrentlyDnrComment: abilityConcernInfo.currentlyDnrComment || null,
+            IsCurrentlyPoa: abilityConcernInfo.isCurrentlyPoa || false,
+            CurrentlyPoaComment: abilityConcernInfo.currentlyPoaComment || null,
+            IsCurrentlyDirective: abilityConcernInfo.isCurrentlyDirective || false,
+            CurrentlyDirectiveComment: abilityConcernInfo.currentlyDirectiveComment || null,
+            IsAbleToMoveDaily: abilityConcernInfo.isAbleToMoveDaily || false,
+            AbleToMoveDailyComment: abilityConcernInfo.ableToMoveDailyComment || null,
+            ConcernDetailComment: abilityConcernInfo.concernDetailComment || null,
+            IsActive: abilityConcernInfo.isActive || false,
         };
 
         return this._http.post(getUrl, body, options)
