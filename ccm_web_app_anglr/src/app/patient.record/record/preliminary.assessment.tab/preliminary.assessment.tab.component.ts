@@ -20,7 +20,7 @@ import { MappingService } from '../../../core/services/mapping/mapping.service';
 import { FormService } from '../../../core/services/form/form.service';
 import { PatientRecordService } from '../../../core/services/patient/patient.record.service';
 import { Config } from '../../../config/config';
-import { PersonalContactInfo, AlternateContactInfo, InsuranceType, InsuranceCoverageType, InsuranceInfo, SelfAssessmentInfo, LiveType, ChallengeType, PrimaryLanguage, LearnBestBy, ThingImpactHealth, AssistanceAvailable, AbilityConcernInfo } from '../../../core/models/user.record';
+import { PersonalContactInfo, AlternateContactInfo, InsuranceType, InsuranceCoverageType, InsuranceInfo, SelfAssessmentInfo, LiveType, ChallengeType, PrimaryLanguage, LearnBestBy, ThingImpactHealth, AssistanceAvailable, AbilityConcernInfo, ResourceInfo } from '../../../core/models/user.record';
 import { SetupService } from '../../../core/services/setup/setup.service';
 
 // import { Config } from '../../../config/config';
@@ -58,6 +58,7 @@ export class PreliminaryAssessmentTabComponent implements OnInit {
     insuranceInfo: InsuranceInfo = new InsuranceInfo();
     selfAssessmentInfo: SelfAssessmentInfo = new SelfAssessmentInfo();
     abilityConcernInfo: AbilityConcernInfo = new AbilityConcernInfo();
+    resourceInfo: ResourceInfo = new ResourceInfo();
     // vaccines: Vaccine[] = [];
 
     // genders = Config.gender;
@@ -69,6 +70,7 @@ export class PreliminaryAssessmentTabComponent implements OnInit {
     insuranceInfoFormGroup: FormGroup;
     selfAssessmentInfoFormGroup: FormGroup;
     abilityConcernInfoFormGroup: FormGroup;
+    resourceInfoFormGroup: FormGroup;
     isSubmitted: boolean = false;
 
 
@@ -192,6 +194,28 @@ export class PreliminaryAssessmentTabComponent implements OnInit {
 
             'concernDetailComment': [null, Validators.compose([])],
 
+        });
+
+        this.resourceInfoFormGroup = this._formBuilder.group({
+
+            'isForgetMedicine': [null, Validators.compose([])],
+            'isForgetMedicineComment': [null, Validators.compose([])],
+            'isForgetAppointment': [null, Validators.compose([])],
+            'isForgetAppointmentComment': [null, Validators.compose([])],
+            'isGoWhenSick': [null, Validators.compose([])],
+            'isGoWhenSickComment': [null, Validators.compose([])],
+            'goWithoutFood': [null, Validators.compose([])],
+            'goWithoutFoodComment': [null, Validators.compose([])],
+            'isPowerShutOff': [null, Validators.compose([])],
+            'isPowerShutOffComment': [null, Validators.compose([])],
+            'getUnAbleToDress': [null, Validators.compose([])],
+            'getUnAbleToDressComment': [null, Validators.compose([])],
+            'hardToPrepareFood': [null, Validators.compose([])],
+            'hardToPrepareFoodComment': [null, Validators.compose([])],
+            'isFrequentlySad': [null, Validators.compose([])],
+            'isFrequentlySadComment': [null, Validators.compose([])],
+            'hardToTakeBath': [null, Validators.compose([])],
+            'hardToTakeBathComment': [null, Validators.compose([])],
         });
     }
 
@@ -632,6 +656,29 @@ export class PreliminaryAssessmentTabComponent implements OnInit {
 
     }
 
+    loadResourceInformation() {
+
+        this._uiService.showSpinner();
+
+        this._patientRecordService.getResourceInfo(this.id).subscribe(
+            (res) => {
+                this._uiService.hideSpinner();
+
+                let data = res.json().data;
+                console.log('u Object', data);
+                // console.log('res list:', array);
+                this.resourceInfo = this._mappingService.mapResourceInfo(data);
+
+            },
+            (err) => {
+                console.log(err);
+                this._uiService.hideSpinner();
+                this._authService.errStatusCheckResponse(err);
+            }
+        );
+
+    }
+
 
     onInsuranceTypeSelect() {
 
@@ -857,6 +904,45 @@ export class PreliminaryAssessmentTabComponent implements OnInit {
         } else {
             // console.log("asd")
             this._formService.validateAllFormFields(this.abilityConcernInfoFormGroup);
+        }
+
+    }
+
+    onSubmitResourceInfo() {
+        const msg = new Message();
+        // this.scrollTo(0,0,0)
+        // this.isSubmitted = !this.isSubmitted;
+
+        if (this.resourceInfoFormGroup.valid) {
+            this.isSubmitted = true;
+            this._uiService.showSpinner();
+            // this.isSubmitStarted = true;
+            const msg = new Message();
+            this._patientRecordService.addUpdateResourceInfo(this.resourceInfo, this.id).subscribe(
+                (res) => {
+                    this.isSubmitted = false;
+                    this._uiService.hideSpinner();
+                    // this._authServices.storeUser(this.userForm);
+
+                    this.loadResourceInformation();
+
+                    msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
+                    // msg.msg = 'You have successfully signed up';
+                    msg.msgType = MessageTypes.Information;
+                    msg.autoCloseAfter = 400;
+                    this._uiService.showToast(msg, 'info');
+
+                },
+                (err) => {
+                    console.log(err);
+                    this.isSubmitted = false;
+                    this._uiService.hideSpinner();
+                    this._authService.errStatusCheckResponse(err);
+                }
+            );
+        } else {
+            // console.log("asd")
+            this._formService.validateAllFormFields(this.resourceInfoFormGroup);
         }
 
     }

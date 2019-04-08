@@ -20,7 +20,7 @@
                     <div class="col-md-3">
                         <mat-form-field class="full-width">
                             <input matInput placeholder="Unqiue Patient ID" formControlName="unqiuePatientId"
-                                [(ngModel)]="patient.unqiuePatientId">
+                                [(ngModel)]="patient.unqiuePatientId" readonly>
                         </mat-form-field>
                     </div>
 
@@ -66,17 +66,10 @@
                     </div>
 
                     <!-- Date of Birth (DOB) -->
-                    <div class="col-md-3" *ngIf="false">
-                        <mat-form-field class="full-width">
-                            <input matInput placeholder="Date of Birth (DOB)" formControlName="dateOfBirth" [(ngModel)]="patient.dateOfBirth">
-                        </mat-form-field>
-                    </div>
-
-                    <!-- Date of Birth (DOB) -->
                     <!-- (dateChange)="dateChanged($event, 'startDate')" -->
                     <!-- (ngModelChange)="onStartDateFocusOut()" -->
                     <!-- [min]="currentDate" -->
-                    <div class="col-md-3">
+                    <div class="col-md-3" *ngIf="false">
                         <mat-form-field class="full-width">
                             <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" placeholder="Date of Birth (DOB)"
                                 formControlName="dateOfBirth" [(ngModel)]="patient.dateOfBirth" (dateChange)="dateChanged($event, 'dob')"

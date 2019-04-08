@@ -17,7 +17,7 @@ import { ForumFeed } from '../../models/forum';
 import { Tag } from '../../models/tag';
 import { Comment, Reply } from '../../models/comment';
 import { Ticket, TicketAssignee } from '../../models/ticket';
-import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo } from '../../models/user.record';
+import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo, ResourceInfo } from '../../models/user.record';
 
 @Injectable()
 export class MappingService {
@@ -753,6 +753,46 @@ export class MappingService {
         }
 
         return isAbilityConcernInfo;
+    }
+
+    public mapResourceInfo(res: any): ResourceInfo {
+        const resourceInfoData = res;
+        const isResourceInfo = new ResourceInfo();
+        if (resourceInfoData) {
+            isResourceInfo.id = resourceInfoData.Id || null;
+            isResourceInfo.resourceInfoId = resourceInfoData.Id || null;
+
+            isResourceInfo.isForgetMedicine = resourceInfoData.IsForgetMedicine || false;
+            isResourceInfo.isForgetMedicineComment = resourceInfoData.IsForgetMedicineComment || null;
+
+            isResourceInfo.isForgetAppointment = resourceInfoData.IsForgetAppointment || false;
+            isResourceInfo.isForgetAppointmentComment = resourceInfoData.IsForgetAppointmentComment || null;
+
+            isResourceInfo.isGoWhenSick = resourceInfoData.IsGoWhenSick || false;
+            isResourceInfo.isGoWhenSickComment = resourceInfoData.IsGoWhenSickComment || null;
+
+            isResourceInfo.goWithoutFood = resourceInfoData.GoWithoutFood || false;
+            isResourceInfo.goWithoutFoodComment = resourceInfoData.goWithoutFoodComment || null;
+
+            isResourceInfo.isPowerShutOff = resourceInfoData.IsPowerShutOff || false;
+            isResourceInfo.isPowerShutOffComment = resourceInfoData.IsPowerShutOffComment || null;
+
+            isResourceInfo.getUnAbleToDress = resourceInfoData.GetUnAbleToDress || false;
+            isResourceInfo.getUnAbleToDressComment = resourceInfoData.GetUnAbleToDressComment || null;
+
+            isResourceInfo.hardToPrepareFood = resourceInfoData.HardToPrepareFood || false;
+            isResourceInfo.hardToPrepareFoodComment = resourceInfoData.HardToPrepareFoodComment || null;
+
+            isResourceInfo.isFrequentlySad = resourceInfoData.IsFrequentlySad || false;
+            isResourceInfo.isFrequentlySadComment = resourceInfoData.IsFrequentlySadComment || null;
+
+            isResourceInfo.hardToTakeBath = resourceInfoData.HardToTakeBath || false;
+            isResourceInfo.hardToTakeBathComment = resourceInfoData.HardToTakeBathComment || null;
+
+            isResourceInfo.isActive = resourceInfoData.IsActive || false;
+        }
+
+        return isResourceInfo;
     }
 
 }

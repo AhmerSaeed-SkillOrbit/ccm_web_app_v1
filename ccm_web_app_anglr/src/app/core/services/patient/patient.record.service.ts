@@ -8,7 +8,7 @@ import { DatePipe } from '@angular/common';
 
 import { Token } from '../../models/token';
 import { User } from '../../models/user';
-import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo } from '../../models/user.record';
+import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo, ResourceInfo } from '../../models/user.record';
 
 @Injectable()
 export class PatientRecordService implements OnDestroy {
@@ -757,6 +757,66 @@ export class PatientRecordService implements OnDestroy {
             AbleToMoveDailyComment: abilityConcernInfo.ableToMoveDailyComment || null,
             ConcernDetailComment: abilityConcernInfo.concernDetailComment || null,
             IsActive: abilityConcernInfo.isActive || false,
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+    public getResourceInfo(patientId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'patient/assessment/resource/single?patientId=' + (patientId || null) + "&userId=" + (userId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public addUpdateResourceInfo(resourceInfo: ResourceInfo, patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'save/patient/assessment/resource?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+
+        let body = {
+            Id: resourceInfo.id || null,
+            IsForgetMedicine: resourceInfo.isForgetMedicine || false,
+            IsForgetMedicineComment: resourceInfo.isForgetMedicineComment || null,
+            IsForgetAppointment: resourceInfo.isForgetAppointment || false,
+            IsForgetAppointmentComment: resourceInfo.isForgetAppointmentComment || null,
+            IsGoWhenSick: resourceInfo.isGoWhenSick || false,
+            IsGoWhenSickComment: resourceInfo.isGoWhenSickComment || null,
+            GoWithoutFood: resourceInfo.goWithoutFood || false,
+            GoWithoutFoodComment: resourceInfo.goWithoutFoodComment || null,
+            IsPowerShutOff: resourceInfo.isPowerShutOff || false,
+            IsPowerShutOffComment: resourceInfo.isPowerShutOffComment || null,
+            GetUnAbleToDress: resourceInfo.getUnAbleToDress || false,
+            GetUnAbleToDressComment: resourceInfo.getUnAbleToDressComment || null,
+            HardToPrepareFood: resourceInfo.hardToPrepareFood || false,
+            HardToPrepareFoodComment: resourceInfo.hardToPrepareFoodComment || null,
+            IsFrequentlySad: resourceInfo.isFrequentlySad || false,
+            IsFrequentlySadComment: resourceInfo.isFrequentlySadComment || null,
+            HardToTakeBath: resourceInfo.hardToTakeBath || false,
+            HardToTakeBathComment: resourceInfo.hardToTakeBathComment || null,
+            IsActive: resourceInfo.isActive || false,
         };
 
         return this._http.post(getUrl, body, options)

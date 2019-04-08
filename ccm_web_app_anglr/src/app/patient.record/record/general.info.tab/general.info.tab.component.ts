@@ -65,7 +65,7 @@ export class GeneralInfoTabComponent implements OnInit {
 
         this.generalInfoFormGroup = this._formBuilder.group({
 
-            'unqiuePatientId': [this.patient.firstName, Validators.compose([Validators.required])],
+            'unqiuePatientId': [this.patient.firstName, Validators.compose([])],
             'firstName': [this.patient.firstName, Validators.compose([Validators.required])],
             'middleName': [this.patient.firstName, Validators.compose([])],
             'lastName': [this.patient.lastName, Validators.compose([Validators.required])],

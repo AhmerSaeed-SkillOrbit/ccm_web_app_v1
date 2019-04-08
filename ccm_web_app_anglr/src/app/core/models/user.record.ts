@@ -294,3 +294,30 @@ export class AbilityConcernInfo {
 
     isActive: boolean = true;
 }
+
+export class ResourceInfo {
+
+    id: number;
+    resourceInfoId: number;
+
+    isForgetMedicine: boolean = false;
+    isForgetMedicineComment: string;
+    isForgetAppointment: boolean = false;
+    isForgetAppointmentComment: string;
+    isGoWhenSick: boolean = false;
+    isGoWhenSickComment: string;
+    goWithoutFood: boolean = false;
+    goWithoutFoodComment: string;
+    isPowerShutOff: boolean = false;
+    isPowerShutOffComment: string;
+    getUnAbleToDress: boolean = false;
+    getUnAbleToDressComment: string;
+    hardToPrepareFood: boolean = false;
+    hardToPrepareFoodComment: string;
+    isFrequentlySad: boolean = false;
+    isFrequentlySadComment: string;
+    hardToTakeBath: boolean = false;
+    hardToTakeBathComment: string;
+
+    isActive: boolean = true;
+}
