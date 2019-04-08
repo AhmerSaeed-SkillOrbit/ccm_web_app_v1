@@ -375,7 +375,7 @@ export class MedicationTabComponent implements OnInit {
             (err) => {
                 console.log(err);
                 this._uiService.hideSpinner();
-                this._authService.errStatusCheckResponse(err);
+                // this._authService.errStatusCheckResponse(err);
             }
         );
 
@@ -412,7 +412,7 @@ export class MedicationTabComponent implements OnInit {
             (err) => {
                 console.log(err);
                 this._uiService.hideSpinner();
-                this._authService.errStatusCheckResponse(err);
+                // this._authService.errStatusCheckResponse(err);
             }
         );
 
@@ -449,7 +449,7 @@ export class MedicationTabComponent implements OnInit {
             (err) => {
                 console.log(err);
                 this._uiService.hideSpinner();
-                this._authService.errStatusCheckResponse(err);
+                // this._authService.errStatusCheckResponse(err);
             }
         );
 
