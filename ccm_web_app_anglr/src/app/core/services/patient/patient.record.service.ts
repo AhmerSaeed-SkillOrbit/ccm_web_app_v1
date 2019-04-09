@@ -49,7 +49,7 @@ export class PatientRecordService implements OnDestroy {
         let body = {
 
             // Id: user.id,
-            UnqiuePatientId: user.unqiuePatientId || null,
+            PatientUniqueId: user.patientUniqueId || null,
             FirstName: user.firstName || null,
             MiddleName: user.middleName || null,
             LastName: user.lastName || null,

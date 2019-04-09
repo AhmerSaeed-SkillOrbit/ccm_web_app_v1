@@ -11,7 +11,7 @@ import { Branch } from './branch';
 export class User extends BaseModel {
 
     userId: number;
-    unqiuePatientId: string;
+    patientUniqueId: string;
     fullName: string;
     firstName: string;
     middleName: string;

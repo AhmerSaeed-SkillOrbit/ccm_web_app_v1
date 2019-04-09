@@ -34,6 +34,7 @@ export class MappingService {
         if (userData) {
             isUser.id = userData.Id || null;
             isUser.userId = userData.Id || null;
+            isUser.patientUniqueId = userData.PatientUniqueId || null;
             isUser.firstName = userData.FirstName || null;
             isUser.middleName = userData.MiddleName || null;
             isUser.lastName = userData.LastName || null;
