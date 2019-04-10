@@ -8,7 +8,11 @@ import { DatePipe } from '@angular/common';
 
 import { Token } from '../../models/token';
 import { User } from '../../models/user';
-import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo, ResourceInfo } from '../../models/user.record';
+import {
+    ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine,
+    PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo,
+    AbilityConcernInfo, ResourceInfo, Answer, QuestionAnswer
+} from '../../models/user.record';
 
 @Injectable()
 export class PatientRecordService implements OnDestroy {
@@ -817,6 +821,72 @@ export class PatientRecordService implements OnDestroy {
             HardToTakeBath: resourceInfo.hardToTakeBath || false,
             HardToTakeBathComment: resourceInfo.hardToTakeBathComment || null,
             IsActive: resourceInfo.isActive || false,
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+    public getQuestionAnswers(patientId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'question/answer/all?patientId=' + (patientId || null) + "&userId=" + (userId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public addAnswer(questionAnswer: QuestionAnswer, patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'give/answer?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+
+        let body = {
+            CcmQuestionId: questionAnswer.id || null,
+            IsAnswered: questionAnswer.answer.isAnswered || false,
+            Answer: questionAnswer.answer.answer || null,
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+    public updateAnswer(questionAnswer: QuestionAnswer, patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'update/answer?userId=' + (userId || null) + "&patientId=" + (patientId || null) + "&Id=" + (questionAnswer.answer.id || null);
+
+        let body = {
+            IsAnswered: questionAnswer.answer.isAnswered || null,
+            Answer: questionAnswer.answer.answer || null,
         };
 
         return this._http.post(getUrl, body, options)

@@ -17,7 +17,7 @@ import { ForumFeed } from '../../models/forum';
 import { Tag } from '../../models/tag';
 import { Comment, Reply } from '../../models/comment';
 import { Ticket, TicketAssignee } from '../../models/ticket';
-import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo, ResourceInfo } from '../../models/user.record';
+import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo, ResourceInfo, QuestionAnswer, Answer } from '../../models/user.record';
 
 @Injectable()
 export class MappingService {
@@ -794,6 +794,38 @@ export class MappingService {
         }
 
         return isResourceInfo;
+    }
+
+    public mapQuestionAnswer(res: any): QuestionAnswer {
+        const questionAnswerData = res;
+        const isQuestionAnswer = new QuestionAnswer();
+        if (questionAnswerData) {
+            isQuestionAnswer.id = questionAnswerData.Id || null;
+            isQuestionAnswer.questionId = questionAnswerData.Id || null;
+            isQuestionAnswer.question = questionAnswerData.Question || null;
+            isQuestionAnswer.type = questionAnswerData.Type || null;
+
+            isQuestionAnswer.answer = this.mapAnswer(questionAnswerData.Answer);
+
+            isQuestionAnswer.isActive = questionAnswerData.IsActive || false;
+        }
+
+        return isQuestionAnswer;
+    }
+
+    public mapAnswer(res: any): Answer {
+        const answerData = res;
+        const isAnswer = new Answer();
+        if (answerData) {
+            isAnswer.id = answerData.Id || null;
+            isAnswer.answerId = answerData.Id || null;
+            isAnswer.isAnswered = answerData.IsAnswered || null;
+            isAnswer.answer = answerData.Answer || null;
+
+            isAnswer.isActive = answerData.IsActive || false;
+        }
+
+        return isAnswer;
     }
 
 }

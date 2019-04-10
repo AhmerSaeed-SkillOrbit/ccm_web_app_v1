@@ -322,3 +322,41 @@ export class ResourceInfo {
 
     isActive: boolean = true;
 }
+
+export class QuestionAnswer {
+
+    id: number;
+    questionId: number;
+    question: string;
+    type: string;
+
+    answer: Answer = new Answer();
+
+    isActive: boolean = true;
+}
+
+export class Answer {
+
+    id: number;
+    answerId: number;
+    ccmQuestionId: number;
+
+    isAnswered: boolean = false;
+    answer: string;
+
+    isActive: boolean = true;
+}
+
+export class AnswerType {
+
+    id: number;
+    answerTypeId: number;
+    name: string;
+    code: string;
+
+    createdBy: string;
+    // createdBy: User = new User();
+    createdOn: string;
+    updatedBy: string;
+    updatedOn: string;
+}
