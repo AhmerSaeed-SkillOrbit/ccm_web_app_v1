@@ -32,7 +32,9 @@
 
                                                 <!-- [checked]="checked" -->
 
-                                                {{ questionAnswers[i].question || "NA" }} ?
+                                                <h2>Question {{ i + 1 }}</h2>
+
+                                                <h3>{{ questionAnswers[i].question || "NA" }} ?</h3>
 
                                                 <!-- <mat-slide-toggle *ngIf="false" color="primary" formControlName="isAnswered"
                                                     [(ngModel)]="questionAnswers[i].answer.isAnswered">
@@ -89,9 +91,15 @@
                                         <!-- <button *ngIf="questionAnswers.length > minQuestionAnswer" mat-raised-button
                                             color="primary" (click)="remove(i)">Remove</button> -->
                                         <button *ngIf="!(questionAnswers[i].answer.id)" mat-raised-button color="primary"
-                                            (click)="onAddAnswer(i)">Add</button>
+                                            (click)="onAddAnswer(i)">
+                                            <!-- Add -->
+                                            Save
+                                        </button>
                                         <button *ngIf="questionAnswers[i].answer.id" mat-raised-button color="primary"
-                                            (click)="onUpdateAnswer(i)">Update</button>
+                                            (click)="onUpdateAnswer(i)">
+                                            <!-- Update -->
+                                            Save
+                                        </button>
 
                                         <!-- <hr> -->
                                         <hr class="line-dash">
