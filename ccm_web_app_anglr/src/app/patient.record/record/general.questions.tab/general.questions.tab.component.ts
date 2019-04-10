@@ -303,7 +303,7 @@ export class GeneralQuestionsTabComponent implements OnInit {
         this.isSubmitted = true;
         this._uiService.showSpinner();
         // this.isSubmitStarted = true;
-        this._patientRecordService.addAnswer(this.questionAnswers[index], this.id).subscribe(
+        this._patientRecordService.updateAnswer(this.questionAnswers[index], this.id).subscribe(
             (res) => {
                 this.isSubmitted = false;
                 this._uiService.hideSpinner();
