@@ -36,7 +36,7 @@
 
                                                 <!-- <h2>Question {{ i + 1 }}</h2> -->
 
-                                                <h3>{{ psychologicalReviewAnswers[i].name || "NA" }} ?</h3>
+                                                <h3>{{ psychologicalReviewAnswers[i].name || "NA" }} </h3>
 
                                                 <mat-slide-toggle color="primary" formControlName="isPatientExamined"
                                                     [(ngModel)]="psychologicalReviewAnswers[i].answer.isPatientExamined">
@@ -137,7 +137,7 @@
 
                                                 <!-- <h2>Question {{ i + 1 }}</h2> -->
 
-                                                <h3>{{ functionalReviewAnswers[i].name || "NA" }} ?</h3>
+                                                <h3>{{ functionalReviewAnswers[i].name || "NA" }} </h3>
 
                                                 <mat-slide-toggle color="primary" formControlName="isOkay" [(ngModel)]="functionalReviewAnswers[i].answer.isOkay">
                                                     Yes

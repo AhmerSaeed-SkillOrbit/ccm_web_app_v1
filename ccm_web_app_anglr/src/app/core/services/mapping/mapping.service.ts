@@ -933,7 +933,7 @@ export class MappingService {
             isFunctionalReview.name = functionalReviewData.Name || null;
             isFunctionalReview.description = functionalReviewData.Description || null;
 
-            functionalReviewData.answer = this.mapFunctionalReviewAnswer(functionalReviewData.Answer);
+            isFunctionalReview.answer = this.mapFunctionalReviewAnswer(functionalReviewData.Answer);
 
             isFunctionalReview.isActive = functionalReviewData.IsActive || false;
         }

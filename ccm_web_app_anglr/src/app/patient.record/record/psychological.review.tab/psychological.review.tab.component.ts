@@ -239,11 +239,11 @@ export class PsychologicalReviewTabComponent implements OnInit {
                 let array = res.json().data || [];
                 console.log('u Object', array);
                 // console.log('res list:', array);
-                var dsList = [];
+                var frList = [];
                 for (let i = 0; i < array.length; i++) {
-                    let ds = this._mappingService.mapFunctionalReview(array[i]);
-                    dsList.push(ds);
-                    this.functionalReviewAnswers.push(ds);
+                    let fr = this._mappingService.mapFunctionalReview(array[i]);
+                    frList.push(fr);
+                    this.functionalReviewAnswers.push(fr);
                     this.addSubForm("fr");
                 }
 

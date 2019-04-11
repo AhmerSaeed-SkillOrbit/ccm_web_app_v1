@@ -269,7 +269,7 @@ export class GeneralQuestionsTabComponent implements OnInit {
                 this.isSubmitted = false;
                 this._uiService.hideSpinner();
 
-                // this.questionAnswers[index].answer.id = res.json().data;
+                this.questionAnswers[index].answer.id = res.json().data;
 
                 msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
                 // msg.msg = 'You have successfully signed up';
