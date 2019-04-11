@@ -360,3 +360,52 @@ export class AnswerType {
     updatedBy: string;
     updatedOn: string;
 }
+
+
+export class PreventiveScreen {
+
+    id: number;
+    preventiveScreenId: number;
+    name: string;
+    description: string;
+
+    answer: PreventiveScreenAnswer = new PreventiveScreenAnswer();
+
+    isActive: boolean = true;
+}
+
+export class PreventiveScreenAnswer {
+
+    id: number;
+    preventiveScreenAnswerId: number;
+    preventiveScreenId: number;
+
+    isAnswered: boolean = false;
+    answer: string;
+
+    isActive: boolean = true;
+}
+
+export class DiabeteSupplement {
+
+    id: number;
+    diabeteSupplementId: number;
+    name: string;
+    description: string;
+
+    answer: DiabeteSupplementAnswer = new DiabeteSupplementAnswer();
+
+    isActive: boolean = true;
+}
+
+export class DiabeteSupplementAnswer {
+
+    id: number;
+    diabeteSupplementAnswerId: number;
+    DiabeteSupplementId: number;
+
+    isAnswered: boolean = false;
+    answer: string;
+
+    isActive: boolean = true;
+}

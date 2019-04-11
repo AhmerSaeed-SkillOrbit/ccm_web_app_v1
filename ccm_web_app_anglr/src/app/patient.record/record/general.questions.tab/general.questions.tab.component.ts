@@ -11,6 +11,7 @@ import { DatePipe } from '@angular/common';
 
 import { Message, MessageTypes } from '../../../core/models/message';
 import { User } from '../../../core/models/user';
+import { QuestionAnswer, AnswerType } from '../../../core/models/user.record';
 
 import { UIService } from '../../../core/services/ui/ui.service';
 import { IAuthService } from '../../../core/services/auth/iauth.service';
@@ -20,7 +21,7 @@ import { MappingService } from '../../../core/services/mapping/mapping.service';
 import { FormService } from '../../../core/services/form/form.service';
 import { PatientRecordService } from '../../../core/services/patient/patient.record.service';
 import { SetupService } from '../../../core/services/setup/setup.service';
-import { QuestionAnswer, AnswerType } from '../../../core/models/user.record';
+
 
 // import { Config } from '../../../config/config';
 

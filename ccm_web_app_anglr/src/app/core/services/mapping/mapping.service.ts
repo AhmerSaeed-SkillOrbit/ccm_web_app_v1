@@ -17,7 +17,7 @@ import { ForumFeed } from '../../models/forum';
 import { Tag } from '../../models/tag';
 import { Comment, Reply } from '../../models/comment';
 import { Ticket, TicketAssignee } from '../../models/ticket';
-import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo, ResourceInfo, QuestionAnswer, Answer } from '../../models/user.record';
+import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo, ResourceInfo, QuestionAnswer, Answer, DiabeteSupplement, DiabeteSupplementAnswer, PreventiveScreen, PreventiveScreenAnswer } from '../../models/user.record';
 
 @Injectable()
 export class MappingService {
@@ -826,6 +826,70 @@ export class MappingService {
         }
 
         return isAnswer;
+    }
+
+    public mapPreventiveScreen(res: any): PreventiveScreen {
+        const preventiveScreenData = res;
+        const isPreventiveScreen = new PreventiveScreen();
+        if (preventiveScreenData) {
+            isPreventiveScreen.id = preventiveScreenData.Id || null;
+            isPreventiveScreen.preventiveScreenId = preventiveScreenData.Id || null;
+            isPreventiveScreen.name = preventiveScreenData.Name || null;
+            isPreventiveScreen.description = preventiveScreenData.Description || null;
+
+            isPreventiveScreen.answer = this.mapPreventiveScreenAnswer(preventiveScreenData.Answer);
+
+            isPreventiveScreen.isActive = preventiveScreenData.IsActive || false;
+        }
+
+        return isPreventiveScreen;
+    }
+
+    public mapPreventiveScreenAnswer(res: any): PreventiveScreenAnswer {
+        const diabeteSupplementAnswerData = res;
+        const isDiabeteSupplementAnswer = new PreventiveScreenAnswer();
+        if (diabeteSupplementAnswerData) {
+            isDiabeteSupplementAnswer.id = diabeteSupplementAnswerData.Id || null;
+            isDiabeteSupplementAnswer.preventiveScreenAnswerId = diabeteSupplementAnswerData.Id || null;
+            isDiabeteSupplementAnswer.isAnswered = diabeteSupplementAnswerData.IsAnswered || null;
+            isDiabeteSupplementAnswer.answer = diabeteSupplementAnswerData.Answer || null;
+
+            isDiabeteSupplementAnswer.isActive = diabeteSupplementAnswerData.IsActive || false;
+        }
+
+        return isDiabeteSupplementAnswer;
+    }
+
+    public mapDiabeteSupplement(res: any): DiabeteSupplement {
+        const diabeteSupplementData = res;
+        const isDiabeteSupplement = new DiabeteSupplement();
+        if (diabeteSupplementData) {
+            isDiabeteSupplement.id = diabeteSupplementData.Id || null;
+            isDiabeteSupplement.diabeteSupplementId = diabeteSupplementData.Id || null;
+            isDiabeteSupplement.name = diabeteSupplementData.Name || null;
+            isDiabeteSupplement.description = diabeteSupplementData.Description || null;
+
+            isDiabeteSupplement.answer = this.mapDiabeteSupplementAnswer(diabeteSupplementData.Answer);
+
+            isDiabeteSupplement.isActive = diabeteSupplementData.IsActive || false;
+        }
+
+        return isDiabeteSupplement;
+    }
+
+    public mapDiabeteSupplementAnswer(res: any): DiabeteSupplementAnswer {
+        const diabeteSupplementAnswerData = res;
+        const isDiabeteSupplementAnswer = new DiabeteSupplementAnswer();
+        if (diabeteSupplementAnswerData) {
+            isDiabeteSupplementAnswer.id = diabeteSupplementAnswerData.Id || null;
+            isDiabeteSupplementAnswer.diabeteSupplementAnswerId = diabeteSupplementAnswerData.Id || null;
+            isDiabeteSupplementAnswer.isAnswered = diabeteSupplementAnswerData.IsAnswered || null;
+            isDiabeteSupplementAnswer.answer = diabeteSupplementAnswerData.Answer || null;
+
+            isDiabeteSupplementAnswer.isActive = diabeteSupplementAnswerData.IsActive || false;
+        }
+
+        return isDiabeteSupplementAnswer;
     }
 
 }

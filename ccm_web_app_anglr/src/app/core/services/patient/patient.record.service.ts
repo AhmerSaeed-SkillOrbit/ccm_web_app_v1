@@ -11,7 +11,7 @@ import { User } from '../../models/user';
 import {
     ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine,
     PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo,
-    AbilityConcernInfo, ResourceInfo, Answer, QuestionAnswer
+    AbilityConcernInfo, ResourceInfo, Answer, QuestionAnswer, PreventiveScreen, DiabeteSupplement
 } from '../../models/user.record';
 
 @Injectable()
@@ -895,6 +895,140 @@ export class PatientRecordService implements OnDestroy {
                 return Observable.throw(err);
             });
     }
+
+
+    public getPsAnswers(patientId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'question/answer/all?patientId=' + (patientId || null) + "&userId=" + (userId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public addPsAnswer(questionAnswer: PreventiveScreen, patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'give/answer?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+
+        let body = {
+            CcmQuestionId: questionAnswer.id || null,
+            IsAnswered: questionAnswer.answer.isAnswered || false,
+            Answer: questionAnswer.answer.answer || null,
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+    public updatePsAnswer(questionAnswer: PreventiveScreen, patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'update/answer?userId=' + (userId || null) + "&patientId=" + (patientId || null) + "&Id=" + (questionAnswer.answer.id || null);
+
+        let body = {
+            IsAnswered: questionAnswer.answer.isAnswered || null,
+            Answer: questionAnswer.answer.answer || null,
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+    public getDsAnswers(patientId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'question/answer/all?patientId=' + (patientId || null) + "&userId=" + (userId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public addDsAnswer(questionAnswer: DiabeteSupplement, patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'give/answer?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+
+        let body = {
+            CcmQuestionId: questionAnswer.id || null,
+            IsAnswered: questionAnswer.answer.isAnswered || false,
+            Answer: questionAnswer.answer.answer || null,
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+    public updateDsAnswer(questionAnswer: DiabeteSupplement, patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'update/answer?userId=' + (userId || null) + "&patientId=" + (patientId || null) + "&Id=" + (questionAnswer.answer.id || null);
+
+        let body = {
+            IsAnswered: questionAnswer.answer.isAnswered || null,
+            Answer: questionAnswer.answer.answer || null,
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
 
     ngOnDestroy() {
 
