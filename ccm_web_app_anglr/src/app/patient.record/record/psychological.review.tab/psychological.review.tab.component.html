@@ -11,73 +11,204 @@
 
             <hr>
 
-            <div class="row">
-                <!-- Unqiue Patient ID -->
-                <div class="col-md-3">
-                    <mat-form-field class="full-width">
-                        <input matInput placeholder="Unqiue Patient ID" [(ngModel)]="patientUniqueId">
-                    </mat-form-field>
+            <form [formGroup]="psychologicalReviewFormGroup">
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <h1>Psychological Review</h1>
+
+                        <div class="row" formArrayName="form">
+                            <div class="col-md-12">
+
+                                <div class="row" *ngFor="let X of psychologicalReviewFormGroup['controls'].form['controls']; let i = index"
+                                    [formGroupName]="i">
+
+                                    <div class="col-sm-12">
+
+
+                                        <div class="row">
+
+                                            <!-- isPatientExamined -->
+                                            <div class="col-md-12">
+
+                                                <!-- [checked]="checked" -->
+
+                                                <!-- <h2>Question {{ i + 1 }}</h2> -->
+
+                                                <h3>{{ psychologicalReviewAnswers[i].name || "NA" }} ?</h3>
+
+                                                <mat-slide-toggle color="primary" formControlName="isPatientExamined"
+                                                    [(ngModel)]="psychologicalReviewAnswers[i].answer.isPatientExamined">
+                                                    Yes
+                                                </mat-slide-toggle>
+                                            </div>
+
+                                            <!-- Comment -->
+                                            <div class="col-md-12">
+                                                <div class="form-field">
+                                                    <mat-form-field class="full-width">
+                                                        <textarea matInput placeholder="Comment" formControlName="answer"
+                                                            [(ngModel)]="psychologicalReviewAnswers[i].answer.description"
+                                                            maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
+                                                            matAutosizeMaxRows="4" trim></textarea>
+                                                        <!-- <mat-error>
+                                                        Detail Answer is
+                                                        <strong>required</strong>
+                                                    </mat-error> -->
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <!-- <hr> -->
+                                        <hr class="line-dash">
+                                    </div>
+
+                                    <div class="col-md-12 text-right">
+                                        <!-- *ngIf="psychologicalReviewAnswers.length > minQuestionAnswer" -->
+                                        <!-- <button *ngIf="psychologicalReviewAnswers.length > minQuestionAnswer" mat-raised-button
+                                                color="primary" (click)="remove(i)">Remove</button> -->
+                                        <button *ngIf="!(psychologicalReviewAnswers[i].answer.id)" mat-raised-button
+                                            color="primary" (click)="onAddUpdatePRAnswer(i)">
+                                            <!-- Add -->
+                                            Save
+                                        </button>
+                                        <button *ngIf="psychologicalReviewAnswers[i].answer.id" mat-raised-button color="primary"
+                                            (click)="onAddUpdatePRAnswer(i)">
+                                            <!-- Update -->
+                                            Save
+                                        </button>
+
+                                        <!-- <hr> -->
+                                        <hr class="line-dash">
+                                        <!-- <div class="line-dash"></div> -->
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- First Name -->
-                <div class="col-md-3">
-                    <mat-form-field class="full-width">
-                        <input matInput placeholder="First Name" [(ngModel)]="firstName">
-                    </mat-form-field>
+
+
+                <div class="row" *ngIf="false">
+                    <div class="col-md-4"></div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <button type="submit" class="btn bg-blue btn-block" [disabled]="isSubmitted">
+                                Save <i class="icon-arrow-right14 position-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
                 </div>
 
-                <!-- Middle Name -->
-                <div class="col-md-3">
-                    <mat-form-field class="full-width">
-                        <input matInput placeholder="Middle Name" [(ngModel)]="middleName">
-                    </mat-form-field>
+            </form>
+
+            <hr>
+
+            <form [formGroup]="functionalReviewFormGroup">
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <h1>Functional Review</h1>
+
+                        <div class="row" formArrayName="form">
+                            <div class="col-md-12">
+
+                                <div class="row" *ngFor="let X of functionalReviewFormGroup['controls'].form['controls']; let i = index"
+                                    [formGroupName]="i">
+
+                                    <div class="col-sm-12">
+
+
+                                        <div class="row">
+
+                                            <!-- isPatientMeasure -->
+                                            <div class="col-md-12">
+
+                                                <!-- [checked]="checked" -->
+
+                                                <!-- <h2>Question {{ i + 1 }}</h2> -->
+
+                                                <h3>{{ functionalReviewAnswers[i].name || "NA" }} ?</h3>
+
+                                                <mat-slide-toggle color="primary" formControlName="isOkay" [(ngModel)]="functionalReviewAnswers[i].answer.isOkay">
+                                                    Yes
+                                                </mat-slide-toggle>
+                                            </div>
+
+                                            <!-- Comment -->
+                                            <div class="col-md-12">
+                                                <div class="form-field">
+                                                    <mat-form-field class="full-width">
+                                                        <textarea matInput placeholder="Comment" formControlName="answer"
+                                                            [(ngModel)]="functionalReviewAnswers[i].answer.description"
+                                                            maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
+                                                            matAutosizeMaxRows="4" trim></textarea>
+                                                        <!-- <mat-error>
+                                                                Detail Answer is
+                                                                <strong>required</strong>
+                                                            </mat-error> -->
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <!-- <hr> -->
+                                        <hr class="line-dash">
+                                    </div>
+
+                                    <div class="col-md-12 text-right">
+                                        <!-- *ngIf="functionalReviewAnswers.length > minQuestionAnswer" -->
+                                        <!-- <button *ngIf="functionalReviewAnswers.length > minQuestionAnswer" mat-raised-button
+                                                color="primary" (click)="remove(i)">Remove</button> -->
+                                        <button *ngIf="!(functionalReviewAnswers[i].answer.id)" mat-raised-button color="primary"
+                                            (click)="onAddUpdateFRAnswer(i)">
+                                            <!-- Add -->
+                                            Save
+                                        </button>
+                                        <button *ngIf="functionalReviewAnswers[i].answer.id" mat-raised-button color="primary"
+                                            (click)="onAddUpdateFRAnswer(i)">
+                                            <!-- Update -->
+                                            Save
+                                        </button>
+
+                                        <!-- <hr> -->
+                                        <hr class="line-dash">
+                                        <!-- <div class="line-dash"></div> -->
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Last Name -->
-                <div class="col-md-3">
-                    <mat-form-field class="full-width">
-                        <input matInput placeholder="Last Name" [(ngModel)]="lastName">
-                    </mat-form-field>
+
+
+                <div class="row" *ngIf="false">
+                    <div class="col-md-4"></div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <button type="submit" class="btn bg-blue btn-block" [disabled]="isSubmitted">
+                                Save <i class="icon-arrow-right14 position-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
                 </div>
 
-                <!-- Gender -->
-                <div class="col-md-3">
-                    <mat-form-field class="full-width">
-                        <input matInput placeholder="Gender" [(ngModel)]="gender">
-                    </mat-form-field>
-                </div>
-
-                <!-- Date of Birth (DOB) -->
-                <div class="col-md-3">
-                    <mat-form-field class="full-width">
-                        <input matInput placeholder="Date of Birth (DOB)" [(ngModel)]="dob">
-                    </mat-form-field>
-                </div>
-
-                <!-- Age -->
-                <div class="col-md-3">
-                    <mat-form-field class="full-width">
-                        <input matInput placeholder="Age" [(ngModel)]="age">
-                    </mat-form-field>
-                </div>
-
-                <!-- Email Address -->
-                <div class="col-md-3">
-                    <mat-form-field class="full-width">
-                        <input matInput placeholder="Email Address" [(ngModel)]="emailAddress">
-                    </mat-form-field>
-                </div>
-
-                <!-- Primary Telephone Number  -->
-                <div class="col-md-3">
-                    <mat-form-field class="full-width">
-                        <input matInput placeholder="Primary Telephone Number" [(ngModel)]="primaryTelephoneNumber">
-                    </mat-form-field>
-                </div>
-
-
-
-            </div>
+            </form>
 
         </div>
     </div>

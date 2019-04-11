@@ -29,50 +29,28 @@
 
                                         <div class="row">
 
-                                            <!-- isAnswered -->
+                                            <!-- isPatientExamined -->
                                             <div class="col-md-12">
 
                                                 <!-- [checked]="checked" -->
 
-                                                <h2>Question {{ i + 1 }}</h2>
+                                                <!-- <h2>Question {{ i + 1 }}</h2> -->
 
-                                                <h3>{{ questionAnswers[i].question || "NA" }} ?</h3>
+                                                <h3>{{ preventiveScreenAnswers[i].name || "NA" }} ?</h3>
 
-                                                <!-- <mat-slide-toggle *ngIf="false" color="primary" formControlName="isAnswered"
-                                                    [(ngModel)]="questionAnswers[i].answer.isAnswered">
+                                                <mat-slide-toggle color="primary" formControlName="isPatientExamined"
+                                                    [(ngModel)]="preventiveScreenAnswers[i].answer.isPatientExamined">
                                                     Yes
-                                                </mat-slide-toggle> -->
+                                                </mat-slide-toggle>
                                             </div>
 
-                                            <!-- Answer Type -->
-                                            <div class="col-md-6">
-                                                <div class="form-field">
-
-                                                    <mat-form-field class="full-width">
-                                                        <!-- <mat-label>Select Answer Option</mat-label> -->
-                                                        <mat-select placeholder="Select Answer Option" formControlName="isAnswered"
-                                                            [(ngModel)]="questionAnswers[i].answer.isAnswered" (change)="onAnswerTypeSelect()">
-                                                            <mat-option>None</mat-option>
-                                                            <mat-option *ngFor="let answerType of answerTypes" [value]="answerType.code">
-                                                                <!-- {{ answerType.name }} -->
-                                                                {{ replaceText(answerType?.name) }}
-                                                            </mat-option>
-                                                        </mat-select>
-                                                        <!-- <mat-error>
-                                                    Select Answer Option is
-                                                    <strong>required</strong>
-                                                </mat-error> -->
-                                                    </mat-form-field>
-                                                </div>
-                                            </div>
-
-                                            <!-- Answer -->
+                                            <!-- Comment -->
                                             <div class="col-md-12">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <textarea matInput placeholder="Detail Answer" formControlName="answer"
-                                                            [(ngModel)]="questionAnswers[i].answer.answer" maxlength="500"
-                                                            matTextareaAutosize matAutosizeMinRows="2"
+                                                        <textarea matInput placeholder="Comment" formControlName="answer"
+                                                            [(ngModel)]="preventiveScreenAnswers[i].answer.description"
+                                                            maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
                                                             matAutosizeMaxRows="4" trim></textarea>
                                                         <!-- <mat-error>
                                                     Detail Answer is
@@ -89,16 +67,16 @@
                                     </div>
 
                                     <div class="col-md-12 text-right">
-                                        <!-- *ngIf="questionAnswers.length > minQuestionAnswer" -->
-                                        <!-- <button *ngIf="questionAnswers.length > minQuestionAnswer" mat-raised-button
+                                        <!-- *ngIf="preventiveScreenAnswers.length > minQuestionAnswer" -->
+                                        <!-- <button *ngIf="preventiveScreenAnswers.length > minQuestionAnswer" mat-raised-button
                                             color="primary" (click)="remove(i)">Remove</button> -->
-                                        <button *ngIf="!(questionAnswers[i].answer.id)" mat-raised-button color="primary"
-                                            (click)="onAddAnswer(i)">
+                                        <button *ngIf="!(preventiveScreenAnswers[i].answer.id)" mat-raised-button color="primary"
+                                            (click)="onAddUpdatePsAnswer(i)">
                                             <!-- Add -->
                                             Save
                                         </button>
-                                        <button *ngIf="questionAnswers[i].answer.id" mat-raised-button color="primary"
-                                            (click)="onUpdateAnswer(i)">
+                                        <button *ngIf="preventiveScreenAnswers[i].answer.id" mat-raised-button color="primary"
+                                            (click)="onAddUpdatePsAnswer(i)">
                                             <!-- Update -->
                                             Save
                                         </button>
@@ -152,55 +130,33 @@
 
                                         <div class="row">
 
-                                            <!-- isAnswered -->
+                                            <!-- isPatientMeasure -->
                                             <div class="col-md-12">
 
                                                 <!-- [checked]="checked" -->
 
-                                                <h2>Question {{ i + 1 }}</h2>
+                                                <!-- <h2>Question {{ i + 1 }}</h2> -->
 
-                                                <h3>{{ questionAnswers[i].question || "NA" }} ?</h3>
+                                                <h3>{{ diabeteSupplementAnswers[i].name || "NA" }} ?</h3>
 
-                                                <!-- <mat-slide-toggle *ngIf="false" color="primary" formControlName="isAnswered"
-                                                    [(ngModel)]="questionAnswers[i].answer.isAnswered">
+                                                <mat-slide-toggle color="primary" formControlName="isPatientMeasure"
+                                                    [(ngModel)]="diabeteSupplementAnswers[i].answer.isPatientMeasure">
                                                     Yes
-                                                </mat-slide-toggle> -->
+                                                </mat-slide-toggle>
                                             </div>
 
-                                            <!-- Answer Type -->
-                                            <div class="col-md-6">
-                                                <div class="form-field">
-
-                                                    <mat-form-field class="full-width">
-                                                        <!-- <mat-label>Select Answer Option</mat-label> -->
-                                                        <mat-select placeholder="Select Answer Option" formControlName="isAnswered"
-                                                            [(ngModel)]="questionAnswers[i].answer.isAnswered" (change)="onAnswerTypeSelect()">
-                                                            <mat-option>None</mat-option>
-                                                            <mat-option *ngFor="let answerType of answerTypes" [value]="answerType.code">
-                                                                <!-- {{ answerType.name }} -->
-                                                                {{ replaceText(answerType?.name) }}
-                                                            </mat-option>
-                                                        </mat-select>
-                                                        <!-- <mat-error>
-                                                    Select Answer Option is
-                                                    <strong>required</strong>
-                                                </mat-error> -->
-                                                    </mat-form-field>
-                                                </div>
-                                            </div>
-
-                                            <!-- Answer -->
+                                            <!-- Comment -->
                                             <div class="col-md-12">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <textarea matInput placeholder="Detail Answer" formControlName="answer"
-                                                            [(ngModel)]="questionAnswers[i].answer.answer" maxlength="500"
-                                                            matTextareaAutosize matAutosizeMinRows="2"
+                                                        <textarea matInput placeholder="Comment" formControlName="answer"
+                                                            [(ngModel)]="diabeteSupplementAnswers[i].answer.description"
+                                                            maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
                                                             matAutosizeMaxRows="4" trim></textarea>
                                                         <!-- <mat-error>
-                                                    Detail Answer is
-                                                    <strong>required</strong>
-                                                </mat-error> -->
+                                                            Detail Answer is
+                                                            <strong>required</strong>
+                                                        </mat-error> -->
                                                     </mat-form-field>
                                                 </div>
                                             </div>
@@ -212,16 +168,16 @@
                                     </div>
 
                                     <div class="col-md-12 text-right">
-                                        <!-- *ngIf="questionAnswers.length > minQuestionAnswer" -->
-                                        <!-- <button *ngIf="questionAnswers.length > minQuestionAnswer" mat-raised-button
+                                        <!-- *ngIf="diabeteSupplementAnswers.length > minQuestionAnswer" -->
+                                        <!-- <button *ngIf="diabeteSupplementAnswers.length > minQuestionAnswer" mat-raised-button
                                             color="primary" (click)="remove(i)">Remove</button> -->
-                                        <button *ngIf="!(questionAnswers[i].answer.id)" mat-raised-button color="primary"
-                                            (click)="onAddAnswer(i)">
+                                        <button *ngIf="!(diabeteSupplementAnswers[i].answer.id)" mat-raised-button
+                                            color="primary" (click)="onAddUpdateDsAnswer(i)">
                                             <!-- Add -->
                                             Save
                                         </button>
-                                        <button *ngIf="questionAnswers[i].answer.id" mat-raised-button color="primary"
-                                            (click)="onUpdateAnswer(i)">
+                                        <button *ngIf="diabeteSupplementAnswers[i].answer.id" mat-raised-button color="primary"
+                                            (click)="onAddUpdateDsAnswer(i)">
                                             <!-- Update -->
                                             Save
                                         </button>

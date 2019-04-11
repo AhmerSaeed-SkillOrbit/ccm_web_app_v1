@@ -380,8 +380,8 @@ export class PreventiveScreenAnswer {
     preventiveScreenAnswerId: number;
     preventiveScreenId: number;
 
-    isAnswered: boolean = false;
-    answer: string;
+    isPatientExamined: boolean = false;
+    description: string;
 
     isActive: boolean = true;
 }
@@ -404,8 +404,81 @@ export class DiabeteSupplementAnswer {
     diabeteSupplementAnswerId: number;
     DiabeteSupplementId: number;
 
-    isAnswered: boolean = false;
-    answer: string;
+    isPatientMeasure: boolean = false;
+    description: string;
+
+    isActive: boolean = true;
+}
+
+
+export class PsychologicalReview {
+
+    id: number;
+    psychologicalReviewId: number;
+    name: string;
+    description: string;
+
+    answer: PsychologicalReviewAnswer = new PsychologicalReviewAnswer();
+
+    isActive: boolean = true;
+}
+
+export class PsychologicalReviewAnswer {
+
+    id: number;
+    psychologicalReviewAnswerId: number;
+    psychologicalReviewId: number;
+
+    isPatientExamined: boolean = false;
+    description: string;
+
+    isActive: boolean = true;
+}
+
+export class FunctionalReview {
+
+    id: number;
+    functionalReviewId: number;
+    name: string;
+    description: string;
+
+    answer: FunctionalReviewAnswer = new FunctionalReviewAnswer();
+
+    isActive: boolean = true;
+}
+
+export class FunctionalReviewAnswer {
+
+    id: number;
+    functionalReviewAnswerId: number;
+    functionalReviewId: number;
+
+    isOkay: boolean = false;
+    description: string;
+
+    isActive: boolean = true;
+}
+
+export class SocialReview {
+
+    id: number;
+    socialReviewId: number;
+    name: string;
+    description: string;
+
+    answer: SocialReviewAnswer = new SocialReviewAnswer();
+
+    isActive: boolean = true;
+}
+
+export class SocialReviewAnswer {
+
+    id: number;
+    socialReviewAnswerId: number;
+    socialReviewId: number;
+
+    isPatientExamined: boolean = false;
+    description: string;
 
     isActive: boolean = true;
 }

@@ -17,7 +17,7 @@ import { ForumFeed } from '../../models/forum';
 import { Tag } from '../../models/tag';
 import { Comment, Reply } from '../../models/comment';
 import { Ticket, TicketAssignee } from '../../models/ticket';
-import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo, ResourceInfo, QuestionAnswer, Answer, DiabeteSupplement, DiabeteSupplementAnswer, PreventiveScreen, PreventiveScreenAnswer } from '../../models/user.record';
+import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo, ResourceInfo, QuestionAnswer, Answer, DiabeteSupplement, DiabeteSupplementAnswer, PreventiveScreen, PreventiveScreenAnswer, PsychologicalReview, PsychologicalReviewAnswer, FunctionalReview, FunctionalReviewAnswer, SocialReview, SocialReviewAnswer } from '../../models/user.record';
 
 @Injectable()
 export class MappingService {
@@ -846,18 +846,18 @@ export class MappingService {
     }
 
     public mapPreventiveScreenAnswer(res: any): PreventiveScreenAnswer {
-        const diabeteSupplementAnswerData = res;
-        const isDiabeteSupplementAnswer = new PreventiveScreenAnswer();
-        if (diabeteSupplementAnswerData) {
-            isDiabeteSupplementAnswer.id = diabeteSupplementAnswerData.Id || null;
-            isDiabeteSupplementAnswer.preventiveScreenAnswerId = diabeteSupplementAnswerData.Id || null;
-            isDiabeteSupplementAnswer.isAnswered = diabeteSupplementAnswerData.IsAnswered || null;
-            isDiabeteSupplementAnswer.answer = diabeteSupplementAnswerData.Answer || null;
+        const preventiveScreenAnswerData = res;
+        const isPreventiveScreenAnswer = new PreventiveScreenAnswer();
+        if (preventiveScreenAnswerData) {
+            isPreventiveScreenAnswer.id = preventiveScreenAnswerData.Id || null;
+            isPreventiveScreenAnswer.preventiveScreenAnswerId = preventiveScreenAnswerData.Id || null;
+            isPreventiveScreenAnswer.isPatientExamined = preventiveScreenAnswerData.IsPatientExamined || null;
+            isPreventiveScreenAnswer.description = preventiveScreenAnswerData.Description || null;
 
-            isDiabeteSupplementAnswer.isActive = diabeteSupplementAnswerData.IsActive || false;
+            isPreventiveScreenAnswer.isActive = preventiveScreenAnswerData.IsActive || false;
         }
 
-        return isDiabeteSupplementAnswer;
+        return isPreventiveScreenAnswer;
     }
 
     public mapDiabeteSupplement(res: any): DiabeteSupplement {
@@ -883,13 +883,109 @@ export class MappingService {
         if (diabeteSupplementAnswerData) {
             isDiabeteSupplementAnswer.id = diabeteSupplementAnswerData.Id || null;
             isDiabeteSupplementAnswer.diabeteSupplementAnswerId = diabeteSupplementAnswerData.Id || null;
-            isDiabeteSupplementAnswer.isAnswered = diabeteSupplementAnswerData.IsAnswered || null;
-            isDiabeteSupplementAnswer.answer = diabeteSupplementAnswerData.Answer || null;
+            isDiabeteSupplementAnswer.isPatientMeasure = diabeteSupplementAnswerData.IsPatientMeasure || null;
+            isDiabeteSupplementAnswer.description = diabeteSupplementAnswerData.Description || null;
 
             isDiabeteSupplementAnswer.isActive = diabeteSupplementAnswerData.IsActive || false;
         }
 
         return isDiabeteSupplementAnswer;
+    }
+
+    public mapPsychologicalReview(res: any): PsychologicalReview {
+        const psychologicalReviewData = res;
+        const isPsychologicalReview = new PsychologicalReview();
+        if (psychologicalReviewData) {
+            isPsychologicalReview.id = psychologicalReviewData.Id || null;
+            isPsychologicalReview.psychologicalReviewId = psychologicalReviewData.Id || null;
+            isPsychologicalReview.name = psychologicalReviewData.Name || null;
+            isPsychologicalReview.description = psychologicalReviewData.Description || null;
+
+            isPsychologicalReview.answer = this.mapPsychologicalReviewAnswer(psychologicalReviewData.Answer);
+
+            isPsychologicalReview.isActive = psychologicalReviewData.IsActive || false;
+        }
+
+        return isPsychologicalReview;
+    }
+
+    public mapPsychologicalReviewAnswer(res: any): PsychologicalReviewAnswer {
+        const psychologicalReviewAnswerData = res;
+        const isPsychologicalReviewAnswer = new PsychologicalReviewAnswer();
+        if (psychologicalReviewAnswerData) {
+            isPsychologicalReviewAnswer.id = psychologicalReviewAnswerData.Id || null;
+            isPsychologicalReviewAnswer.psychologicalReviewAnswerId = psychologicalReviewAnswerData.Id || null;
+            isPsychologicalReviewAnswer.isPatientExamined = psychologicalReviewAnswerData.IsPatientExamined || null;
+            isPsychologicalReviewAnswer.description = psychologicalReviewAnswerData.Description || null;
+
+            isPsychologicalReviewAnswer.isActive = psychologicalReviewAnswerData.IsActive || false;
+        }
+
+        return isPsychologicalReviewAnswer;
+    }
+
+    public mapFunctionalReview(res: any): FunctionalReview {
+        const functionalReviewData = res;
+        const isFunctionalReview = new FunctionalReview();
+        if (functionalReviewData) {
+            isFunctionalReview.id = functionalReviewData.Id || null;
+            isFunctionalReview.functionalReviewId = functionalReviewData.Id || null;
+            isFunctionalReview.name = functionalReviewData.Name || null;
+            isFunctionalReview.description = functionalReviewData.Description || null;
+
+            functionalReviewData.answer = this.mapFunctionalReviewAnswer(functionalReviewData.Answer);
+
+            isFunctionalReview.isActive = functionalReviewData.IsActive || false;
+        }
+
+        return isFunctionalReview;
+    }
+
+    public mapFunctionalReviewAnswer(res: any): FunctionalReviewAnswer {
+        const functionalReviewAnswerData = res;
+        const isFunctionalReviewAnswer = new FunctionalReviewAnswer();
+        if (functionalReviewAnswerData) {
+            isFunctionalReviewAnswer.id = functionalReviewAnswerData.Id || null;
+            isFunctionalReviewAnswer.functionalReviewAnswerId = functionalReviewAnswerData.Id || null;
+            isFunctionalReviewAnswer.isOkay = functionalReviewAnswerData.IsOkay || null;
+            isFunctionalReviewAnswer.description = functionalReviewAnswerData.Description || null;
+
+            isFunctionalReviewAnswer.isActive = functionalReviewAnswerData.IsActive || false;
+        }
+
+        return isFunctionalReviewAnswer;
+    }
+
+    public mapSocialReview(res: any): SocialReview {
+        const socialReviewData = res;
+        const isSocialReview = new SocialReview();
+        if (socialReviewData) {
+            isSocialReview.id = socialReviewData.Id || null;
+            isSocialReview.socialReviewId = socialReviewData.Id || null;
+            isSocialReview.name = socialReviewData.Name || null;
+            isSocialReview.description = socialReviewData.Description || null;
+
+            isSocialReview.answer = this.mapSocialReviewAnswer(socialReviewData.Answer);
+
+            isSocialReview.isActive = socialReviewData.IsActive || false;
+        }
+
+        return isSocialReview;
+    }
+
+    public mapSocialReviewAnswer(res: any): SocialReviewAnswer {
+        const socialReviewData = res;
+        const isSocialReview = new SocialReviewAnswer();
+        if (socialReviewData) {
+            isSocialReview.id = socialReviewData.Id || null;
+            isSocialReview.socialReviewAnswerId = socialReviewData.Id || null;
+            isSocialReview.isPatientExamined = socialReviewData.IsPatientExamined || null;
+            isSocialReview.description = socialReviewData.Description || null;
+
+            isSocialReview.isActive = socialReviewData.IsActive || false;
+        }
+
+        return isSocialReview;
     }
 
 }

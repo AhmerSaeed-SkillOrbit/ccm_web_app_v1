@@ -11,7 +11,7 @@ import { User } from '../../models/user';
 import {
     ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine,
     PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo,
-    AbilityConcernInfo, ResourceInfo, Answer, QuestionAnswer, PreventiveScreen, DiabeteSupplement
+    AbilityConcernInfo, ResourceInfo, Answer, QuestionAnswer, PreventiveScreen, DiabeteSupplement, PsychologicalReview, FunctionalReview, SocialReview
 } from '../../models/user.record';
 
 @Injectable()
@@ -907,7 +907,7 @@ export class PatientRecordService implements OnDestroy {
 
         let userId = token.userId;
 
-        const getUrl = 'question/answer/all?patientId=' + (patientId || null) + "&userId=" + (userId || null);
+        const getUrl = 'patient/screen/examination/all?patientId=' + (patientId || null) + "&userId=" + (userId || null);
         return this._http.get(getUrl, options)
             .map((res: Response) => res)
             .catch((error: any) => {
@@ -916,7 +916,7 @@ export class PatientRecordService implements OnDestroy {
             );
     }
 
-    public addPsAnswer(questionAnswer: PreventiveScreen, patientId): Observable<any> {
+    public addUpdatePsAnswer(preventiveScreen: PreventiveScreen, patientId): Observable<any> {
         let token: Token;
         token = this._authService.getTokenData();
         const options = new RequestOptions();
@@ -925,35 +925,14 @@ export class PatientRecordService implements OnDestroy {
 
         let userId = token.userId;
 
-        const getUrl = 'give/answer?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+        const getUrl = 'save/patient/screen/examination?userId=' + (userId || null) + "&patientId=" + (patientId || null);
 
         let body = {
-            CcmQuestionId: questionAnswer.id || null,
-            IsAnswered: questionAnswer.answer.isAnswered || false,
-            Answer: questionAnswer.answer.answer || null,
-        };
-
-        return this._http.post(getUrl, body, options)
-            .map((res: Response) => res)
-            .catch((err, caught) => {
-                return Observable.throw(err);
-            });
-    }
-
-    public updatePsAnswer(questionAnswer: PreventiveScreen, patientId): Observable<any> {
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-
-        let userId = token.userId;
-
-        const getUrl = 'update/answer?userId=' + (userId || null) + "&patientId=" + (patientId || null) + "&Id=" + (questionAnswer.answer.id || null);
-
-        let body = {
-            IsAnswered: questionAnswer.answer.isAnswered || null,
-            Answer: questionAnswer.answer.answer || null,
+            Id: preventiveScreen.answer.id || null,
+            PreventScreeningParamId: preventiveScreen.id || null,
+            Description: preventiveScreen.answer.description || null,
+            IsPatientExamined: preventiveScreen.answer.isPatientExamined || false,
+            IsActive: preventiveScreen.answer.isActive || false,
         };
 
         return this._http.post(getUrl, body, options)
@@ -973,7 +952,7 @@ export class PatientRecordService implements OnDestroy {
 
         let userId = token.userId;
 
-        const getUrl = 'question/answer/all?patientId=' + (patientId || null) + "&userId=" + (userId || null);
+        const getUrl = 'patient/diabetic/measure/all?patientId=' + (patientId || null) + "&userId=" + (userId || null);
         return this._http.get(getUrl, options)
             .map((res: Response) => res)
             .catch((error: any) => {
@@ -982,7 +961,7 @@ export class PatientRecordService implements OnDestroy {
             );
     }
 
-    public addDsAnswer(questionAnswer: DiabeteSupplement, patientId): Observable<any> {
+    public addUpdateDsAnswer(diabeteSupplement: DiabeteSupplement, patientId): Observable<any> {
         let token: Token;
         token = this._authService.getTokenData();
         const options = new RequestOptions();
@@ -991,12 +970,14 @@ export class PatientRecordService implements OnDestroy {
 
         let userId = token.userId;
 
-        const getUrl = 'give/answer?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+        const getUrl = 'save/patient/diabetic/measure?userId=' + (userId || null) + "&patientId=" + (patientId || null);
 
         let body = {
-            CcmQuestionId: questionAnswer.id || null,
-            IsAnswered: questionAnswer.answer.isAnswered || false,
-            Answer: questionAnswer.answer.answer || null,
+            Id: diabeteSupplement.answer.id || null,
+            DiabeticMeasureParamId: diabeteSupplement.id || null,
+            IsPatientMeasure: diabeteSupplement.answer.isPatientMeasure || false,
+            Description: diabeteSupplement.answer.description || null,
+            IsActive: diabeteSupplement.answer.isActive || false,
         };
 
         return this._http.post(getUrl, body, options)
@@ -1006,7 +987,8 @@ export class PatientRecordService implements OnDestroy {
             });
     }
 
-    public updateDsAnswer(questionAnswer: DiabeteSupplement, patientId): Observable<any> {
+    public getPsychologicalReviewAnswers(patientId): Observable<any> {
+
         let token: Token;
         token = this._authService.getTokenData();
         const options = new RequestOptions();
@@ -1015,11 +997,32 @@ export class PatientRecordService implements OnDestroy {
 
         let userId = token.userId;
 
-        const getUrl = 'update/answer?userId=' + (userId || null) + "&patientId=" + (patientId || null) + "&Id=" + (questionAnswer.answer.id || null);
+        const getUrl = 'patient/psychological/review/all?patientId=' + (patientId || null) + "&userId=" + (userId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public addUpdatePsychologicalReviewAnswer(psychologicalReview: PsychologicalReview, patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'save/patient/psychological/review?userId=' + (userId || null) + "&patientId=" + (patientId || null);
 
         let body = {
-            IsAnswered: questionAnswer.answer.isAnswered || null,
-            Answer: questionAnswer.answer.answer || null,
+            Id: psychologicalReview.answer.id || null,
+            PsychologicalReviewParamId: psychologicalReview.id || null,
+            IsPatientExamined: psychologicalReview.answer.isPatientExamined || false,
+            Description: psychologicalReview.answer.description || null,
+            IsActive: psychologicalReview.answer.isActive || false,
         };
 
         return this._http.post(getUrl, body, options)
@@ -1029,6 +1032,95 @@ export class PatientRecordService implements OnDestroy {
             });
     }
 
+    public getFunctionalReviewAnswers(patientId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'patient/functional/review/all?patientId=' + (patientId || null) + "&userId=" + (userId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public addUpdateFunctionalReviewAnswer(functionalReview: FunctionalReview, patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'save/patient/functional/review?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+
+        let body = {
+            Id: functionalReview.answer.id || null,
+            FunctionalReviewParamId: functionalReview.id || null,
+            IsOkay: functionalReview.answer.isOkay || false,
+            Description: functionalReview.answer.description || null,
+            IsActive: functionalReview.answer.isActive || false,
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+    public getSocialReviewAnswers(patientId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'patient/social/review/all?patientId=' + (patientId || null) + "&userId=" + (userId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public addUpdateSocialReviewAnswer(socialReview: SocialReview, patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'save/patient/social/review?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+
+        let body = {
+            Id: socialReview.answer.id || null,
+            SocialReviewParamId: socialReview.id || null,
+            IsPatientExamined: socialReview.answer.isPatientExamined || false,
+            Description: socialReview.answer.description || null,
+            IsActive: socialReview.answer.isActive || false,
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
 
     ngOnDestroy() {
 

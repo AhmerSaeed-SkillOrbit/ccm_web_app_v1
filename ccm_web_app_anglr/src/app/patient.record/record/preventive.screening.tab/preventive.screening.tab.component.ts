@@ -110,9 +110,16 @@ export class PreventiveScreeningTabComponent implements OnInit {
     }
 
 
-    initSF() {
+    initPS() {
         return this._formBuilder.group({
-            'isAnswered': ["", Validators.compose([])],
+            'isPatientExamined': ["", Validators.compose([])],
+            'answer': ["", Validators.compose([])],
+        });
+    }
+
+    initDS() {
+        return this._formBuilder.group({
+            'isPatientMeasure': ["", Validators.compose([])],
             'answer': ["", Validators.compose([])],
         });
     }
@@ -122,12 +129,12 @@ export class PreventiveScreeningTabComponent implements OnInit {
         if (type == "ps") {
             // const control = <FormArray>this.preventiveScreeningFormGroup.controls['activeMedicationListForm'];
             const control = <FormArray>this.preventiveScreeningFormGroup.controls['form'];
-            control.push(this.initSF());
+            control.push(this.initPS());
         }
         else if (type == "ds") {
             // const control = <FormArray>this.diabetesSupplementalFormGroup.controls['activeMedicationListForm'];
             const control = <FormArray>this.diabetesSupplementalFormGroup.controls['form'];
-            control.push(this.initSF());
+            control.push(this.initDS());
         }
 
 
@@ -253,7 +260,7 @@ export class PreventiveScreeningTabComponent implements OnInit {
             (err) => {
                 console.log(err);
                 this._uiService.hideSpinner();
-                this._authService.errStatusCheckResponse(err);
+                // this._authService.errStatusCheckResponse(err);
             }
         );
 
@@ -265,7 +272,7 @@ export class PreventiveScreeningTabComponent implements OnInit {
 
     }
 
-    onAddPsAnswer(index) {
+    onAddUpdatePsAnswer(index) {
         const msg = new Message();
         // this.scrollTo(0,0,0)
         // this.isSubmitted = !this.isSubmitted;
@@ -276,12 +283,12 @@ export class PreventiveScreeningTabComponent implements OnInit {
         this.isSubmitted = true;
         this._uiService.showSpinner();
         // this.isSubmitStarted = true;
-        this._patientRecordService.addPsAnswer(this.preventiveScreenAnswers[index], this.id).subscribe(
+        this._patientRecordService.addUpdatePsAnswer(this.preventiveScreenAnswers[index], this.id).subscribe(
             (res) => {
                 this.isSubmitted = false;
                 this._uiService.hideSpinner();
 
-                // this.questionAnswers[index].answer.id = res.json().data;
+                this.preventiveScreenAnswers[index].answer.id = res.json().data;
 
                 msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
                 // msg.msg = 'You have successfully signed up';
@@ -306,45 +313,7 @@ export class PreventiveScreeningTabComponent implements OnInit {
 
     }
 
-    onUpdatePsAnswer(index) {
-        const msg = new Message();
-        // this.scrollTo(0,0,0)
-        // this.isSubmitted = !this.isSubmitted;
-
-        // if (this.questionAnswerFormGroup.valid) {
-
-        this.isSubmitted = true;
-        this._uiService.showSpinner();
-        // this.isSubmitStarted = true;
-        this._patientRecordService.updatePsAnswer(this.preventiveScreenAnswers[index], this.id).subscribe(
-            (res) => {
-                this.isSubmitted = false;
-                this._uiService.hideSpinner();
-                // this._authServices.storeUser(this.userForm);
-
-                msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
-                // msg.msg = 'You have successfully signed up';
-                msg.msgType = MessageTypes.Information;
-                msg.autoCloseAfter = 400;
-                this._uiService.showToast(msg, 'info');
-
-            },
-            (err) => {
-                console.log(err);
-                this.isSubmitted = false;
-                this._uiService.hideSpinner();
-                this._authService.errStatusCheckResponse(err);
-            }
-        );
-
-        // } else {
-        //     // console.log("asd")
-        //     this._formService.validateAllFormFields(this.questionAnswerFormGroup);
-        // }
-
-    }
-
-    onAddDsAnswer(index) {
+    onAddUpdateDsAnswer(index) {
         const msg = new Message();
         // this.scrollTo(0,0,0)
         // this.isSubmitted = !this.isSubmitted;
@@ -355,12 +324,12 @@ export class PreventiveScreeningTabComponent implements OnInit {
         this.isSubmitted = true;
         this._uiService.showSpinner();
         // this.isSubmitStarted = true;
-        this._patientRecordService.addDsAnswer(this.diabeteSupplementAnswers[index], this.id).subscribe(
+        this._patientRecordService.addUpdateDsAnswer(this.diabeteSupplementAnswers[index], this.id).subscribe(
             (res) => {
                 this.isSubmitted = false;
                 this._uiService.hideSpinner();
 
-                // this.questionAnswers[index].answer.id = res.json().data;
+                this.diabeteSupplementAnswers[index].answer.id = res.json().data;
 
                 msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
                 // msg.msg = 'You have successfully signed up';
@@ -384,45 +353,6 @@ export class PreventiveScreeningTabComponent implements OnInit {
         // }
 
     }
-
-    onUpdateDsAnswer(index) {
-        const msg = new Message();
-        // this.scrollTo(0,0,0)
-        // this.isSubmitted = !this.isSubmitted;
-
-        // if (this.questionAnswerFormGroup.valid) {
-
-        this.isSubmitted = true;
-        this._uiService.showSpinner();
-        // this.isSubmitStarted = true;
-        this._patientRecordService.updateDsAnswer(this.diabeteSupplementAnswers[index], this.id).subscribe(
-            (res) => {
-                this.isSubmitted = false;
-                this._uiService.hideSpinner();
-                // this._authServices.storeUser(this.userForm);
-
-                msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
-                // msg.msg = 'You have successfully signed up';
-                msg.msgType = MessageTypes.Information;
-                msg.autoCloseAfter = 400;
-                this._uiService.showToast(msg, 'info');
-
-            },
-            (err) => {
-                console.log(err);
-                this.isSubmitted = false;
-                this._uiService.hideSpinner();
-                this._authService.errStatusCheckResponse(err);
-            }
-        );
-
-        // } else {
-        //     // console.log("asd")
-        //     this._formService.validateAllFormFields(this.questionAnswerFormGroup);
-        // }
-
-    }
-
 
 
 }
