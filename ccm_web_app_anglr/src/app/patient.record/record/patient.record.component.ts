@@ -243,7 +243,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                 this.tab.psychologicalReview = false;
                 this.tab.socialEnvoirnmentalReview = false;
                 this.tab.preventiveScreening = false;
-                this.tab.historicalInformation = false;
+                this.tab.historicalInformation = true;
                 this.tab.generalQuestions = false;
             }
             else if (event.tab.textLabel == "General Questions") {

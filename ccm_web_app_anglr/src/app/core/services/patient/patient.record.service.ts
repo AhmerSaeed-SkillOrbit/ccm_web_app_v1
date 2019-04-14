@@ -11,7 +11,7 @@ import { User } from '../../models/user';
 import {
     ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine,
     PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo,
-    AbilityConcernInfo, ResourceInfo, Answer, QuestionAnswer, PreventiveScreen, DiabeteSupplement, PsychologicalReview, FunctionalReview, SocialReview
+    AbilityConcernInfo, ResourceInfo, Answer, QuestionAnswer, PreventiveScreen, DiabeteSupplement, PsychologicalReview, FunctionalReview, SocialReview, HealthCareHistory, HospitalizationHistory, SurgeryHistory
 } from '../../models/user.record';
 
 @Injectable()
@@ -1121,6 +1121,278 @@ export class PatientRecordService implements OnDestroy {
                 return Observable.throw(err);
             });
     }
+
+    public getHealthCareHistoryAll(patientId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'health/care/history/all?patientId=' + (patientId || null) + "&userId=" + (userId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public addHealthCareHistory(healthCareHistories: HealthCareHistory[], patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'add/health/care/history?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+
+        let hch = []
+
+        if (healthCareHistories && healthCareHistories.length > 0) {
+
+            healthCareHistories.forEach(element => {
+                let d = {
+                    Id: element.id || null,
+                    Provider: element.provider || null,
+                    LastVisitDate: element.lastVisitDate || null,
+                    VisitReason: element.visitReason || null,
+                    IsActive: element.isActive || false,
+                };
+
+                hch.push(d);
+
+            });
+
+        }
+
+        // let body = am;
+        let body = {
+            HealthCareHistory: hch
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+    public updateHealthCareHistory(healthCareHistory: HealthCareHistory, patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'update/health/care/history?userId=' + (userId || null) + "&patientId=" + (patientId || null) + "&id=" + (healthCareHistory.id || null);
+
+
+        let body = {
+            Id: healthCareHistory.id || null,
+            Provider: healthCareHistory.provider || null,
+            LastVisitDate: healthCareHistory.lastVisitDate || null,
+            VisitReason: healthCareHistory.visitReason || null,
+            IsActive: healthCareHistory.isActive || false,
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+
+    public getHospitalizationHistoryAll(patientId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'hospitalization/history/all?patientId=' + (patientId || null) + "&userId=" + (userId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public addHospitalizationHistory(hospitalizationHistories: HospitalizationHistory[], patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'add/hospitalization/history?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+
+        let hh = []
+
+        if (hospitalizationHistories && hospitalizationHistories.length > 0) {
+
+            hospitalizationHistories.forEach(element => {
+                let d = {
+                    Id: element.id || null,
+                    HospitalName: element.hospitalName || null,
+                    HospitalizedDate: element.hospitalizedDate || null,
+                    IsHospitalized: element.isHospitalized || null,
+                    PatientComments: element.patientComments || null,
+                    IsActive: element.isActive || false,
+                };
+
+                hh.push(d);
+
+            });
+
+        }
+
+        // let body = am;
+        let body = {
+            HospitalizationHistory: hh
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+    public updateHospitalizationHistory(hospitalizationHistory: HospitalizationHistory, patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'update/hospitalization/history?userId=' + (userId || null) + "&patientId=" + (patientId || null) + "&id=" + (hospitalizationHistory.id || null);
+
+
+        let body = {
+            Id: hospitalizationHistory.id || null,
+            HospitalName: hospitalizationHistory.hospitalName || null,
+            HospitalizedDate: hospitalizationHistory.hospitalizedDate || null,
+            IsHospitalized: hospitalizationHistory.isHospitalized || null,
+            PatientComments: hospitalizationHistory.patientComments || null,
+            IsActive: hospitalizationHistory.isActive || false,
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+
+    public getSurgeryHistoryAll(patientId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'surgery/history/all?patientId=' + (patientId || null) + "&userId=" + (userId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public addSurgeryHistory(surgeryHistories: SurgeryHistory[], patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'add/surgery/history?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+
+        let sh = []
+
+        if (surgeryHistories && surgeryHistories.length > 0) {
+
+            surgeryHistories.forEach(element => {
+                let d = {
+                    Id: element.id || null,
+                    DiagnoseDescription: element.diagnoseDescription || null,
+                    DiagnoseDate: element.diagnoseDate || null,
+                    NeedAttention: element.needAttention || false,
+                    CurrentProblem: element.currentProblem || null,
+                    IsActive: element.isActive || false,
+                };
+
+                sh.push(d);
+
+            });
+
+        }
+
+        // let body = am;
+        let body = {
+            SurgeryHistory: sh
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+    public updateSurgeryHistory(surgeryHistory: SurgeryHistory, patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'update/surgery/history?userId=' + (userId || null) + "&patientId=" + (patientId || null) + "&id=" + (surgeryHistory.id || null);
+
+
+        let body = {
+            Id: surgeryHistory.id || null,
+            DiagnoseDescription: surgeryHistory.diagnoseDescription || null,
+            DiagnoseDate: surgeryHistory.diagnoseDate || null,
+            NeedAttention: surgeryHistory.needAttention || false,
+            CurrentProblem: surgeryHistory.currentProblem || null,
+            IsActive: surgeryHistory.isActive || false,
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+
 
     ngOnDestroy() {
 

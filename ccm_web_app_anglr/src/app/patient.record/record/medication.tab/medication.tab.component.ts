@@ -517,35 +517,38 @@ export class MedicationTabComponent implements OnInit {
         // this.scrollTo(0,0,0)
         // this.isSubmitted = !this.isSubmitted;
 
-        if (this.activeMedicationFormGroup.valid) {
-            this.isSubmitted = true;
-            this._uiService.showSpinner();
-            // this.isSubmitStarted = true;
-            const msg = new Message();
-            this._patientRecordService.updateActiveMedicine(this.activeMedications[index], this.id).subscribe(
-                (res) => {
-                    this.isSubmitted = false;
-                    this._uiService.hideSpinner();
-                    // this._authServices.storeUser(this.userForm);
+        // if (this.activeMedicationFormGroup.valid) {
 
-                    msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
-                    // msg.msg = 'You have successfully signed up';
-                    msg.msgType = MessageTypes.Information;
-                    msg.autoCloseAfter = 400;
-                    this._uiService.showToast(msg, 'info');
 
-                },
-                (err) => {
-                    console.log(err);
-                    this.isSubmitted = false;
-                    this._uiService.hideSpinner();
-                    this._authService.errStatusCheckResponse(err);
-                }
-            );
-        } else {
-            // console.log("asd")
-            this._formService.validateAllFormFields(this.activeMedicationFormGroup);
-        }
+        this.isSubmitted = true;
+        this._uiService.showSpinner();
+        // this.isSubmitStarted = true;
+        this._patientRecordService.updateActiveMedicine(this.activeMedications[index], this.id).subscribe(
+            (res) => {
+                this.isSubmitted = false;
+                this._uiService.hideSpinner();
+                // this._authServices.storeUser(this.userForm);
+
+                msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
+                // msg.msg = 'You have successfully signed up';
+                msg.msgType = MessageTypes.Information;
+                msg.autoCloseAfter = 400;
+                this._uiService.showToast(msg, 'info');
+
+            },
+            (err) => {
+                console.log(err);
+                this.isSubmitted = false;
+                this._uiService.hideSpinner();
+                this._authService.errStatusCheckResponse(err);
+            }
+        );
+
+
+        // } else {
+        //     // console.log("asd")
+        //     this._formService.validateAllFormFields(this.activeMedicationFormGroup);
+        // }
 
     }
 
@@ -635,35 +638,38 @@ export class MedicationTabComponent implements OnInit {
         // this.scrollTo(0,0,0)
         // this.isSubmitted = !this.isSubmitted;
 
-        if (this.medicationAllergiesIntolerancesFormGroup.valid) {
-            this.isSubmitted = true;
-            this._uiService.showSpinner();
-            // this.isSubmitStarted = true;
-            const msg = new Message();
-            this._patientRecordService.updateAllergyMedicine(this.allergyMedications[index], this.id).subscribe(
-                (res) => {
-                    this.isSubmitted = false;
-                    this._uiService.hideSpinner();
-                    // this._authServices.storeUser(this.userForm);
+        // if (this.medicationAllergiesIntolerancesFormGroup.valid) {
 
-                    msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
-                    // msg.msg = 'You have successfully signed up';
-                    msg.msgType = MessageTypes.Information;
-                    msg.autoCloseAfter = 400;
-                    this._uiService.showToast(msg, 'info');
 
-                },
-                (err) => {
-                    console.log(err);
-                    this.isSubmitted = false;
-                    this._uiService.hideSpinner();
-                    this._authService.errStatusCheckResponse(err);
-                }
-            );
-        } else {
-            // console.log("asd")
-            this._formService.validateAllFormFields(this.medicationAllergiesIntolerancesFormGroup);
-        }
+        this.isSubmitted = true;
+        this._uiService.showSpinner();
+        // this.isSubmitStarted = true;
+        this._patientRecordService.updateAllergyMedicine(this.allergyMedications[index], this.id).subscribe(
+            (res) => {
+                this.isSubmitted = false;
+                this._uiService.hideSpinner();
+                // this._authServices.storeUser(this.userForm);
+
+                msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
+                // msg.msg = 'You have successfully signed up';
+                msg.msgType = MessageTypes.Information;
+                msg.autoCloseAfter = 400;
+                this._uiService.showToast(msg, 'info');
+
+            },
+            (err) => {
+                console.log(err);
+                this.isSubmitted = false;
+                this._uiService.hideSpinner();
+                this._authService.errStatusCheckResponse(err);
+            }
+        );
+
+
+        // } else {
+        //     // console.log("asd")
+        //     this._formService.validateAllFormFields(this.medicationAllergiesIntolerancesFormGroup);
+        // }
 
     }
 
@@ -752,35 +758,38 @@ export class MedicationTabComponent implements OnInit {
         // this.scrollTo(0,0,0)
         // this.isSubmitted = !this.isSubmitted;
 
-        if (this.allergiesNonMedicationFormGroup.valid) {
-            this.isSubmitted = true;
-            this._uiService.showSpinner();
-            // this.isSubmitStarted = true;
-            const msg = new Message();
-            this._patientRecordService.updateAllergyNonMedicine(this.allergyNonMedications[index], this.id).subscribe(
-                (res) => {
-                    this.isSubmitted = false;
-                    this._uiService.hideSpinner();
-                    // this._authServices.storeUser(this.userForm);
+        // if (this.allergiesNonMedicationFormGroup.valid) {
 
-                    msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
-                    // msg.msg = 'You have successfully signed up';
-                    msg.msgType = MessageTypes.Information;
-                    msg.autoCloseAfter = 400;
-                    this._uiService.showToast(msg, 'info');
 
-                },
-                (err) => {
-                    console.log(err);
-                    this.isSubmitted = false;
-                    this._uiService.hideSpinner();
-                    this._authService.errStatusCheckResponse(err);
-                }
-            );
-        } else {
-            // console.log("asd")
-            this._formService.validateAllFormFields(this.allergiesNonMedicationFormGroup);
-        }
+        this.isSubmitted = true;
+        this._uiService.showSpinner();
+        // this.isSubmitStarted = true;
+        this._patientRecordService.updateAllergyNonMedicine(this.allergyNonMedications[index], this.id).subscribe(
+            (res) => {
+                this.isSubmitted = false;
+                this._uiService.hideSpinner();
+                // this._authServices.storeUser(this.userForm);
+
+                msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
+                // msg.msg = 'You have successfully signed up';
+                msg.msgType = MessageTypes.Information;
+                msg.autoCloseAfter = 400;
+                this._uiService.showToast(msg, 'info');
+
+            },
+            (err) => {
+                console.log(err);
+                this.isSubmitted = false;
+                this._uiService.hideSpinner();
+                this._authService.errStatusCheckResponse(err);
+            }
+        );
+
+
+        // } else {
+        //     // console.log("asd")
+        //     this._formService.validateAllFormFields(this.allergiesNonMedicationFormGroup);
+        // }
 
     }
 
@@ -793,39 +802,42 @@ export class MedicationTabComponent implements OnInit {
         allergyNonMedication.isActive = false;
 
 
-        if (this.allergiesNonMedicationFormGroup.valid) {
-            this.isSubmitted = true;
-            this._uiService.showSpinner();
-            // this.isSubmitStarted = true;
-            const msg = new Message();
-            this._patientRecordService.updateAllergyNonMedicine(allergyNonMedication, this.id).subscribe(
-                (res) => {
-                    this.isSubmitted = false;
-                    this._uiService.hideSpinner();
-                    // this._authServices.storeUser(this.userForm);
+        // if (this.allergiesNonMedicationFormGroup.valid) {
 
-                    // this.clearFormArray(<FormArray>this.formScheduleDetail.controls['scheduleDetail']);
-                    this.removeSubForm(index, type);
-                    this.allergyNonMedications.splice(index, 1);
 
-                    msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
-                    // msg.msg = 'You have successfully signed up';
-                    msg.msgType = MessageTypes.Information;
-                    msg.autoCloseAfter = 400;
-                    this._uiService.showToast(msg, 'info');
+        this.isSubmitted = true;
+        this._uiService.showSpinner();
+        // this.isSubmitStarted = true;
+        this._patientRecordService.updateAllergyNonMedicine(allergyNonMedication, this.id).subscribe(
+            (res) => {
+                this.isSubmitted = false;
+                this._uiService.hideSpinner();
+                // this._authServices.storeUser(this.userForm);
 
-                },
-                (err) => {
-                    console.log(err);
-                    this.isSubmitted = false;
-                    this._uiService.hideSpinner();
-                    this._authService.errStatusCheckResponse(err);
-                }
-            );
-        } else {
-            // console.log("asd")
-            this._formService.validateAllFormFields(this.allergiesNonMedicationFormGroup);
-        }
+                // this.clearFormArray(<FormArray>this.formScheduleDetail.controls['scheduleDetail']);
+                this.removeSubForm(index, type);
+                this.allergyNonMedications.splice(index, 1);
+
+                msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
+                // msg.msg = 'You have successfully signed up';
+                msg.msgType = MessageTypes.Information;
+                msg.autoCloseAfter = 400;
+                this._uiService.showToast(msg, 'info');
+
+            },
+            (err) => {
+                console.log(err);
+                this.isSubmitted = false;
+                this._uiService.hideSpinner();
+                this._authService.errStatusCheckResponse(err);
+            }
+        );
+
+
+        // } else {
+        //     // console.log("asd")
+        //     this._formService.validateAllFormFields(this.allergiesNonMedicationFormGroup);
+        // }
 
     }
 
@@ -875,35 +887,38 @@ export class MedicationTabComponent implements OnInit {
         // this.scrollTo(0,0,0)
         // this.isSubmitted = !this.isSubmitted;
 
-        if (this.immunizationsFormGroup.valid) {
-            this.isSubmitted = true;
-            this._uiService.showSpinner();
-            // this.isSubmitStarted = true;
-            const msg = new Message();
-            this._patientRecordService.updateImmunizationVaccine(this.vaccines[index], this.id).subscribe(
-                (res) => {
-                    this.isSubmitted = false;
-                    this._uiService.hideSpinner();
-                    // this._authServices.storeUser(this.userForm);
+        // if (this.immunizationsFormGroup.valid) {
 
-                    msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
-                    // msg.msg = 'You have successfully signed up';
-                    msg.msgType = MessageTypes.Information;
-                    msg.autoCloseAfter = 400;
-                    this._uiService.showToast(msg, 'info');
 
-                },
-                (err) => {
-                    console.log(err);
-                    this.isSubmitted = false;
-                    this._uiService.hideSpinner();
-                    this._authService.errStatusCheckResponse(err);
-                }
-            );
-        } else {
-            // console.log("asd")
-            this._formService.validateAllFormFields(this.immunizationsFormGroup);
-        }
+        this.isSubmitted = true;
+        this._uiService.showSpinner();
+        // this.isSubmitStarted = true;
+        this._patientRecordService.updateImmunizationVaccine(this.vaccines[index], this.id).subscribe(
+            (res) => {
+                this.isSubmitted = false;
+                this._uiService.hideSpinner();
+                // this._authServices.storeUser(this.userForm);
+
+                msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
+                // msg.msg = 'You have successfully signed up';
+                msg.msgType = MessageTypes.Information;
+                msg.autoCloseAfter = 400;
+                this._uiService.showToast(msg, 'info');
+
+            },
+            (err) => {
+                console.log(err);
+                this.isSubmitted = false;
+                this._uiService.hideSpinner();
+                this._authService.errStatusCheckResponse(err);
+            }
+        );
+
+
+        // } else {
+        //     // console.log("asd")
+        //     this._formService.validateAllFormFields(this.immunizationsFormGroup);
+        // }
 
     }
 

@@ -231,6 +231,22 @@ export const Config = {
         min: 1,
         max: 50
     },
+    healthCareHistory: {
+        min: 1,
+        max: 50
+    },
+    hospitalizationHistory: {
+        min: 1,
+        max: 50
+    },
+    surgeryHistory: {
+        min: 1,
+        max: 50
+    },
+    // vaccine: {
+    //     min: 1,
+    //     max: 50
+    // },
 
     finalRemarks: [
         {

@@ -17,7 +17,7 @@ import { ForumFeed } from '../../models/forum';
 import { Tag } from '../../models/tag';
 import { Comment, Reply } from '../../models/comment';
 import { Ticket, TicketAssignee } from '../../models/ticket';
-import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo, ResourceInfo, QuestionAnswer, Answer, DiabeteSupplement, DiabeteSupplementAnswer, PreventiveScreen, PreventiveScreenAnswer, PsychologicalReview, PsychologicalReviewAnswer, FunctionalReview, FunctionalReviewAnswer, SocialReview, SocialReviewAnswer } from '../../models/user.record';
+import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo, ResourceInfo, QuestionAnswer, Answer, DiabeteSupplement, DiabeteSupplementAnswer, PreventiveScreen, PreventiveScreenAnswer, PsychologicalReview, PsychologicalReviewAnswer, FunctionalReview, FunctionalReviewAnswer, SocialReview, SocialReviewAnswer, HealthCareHistory, HospitalizationHistory, SurgeryHistory } from '../../models/user.record';
 
 @Injectable()
 export class MappingService {
@@ -272,7 +272,7 @@ export class MappingService {
             isAppointment.appointmentStatus = appointmentData.AppointmentStatus || null;
             isAppointment.appointmentStatusReason = appointmentData.AppointmentStatusReason || null;
 
-            isAppointment.isActive = appointmentData.IsActive || false;
+            isAppointment.isActive = appointmentData.IsActive || true;
             isAppointment.createdBy = appointmentData.CreatedBy || null;
             isAppointment.updatedBy = appointmentData.UpdatedBy || null;
             isAppointment.createdOn = appointmentData.CreatedOn || null;
@@ -381,7 +381,7 @@ export class MappingService {
             isTag.updatedBy = tagData.UpdatedBy || null;
             isTag.createdOn = tagData.CreatedOn || null;
             isTag.updatedOn = tagData.UpdatedOn || null;
-            isTag.isActive = tagData.IsActive || false;
+            isTag.isActive = tagData.IsActive || true;
 
         }
         return isTag;
@@ -398,7 +398,7 @@ export class MappingService {
             isComment.userId = commentData.userId || null;
             isComment.vote = commentData.Vote || null;
             isComment.parentCommentId = commentData.ParentCommentId || null;
-            isComment.isActive = commentData.IsActive || false;
+            isComment.isActive = commentData.IsActive || true;
 
             isComment.role = this.mapRole(commentData.Role);
 
@@ -494,7 +494,7 @@ export class MappingService {
             isReply.userId = replytData.userId || null;
             isReply.vote = replytData.Vote || null;
             isReply.parentReplyId = replytData.ParentReplyId || null;
-            isReply.isActive = replytData.IsActive || false;
+            isReply.isActive = replytData.IsActive || true;
 
             isReply.role = this.mapRole(replytData.Role);
 
@@ -521,7 +521,7 @@ export class MappingService {
             isActiveMedication.startBy = activeMedicationData.StartBy || null;
             isActiveMedication.startDate = activeMedicationData.StartDate || null;
             isActiveMedication.whyComments = activeMedicationData.WhyComments || null;
-            isActiveMedication.isActive = activeMedicationData.IsActive || false;
+            isActiveMedication.isActive = activeMedicationData.IsActive || true;
         }
 
         return isActiveMedication;
@@ -537,7 +537,7 @@ export class MappingService {
             isAllergyMedication.reaction = allergyMedicationData.MedicineReaction || null;
             isAllergyMedication.dateOccured = allergyMedicationData.ReactionDate || null;
             isAllergyMedication.isReactionSevere = allergyMedicationData.IsReactionSevere || false;
-            isAllergyMedication.isActive = allergyMedicationData.IsActive || false;
+            isAllergyMedication.isActive = allergyMedicationData.IsActive || true;
         }
 
         return isAllergyMedication;
@@ -553,7 +553,7 @@ export class MappingService {
             isAllergyNonMedication.reaction = allergyNonMedicationData.SubstanceReaction || null;
             isAllergyNonMedication.dateOccured = allergyNonMedicationData.ReactionDate || null;
             isAllergyNonMedication.isReactionSevere = allergyNonMedicationData.IsReactionSevere || false;
-            isAllergyNonMedication.isActive = allergyNonMedicationData.IsActive || false;
+            isAllergyNonMedication.isActive = allergyNonMedicationData.IsActive || true;
         }
 
         return isAllergyNonMedication;
@@ -567,7 +567,7 @@ export class MappingService {
             isVaccine.vaccineId = vaccineData.Id || null;
             isVaccine.vaccineName = vaccineData.Vaccine || null;
             isVaccine.vaccineDate = vaccineData.VaccineDate || null;
-            isVaccine.isActive = vaccineData.IsActive || false;
+            isVaccine.isActive = vaccineData.IsActive || true;
         }
 
         return isVaccine;
@@ -611,7 +611,7 @@ export class MappingService {
             isPersonalContactInfo.wantToChange = personalContactInfoData.WantToChange || null;
             isPersonalContactInfo.effortToChange = personalContactInfoData.EffortToChange || null;
 
-            isPersonalContactInfo.isActive = personalContactInfoData.IsActive || false;
+            isPersonalContactInfo.isActive = personalContactInfoData.IsActive || true;
         }
 
         return isPersonalContactInfo;
@@ -638,7 +638,7 @@ export class MappingService {
 
             isAlternateContactInfo.comment = alternateContactInfoData.Comment || null;
 
-            isAlternateContactInfo.isActive = alternateContactInfoData.IsActive || false;
+            isAlternateContactInfo.isActive = alternateContactInfoData.IsActive || true;
         }
 
         return isAlternateContactInfo;
@@ -661,7 +661,7 @@ export class MappingService {
 
             isInsuranceInfo.comment = insuranceInfoData.Comment || null;
 
-            isInsuranceInfo.isActive = insuranceInfoData.IsActive || false;
+            isInsuranceInfo.isActive = insuranceInfoData.IsActive || true;
         }
 
         return isInsuranceInfo;
@@ -700,7 +700,7 @@ export class MappingService {
             isSelfAssessmentInfo.assistanceAvailable = selfAssessmentInfoData.AssistanceAvailable || null;
 
 
-            isSelfAssessmentInfo.isActive = selfAssessmentInfoData.IsActive || false;
+            isSelfAssessmentInfo.isActive = selfAssessmentInfoData.IsActive || true;
         }
 
         return isSelfAssessmentInfo;
@@ -750,7 +750,7 @@ export class MappingService {
             isAbilityConcernInfo.concernDetailComment = abilityConcernInfoData.ConcernDetailComment || null;
 
 
-            isAbilityConcernInfo.isActive = abilityConcernInfoData.IsActive || false;
+            isAbilityConcernInfo.isActive = abilityConcernInfoData.IsActive || true;
         }
 
         return isAbilityConcernInfo;
@@ -790,7 +790,7 @@ export class MappingService {
             isResourceInfo.hardToTakeBath = resourceInfoData.HardToTakeBath || false;
             isResourceInfo.hardToTakeBathComment = resourceInfoData.HardToTakeBathComment || null;
 
-            isResourceInfo.isActive = resourceInfoData.IsActive || false;
+            isResourceInfo.isActive = resourceInfoData.IsActive || true;
         }
 
         return isResourceInfo;
@@ -807,7 +807,7 @@ export class MappingService {
 
             isQuestionAnswer.answer = this.mapAnswer(questionAnswerData.Answer);
 
-            isQuestionAnswer.isActive = questionAnswerData.IsActive || false;
+            isQuestionAnswer.isActive = questionAnswerData.IsActive || true;
         }
 
         return isQuestionAnswer;
@@ -822,7 +822,7 @@ export class MappingService {
             isAnswer.isAnswered = answerData.IsAnswered || null;
             isAnswer.answer = answerData.Answer || null;
 
-            isAnswer.isActive = answerData.IsActive || false;
+            isAnswer.isActive = answerData.IsActive || true;
         }
 
         return isAnswer;
@@ -839,7 +839,7 @@ export class MappingService {
 
             isPreventiveScreen.answer = this.mapPreventiveScreenAnswer(preventiveScreenData.Answer);
 
-            isPreventiveScreen.isActive = preventiveScreenData.IsActive || false;
+            isPreventiveScreen.isActive = preventiveScreenData.IsActive || true;
         }
 
         return isPreventiveScreen;
@@ -854,7 +854,7 @@ export class MappingService {
             isPreventiveScreenAnswer.isPatientExamined = preventiveScreenAnswerData.IsPatientExamined || null;
             isPreventiveScreenAnswer.description = preventiveScreenAnswerData.Description || null;
 
-            isPreventiveScreenAnswer.isActive = preventiveScreenAnswerData.IsActive || false;
+            isPreventiveScreenAnswer.isActive = preventiveScreenAnswerData.IsActive || true;
         }
 
         return isPreventiveScreenAnswer;
@@ -871,7 +871,7 @@ export class MappingService {
 
             isDiabeteSupplement.answer = this.mapDiabeteSupplementAnswer(diabeteSupplementData.Answer);
 
-            isDiabeteSupplement.isActive = diabeteSupplementData.IsActive || false;
+            isDiabeteSupplement.isActive = diabeteSupplementData.IsActive || true;
         }
 
         return isDiabeteSupplement;
@@ -886,7 +886,7 @@ export class MappingService {
             isDiabeteSupplementAnswer.isPatientMeasure = diabeteSupplementAnswerData.IsPatientMeasure || null;
             isDiabeteSupplementAnswer.description = diabeteSupplementAnswerData.Description || null;
 
-            isDiabeteSupplementAnswer.isActive = diabeteSupplementAnswerData.IsActive || false;
+            isDiabeteSupplementAnswer.isActive = diabeteSupplementAnswerData.IsActive || true;
         }
 
         return isDiabeteSupplementAnswer;
@@ -903,7 +903,7 @@ export class MappingService {
 
             isPsychologicalReview.answer = this.mapPsychologicalReviewAnswer(psychologicalReviewData.Answer);
 
-            isPsychologicalReview.isActive = psychologicalReviewData.IsActive || false;
+            isPsychologicalReview.isActive = psychologicalReviewData.IsActive || true;
         }
 
         return isPsychologicalReview;
@@ -918,7 +918,7 @@ export class MappingService {
             isPsychologicalReviewAnswer.isPatientExamined = psychologicalReviewAnswerData.IsPatientExamined || null;
             isPsychologicalReviewAnswer.description = psychologicalReviewAnswerData.Description || null;
 
-            isPsychologicalReviewAnswer.isActive = psychologicalReviewAnswerData.IsActive || false;
+            isPsychologicalReviewAnswer.isActive = psychologicalReviewAnswerData.IsActive || true;
         }
 
         return isPsychologicalReviewAnswer;
@@ -935,7 +935,7 @@ export class MappingService {
 
             isFunctionalReview.answer = this.mapFunctionalReviewAnswer(functionalReviewData.Answer);
 
-            isFunctionalReview.isActive = functionalReviewData.IsActive || false;
+            isFunctionalReview.isActive = functionalReviewData.IsActive || true;
         }
 
         return isFunctionalReview;
@@ -950,7 +950,7 @@ export class MappingService {
             isFunctionalReviewAnswer.isOkay = functionalReviewAnswerData.IsOkay || null;
             isFunctionalReviewAnswer.description = functionalReviewAnswerData.Description || null;
 
-            isFunctionalReviewAnswer.isActive = functionalReviewAnswerData.IsActive || false;
+            isFunctionalReviewAnswer.isActive = functionalReviewAnswerData.IsActive || true;
         }
 
         return isFunctionalReviewAnswer;
@@ -967,7 +967,7 @@ export class MappingService {
 
             isSocialReview.answer = this.mapSocialReviewAnswer(socialReviewData.Answer);
 
-            isSocialReview.isActive = socialReviewData.IsActive || false;
+            isSocialReview.isActive = socialReviewData.IsActive || true;
         }
 
         return isSocialReview;
@@ -982,10 +982,57 @@ export class MappingService {
             isSocialReview.isPatientExamined = socialReviewData.IsPatientExamined || null;
             isSocialReview.description = socialReviewData.Description || null;
 
-            isSocialReview.isActive = socialReviewData.IsActive || false;
+            isSocialReview.isActive = socialReviewData.IsActive || true;
         }
 
         return isSocialReview;
+    }
+
+    public mapHealthCareHistory(res: any): HealthCareHistory {
+        const healthCareHistoryData = res;
+        const isHealthCareHistory = new HealthCareHistory();
+        if (healthCareHistoryData) {
+            isHealthCareHistory.id = healthCareHistoryData.Id || null;
+            isHealthCareHistory.healthCareHistoryId = healthCareHistoryData.Id || null;
+            isHealthCareHistory.provider = healthCareHistoryData.Provider || null;
+            isHealthCareHistory.lastVisitDate = healthCareHistoryData.LastVisitDate || null;
+            isHealthCareHistory.visitReason = healthCareHistoryData.VisitReason || null;
+            isHealthCareHistory.isActive = healthCareHistoryData.IsActive || true;
+        }
+
+        return isHealthCareHistory;
+    }
+
+    public mapHospitalizationHistory(res: any): HospitalizationHistory {
+        const hospitalizationHistoryData = res;
+        const isHospitalizationHistory = new HospitalizationHistory();
+        if (hospitalizationHistoryData) {
+            isHospitalizationHistory.id = hospitalizationHistoryData.Id || null;
+            isHospitalizationHistory.hospitalizationHistoryId = hospitalizationHistoryData.Id || null;
+            isHospitalizationHistory.hospitalName = hospitalizationHistoryData.HospitalName || null;
+            isHospitalizationHistory.hospitalizedDate = hospitalizationHistoryData.HospitalizedDate || null;
+            isHospitalizationHistory.isHospitalized = hospitalizationHistoryData.IsHospitalized || false;
+            isHospitalizationHistory.patientComments = hospitalizationHistoryData.PatientComments || null;
+            isHospitalizationHistory.isActive = hospitalizationHistoryData.IsActive || true;
+        }
+
+        return isHospitalizationHistory;
+    }
+
+    public mapSurgeryHistory(res: any): SurgeryHistory {
+        const surgeryHistoryData = res;
+        const isSurgeryHistory = new SurgeryHistory();
+        if (surgeryHistoryData) {
+            isSurgeryHistory.id = surgeryHistoryData.Id || null;
+            isSurgeryHistory.surgeryHistoryId = surgeryHistoryData.Id || null;
+            isSurgeryHistory.diagnoseDescription = surgeryHistoryData.DiagnoseDescription || null;
+            isSurgeryHistory.diagnoseDate = surgeryHistoryData.DiagnoseDate || null;
+            isSurgeryHistory.needAttention = surgeryHistoryData.NeedAttention || false;
+            isSurgeryHistory.currentProblem = surgeryHistoryData.CurrentProblem || null;
+            isSurgeryHistory.isActive = surgeryHistoryData.IsActive || true;
+        }
+
+        return isSurgeryHistory;
     }
 
 }

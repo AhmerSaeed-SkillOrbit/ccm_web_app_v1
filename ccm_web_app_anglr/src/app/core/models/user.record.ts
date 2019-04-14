@@ -482,3 +482,35 @@ export class SocialReviewAnswer {
 
     isActive: boolean = true;
 }
+
+export class HealthCareHistory {
+
+    id: number;
+    healthCareHistoryId: number;
+    provider: string;
+    lastVisitDate: string;
+    visitReason: string;
+    isActive: boolean = true;
+}
+
+export class HospitalizationHistory {
+
+    id: number;
+    hospitalizationHistoryId: number;
+    hospitalName: string;
+    hospitalizedDate: string;
+    isHospitalized: string;
+    patientComments: string;
+    isActive: boolean = true;
+}
+
+export class SurgeryHistory {
+
+    id: number;
+    surgeryHistoryId: number;
+    diagnoseDescription: string;
+    diagnoseDate: string;
+    needAttention: string;
+    currentProblem: string;
+    isActive: boolean = true;
+}
