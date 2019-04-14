@@ -20,8 +20,9 @@ import { UtilityService } from '../../../core/services/general/utility.service';
 import { Config } from '../../../config/config';
 import { PatientRecordService } from '../../../core/services/patient/patient.record.service';
 import { MappingService } from '../../../core/services/mapping/mapping.service';
-import { HealthCareHistory, HospitalizationHistory, SurgeryHistory, Vaccine } from '../../../core/models/user.record';
+import { HealthCareHistory, HospitalizationHistory, SurgeryHistory, PatientOrganizationAssistance, AssistanceType } from '../../../core/models/user.record';
 import { FormService } from '../../../core/services/form/form.service';
+import { SetupService } from '../../../core/services/setup/setup.service';
 
 
 @Component({
@@ -45,7 +46,9 @@ export class HistoricalInformationTabComponent implements OnInit {
     healthCareHistories: HealthCareHistory[] = [];
     hospitalizationHistories: HospitalizationHistory[] = [];
     surgeryHistories: SurgeryHistory[] = [];
-    vaccines: Vaccine[] = [];
+    patientOrganizationAssistances: PatientOrganizationAssistance[] = [];
+
+    assistanceTypes: AssistanceType[] = [];
 
     genders = Config.gender;
 
@@ -55,7 +58,7 @@ export class HistoricalInformationTabComponent implements OnInit {
     healthCareHistoryFormGroup: FormGroup;
     hospitalizationHistoryFormGroup: FormGroup;
     surgeryHistoryFormGroup: FormGroup;
-    immunizationsFormGroup: FormGroup;
+    patientOrganizationAssistanceFormGroup: FormGroup;
     isSubmitted: boolean = false;
 
     minHealthCareHistory = Config.healthCareHistory.min;
@@ -73,7 +76,7 @@ export class HistoricalInformationTabComponent implements OnInit {
         private _utilityService: UtilityService,
         private _mappingService: MappingService,
         // private route: ActivatedRoute,
-        // private _setupService: AdminSetupService,
+        private _setupService: SetupService,
         // private _router: Router,
         private _formService: FormService,
         private _formBuilder: FormBuilder,
@@ -102,7 +105,7 @@ export class HistoricalInformationTabComponent implements OnInit {
             'form': this._formBuilder.array([]),
         });
 
-        this.immunizationsFormGroup = this._formBuilder.group({
+        this.patientOrganizationAssistanceFormGroup = this._formBuilder.group({
             'form': this._formBuilder.array([]),
         });
     }
@@ -110,6 +113,8 @@ export class HistoricalInformationTabComponent implements OnInit {
     ngOnInit(): void {
 
         console.log("this.payLoad in parent on init =-=-==-=-=");
+
+        // this.loadAssistanceOrganization();
 
     }
 
@@ -125,7 +130,8 @@ export class HistoricalInformationTabComponent implements OnInit {
                     this.loadHealthCareHistories();
                     this.loadHospitalizationHistories();
                     this.loadSurgeryHistories();
-                    // this.loadImmunizationVaccines();
+                    // this.loadPatientOrganizationAssistances();
+                    this.loadAssistanceOrganization();
                 }
             }
 
@@ -158,10 +164,13 @@ export class HistoricalInformationTabComponent implements OnInit {
         });
     }
 
-    initI() {
+    initPAO() {
         return this._formBuilder.group({
-            'vaccineName': ["", Validators.compose([Validators.required])],
-            'dateGiven': ["", Validators.compose([])],
+            // 'assistanceType': ["", Validators.compose([Validators.required])],
+            'organizationAssistance': ["", Validators.compose([])],
+            'organization': ["", Validators.compose([])],
+            'telephoneNumber': ["", Validators.compose([])],
+            'isPatientRefused': ["", Validators.compose([])],
         });
     }
 
@@ -178,9 +187,9 @@ export class HistoricalInformationTabComponent implements OnInit {
             const control = <FormArray>this.surgeryHistoryFormGroup.controls['form'];
             control.push(this.initSH());
         }
-        else if (type == "immunizationsForm") {
-            const control = <FormArray>this.immunizationsFormGroup.controls['form'];
-            control.push(this.initI());
+        else if (type == "patientOrganizationAssistanceListForm") {
+            const control = <FormArray>this.patientOrganizationAssistanceFormGroup.controls['form'];
+            control.push(this.initPAO());
         }
     }
 
@@ -201,7 +210,7 @@ export class HistoricalInformationTabComponent implements OnInit {
             control.removeAt(idx);
         }
         else if (type == "immunizationsForm") {
-            const control = <FormArray>this.immunizationsFormGroup.controls['form'];
+            const control = <FormArray>this.patientOrganizationAssistanceFormGroup.controls['form'];
             control.removeAt(idx);
         }
 
@@ -233,10 +242,10 @@ export class HistoricalInformationTabComponent implements OnInit {
             this.surgeryHistories.push(shData);
             this.addSubForm(type);
         }
-        else if (type == "immunizationsForm") {
-            let amData = new Vaccine();
+        else if (type == "patientOrganizationAssistanceListForm") {
+            let poaData = new PatientOrganizationAssistance();
             // sData.scheduleDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
-            this.vaccines.push(amData);
+            this.patientOrganizationAssistances.push(poaData);
             this.addSubForm(type);
         }
 
@@ -279,17 +288,62 @@ export class HistoricalInformationTabComponent implements OnInit {
             }
 
         }
-        else if (type == "immunizationsForm") {
-            if (this.vaccines[index].id) {
-                this.onRemoveImmunizations(index, type);
+        else if (type == "patientOrganizationAssistanceListForm") {
+            if (this.patientOrganizationAssistances[index].id) {
+                this.onRemovePatientOrganizationAssistance(index, type);
             }
             else {
                 // this.clearFormArray(<FormArray>this.formScheduleDetail.controls['scheduleDetail']);
                 this.removeSubForm(index, type);
-                this.vaccines.splice(index, 1);
+                this.patientOrganizationAssistances.splice(index, 1);
             }
 
         }
+    }
+
+    replaceText(text) {
+        return this._utilityService.replaceConfigText(text);
+    }
+
+    loadAssistanceOrganization() {
+        // this._uiService.showSpinner();
+        this._setupService.getAssistanceTypeList().subscribe(
+            (res) => {
+                // this._uiService.hideSpinner();
+                console.log('get Assistance Organization', res.json().data);
+
+                let array = res.json().data || [];
+                console.log('u Object', array);
+                // console.log('res list:', array);
+                var aoList = [];
+                for (let i = 0; i < array.length; i++) {
+
+                    let pao: PatientOrganizationAssistance = new PatientOrganizationAssistance()
+
+                    pao.assistanceTypeSingle = this._mappingService.mapAssistanceType(array[i]);
+                    aoList.push(pao);
+                    this.patientOrganizationAssistances.push(pao);
+                    this.addSubForm("patientOrganizationAssistanceListForm");
+                }
+
+                console.log('patientOrganizationAssistances', this.patientOrganizationAssistances);
+                // this.patientOrganizationAssistances = poaList;
+
+                // if (this.patientOrganizationAssistances.length == 0) {
+                //     this.addMore("patientOrganizationAssistanceListForm");
+                // }
+
+                // console.log('insuranceTypes: ' + this.insuranceTypes);
+
+                this.loadPatientOrganizationAssistances();
+
+            },
+            (err) => {
+                console.log(err);
+                // this._uiService.hideSpinner();
+                // this._authService.errStatusCheckResponse(err);
+            }
+        );
     }
 
     loadHealthCareHistories() {
@@ -403,32 +457,45 @@ export class HistoricalInformationTabComponent implements OnInit {
 
     }
 
-    loadImmunizationVaccines() {
+    loadPatientOrganizationAssistances() {
 
-        this.clearFormArray(<FormArray>this.immunizationsFormGroup.controls['form']);
-        this.vaccines = [];
+        // this.clearFormArray(<FormArray>this.patientOrganizationAssistanceFormGroup.controls['form']);
+        // this.patientOrganizationAssistances = [];
 
         this._uiService.showSpinner();
 
-        this._patientRecordService.getImmunizationVaccineAll(this.id).subscribe(
+        this._patientRecordService.getPatientOrganizationAssistanceAll(this.id).subscribe(
             (res) => {
                 this._uiService.hideSpinner();
 
                 let array = res.json().data || [];
                 console.log('u Object', array);
                 // console.log('res list:', array);
-                var amList = [];
+                var poaList = [];
                 for (let i = 0; i < array.length; i++) {
-                    let am = this._mappingService.mapVaccine(array[i]);
-                    amList.push(am);
-                    this.vaccines.push(am);
-                    this.addSubForm("immunizationsForm");
-                }
-                // this.vaccines = amList;
+                    let poa = this._mappingService.mapPatientOrganizationAssistance(array[i]);
+                    poaList.push(poa);
 
-                if (this.vaccines.length == 0) {
-                    this.addMore("immunizationsForm");
+                    this.patientOrganizationAssistances.forEach((element, index) => {
+
+                        if (element.assistanceTypeSingle.id == poa.assistanceTypeId) {
+
+                            poa.assistanceTypeSingle = element.assistanceTypeSingle;
+
+                            this.patientOrganizationAssistances[index] = poa;
+                        }
+
+                    });
+
+                    // this.patientOrganizationAssistances.push(poa);
+                    // this.addSubForm("patientOrganizationAssistanceListForm");
                 }
+                console.log('patientOrganizationAssistances', this.patientOrganizationAssistances);
+                // this.patientOrganizationAssistances = poaList;
+
+                // if (this.patientOrganizationAssistances.length == 0) {
+                //     this.addMore("patientOrganizationAssistanceListForm");
+                // }
 
             },
             (err) => {
@@ -456,6 +523,9 @@ export class HistoricalInformationTabComponent implements OnInit {
     }
 
 
+    onAssistanceOrganizationSelect(index) {
+
+    }
 
 
     onSubmitHealthCareHistory() {
@@ -824,23 +894,23 @@ export class HistoricalInformationTabComponent implements OnInit {
 
 
 
-    onSubmitImmunizations() {
+    onSubmitPatientOrganizationAssistance() {
         const msg = new Message();
         // this.scrollTo(0,0,0)
         // this.isSubmitted = !this.isSubmitted;
 
-        if (this.immunizationsFormGroup.valid) {
+        if (this.patientOrganizationAssistanceFormGroup.valid) {
             this.isSubmitted = true;
             this._uiService.showSpinner();
             // this.isSubmitStarted = true;
             const msg = new Message();
-            this._patientRecordService.addImmunizationVaccine(this.vaccines, this.id).subscribe(
+            this._patientRecordService.addPatientOrganizationAssistance(this.patientOrganizationAssistances, this.id).subscribe(
                 (res) => {
                     this.isSubmitted = false;
                     this._uiService.hideSpinner();
                     // this._authServices.storeUser(this.userForm);
 
-                    this.loadImmunizationVaccines();
+                    this.loadPatientOrganizationAssistances();
 
                     msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
                     // msg.msg = 'You have successfully signed up';
@@ -858,61 +928,63 @@ export class HistoricalInformationTabComponent implements OnInit {
             );
         } else {
             // console.log("asd")
-            this._formService.validateAllFormFields(this.immunizationsFormGroup);
+            this._formService.validateAllFormFields(this.patientOrganizationAssistanceFormGroup);
         }
 
     }
 
-    onUpdateImmunizations(index) {
+    onUpdatePatientOrganizationAssistance(index) {
         const msg = new Message();
         // this.scrollTo(0,0,0)
         // this.isSubmitted = !this.isSubmitted;
 
-        if (this.immunizationsFormGroup.valid) {
-            this.isSubmitted = true;
-            this._uiService.showSpinner();
-            // this.isSubmitStarted = true;
-            const msg = new Message();
-            this._patientRecordService.updateImmunizationVaccine(this.vaccines[index], this.id).subscribe(
-                (res) => {
-                    this.isSubmitted = false;
-                    this._uiService.hideSpinner();
-                    // this._authServices.storeUser(this.userForm);
+        // if (this.patientOrganizationAssistanceFormGroup.valid) {
 
-                    msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
-                    // msg.msg = 'You have successfully signed up';
-                    msg.msgType = MessageTypes.Information;
-                    msg.autoCloseAfter = 400;
-                    this._uiService.showToast(msg, 'info');
+        this.isSubmitted = true;
+        this._uiService.showSpinner();
+        // this.isSubmitStarted = true;
+        this._patientRecordService.updatePatientOrganizationAssistance(this.patientOrganizationAssistances[index], this.id).subscribe(
+            (res) => {
+                this.isSubmitted = false;
+                this._uiService.hideSpinner();
+                // this._authServices.storeUser(this.userForm);
 
-                },
-                (err) => {
-                    console.log(err);
-                    this.isSubmitted = false;
-                    this._uiService.hideSpinner();
-                    this._authService.errStatusCheckResponse(err);
-                }
-            );
-        } else {
-            // console.log("asd")
-            this._formService.validateAllFormFields(this.immunizationsFormGroup);
-        }
+                msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
+                // msg.msg = 'You have successfully signed up';
+                msg.msgType = MessageTypes.Information;
+                msg.autoCloseAfter = 400;
+                this._uiService.showToast(msg, 'info');
+
+            },
+            (err) => {
+                console.log(err);
+                this.isSubmitted = false;
+                this._uiService.hideSpinner();
+                this._authService.errStatusCheckResponse(err);
+            }
+        );
+
+
+        // } else {
+        //     // console.log("asd")
+        //     this._formService.validateAllFormFields(this.patientOrganizationAssistanceFormGroup);
+        // }
 
     }
 
-    onRemoveImmunizations(index, type) {
+    onRemovePatientOrganizationAssistance(index, type) {
         const msg = new Message();
         // this.scrollTo(0,0,0)
         // this.isSubmitted = !this.isSubmitted;
 
-        let vaccine = this.vaccines[index];
+        let vaccine = this.patientOrganizationAssistances[index];
         vaccine.isActive = false;
 
         this.isSubmitted = true;
         this._uiService.showSpinner();
         // this.isSubmitStarted = true;
 
-        this._patientRecordService.updateImmunizationVaccine(this.vaccines[index], this.id).subscribe(
+        this._patientRecordService.updatePatientOrganizationAssistance(this.patientOrganizationAssistances[index], this.id).subscribe(
             (res) => {
                 this.isSubmitted = false;
                 this._uiService.hideSpinner();
@@ -920,7 +992,7 @@ export class HistoricalInformationTabComponent implements OnInit {
 
                 // this.clearFormArray(<FormArray>this.formScheduleDetail.controls['scheduleDetail']);
                 this.removeSubForm(index, type);
-                this.vaccines.splice(index, 1);
+                this.patientOrganizationAssistances.splice(index, 1);
 
                 msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
                 // msg.msg = 'You have successfully signed up';

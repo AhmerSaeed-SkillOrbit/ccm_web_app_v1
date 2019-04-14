@@ -514,3 +514,48 @@ export class SurgeryHistory {
     currentProblem: string;
     isActive: boolean = true;
 }
+
+export class AssistanceType {
+
+    id: number;
+    assistanceTypeId: number;
+    type: string;
+    description: string;
+    assistanceOrganizations: AssistanceOrganization[] = [];
+    isActive: boolean = true;
+}
+
+export class AssistanceOrganization {
+
+    id: number;
+    assistanceOrganizationId: number;
+    organization: string;
+    telephoneNumber: string;
+    officeAddress: string;
+    contactPerson: string;
+    description: string;
+    isActive: boolean = true;
+}
+
+export class PatientOrganizationAssistance {
+
+    id: number;
+    patientOrganizationAssistanceId: number;
+    organization: string;
+    telephoneNumber: string;
+    officeAddress: string;
+    contactPerson: string;
+    description: string;
+    isPatientRefused: boolean = false;
+
+    assistanceOrganizationId: number;
+    assistanceOrganization: AssistanceOrganization = new AssistanceOrganization();
+
+    assistanceTypeId: number;
+    assistanceType: AssistanceType = new AssistanceType();
+
+    assistanceTypeSingle: AssistanceType = new AssistanceType();
+
+
+    isActive: boolean = true;
+}

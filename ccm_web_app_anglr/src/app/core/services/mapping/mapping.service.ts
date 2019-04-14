@@ -17,7 +17,7 @@ import { ForumFeed } from '../../models/forum';
 import { Tag } from '../../models/tag';
 import { Comment, Reply } from '../../models/comment';
 import { Ticket, TicketAssignee } from '../../models/ticket';
-import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo, ResourceInfo, QuestionAnswer, Answer, DiabeteSupplement, DiabeteSupplementAnswer, PreventiveScreen, PreventiveScreenAnswer, PsychologicalReview, PsychologicalReviewAnswer, FunctionalReview, FunctionalReviewAnswer, SocialReview, SocialReviewAnswer, HealthCareHistory, HospitalizationHistory, SurgeryHistory } from '../../models/user.record';
+import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo, ResourceInfo, QuestionAnswer, Answer, DiabeteSupplement, DiabeteSupplementAnswer, PreventiveScreen, PreventiveScreenAnswer, PsychologicalReview, PsychologicalReviewAnswer, FunctionalReview, FunctionalReviewAnswer, SocialReview, SocialReviewAnswer, HealthCareHistory, HospitalizationHistory, SurgeryHistory, AssistanceType, AssistanceOrganization, PatientOrganizationAssistance } from '../../models/user.record';
 
 @Injectable()
 export class MappingService {
@@ -1029,6 +1029,71 @@ export class MappingService {
             isSurgeryHistory.diagnoseDate = surgeryHistoryData.DiagnoseDate || null;
             isSurgeryHistory.needAttention = surgeryHistoryData.NeedAttention || false;
             isSurgeryHistory.currentProblem = surgeryHistoryData.CurrentProblem || null;
+            isSurgeryHistory.isActive = surgeryHistoryData.IsActive || true;
+        }
+
+        return isSurgeryHistory;
+    }
+
+    public mapAssistanceType(res: any): AssistanceType {
+        const assistanceTypeData = res;
+        const isAssistanceType = new AssistanceType();
+        if (assistanceTypeData) {
+            isAssistanceType.id = assistanceTypeData.Id || null;
+            isAssistanceType.assistanceTypeId = assistanceTypeData.Id || null;
+            isAssistanceType.type = assistanceTypeData.Type || null;
+            isAssistanceType.description = assistanceTypeData.Description || null;
+            isAssistanceType.assistanceOrganizations = [];
+
+            if (assistanceTypeData.AssistanceOrganization && assistanceTypeData.AssistanceOrganization.length > 0) {
+                assistanceTypeData.AssistanceOrganization.forEach(element => {
+                    let data = this.mapAssistanceOrganization(element);
+                    isAssistanceType.assistanceOrganizations.push(data)
+                });
+            }
+
+            isAssistanceType.isActive = assistanceTypeData.IsActive || true;
+        }
+
+        return isAssistanceType;
+    }
+
+    public mapAssistanceOrganization(res: any): AssistanceOrganization {
+        const assistanceOrganizationData = res;
+        const isAssistanceOrganization = new AssistanceOrganization();
+        if (assistanceOrganizationData) {
+            isAssistanceOrganization.id = assistanceOrganizationData.Id || null;
+            isAssistanceOrganization.assistanceOrganizationId = assistanceOrganizationData.Id || null;
+            isAssistanceOrganization.organization = assistanceOrganizationData.Organization || null;
+            isAssistanceOrganization.telephoneNumber = assistanceOrganizationData.TelephoneNumber || null;
+            isAssistanceOrganization.officeAddress = assistanceOrganizationData.OfficeAddress || false;
+            isAssistanceOrganization.contactPerson = assistanceOrganizationData.ContactPerson || null;
+            isAssistanceOrganization.description = assistanceOrganizationData.Description || null;
+            isAssistanceOrganization.isActive = assistanceOrganizationData.IsActive || true;
+        }
+
+        return isAssistanceOrganization;
+    }
+
+    public mapPatientOrganizationAssistance(res: any): PatientOrganizationAssistance {
+        const surgeryHistoryData = res;
+        const isSurgeryHistory = new PatientOrganizationAssistance();
+        if (surgeryHistoryData) {
+            isSurgeryHistory.id = surgeryHistoryData.Id || null;
+            isSurgeryHistory.patientOrganizationAssistanceId = surgeryHistoryData.Id || null;
+            isSurgeryHistory.organization = surgeryHistoryData.Organization || null;
+            isSurgeryHistory.telephoneNumber = surgeryHistoryData.TelephoneNumber || null;
+            isSurgeryHistory.officeAddress = surgeryHistoryData.OfficeAddress || false;
+            isSurgeryHistory.contactPerson = surgeryHistoryData.ContactPerson || null;
+            isSurgeryHistory.description = surgeryHistoryData.Description || null;
+            isSurgeryHistory.isPatientRefused = surgeryHistoryData.IsPatientRefused || false;
+
+            isSurgeryHistory.assistanceOrganizationId = surgeryHistoryData.AssistanceOrganization ? surgeryHistoryData.AssistanceOrganization.Id || null : null;
+            isSurgeryHistory.assistanceOrganization = this.mapAssistanceOrganization(surgeryHistoryData.AssistanceOrganization);
+
+            isSurgeryHistory.assistanceTypeId = surgeryHistoryData.AssistanceOrganization ? (surgeryHistoryData.AssistanceOrganization.AssistanceType ? surgeryHistoryData.AssistanceOrganization.AssistanceType.Id || null : null) : null;
+            isSurgeryHistory.assistanceType = surgeryHistoryData.AssistanceOrganization ? this.mapAssistanceType(surgeryHistoryData.AssistanceOrganization.AssistanceType) : new AssistanceType();
+
             isSurgeryHistory.isActive = surgeryHistoryData.IsActive || true;
         }
 

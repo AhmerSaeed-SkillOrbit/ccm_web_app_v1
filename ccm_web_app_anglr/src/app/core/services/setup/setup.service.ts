@@ -628,13 +628,13 @@ export class SetupService {
     public addTag(tag: Tag): Observable<any> {
         const getUrl = 'tag/add';
         const body =
-        {
-            Name: tag.name,
-            Code: tag.code,
-            Description: tag.description,
-            ToolTip: tag.toolTip,
-            // SortOrder: tag.sortOrder,
-        };
+            {
+                Name: tag.name,
+                Code: tag.code,
+                Description: tag.description,
+                ToolTip: tag.toolTip,
+                // SortOrder: tag.sortOrder,
+            };
 
         let token: Token;
         token = this._authService.getTokenData();
@@ -908,9 +908,29 @@ export class SetupService {
             }
             );
     }
-    
+
     public getAnswerTypeList(): Observable<any> {
         const getUrl = 'answer/type/list';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public getAssistanceTypeList(): Observable<any> {
+        const getUrl = 'assistance/type/all';
 
         let token: Token;
         token = this._authService.getTokenData();

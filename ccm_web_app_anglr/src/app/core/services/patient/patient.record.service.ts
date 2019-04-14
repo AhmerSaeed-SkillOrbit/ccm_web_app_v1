@@ -11,7 +11,7 @@ import { User } from '../../models/user';
 import {
     ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine,
     PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo,
-    AbilityConcernInfo, ResourceInfo, Answer, QuestionAnswer, PreventiveScreen, DiabeteSupplement, PsychologicalReview, FunctionalReview, SocialReview, HealthCareHistory, HospitalizationHistory, SurgeryHistory
+    AbilityConcernInfo, ResourceInfo, Answer, QuestionAnswer, PreventiveScreen, DiabeteSupplement, PsychologicalReview, FunctionalReview, SocialReview, HealthCareHistory, HospitalizationHistory, SurgeryHistory, PatientOrganizationAssistance
 } from '../../models/user.record';
 
 @Injectable()
@@ -1383,6 +1383,110 @@ export class PatientRecordService implements OnDestroy {
             NeedAttention: surgeryHistory.needAttention || false,
             CurrentProblem: surgeryHistory.currentProblem || null,
             IsActive: surgeryHistory.isActive || false,
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+
+    public getPatientOrganizationAssistanceAll(patientId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'patient/organization/assistance/all?patientId=' + (patientId || null) + "&userId=" + (userId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public addPatientOrganizationAssistance(patientOrganizationAssistances: PatientOrganizationAssistance[], patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'add/patient/organization/assistance?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+
+        let po = []
+
+        if (patientOrganizationAssistances && patientOrganizationAssistances.length > 0) {
+
+            patientOrganizationAssistances.forEach(element => {
+
+                if (element.assistanceOrganizationId) {
+
+                    let d = {
+                        Id: element.id || null,
+                        AssistanceOrganizationId: element.assistanceOrganizationId || null,
+                        Organization: element.organization || null,
+                        TelephoneNumber: element.telephoneNumber || null,
+                        OfficeAddress: element.officeAddress || null,
+                        ContactPerson: element.contactPerson || null,
+                        Description: element.description || null,
+                        IsPatientRefused: element.isPatientRefused || false,
+                        IsActive: element.isActive || false,
+                    };
+
+                    po.push(d);
+
+                }
+
+
+
+            });
+
+        }
+
+        // let body = am;
+        let body = {
+            PatientOrganization: po
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+    public updatePatientOrganizationAssistance(patientOrganizationAssistance: PatientOrganizationAssistance, patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'update/patient/organization/assistance?userId=' + (userId || null) + "&patientId=" + (patientId || null) + "&id=" + (patientOrganizationAssistance.id || null);
+
+
+        let body = {
+            Id: patientOrganizationAssistance.id || null,
+            AssistanceOrganizationId: patientOrganizationAssistance.assistanceOrganizationId || null,
+            Organization: patientOrganizationAssistance.organization || null,
+            TelephoneNumber: patientOrganizationAssistance.telephoneNumber || null,
+            OfficeAddress: patientOrganizationAssistance.officeAddress || null,
+            ContactPerson: patientOrganizationAssistance.contactPerson || null,
+            Description: patientOrganizationAssistance.description || null,
+            IsPatientRefused: patientOrganizationAssistance.isPatientRefused || false,
+            IsActive: patientOrganizationAssistance.isActive || false,
         };
 
         return this._http.post(getUrl, body, options)

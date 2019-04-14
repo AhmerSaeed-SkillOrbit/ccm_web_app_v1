@@ -330,7 +330,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="row">
                                             <!-- Current Problem -->
                                             <div class="col-md-4">
@@ -398,7 +398,7 @@
 
             <hr>
 
-            <form *ngIf="false" [formGroup]="immunizationsFormGroup" (ngSubmit)="onSubmitImmunizations()">
+            <form [formGroup]="patientOrganizationAssistanceFormGroup" (ngSubmit)="onSubmitPatientOrganizationAssistance()">
 
 
 
@@ -408,49 +408,78 @@
                         <div class="row" formArrayName="form">
                             <div class="col-md-12">
 
-                                <h1>Immunizations</h1>
+                                <h1>Patient Organization Assistance</h1>
                                 <!-- <div class="row" *ngFor="let bidder of heldObject.auctionBidder; let $i=index;"> -->
                                 <!-- <div class="row" *ngFor="let b of formScheduleDetail.controls.scheduleDetail.controls; let i = index"
                                                 [formGroupName]="i"> -->
-                                <div class="row" *ngFor="let X of immunizationsFormGroup['controls'].form['controls']; let i = index" [formGroupName]="i">
+                                <div class="row" *ngFor="let X of patientOrganizationAssistanceFormGroup['controls'].form['controls']; let i = index" [formGroupName]="i">
                                     <div class="col-sm-12">
 
                                         <!-- <h3>Detail {{i+1}}</h3> -->
-                                        <h4>{{i+1}}</h4>
+                                        <!-- <h4>{{i+1}}</h4> -->
+                                        <h4>{{ patientOrganizationAssistances[i].assistanceTypeSingle.type }}</h4>
                                         <div class="row">
 
-                                            <!-- Vaccine Name -->
+                                            <!-- Organization -->
+                                            <div class="col-md-6">
+                                                <div class="form-field">
+
+                                                    <mat-form-field class="full-width">
+                                                        <!-- <mat-label>Select Answer Option</mat-label> -->
+                                                        <mat-select placeholder="Suggestion" formControlName="organizationAssistance" [(ngModel)]="patientOrganizationAssistances[i].assistanceOrganizationId"
+                                                            (change)="onAssistanceOrganizationSelect(i)">
+                                                            <mat-option>None</mat-option>
+                                                            <mat-option *ngFor="let assistanceOrganization of patientOrganizationAssistances[i].assistanceTypeSingle.assistanceOrganizations"
+                                                                [value]="assistanceOrganization.id">
+                                                                {{ assistanceOrganization.organization }}
+                                                                <!-- {{ replaceText(answerType?.name) }} -->
+                                                            </mat-option>
+                                                        </mat-select>
+                                                        <!-- <mat-error>
+                                                            Select Answer Option is
+                                                            <strong>required</strong>
+                                                        </mat-error> -->
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+
+                                            <!-- Name Of Agency -->
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Vaccine Name" [(ngModel)]="vaccines[i].vaccineName" formControlName="vaccineName" required>
+                                                        <input matInput placeholder="Name Of Agency" [(ngModel)]="patientOrganizationAssistances[i].organization" formControlName="organization">
                                                         <mat-error>
-                                                            Vaccine Name is
+                                                            Name Of Agency is
                                                             <strong>required</strong>
                                                         </mat-error>
                                                     </mat-form-field>
                                                 </div>
                                             </div>
 
-                                            <!-- Date Given -->
+                                            <!-- Phone number -->
                                             <div class="col-md-4">
                                                 <div class="form-field">
-                                                    <mat-form-field class="full-width" *ngIf="false">
-                                                        <input matInput placeholder="Date Given" [(ngModel)]="vaccines[i].vaccineDate" formControlName="dateGiven">
-                                                        <!-- <mat-error>
-                                                            Start Date is
-                                                            <strong>required</strong>
-                                                        </mat-error> -->
-                                                    </mat-form-field>
-
-                                                    <!-- [min]="schedule.startDate" -->
                                                     <mat-form-field class="full-width">
-                                                        <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" placeholder="Date Given" formControlName="dateGiven"
-                                                            [(ngModel)]="vaccines[i].vaccineDate" readonly>
-                                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                                        <mat-datepicker #picker></mat-datepicker>
+                                                        <input matInput placeholder="Phone Number" [(ngModel)]="patientOrganizationAssistances[i].telephoneNumber" formControlName="telephoneNumber">
+                                                        <mat-error>
+                                                            Phone Number is
+                                                            <strong>required</strong>
+                                                        </mat-error>
                                                     </mat-form-field>
                                                 </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+
+                                                <!-- [checked]="checked" -->
+
+                                                <!-- <h2>Question {{ i + 1 }}</h2> -->
+
+                                                <label>Is Refused</label>
+
+                                                <mat-slide-toggle color="primary" formControlName="isPatientRefused" [(ngModel)]="patientOrganizationAssistances[i].isPatientRefused">
+                                                    Yes
+                                                </mat-slide-toggle>
                                             </div>
 
                                         </div>
@@ -458,11 +487,11 @@
                                         <hr class="line-dash">
                                         <!-- <div class="line-dash"></div> -->
                                     </div>
-                                    <!-- <div class="col-sm-12 text-right" *ngIf="vaccines.length > minVaccine"> -->
+                                    <!-- <div class="col-sm-12 text-right" *ngIf="patientOrganizationAssistances.length > minVaccine"> -->
                                     <div class="col-sm-12 text-right">
-                                        <!-- *ngIf="vaccines.length > minVaccine" -->
-                                        <button *ngIf="vaccines.length > minVaccine" mat-raised-button color="primary" (click)="remove(i,'immunizationsForm')">Remove</button>
-                                        <button *ngIf="vaccines[i].id" mat-raised-button color="primary" (click)="onUpdateImmunizations(i)">Update</button>
+                                        <!-- *ngIf="patientOrganizationAssistances.length > minVaccine" -->
+                                        <!-- <button *ngIf="patientOrganizationAssistances.length > minVaccine" mat-raised-button color="primary" (click)="remove(i,'patientOrganizationAssistanceListForm')">Remove</button> -->
+                                        <button *ngIf="patientOrganizationAssistances[i].id" type="button" mat-raised-button color="primary" (click)="onUpdatePatientOrganizationAssistances(i)">Update</button>
 
                                         <!-- <hr> -->
                                         <hr class="line-dash">
@@ -470,10 +499,10 @@
                                     </div>
 
                                 </div>
-                                <div class="row">
+                                <div class="row" *ngIf="false">
                                     <div class="col-sm-12">
-                                        <!-- [disabled]="!(vaccines.length < maxVaccine)" -->
-                                        <button mat-raised-button color="primary" (click)="addMore('immunizationsForm')">
+                                        <!-- [disabled]="!(patientOrganizationAssistances.length < maxVaccine)" -->
+                                        <button mat-raised-button color="primary" (click)="addMore('patientOrganizationAssistanceListForm')">
                                             Add More
                                         </button>
                                     </div>
