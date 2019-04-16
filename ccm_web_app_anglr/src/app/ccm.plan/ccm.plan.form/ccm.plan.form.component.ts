@@ -56,6 +56,7 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
     isSpinner = false;
 
     patientId: number = null;
+    planId: number = null;
 
     @ViewChild('dateRangePicker') dateRangePicker;
 
@@ -82,6 +83,10 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
 
         this.patientId = id;
 
+        const pId = this.route.snapshot.params['pId'];
+
+        this.planId = pId;
+
         this.ccmPlanFormGroup = this._formBuilder.group({
             'startDate': ["", Validators.compose([Validators.required])],
             'endDate': ["", Validators.compose([])],
@@ -90,7 +95,7 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
         });
 
         this.addMore("itemForm", null);
-        this.addMore("itemGoalForm", 0);
+        // this.addMore("itemGoalForm", 0);
 
     }
 
@@ -102,6 +107,15 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
         // if (!this._authService.isLoggedIn()) {
         //     this._router.navigateByUrl('login');
         // }
+
+
+        if (this.isLogin) {
+
+            if (this.patientId && this.planId) {
+                this.loadCcmPlan();
+            }
+
+        }
 
         // this.preFileListPermission = this.utilityService.checkUserPermission(this.user, 'settlement_prefiling_list');
         // if (this.preFileListPermission) {
@@ -186,7 +200,7 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    addMore(type, index) {
+    addMore(type, index, subForm: boolean = true) {
 
         if (type == "itemForm") {
             let cpiData = new CcmPlanItem();
@@ -196,6 +210,12 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
             console.log("itemForm");
 
             this.addSubForm(type);
+
+            if (subForm) {
+                let subIndex = this.ccmPlan.items.length - 1;
+                this.addMore("itemGoalForm", subIndex);
+            }
+
         }
         else if (type == "healthParam") {
             let cphpData = new CcmPlanHealthParam();
@@ -244,6 +264,59 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
             // this.projectActivityForm.projectActivityDate = this.datePipe.transform(this.projectActivityForm.projectActivityDate, 'yyyy-MM-dd h:mm:ss a');
             console.log('event', this.ccmPlan.endDate);
         }
+
+    }
+
+
+    loadCcmPlan() {
+
+        this.clearFormArray(<FormArray>this.ccmPlanFormGroup.controls['itemForm']);
+        this.clearFormArray(<FormArray>this.ccmPlanFormGroup.controls['healthParamForm']);
+
+        this._uiService.showSpinner();
+
+        this._ccmPlanService.getSingleCcmPlan(this.patientId, this.planId).subscribe(
+            (res) => {
+                this._uiService.hideSpinner();
+
+                let array = res.json().data;
+                console.log('u Object', array);
+
+                this.ccmPlan = this._mappingService.mapCcmPlan(array);
+
+                if (this.ccmPlan.items && this.ccmPlan.items.length > 0) {
+
+                    this.ccmPlan.items.forEach((element, index) => {
+
+                        this.addMore("itemForm", null, false);
+
+
+                        if (element.itemGoals && element.itemGoals.length > 0) {
+
+                            element.itemGoals.forEach(element1 => {
+                                this.addMore("itemGoalForm", index);
+                            });
+                        }
+                        else {
+                            this.addMore("itemGoalForm", index);
+                        }
+
+
+                    });
+
+                }
+                if (!(this.ccmPlan.items && this.ccmPlan.items.length > 0)) {
+                    this.addMore("itemForm", null);
+                    // this.addMore("itemGoalForm", 0);
+                }
+
+            },
+            (err) => {
+                console.log(err);
+                this._uiService.hideSpinner();
+                // this._authService.errStatusCheckResponse(err);
+            }
+        );
 
     }
 

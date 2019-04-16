@@ -27,7 +27,8 @@
                     <div class="page-header-content">
                         <div class="page-title">
                             <h4><i class="icon-arrow-left52 position-left"></i>
-                                <span class="text-semibold">Plan</span> - List
+                                <span class="text-semibold">CCM Plans</span> 
+                                <!-- - List -->
                             </h4>
                         </div>
 
@@ -84,14 +85,14 @@
                         <div class="panel panel-flat">
                             <div class="panel-heading">
                                 <h5 class="panel-title">
-                                    Plans
+                                    <!-- Plans -->
                                     <a class="heading-elements-toggle"><i class="icon-more"></i></a>
                                 </h5>
                             </div>
 
                             <div class="panel-body">
                                 <button type="button" class="btn btn-default btn-sm" (click)="nevigateTo(null,'form')">
-                                    Add New 
+                                    Create New 
                                     <i class="icon-play3 position-right"></i>
                                 </button>
                             </div>
@@ -190,10 +191,9 @@
                                                     {{ plan?.endDate || "NA" }}
                                                 </td>
                                                 <td class="text-center">
-                                                    <span *ngIf="viewPermission && false" matTooltipPosition="above" matTooltip="Reply">
-                                                        <!-- <i style="color:#0aa700;" class="icon-clipboard2" (click)="nevigateTo(plan,'plan-detail')"></i> -->
-                                                        <a [routerLink]="['/ticket/t/discussion', plan.id]" target="_blank">
-                                                            <i style="color:#0aa700;" class="icon-clipboard2"></i>
+                                                    <span *ngIf="updatePermission" matTooltipPosition="above" matTooltip="Edit">
+                                                        <a [routerLink]="['/ccm/plan/form/edit', patientId, plan.id]">
+                                                            <i style="color:#ffa808;" class=" icon-pencil"></i>
                                                         </a>
                                                     </span> &nbsp;
 
