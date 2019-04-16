@@ -225,7 +225,7 @@
                                                                                             <!-- <div class="col-sm-12 text-right" *ngIf="ccmPlan.items[i].itemGoals.length > minItemGoal"> -->
                                                                                             <div class="col-sm-12 text-right">
                                                                                                 <!-- *ngIf="ccmPlan.items[i].itemGoals.length > minItemGoal" -->
-                                                                                                <button *ngIf="ccmPlan.items[i].itemGoals.length > minItemGoal" mat-raised-button color="primary" (click)="remove(i,'itemGoalForm')">Remove</button>
+                                                                                                <button *ngIf="ccmPlan.items[i].itemGoals.length > minItemGoal" mat-raised-button color="primary" (click)="remove(i,'itemGoalForm',iy)">Remove Goal</button>
 
                                                                                                 <!-- <hr> -->
                                                                                                 <hr class="line-dash">
@@ -260,7 +260,7 @@
                                                                     <!-- <div class="col-sm-12 text-right" *ngIf="ccmPlan.items.length > minItem"> -->
                                                                     <div class="col-sm-12 text-right">
                                                                         <!-- *ngIf="ccmPlan.items.length > minItem" -->
-                                                                        <button *ngIf="ccmPlan.items.length > minItem" mat-raised-button color="primary" (click)="remove(i,'itemForm')">Remove</button>
+                                                                        <button *ngIf="ccmPlan.items.length > minItem" mat-raised-button color="primary" (click)="remove(i,'itemForm',null)">Remove Component</button>
 
                                                                         <!-- <hr> -->
                                                                         <hr class="line-dash">

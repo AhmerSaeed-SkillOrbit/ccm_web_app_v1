@@ -27,6 +27,7 @@ import { LogService } from '../../core/services/log/log.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 import { FormService } from '../../core/services/form/form.service';
 import { CcmPlanService } from '../../core/services/ccm.plan/ccm.plan.service';
+import { Config } from '../../config/config';
 
 // import { ReportService } from '../../core/services/report/report.service';
 
@@ -57,6 +58,12 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
 
     patientId: number = null;
     planId: number = null;
+
+    minItem = Config.item.min;
+    maxItem = Config.item.max;
+
+    minItemGoal = Config.itemGoal.min;
+    maxItemGoal = Config.itemGoal.max;
 
     @ViewChild('dateRangePicker') dateRangePicker;
 
@@ -202,12 +209,12 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
 
     addMore(type, index, subForm: boolean = true) {
 
+        console.log("type ", type);
+
         if (type == "itemForm") {
             let cpiData = new CcmPlanItem();
             // sData.scheduleDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
             this.ccmPlan.items.push(cpiData);
-
-            console.log("itemForm");
 
             this.addSubForm(type);
 
@@ -229,6 +236,8 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
             this.ccmPlan.items[index].itemGoals.push(cpigData);
             this.addItemGoalForm(index);
         }
+
+        console.log("this.ccmPlan ", this.ccmPlan);
 
     }
 
@@ -283,18 +292,25 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
                 console.log('u Object', array);
 
                 this.ccmPlan = this._mappingService.mapCcmPlan(array);
+                // let ccmPlan = this._mappingService.mapCcmPlan(array);
+
+                // this.ccmPlan = this._utilityService.deepCopy(ccmPlan);
+                // console.log('ccmPlan', ccmPlan);
+                // console.log('this.ccmPlan', this.ccmPlan);
 
                 if (this.ccmPlan.items && this.ccmPlan.items.length > 0) {
 
                     this.ccmPlan.items.forEach((element, index) => {
 
-                        this.addMore("itemForm", null, false);
+                        // this.addMore("itemForm", null, false);
+                        this.addSubForm("itemForm");
 
 
                         if (element.itemGoals && element.itemGoals.length > 0) {
 
                             element.itemGoals.forEach(element1 => {
-                                this.addMore("itemGoalForm", index);
+                                // this.addMore("itemGoalForm", index);
+                                this.addItemGoalForm(index);
                             });
                         }
                         else {
@@ -324,6 +340,8 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
         const msg = new Message();
         // this.scrollTo(0,0,0)
         // this.isSubmitted = !this.isSubmitted;
+
+        console.log("ccmPlan ", this.ccmPlan);
 
         if (this.ccmPlanFormGroup.valid) {
 

@@ -1114,17 +1114,19 @@ export class MappingService {
 
             let items = [];
 
-            if (ccmPlanData.Items && ccmPlanData.Items.length > 0) {
+            if (ccmPlanData.Item && ccmPlanData.Item.length > 0) {
 
-                ccmPlanData.Items.forEach(element => {
+                ccmPlanData.Item.forEach(element => {
 
                     let item = this.mapCcmPlanItem(element);
 
                     // let itemCheck = items.filter(i => (i.name == item.name));
                     let itemCheck = this._utilityService.findIndexViaItemName(item, items);
 
+                    console.log("itemCheck", itemCheck);
+
                     // if (itemCheck && itemCheck.length > 0) {
-                    if (itemCheck.length > -1) {
+                    if (itemCheck > -1) {
 
                         let goal = this.mapCcmPlanItemGoal(element);
                         items[itemCheck].itemGoals.push(goal);

@@ -76,7 +76,7 @@ export class CcmPlanService implements OnDestroy {
         let userId = token.userId;
 
         // patient/ccm/plan/single?userId=11&patientId=65&id=339
-        let getUrl = 'patient/ccm/plan/single?userId=' + (userId || null) + '&patientId=' + (patientId || null) + '&planId=' + (planId || null);
+        let getUrl = 'patient/ccm/plan/single?userId=' + (userId || null) + '&patientId=' + (patientId || null) + '&id=' + (planId || null);
 
         return this._http.get(getUrl)
             .map((res: Response) => res)

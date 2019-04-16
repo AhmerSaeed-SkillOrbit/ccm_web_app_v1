@@ -243,6 +243,14 @@ export const Config = {
         min: 1,
         max: 50
     },
+    item: {
+        min: 1,
+        max: 50
+    },
+    itemGoal: {
+        min: 1,
+        max: 50
+    },
     // vaccine: {
     //     min: 1,
     //     max: 50
