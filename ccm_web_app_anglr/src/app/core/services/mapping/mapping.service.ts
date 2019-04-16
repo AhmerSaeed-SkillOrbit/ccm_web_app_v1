@@ -18,6 +18,7 @@ import { Tag } from '../../models/tag';
 import { Comment, Reply } from '../../models/comment';
 import { Ticket, TicketAssignee } from '../../models/ticket';
 import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo, ResourceInfo, QuestionAnswer, Answer, DiabeteSupplement, DiabeteSupplementAnswer, PreventiveScreen, PreventiveScreenAnswer, PsychologicalReview, PsychologicalReviewAnswer, FunctionalReview, FunctionalReviewAnswer, SocialReview, SocialReviewAnswer, HealthCareHistory, HospitalizationHistory, SurgeryHistory, AssistanceType, AssistanceOrganization, PatientOrganizationAssistance } from '../../models/user.record';
+import { CcmPlan, CcmPlanItem, CcmPlanItemGoal, CcmPlanHealthParam, HealthParam } from '../../models/user.ccm.plan';
 
 @Injectable()
 export class MappingService {
@@ -1098,6 +1099,136 @@ export class MappingService {
         }
 
         return isSurgeryHistory;
+    }
+
+    public mapCcmPlan(res: any): CcmPlan {
+
+        const ccmPlanData = res;
+        const isCcmPlan = new CcmPlan();
+        if (ccmPlanData) {
+            isCcmPlan.id = ccmPlanData.Id || null;
+            isCcmPlan.ccmPlanId = ccmPlanData.Id || null;
+            isCcmPlan.planNumber = ccmPlanData.PlanNumber || null;
+            isCcmPlan.startDate = ccmPlanData.StartDate || null;
+            isCcmPlan.endDate = ccmPlanData.EndDate || null;
+
+            let items = [];
+
+            if (ccmPlanData.Items && ccmPlanData.Items.length > 0) {
+
+                ccmPlanData.Items.forEach(element => {
+
+                    let item = this.mapCcmPlanItem(element);
+
+                    // let itemCheck = items.filter(i => (i.name == item.name));
+                    let itemCheck = this._utilityService.findIndexViaItemName(item, items);
+
+                    // if (itemCheck && itemCheck.length > 0) {
+                    if (itemCheck.length > -1) {
+
+                        let goal = this.mapCcmPlanItemGoal(element);
+                        items[itemCheck].itemGoals.push(goal);
+                    }
+                    else {
+                        items.push(item);
+                    }
+
+                    // items.push(this.mapCcmPlanItem(element));
+
+                });
+            }
+            isCcmPlan.items = items;
+
+
+            isCcmPlan.isHealthParam = ccmPlanData.HealthParams && ccmPlanData.HealthParams.length > 0 ? true : false;
+            // isCcmPlan.healthParams = ccmPlanData.HealthParams || [];
+
+            let hps = [];
+            if (ccmPlanData.HealthParams && ccmPlanData.HealthParams.length > 0) {
+
+                ccmPlanData.HealthParams.forEach(element => {
+                    hps.push(this.mapCcmPlanHealthParam(element));
+                });
+            }
+            isCcmPlan.healthParams = hps;
+
+
+            isCcmPlan.createdBy = this.mapUser(ccmPlanData.CreatedBy);
+
+            isCcmPlan.createdOn = ccmPlanData.CreatedOn || null;
+            isCcmPlan.updatedOn = ccmPlanData.UpdatedOn || null;
+
+            isCcmPlan.isActive = ccmPlanData.IsActive || true;
+
+        }
+        return isCcmPlan;
+    }
+
+    public mapCcmPlanItem(res: any): CcmPlanItem {
+        const ccmPlanItemData = res;
+        const isCcmPlanItem = new CcmPlanItem();
+        if (ccmPlanItemData) {
+            isCcmPlanItem.id = ccmPlanItemData.Id || null;
+            isCcmPlanItem.ccmPlanItemId = ccmPlanItemData.Id || null;
+            isCcmPlanItem.name = ccmPlanItemData.ItemName || null;
+
+            let cpig = this.mapCcmPlanItemGoal(ccmPlanItemData);
+
+            isCcmPlanItem.itemGoals.push(cpig);
+
+            isCcmPlanItem.isActive = ccmPlanItemData.IsActive || true;
+        }
+
+        return isCcmPlanItem;
+    }
+
+    public mapCcmPlanItemGoal(res: any): CcmPlanItemGoal {
+        const ccmPlanItemGoalData = res;
+        const isCcmPlanItemGoal = new CcmPlanItemGoal();
+        if (ccmPlanItemGoalData) {
+            isCcmPlanItemGoal.id = ccmPlanItemGoalData.Id || null;
+            isCcmPlanItemGoal.ccmPlanItemGoalId = ccmPlanItemGoalData.Id || null;
+            isCcmPlanItemGoal.goal = ccmPlanItemGoalData.Goal || null;
+            isCcmPlanItemGoal.intervention = ccmPlanItemGoalData.Intervention || null;
+            isCcmPlanItemGoal.result = ccmPlanItemGoalData.Result || false;
+            isCcmPlanItemGoal.patientComment = ccmPlanItemGoalData.PatientComment || null;
+            isCcmPlanItemGoal.reviewerComment = ccmPlanItemGoalData.ReviewerComment || null;
+            isCcmPlanItemGoal.isActive = ccmPlanItemGoalData.IsActive || true;
+        }
+
+        return isCcmPlanItemGoal;
+    }
+
+    public mapCcmPlanHealthParam(res: any): CcmPlanHealthParam {
+        const ccmPlanHealthParamData = res;
+        const isCcmPlanHealthParam = new CcmPlanHealthParam();
+        if (ccmPlanHealthParamData) {
+            isCcmPlanHealthParam.id = ccmPlanHealthParamData.Id || null;
+            isCcmPlanHealthParam.ccmPlanHealthParamId = ccmPlanHealthParamData.Id || null;
+            isCcmPlanHealthParam.readingValue = ccmPlanHealthParamData.ReadingValue || null;
+            isCcmPlanHealthParam.readingDate = ccmPlanHealthParamData.ReadingDate || null;
+
+            isCcmPlanHealthParam.healthParamId = ccmPlanHealthParamData.HealthParam ? ccmPlanHealthParamData.HealthParam.Id || null : null;
+            isCcmPlanHealthParam.healthParam = this.mapHealthParam(ccmPlanHealthParamData.HealthParam);
+
+            isCcmPlanHealthParam.isActive = ccmPlanHealthParamData.IsActive || true;
+        }
+
+        return isCcmPlanHealthParam;
+    }
+
+    public mapHealthParam(res: any): HealthParam {
+        const healthParamData = res;
+        const isHealthParam = new HealthParam();
+        if (healthParamData) {
+            isHealthParam.id = healthParamData.Id || null;
+            isHealthParam.healthParamId = healthParamData.Id || null;
+            isHealthParam.name = healthParamData.Name || null;
+            isHealthParam.description = healthParamData.Description || null;
+            isHealthParam.isActive = healthParamData.IsActive || true;
+        }
+
+        return isHealthParam;
     }
 
 }

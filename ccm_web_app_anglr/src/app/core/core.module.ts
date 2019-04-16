@@ -22,6 +22,7 @@ import { FormService } from "./services/form/form.service";
 import { UtilityService } from "./services/general/utility.service";
 import { ForumService } from "./services/forum/forum.service";
 import { TicketService } from "./services/ticket/ticket.service";
+import { CcmPlanService } from "./services/ccm.plan/ccm.plan.service";
 import { MappingService } from "./services/mapping/mapping.service";
 
 import { UserService } from './services/user/user.service'
@@ -44,6 +45,7 @@ import { LoginGuard } from './services/guard/login.guard';
         UtilityService,
         ForumService,
         TicketService,
+        CcmPlanService,
         MappingService,
         UserService, FormService,
         LoginGuard

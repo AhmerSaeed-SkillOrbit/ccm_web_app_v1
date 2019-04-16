@@ -211,7 +211,7 @@ export class UtilityService {
     }
 
     public replaceConfigText(text: string) {
-        
+
         var newText = text ? text : "NA";
 
         if (text == "sms") {
@@ -255,6 +255,22 @@ export class UtilityService {
         }
 
         return newText;
+    }
+
+    public findIndexViaItemName(data: any, dataList: any): any {
+
+        // console.log("checkCustomRoleAllow ", dataRole);
+        let result = -1;
+        // if (this.user.roles.length > 0 && this.user.roles[0].roleCode != 'cad') {
+        if (dataList && dataList.length > 0) {
+            dataList.forEach((element, index) => {
+                if (element.name == data.name) {
+                    result = index;
+                }
+            });
+        }
+
+        return result;
     }
 }
 
