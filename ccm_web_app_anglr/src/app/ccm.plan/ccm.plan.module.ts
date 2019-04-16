@@ -27,6 +27,11 @@ import { CcmPlanListComponent } from './ccm.plan.list/ccm.plan.list.component';
                 pathMatch: 'full'
             },
             {
+                path: 'plan/form/edit/:id/:pId',
+                component: CcmPlanFormComponent,
+                pathMatch: 'full'
+            },
+            {
                 path: 'plan/list/:id',
                 component: CcmPlanListComponent,
                 pathMatch: 'full'

@@ -71,6 +71,7 @@ export class CcmPlanListComponent implements OnInit {
 
     listPagePermission = false;
     addPermission = false;
+    updatePermission = false;
     viewPermission = false;
     acceptPermission = false;
     rejectPermission = false;
@@ -118,6 +119,8 @@ export class CcmPlanListComponent implements OnInit {
             if (this.listPagePermission) {
                 // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
                 this.addPermission = true;
+                // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+                this.updatePermission = true;
                 // this.viewPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
                 this.viewPermission = true;
                 // this.acceptPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
