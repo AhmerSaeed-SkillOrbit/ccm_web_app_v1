@@ -132,6 +132,13 @@ const routes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     // children: []
   },
+  {
+    path: 'ccm',
+    loadChildren: './ccm.plan/ccm.plan.module#CcmPlanModule',
+    // pathMatch: 'full',
+    canActivate: [CanActivateViaAuthGuard],
+    // children: []
+  },
   // {
   //   path: 'user',
   //   loadChildren: './user/user.module#UserModule',
