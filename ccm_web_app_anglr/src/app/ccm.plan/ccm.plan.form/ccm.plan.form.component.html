@@ -107,6 +107,43 @@
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <mat-card-title>Patient Info</mat-card-title>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="label-heading">Patient Name</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <!-- {{ patient?.firstName || "NA" }} -->
+                                                            {{ patient?.firstName || patient?.lastName ? patient?.firstName + " " + patient?.lastName : "NA" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="label-heading">Gender</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            {{ patient?.gender || "NA" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="label-heading">Age</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            {{ patient?.age || "NA" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
 
@@ -273,6 +310,133 @@
                                                                         <!-- [disabled]="!(ccmPlan.items.length < maxItem)" -->
                                                                         <button type="button" mat-raised-button color="primary" (click)="addMore('itemForm',i)">
                                                                             Add More Component
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+
+                                                                <h3>Health Reading</h3>
+
+                                                                <mat-slide-toggle color="primary" formControlName="healthReading" [(ngModel)]="ccmPlan.isHealthParam" (change)="onIsHealthParamChange()">
+                                                                    Yes
+                                                                </mat-slide-toggle>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row" *ngIf="ccmPlan.isHealthParam">
+
+
+                                                            <!-- New Attribute -->
+                                                            <div class="col-md-6">
+                                                                <div class="form-field">
+                                                                    <mat-form-field class="full-width">
+                                                                        <input matInput id="new_attribute" placeholder="New Attribute" value="">
+                                                                        <!-- <mat-error>
+                                                                                New Attribute is
+                                                                                <strong>required</strong>
+                                                                            </mat-error> -->
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <button type="button" mat-raised-button color="primary" (click)="addNewParam()">
+                                                                    Add New
+                                                                </button>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <div class="row" formArrayName="healthParamForm" *ngIf="ccmPlan.isHealthParam">
+                                                            <div class="col-md-12">
+                                                                <!-- <div class="row" *ngFor="let bidder of heldObject.auctionBidder; let $i=index;"> -->
+                                                                <!-- <div class="row" *ngFor="let b of formScheduleDetail.controls.scheduleDetail.controls; let i = index"
+                                                                                                [formGroupName]="i"> -->
+                                                                <div class="row" *ngFor="let X of ccmPlanFormGroup['controls'].healthParamForm['controls']; let i = index" [formGroupName]="i">
+                                                                    <div class="col-sm-12">
+
+                                                                        <!-- <h3>Detail {{i+1}}</h3> -->
+                                                                        <h4>{{ i+1 }}</h4>
+                                                                        <div class="row">
+
+                                                                            <!-- Attribute -->
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-field">
+                                                                                    <mat-form-field class="full-width">
+                                                                                        <!-- <input matInput placeholder="Attribute" [(ngModel)]="ccmPlan.healthParams[i].healthParamId" formControlName="attribute"> -->
+                                                                                        <mat-select placeholder="Select Attribute" formControlName="attribute" [(ngModel)]="ccmPlan.healthParams[i].healthParamId">
+                                                                                            <mat-option>None</mat-option>
+                                                                                            <mat-option *ngFor="let healthParam of healthParamList" [value]="healthParam.id">
+                                                                                                {{ healthParam.name }}
+                                                                                            </mat-option>
+                                                                                        </mat-select>
+                                                                                        <mat-error>
+                                                                                            Attribute is
+                                                                                            <strong>required</strong>
+                                                                                        </mat-error>
+                                                                                    </mat-form-field>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <!-- Reading Date -->
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-field">
+                                                                                    <mat-form-field class="full-width">
+                                                                                        <input matInput placeholder="Reading Date" value="{{ ccmPlan.healthParams[i].readingDate | date:'dd-MMM-yyyy' }}" formControlName="attributeDate"
+                                                                                            readonly>
+                                                                                        <!-- <mat-error>
+                                                                                            Reading Date is
+                                                                                            <strong>required</strong>
+                                                                                        </mat-error> -->
+                                                                                    </mat-form-field>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <!-- Attribute Value -->
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-field">
+                                                                                    <mat-form-field class="full-width">
+                                                                                        <input matInput placeholder="Attribute Value" [(ngModel)]="ccmPlan.healthParams[i].readingValue" formControlName="attributeValue">
+                                                                                        <mat-error>
+                                                                                            Attribute Value is
+                                                                                            <strong>required</strong>
+                                                                                        </mat-error>
+                                                                                    </mat-form-field>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <!-- <hr> -->
+                                                                        <hr class="line-dash">
+                                                                        <!-- <div class="line-dash"></div> -->
+
+
+
+
+
+                                                                    </div>
+                                                                    <!-- <div class="col-sm-12 text-right" *ngIf="ccmPlan.healthParams.length > minHealthPanael"> -->
+                                                                    <div class="col-sm-12 text-right">
+                                                                        <!-- *ngIf="ccmPlan.healthParams.length > minHealthPanael" -->
+                                                                        <button *ngIf="ccmPlan.healthParams.length > minHealthPanael" mat-raised-button color="primary" (click)="remove(i,'healthParam',null)">Remove </button>
+
+                                                                        <!-- <hr> -->
+                                                                        <hr class="line-dash">
+                                                                        <!-- <div class="line-dash"></div> -->
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <!-- [disabled]="!(ccmPlan.healthParams.length < maxItem)" -->
+                                                                        <button type="button" mat-raised-button color="primary" (click)="addMore('healthParam',i)">
+                                                                            Add More
                                                                         </button>
                                                                     </div>
                                                                 </div>

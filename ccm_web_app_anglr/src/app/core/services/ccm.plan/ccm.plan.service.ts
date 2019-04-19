@@ -8,7 +8,7 @@ import { DatePipe } from '@angular/common';
 
 import { Token } from '../../models/token';
 import { User } from '../../models/user';
-import { CcmPlan } from '../../models/user.ccm.plan';
+import { CcmPlan, HealthParam } from '../../models/user.ccm.plan';
 
 @Injectable()
 export class CcmPlanService implements OnDestroy {
@@ -154,9 +154,10 @@ export class CcmPlanService implements OnDestroy {
             ccmPlan.healthParams.forEach(element => {
 
                 let d = {
-                    Id: element.id || null,
+                    Id: element.healthParamId || null,
                     ReadingValue: element.readingValue || null,
-                    ReadingDate: element.readingDate || null,
+                    // ReadingDate: element.readingDate || null,
+                    ReadingDate: ccmPlan.startDate || null,
                     IsActive: element.isActive || false,
                 };
 
@@ -171,6 +172,7 @@ export class CcmPlanService implements OnDestroy {
             StartDate: ccmPlan.startDate || null,
             EndDate: ccmPlan.endDate || null,
             Item: items,
+            IsHealthParam: ccmPlan.isHealthParam || false,
             HealthParams: hp,
         };
 
@@ -181,6 +183,31 @@ export class CcmPlanService implements OnDestroy {
             });
     }
 
+
+    public addHealthParam(healthParam: HealthParam): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        let getUrl = "ccm/plan/health/param/add?userId=" + (userId || null);
+
+
+        // let body = am;
+        let body = {
+            Name: healthParam.name || null,
+            Description: healthParam.description || null,
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
 
     ngOnDestroy() {
 

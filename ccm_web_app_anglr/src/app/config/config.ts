@@ -251,6 +251,10 @@ export const Config = {
         min: 1,
         max: 50
     },
+    healthPanael: {
+        min: 1,
+        max: 50
+    },
     // vaccine: {
     //     min: 1,
     //     max: 50

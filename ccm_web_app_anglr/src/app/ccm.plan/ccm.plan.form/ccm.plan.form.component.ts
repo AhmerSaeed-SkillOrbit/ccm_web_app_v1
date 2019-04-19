@@ -20,7 +20,7 @@ import { IAuthService } from '../../core/services/auth/iauth.service';
 import { UtilityService } from '../../core/services/general/utility.service';
 import { Region } from '../../core/models/region';
 import { Country } from '../../core/models/country';
-import { CcmPlan, CcmPlanItem, CcmPlanItemGoal, CcmPlanHealthParam } from '../../core/models/user.ccm.plan';
+import { CcmPlan, CcmPlanItem, CcmPlanItemGoal, CcmPlanHealthParam, HealthParam } from '../../core/models/user.ccm.plan';
 
 import { SetupService } from '../../core/services/setup/setup.service';
 import { LogService } from '../../core/services/log/log.service';
@@ -28,6 +28,7 @@ import { MappingService } from '../../core/services/mapping/mapping.service';
 import { FormService } from '../../core/services/form/form.service';
 import { CcmPlanService } from '../../core/services/ccm.plan/ccm.plan.service';
 import { Config } from '../../config/config';
+import { UserService } from '../../core/services/user/user.service';
 
 // import { ReportService } from '../../core/services/report/report.service';
 
@@ -42,7 +43,7 @@ import { Config } from '../../config/config';
 })
 export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
 
-    user: User;
+    user: User = new User;
     // country = new CountryInfo();
     isLogin: boolean;
     private ngUnsubscribe: Subject<any> = new Subject();
@@ -57,6 +58,7 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
     isSpinner = false;
 
     patientId: number = null;
+    patient: User = new User;
     planId: number = null;
 
     minItem = Config.item.min;
@@ -65,11 +67,16 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
     minItemGoal = Config.itemGoal.min;
     maxItemGoal = Config.itemGoal.max;
 
+    minHealthPanael = Config.healthPanael.min;
+    maxHealthPanael = Config.healthPanael.max;
+
     @ViewChild('dateRangePicker') dateRangePicker;
 
     ccmPlanFormGroup: FormGroup;
 
     ccmPlan: CcmPlan = new CcmPlan();
+
+    healthParamList: HealthParam[] = [];
 
     constructor(
         @Inject('IAuthService') private _authService: IAuthService,
@@ -77,7 +84,8 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
         private _utilityService: UtilityService,
         private _mappingService: MappingService,
         private route: ActivatedRoute,
-        // private _setupService: AdminSetupService,
+        private _setupService: SetupService,
+        private _userService: UserService,
         // private _router: Router,
         private _formService: FormService,
         private _formBuilder: FormBuilder,
@@ -98,11 +106,13 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
             'startDate': ["", Validators.compose([Validators.required])],
             'endDate': ["", Validators.compose([])],
             'itemForm': this._formBuilder.array([]),
+            'healthReading': ["", Validators.compose([])],
             'healthParamForm': this._formBuilder.array([]),
         });
 
         this.addMore("itemForm", null);
         // this.addMore("itemGoalForm", 0);
+        this.addMore("healthParam", null);
 
     }
 
@@ -119,8 +129,11 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
         if (this.isLogin) {
 
             if (this.patientId && this.planId) {
+                this.loadUserById();
                 this.loadCcmPlan();
             }
+
+            this.loadHealthParams();
 
         }
 
@@ -162,6 +175,7 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
     initCcmPlanHealthParam() {
         return this._formBuilder.group({
             'attribute': ["", Validators.compose([])],
+            'attributeDate': ["", Validators.compose([])],
             'attributeValue': ["", Validators.compose([])],
         });
     }
@@ -227,6 +241,7 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
         else if (type == "healthParam") {
             let cphpData = new CcmPlanHealthParam();
             // sData.scheduleDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
+            cphpData.readingDate = this.ccmPlan.startDate;
             this.ccmPlan.healthParams.push(cphpData);
             this.addSubForm(type);
         }
@@ -255,7 +270,7 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
         }
         else if (type == "healthParam") {
             this.removeSubForm(index, type, null);
-            this.ccmPlan.items.splice(index, 1);
+            this.ccmPlan.healthParams.splice(index, 1);
         }
     }
 
@@ -267,6 +282,10 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
             this.ccmPlan.endDate = null;
             // this.projectActivityForm.projectActivityDate = this.datePipe.transform(this.projectActivityForm.projectActivityDate, 'yyyy-MM-dd h:mm:ss a');
             console.log('event', this.ccmPlan.startDate);
+
+            this.ccmPlan.healthParams.forEach((element, index) => {
+                this.ccmPlan.healthParams[index].readingDate = this.ccmPlan.startDate;
+            });
         }
         if (type == 'endDate') {
             this.ccmPlan.endDate = this.datePipe.transform(this.ccmPlan.endDate, 'yyyy-MM-dd');
@@ -276,6 +295,69 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
 
     }
 
+    onIsHealthParamChange() {
+
+        if (this.ccmPlan.isHealthParam) {
+            this.clearFormArray(<FormArray>this.ccmPlanFormGroup.controls['healthParamForm']);
+            this.ccmPlan.healthParams = [];
+
+            this.addMore("healthParam", null);
+        }
+        else {
+            this.clearFormArray(<FormArray>this.ccmPlanFormGroup.controls['healthParamForm']);
+            this.ccmPlan.healthParams = [];
+        }
+
+    }
+
+    loadHealthParams() {
+        // this._uiService.showSpinner();
+        this._setupService.getHealthParamList().subscribe(
+            (res) => {
+                // this._uiService.hideSpinner();
+                console.log('get health param', res.json().data);
+
+                let array = res.json().data || [];
+                // console.log('res list:', array);
+                var hpList = [];
+                for (let i = 0; i < array.length; i++) {
+                    let u = this._mappingService.mapHealthParam(array[i]);
+                    hpList.push(u);
+                }
+                this.healthParamList = hpList;
+
+                console.log('healthParamList: ' + this.healthParamList);
+
+            },
+            (err) => {
+                console.log(err);
+                // this._uiService.hideSpinner();
+                // this._authService.errStatusCheckResponse(err);
+            }
+        );
+    }
+
+    loadUserById() {
+        // this._uiService.showSpinner();
+
+        this._userService.getUserById(this.patientId).subscribe(
+            (res) => {
+                // this._uiService.hideSpinner();
+
+                const user = res.data;
+                console.log('u Object', user);
+                // this.newUser = user;
+                this.patient = this._mappingService.mapUser(user);
+                console.log('newUser', this.patient);
+                // this.userId = this.user.id;
+            },
+            (err) => {
+                console.log(err);
+                // this._uiService.hideSpinner();
+                // this._authService.errStatusCheckResponse(err);
+            }
+        );
+    }
 
     loadCcmPlan() {
 
@@ -326,6 +408,20 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
                     // this.addMore("itemGoalForm", 0);
                 }
 
+                if (this.ccmPlan.healthParams && this.ccmPlan.healthParams.length > 0) {
+
+                    this.ccmPlan.healthParams.forEach((element, index) => {
+
+                        // this.addMore("healthParam", null, false);
+                        this.addSubForm("healthParam");
+
+                    });
+
+                }
+                if (!(this.ccmPlan.healthParams && this.ccmPlan.healthParams.length > 0)) {
+                    this.addMore("healthParam", null);
+                }
+
             },
             (err) => {
                 console.log(err);
@@ -334,6 +430,57 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
             }
         );
 
+    }
+
+    addNewParam() {
+        const msg = new Message();
+
+        let newParam = (<HTMLInputElement>document.getElementById('new_attribute')).value;
+
+
+        console.log("newParam ", newParam);
+
+        if (newParam) {
+
+            let healthParam: HealthParam = new HealthParam();
+
+            healthParam.name = newParam;
+
+            this._uiService.showSpinner();
+            // this.isSubmitStarted = true;
+            this._ccmPlanService.addHealthParam(healthParam).subscribe(
+                (res) => {
+                    this.isSubmitted = false;
+                    this._uiService.hideSpinner();
+
+                    (<HTMLInputElement>document.getElementById('new_attribute')).value = "";
+
+                    this.loadHealthParams();
+
+                    msg.msg = res.json() ? res.json().message : 'Health Param Added Successfully';
+                    // msg.msg = 'You have successfully signed up';
+                    msg.msgType = MessageTypes.Information;
+                    msg.autoCloseAfter = 400;
+                    this._uiService.showToast(msg, 'info');
+
+                },
+                (err) => {
+                    console.log(err);
+                    this.isSubmitted = false;
+                    this._uiService.hideSpinner();
+                    this._authService.errStatusCheckResponse(err);
+                }
+            );
+
+
+        }
+        else {
+            msg.msg = 'Field is empty';
+            // msg.msg = 'You have successfully signed up';
+            msg.msgType = MessageTypes.Error;
+            msg.autoCloseAfter = 400;
+            this._uiService.showToast(msg, '');
+        }
     }
 
     onSubmitCcmPlan() {
