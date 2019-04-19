@@ -52,7 +52,7 @@ export class ScheduleListComponent implements OnInit {
 
     pageEvent: PageEvent;
     pageIndex: number = 0;
-    pageSize: number = 5; // by default
+    pageSize: number = 10; // by default
     length: number = 0;
     pageSizeOptions = [5, 10, 25, 50];
     // pageSizeOptions = [10];
