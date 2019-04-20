@@ -9,9 +9,10 @@ import 'rxjs/add/operator/do';
 
 import { User } from "../../models/user";
 import { Token } from "../../models/token";
-import { Document } from "../../models/document";
+import { FileUpload } from "../../models/fileUpload";
 
 import { IAuthService } from '../auth/iauth.service';
+import { GenericFileUpload } from '../../models/genericFileUpload';
 
 @Injectable()
 export class FileService {
@@ -22,9 +23,32 @@ export class FileService {
         // private _adminService: AdminService
     ) { }
 
-    // --------- case file save
+    // --------- Profile Picture Upload
+    public uploadProfilePic(file, userId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+        options.headers.append('Accept', 'application/json');
+
+        let loggedInUserId = token.userId;
+
+        // upload/profile/picture?userId=3&byUserId=3
+        let getUrl = "upload/profile/picture?userId=" + (userId || null) + "&byUserId=" + (loggedInUserId || null);
+        let body: FormData = new FormData();
+        body.append('File', file, file.name);
+        body.append('UserId', userId);
+        return this._http.postWithFile(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+    // --------- file save
     // public saveFile(caseData, documentTypeId, file): Observable<any> {
-    public saveFile(caseBasicId, documentTypeId, file): Observable<any> {
+    public saveGenericFile(fileUpload: GenericFileUpload, file): Observable<any> {
         console.log("file", file);
         let token: Token;
         token = this._authService.getTokenData();
@@ -35,10 +59,12 @@ export class FileService {
         options.headers.append('Accept', 'application/json');
         // options.headers.append('Content-Type', 'application/json');
 
-        let getUrl = 'upload/case/doc';
+        let userId = token.userId;
+
+        // upload/general/file/?byUserId=3
+        let getUrl = "upload/general/file?byUserId=" + (userId || null);
         let body: FormData = new FormData();
-        body.append('CaseBasicId', caseBasicId);
-        body.append('DocumentTypeId', documentTypeId);
+        body.append('Purpose', fileUpload.fileUploadPurpose);
         body.append('File', file, file.name);
         // let body = {
         //     CaseBasicId: caseBasicId || 0, //for insert or update 
@@ -58,8 +84,8 @@ export class FileService {
             })
     }
 
-    // --------- case file remove
-    public removeFile(caseBasicId, documentUploadId): Observable<any> {
+    // --------- file remove
+    public removeGenericFile(caseBasicId, documentUploadId): Observable<any> {
         let token: Token;
         token = this._authService.getTokenData();
         const options = new RequestOptions();
@@ -79,444 +105,72 @@ export class FileService {
             })
     }
 
-    // --------- resume save
-    public saveResume(file): Observable<any> {
-        console.log("file", file);
+
+    public getGeneralFileListCount(searchKeyword, byUserRole, searchDateFrom, searchDateTo) {
+
         let token: Token;
         token = this._authService.getTokenData();
         const options = new RequestOptions();
         options.headers = new Headers();
         options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        // options.headers.append('Content-Type', 'multipart/form-data');
-        options.headers.append('Accept', 'application/json');
-        // options.headers.append('Content-Type', 'application/json');
 
-        let getUrl = 'upload/lawfirm/lawyer/resume';
-        let body: FormData = new FormData();
-        body.append('File', file, file.name);
+        let userId = token.userId;
 
-        return this._http.postWithFile(getUrl, body, options)
-            .map((res: Response) => res)
-            .catch((err, caught) => {
-                return Observable.throw(err);
-            })
-    }
+        // general/file/list/count?userId=1&searchKeyword=tes&byUserRole=3&searchDateFrom=null&searchDateTo=null
+        let getUrl = "general/file/list/count?userId=" + (userId || null) + "&searchKeyword=" + (searchKeyword || null) + "&byUserRole=" + (byUserRole || null) +
+            "&searchDateFrom=" + (searchDateFrom || null) + "&searchDateTo=" + (searchDateTo || null);
 
-    // --------- lawfirm resume save
-    public saveLawFirmResume(file): Observable<any> {
-        console.log("file", file);
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        // options.headers.append('Content-Type', 'multipart/form-data');
-        options.headers.append('Accept', 'application/json');
-        // options.headers.append('Content-Type', 'application/json');
-
-        let getUrl = 'upload/lawfirm/resume/doc';
-        let body: FormData = new FormData();
-        body.append('File', file, file.name);
-
-        return this._http.postWithFile(getUrl, body, options)
-            .map((res: Response) => res)
-            .catch((err, caught) => {
-                return Observable.throw(err);
-            })
-    }
-
-    // --------- reference file save
-    public saveReference(file): Observable<any> {
-        console.log("file", file);
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        // options.headers.append('Content-Type', 'multipart/form-data');
-        options.headers.append('Accept', 'application/json');
-        // options.headers.append('Content-Type', 'application/json');
-
-        let getUrl = 'upload/lawfirm/reference/doc';
-        let body: FormData = new FormData();
-        body.append('File', file, file.name);
-
-        return this._http.postWithFile(getUrl, body, options)
-            .map((res: Response) => res)
-            .catch((err, caught) => {
-                return Observable.throw(err);
-            })
-    }
-
-    // --------- payment file save
-    public savePaymentDoc(caseBasicId, file): Observable<any> {
-        console.log("file", file);
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        // options.headers.append('Content-Type', 'multipart/form-data');
-        options.headers.append('Accept', 'application/json');
-        // options.headers.append('Content-Type', 'application/json');
-
-        let getUrl = 'upload/case/expense/doc';
-        let body: FormData = new FormData();
-        body.append('CaseBasicId', caseBasicId);
-        body.append('File', file, file.name);
-
-        return this._http.postWithFile(getUrl, body, options)
-            .map((res: Response) => res)
-            .catch((err, caught) => {
-                return Observable.throw(err);
-            })
-    }
-
-    // --------- proceeding file save
-    public saveProceedingDoc(caseBasicId, file): Observable<any> {
-        console.log("file", file);
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        // options.headers.append('Content-Type', 'multipart/form-data');
-        options.headers.append('Accept', 'application/json');
-        // options.headers.append('Content-Type', 'application/json');
-
-        let getUrl = 'upload/case/proceeding/doc';
-        let body: FormData = new FormData();
-        body.append('CaseBasicId', caseBasicId);
-        body.append('File', file, file.name);
-
-        return this._http.postWithFile(getUrl, body, options)
-            .map((res: Response) => res)
-            .catch((err, caught) => {
-                return Observable.throw(err);
-            })
-    }
-
-    // --------- case filing file save
-    public saveCaseFilingDoc(caseBasicId, file): Observable<any> {
-        console.log("file", file);
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        // options.headers.append('Content-Type', 'multipart/form-data');
-        options.headers.append('Accept', 'application/json');
-        // options.headers.append('Content-Type', 'application/json');
-
-        let getUrl = 'upload/case/file/doc';
-        let body: FormData = new FormData();
-        body.append('CaseBasicId', caseBasicId);
-        body.append('File', file, file.name);
-
-        return this._http.postWithFile(getUrl, body, options)
-            .map((res: Response) => res)
-            .catch((err, caught) => {
-                return Observable.throw(err);
-            })
-    }
-    // --------- plaint file save
-    public savePlaintDoc(caseBasicId, file): Observable<any> {
-        console.log("file", file);
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        // options.headers.append('Content-Type', 'multipart/form-data');
-        options.headers.append('Accept', 'application/json');
-        // options.headers.append('Content-Type', 'application/json');
-
-        let getUrl = 'upload/case/plaint/doc';
-        let body: FormData = new FormData();
-        body.append('CaseBasicId', caseBasicId);
-        body.append('File', file, file.name);
-
-        return this._http.postWithFile(getUrl, body, options)
-            .map((res: Response) => res)
-            .catch((err, caught) => {
-                return Observable.throw(err);
-            })
-    }
-
-    // --------- Post File Settlement file save
-    public savePostFileSettlementUpload(caseBasicId, file): Observable<any> {
-        console.log("file", file);
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        // options.headers.append('Content-Type', 'multipart/form-data');
-        options.headers.append('Accept', 'application/json');
-        // options.headers.append('Content-Type', 'application/json');
-
-        let getUrl = 'upload/post/settlement/doc';
-        let body: FormData = new FormData();
-        body.append('CaseBasicId', caseBasicId);
-        body.append('File', file, file.name);
-
-        return this._http.postWithFile(getUrl, body, options)
-            .map((res: Response) => res)
-            .catch((err, caught) => {
-                return Observable.throw(err);
-            })
-    }
-
-    // --------- Pre File Settlement file save
-    public savePreFileSettlementUpload(file): Observable<any> {
-        console.log("file", file);
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        // options.headers.append('Content-Type', 'multipart/form-data');
-        options.headers.append('Accept', 'application/json');
-        // options.headers.append('Content-Type', 'application/json');
-
-        let getUrl = 'upload/pre/settlement/doc';
-        let body: FormData = new FormData();
-        body.append('File', file, file.name);
-
-        return this._http.postWithFile(getUrl, body, options)
-            .map((res: Response) => res)
-            .catch((err, caught) => {
-                return Observable.throw(err);
-            })
-    }
-
-    // --------- Defaulter Collateral file save
-    public saveDefaulterCollateralDoc(file, defaulterId): Observable<any> {
-        console.log("file", file);
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        // options.headers.append('Content-Type', 'multipart/form-data');
-        options.headers.append('Accept', 'application/json');
-        let getUrl = 'upload/defaulter/collateral/doc';
-        let body: FormData = new FormData();
-        body.append('DefaulterId', defaulterId);
-        body.append('File', file, file.name);
-        return this._http.postWithFile(getUrl, body, options)
+        return this._http.get(getUrl, options)
             .map((res: Response) => res)
             .catch((err, caught) => {
                 return Observable.throw(err);
             });
+
     }
 
-    // --------- Defaulter Charge file save
-    public saveDefaulterChargeDoc(file, defaulterId): Observable<any> {
-        console.log("file", file);
+    public getGeneralFileListPagination(pageNo, limit, searchKeyword, byUserRole, searchDateFrom, searchDateTo) {
+
         let token: Token;
         token = this._authService.getTokenData();
         const options = new RequestOptions();
         options.headers = new Headers();
         options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        // options.headers.append('Content-Type', 'multipart/form-data');
-        options.headers.append('Accept', 'application/json');
-        // options.headers.append('Content-Type', 'application/json');
 
-        let getUrl = 'upload/defaulter/charge/type/doc';
-        let body: FormData = new FormData();
-        body.append('DefaulterId', defaulterId);
-        body.append('File', file, file.name);
+        let userId = token.userId;
 
-        return this._http.postWithFile(getUrl, body, options)
+        // general/file/list?userId=1&searchKeyword=tes&byUserRole=3&pageNo=0&limit=10&searchDateFrom=null&searchDateTo=null
+        let getUrl = "general/file/list?userId=" + (userId || null) + "&pageNo=" + (pageNo || 0) + "&limit=" + (limit || 5) +
+            "&searchKeyword=" + (searchKeyword || null) + "&byUserRole=" + (byUserRole || null) +
+            "&searchDateFrom=" + (searchDateFrom || null) + "&searchDateTo=" + (searchDateTo || null);
+
+        return this._http.get(getUrl, options)
             .map((res: Response) => res)
             .catch((err, caught) => {
                 return Observable.throw(err);
             });
+
     }
 
+    public getSingleGeneralFile(fileId) {
 
-    // --------- Bail Document save
-    public saveBailDocs(file, CaseCourtId): Observable<any> {
         let token: Token;
         token = this._authService.getTokenData();
         const options = new RequestOptions();
         options.headers = new Headers();
         options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        // options.headers.append('Content-Type', 'multipart/form-data');
-        options.headers.append('Accept', 'application/json');
-        let getUrl = 'upload/bail/doc';
-        let body: FormData = new FormData();
-        body.append('File', file, file.name);
-        body.append('CaseCourtId', CaseCourtId);
-        return this._http.postWithFile(getUrl, body, options)
+
+        let userId = token.userId;
+
+        // patient/ccm/plan/single?userId=11&patientId=65&id=339
+        let getUrl = 'general/file/single?userId=' + (userId || null) + '&id=' + (fileId || null);
+
+        return this._http.get(getUrl)
             .map((res: Response) => res)
             .catch((err, caught) => {
                 return Observable.throw(err);
             });
+
     }
 
 
-    // --------- Fir Document save
-    public saveFirDocs(file, CaseBasicId): Observable<any> {
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        // options.headers.append('Content-Type', 'multipart/form-data');
-        options.headers.append('Accept', 'application/json');
-        let getUrl = 'upload/fir/doc';
-        let body: FormData = new FormData();
-        body.append('File', file, file.name);
-        body.append('CaseBasicId', CaseBasicId);
-        return this._http.postWithFile(getUrl, body, options)
-            .map((res: Response) => res)
-            .catch((err, caught) => {
-                return Observable.throw(err);
-            });
-    }
-
-    // --------- NPL File save
-    public uploadNplFile(file): Observable<any> {
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        options.headers.append('Accept', 'application/json');
-        let getUrl = 'upload/npl/data/file';
-        let body: FormData = new FormData();
-        body.append('File', file, file.name);
-        return this._http.postWithFile(getUrl, body, options)
-            .map((res: Response) => res)
-            .catch((err, caught) => {
-                return Observable.throw(err);
-            });
-    }
-
-    // --------- HR File save
-    public uploadHrFile(file): Observable<any> {
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        options.headers.append('Accept', 'application/json');
-        let getUrl = 'upload/hr/data/file';
-        let body: FormData = new FormData();
-        body.append('File', file, file.name);
-        return this._http.postWithFile(getUrl, body, options)
-            .map((res: Response) => res)
-            .catch((err, caught) => {
-                return Observable.throw(err);
-            });
-    }
-
-    // --------- Profile Picture Upload
-    public uploadProfilePic(file, userId): Observable<any> {
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        options.headers.append('Accept', 'application/json');
-        let getUrl = 'upload/user/profile/picture';
-        let body: FormData = new FormData();
-        body.append('File', file, file.name);
-        body.append('UserId', userId);
-        return this._http.postWithFile(getUrl, body, options)
-            .map((res: Response) => res)
-            .catch((err, caught) => {
-                return Observable.throw(err);
-            });
-    }
-
-    // --------- Bail Document save
-    public saveContractDocs(file): Observable<any> {
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        // options.headers.append('Content-Type', 'multipart/form-data');
-        options.headers.append('Accept', 'application/json');
-        let getUrl = 'upload/contract/doc';
-        let body: FormData = new FormData();
-        body.append('File', file, file.name);
-        return this._http.postWithFile(getUrl, body, options)
-            .map((res: Response) => res)
-            .catch((err, caught) => {
-                return Observable.throw(err);
-            });
-    }
-
-    // --------- advisory file save
-    public saveAdvisoryDocs(file): Observable<any> {
-        console.log("file", file);
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        // options.headers.append('Content-Type', 'multipart/form-data');
-        options.headers.append('Accept', 'application/json');
-        // options.headers.append('Content-Type', 'application/json');
-
-        let getUrl = 'upload/advisory/doc';
-        let body: FormData = new FormData();
-        body.append('File', file, file.name);
-
-        return this._http.postWithFile(getUrl, body, options)
-            .map((res: Response) => res)
-            .catch((err, caught) => {
-                return Observable.throw(err);
-            })
-    }
-
-    // --------- advice file save
-    public saveAdviceDocs(file): Observable<any> {
-        console.log("file", file);
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        // options.headers.append('Content-Type', 'multipart/form-data');
-        options.headers.append('Accept', 'application/json');
-        // options.headers.append('Content-Type', 'application/json');
-
-        let getUrl = 'upload/advisory/service/advice/doc';
-        let body: FormData = new FormData();
-        body.append('File', file, file.name);
-
-        return this._http.postWithFile(getUrl, body, options)
-            .map((res: Response) => res)
-            .catch((err, caught) => {
-                return Observable.throw(err);
-            })
-    }
-
-    // --------- advisory discussion file save
-    public saveAdvisoryDiscussionDocs(file): Observable<any> {
-        console.log("file", file);
-        let token: Token;
-        token = this._authService.getTokenData();
-        const options = new RequestOptions();
-        options.headers = new Headers();
-        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        // options.headers.append('Content-Type', 'multipart/form-data');
-        options.headers.append('Accept', 'application/json');
-        // options.headers.append('Content-Type', 'application/json');
-
-        let getUrl = 'upload/advisory/discussion/doc';
-        let body: FormData = new FormData();
-        body.append('File', file, file.name);
-
-        return this._http.postWithFile(getUrl, body, options)
-            .map((res: Response) => res)
-            .catch((err, caught) => {
-                return Observable.throw(err);
-            });
-    }
 }

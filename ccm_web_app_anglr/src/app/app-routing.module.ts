@@ -139,6 +139,13 @@ const routes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     // children: []
   },
+  {
+    path: 'file/upload',
+    loadChildren: './file.management/file.management.module#FileManagementModule',
+    // pathMatch: 'full',
+    canActivate: [CanActivateViaAuthGuard],
+    // children: []
+  },
   // {
   //   path: 'user',
   //   loadChildren: './user/user.module#UserModule',

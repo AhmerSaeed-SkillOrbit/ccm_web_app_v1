@@ -1,10 +1,11 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ISubscription } from "rxjs/Subscription";
 
 import { User } from '../../../core/models/user';
-import { Message } from '../../../core/models/message';
+import { Message, MessageTypes } from '../../../core/models/message';
+import { Permission } from '../../../core/models/permission';
 // import { Notifications } from '../../core/models/notification/notification';
 // import { Sidebar } from '../../core/models/nav/sidebar';
 
@@ -13,7 +14,8 @@ import { UIService } from '../../../core/services/ui/ui.service';
 import { IAuthService } from '../../../core/services/auth/iauth.service';
 import { RoutingInfoService } from '../../../core/services/routInfo/route.info.service';
 import { UtilityService } from '../../../core/services/general/utility.service';
-import { Permission } from '../../../core/models/permission';
+import { FileService } from '../../../core/services/file/file.service';
+import { MappingService } from '../../../core/services/mapping/mapping.service';
 // import { ScriptService } from '../../core/services/script.service';
 // import { DashboardService } from '../../core/services/general/dashboard.service';
 
@@ -69,12 +71,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     ticketPermission = false;
 
+    selectedFile: File = null;
+
+    // @ViewChild('myInput') myInputVariable: ElementRef;
+    @ViewChild('clickToUpload') myInputVariable: ElementRef;
+
+    sidebar: boolean;
 
     constructor(
         @Inject('IAuthService')
         private _authService: IAuthService,
         private _uiService: UIService,
         private _utilityService: UtilityService,
+        private _fileService: FileService,
+        private _mappingService: MappingService,
         private route: ActivatedRoute, private _router: Router,
         // private _notifService: NotificationService
     ) {
@@ -86,7 +96,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
 
 
-    sidebar: boolean;
     ngOnInit(): void {
         // To get Social CxN logo
 
@@ -283,6 +292,44 @@ export class SidebarComponent implements OnInit, OnDestroy {
     getProfile() {
     }
 
+    changeProfilePic(event) {
+        console.log("changeProfilePic");
+        console.log(event);
+
+        this.selectedFile = <File>event.target.files[0];
+        this.onUpload();
+
+    }
+
+    onUpload() {
+        const msg = new Message();
+
+        this._fileService.uploadProfilePic(this.selectedFile, this.user.id).subscribe(
+            (res) => {
+                console.log('Image upload response', res);
+                this.profilePic = res.json().data.documentUrl;
+
+                msg.msg = 'Your picture has saved successfully.';
+                msg.msgType = MessageTypes.Information;
+                this._uiService.showToast(msg, 'info');
+                msg.autoCloseAfter = 400;
+                this.myInputVariable.nativeElement.value = "";
+
+                const user = this._authService.getUser();
+                let fileUpload = this._mappingService.mapFileUpload(res.json().data);
+                user.profilePicture = fileUpload;
+                // user.profilePicture = res.json().data;
+                this._authService.storeUser(user);
+                // window.location.reload();
+            },
+            (err) => {
+                console.log('err', err);
+                this.myInputVariable.nativeElement.value = "";
+                this._authService.errStatusCheckResponse(err);
+            }
+        );
+
+    }
 
     navigate(path) {
         // this._router.navigate([{ outlets: { primary: path, sidemenu: path } }],
