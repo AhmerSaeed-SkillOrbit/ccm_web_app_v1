@@ -6,14 +6,15 @@ import { DatePipe } from '@angular/common';
 
 import { Message, MessageTypes } from '../../core/models/message';
 import { User } from '../../core/models/user';
-import { CcmPlan, CcmPlanItem, CcmPlanItemGoal } from '../../core/models/user.ccm.plan';
+import { GenericFileUpload } from '../../core/models/genericFileUpload';
+import { Role } from '../../core/models/role';
 
 
 import { IAuthService } from '../../core/services/auth/iauth.service';
 import { UIService } from '../../core/services/ui/ui.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 import { UtilityService } from '../../core/services/general/utility.service';
-import { CcmPlanService } from '../../core/services/ccm.plan/ccm.plan.service';
+import { FileService } from '../../core/services/file/file.service';
 
 
 
@@ -22,18 +23,19 @@ import { ViewAppointmentDialogeComponent } from '../../shared/appointment.dialog
 import { ForumService } from '../../core/services/forum/forum.service';
 import { SetupService } from '../../core/services/setup/setup.service';
 
+
 declare var libraryVar: any;
 
 @Component({
-    selector: 'ccm-plan-list',
+    selector: 'file-upload-list',
     moduleId: module.id,
-    templateUrl: 'ccm.plan.list.component.html',
-    // styleUrls: ['../ccm.plan.component.css']
+    templateUrl: 'file.upload.list.component.html',
+    // styleUrls: ['../file.upload.component.css']
     providers: [
         DatePipe // this pipe is used to change date format
     ],
 })
-export class CcmPlanListComponent implements OnInit {
+export class FileUploadListComponent implements OnInit {
     files: any;
     // dashboard: Dashboard = new Dashboard();
     currentURL: string;
@@ -45,16 +47,14 @@ export class CcmPlanListComponent implements OnInit {
 
     userId: number = null;
 
-    patientId: number = null;
-    patient: User = new User();
-
     searchKeyword: string = null;
-    startDate: string = null;
-    endDate: string = null;
+    roleId: number = null;
+    dateFrom: string = null;
+    dateTo: string = null;
 
     status: string = null;
 
-    ccmPlanList: CcmPlan[] = [];
+    fileUploadList: GenericFileUpload[] = [];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -72,11 +72,9 @@ export class CcmPlanListComponent implements OnInit {
     listPagePermission = false;
     addPermission = false;
     updatePermission = false;
-    summaryPermission = false;
     viewPermission = false;
-    acceptPermission = false;
-    rejectPermission = false;
-    cancelPermission = false;
+
+    roleList: Role[] = []
 
     isSubmitted: boolean = false;
 
@@ -89,16 +87,14 @@ export class CcmPlanListComponent implements OnInit {
         // public _messaging: MessagingService,
         // private _userService: UserService,
         private _setupService: SetupService,
-        private _ccmPlanService: CcmPlanService,
+        private _fileService: FileService,
         private _mappingService: MappingService,
         private _utilityService: UtilityService,
         private datePipe: DatePipe,
         private route: ActivatedRoute, private _router: Router
     ) {
         this.currentURL = window.location.href;
-        const id = this.route.snapshot.params['id'];
 
-        this.patientId = id;
     }
 
     ngOnInit(): void {
@@ -122,18 +118,11 @@ export class CcmPlanListComponent implements OnInit {
                 this.addPermission = true;
                 // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
                 this.updatePermission = true;
-                // this.summaryPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.summaryPermission = true;
                 // this.viewPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
                 this.viewPermission = true;
-                // this.acceptPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                // this.acceptPermission = true;
-                // this.rejectPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                // this.rejectPermission = true;
-                // this.cancelPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.cancelPermission = true;
 
-                this.loadCCMPlanList();
+                this.loadRoleList();
+                this.loadFileUploadedList();
 
             }
             else {
@@ -150,15 +139,16 @@ export class CcmPlanListComponent implements OnInit {
         // if(this.searchKeyword){
         this.pageIndex = 0;
         // this.pageChangeEvent();
-        this.loadCCMPlanList();
+        this.loadFileUploadedList();
         // }
 
     }
 
     reset() {
         this.searchKeyword = null;
-        this.startDate = null;
-        this.endDate = null;
+        this.roleId = null;
+        this.dateFrom = null;
+        this.dateTo = null;
 
         this.refreshList();
     }
@@ -174,7 +164,7 @@ export class CcmPlanListComponent implements OnInit {
         // this.trackStatus = null;
 
         // this.dataSource.filter = null;
-        this.loadCCMPlanList();
+        this.loadFileUploadedList();
         // }
     }
 
@@ -184,7 +174,7 @@ export class CcmPlanListComponent implements OnInit {
 
         this.pageIndex = event.pageIndex;
         this.pageSize = event.pageSize;
-        this.loadCCMPlanList();
+        this.loadFileUploadedList();
 
         return event;
     }
@@ -192,41 +182,76 @@ export class CcmPlanListComponent implements OnInit {
     dateChanged(event, type) {
         console.log('event', event.value);
         console.log('type', type);
-        if (type == 'startDate') {
-            this.startDate = this.datePipe.transform(this.startDate, 'yyyy-MM-dd');
-            this.endDate = null;
+        if (type == 'dateFrom') {
+            this.dateFrom = this.datePipe.transform(this.dateFrom, 'yyyy-MM-dd');
+            this.dateTo = null;
             // this.projectActivityForm.projectActivityDate = this.datePipe.transform(this.projectActivityForm.projectActivityDate, 'yyyy-MM-dd h:mm:ss a');
-            console.log('event', this.startDate);
+            console.log('event', this.dateFrom);
         }
-        if (type == 'endDate') {
-            this.endDate = this.datePipe.transform(this.endDate, 'yyyy-MM-dd');
+        if (type == 'dateTo') {
+            this.dateTo = this.datePipe.transform(this.dateTo, 'yyyy-MM-dd');
             // this.projectActivityForm.projectActivityDate = this.datePipe.transform(this.projectActivityForm.projectActivityDate, 'yyyy-MM-dd h:mm:ss a');
-            console.log('event', this.endDate);
+            console.log('event', this.dateTo);
         }
 
-        if (this.startDate && this.endDate) {
+        if (this.dateFrom && this.dateTo) {
             this.pageIndex = 0;
-            this.loadCCMPlanList();
+            this.loadFileUploadedList();
         }
 
     }
 
-    loadCCMPlanList() {
+    onRoleChange() {
+        this.loadFileUploadedList();
+    }
+
+    loadRoleList() {
+
+        const msg = new Message();
+
+        this._setupService.getRoles().subscribe(
+            (res) => {
+
+                let array = res.json().data || [];
+                // console.log('res list:', array);
+                var uList = [];
+                for (let i = 0; i < array.length; i++) {
+                    let u = this._mappingService.mapRole(array[i]);
+                    uList.push(u);
+                }
+                this.roleList = uList;
+
+                // if (this.roleList.length == 0) {
+                //     msg.msg = 'No Roles Found';
+                //     msg.msgType = MessageTypes.Information;
+                //     msg.autoCloseAfter = 400;
+                //     this._uiService.showToast(msg, 'info');
+                // }
+            },
+            (err) => {
+                console.log(err);
+                // this._authService.errStatusCheckResponse(err);
+                // this.isSpinner = false;
+            }
+        )
+    }
+
+    loadFileUploadedList() {
         const msg = new Message();
         this.length = 0;
-        this.ccmPlanList = [];
+        this.fileUploadList = [];
         // this.dataSource = new MatTableDataSource<User>(this.userList);
         if (this.listPagePermission) {
             this.isSpinner = true;
 
             // this._uiService.showSpinner();
 
-            this._ccmPlanService.getCcmPlanListCount(this.patientId, this.searchKeyword, this.startDate, this.endDate).subscribe(
+            this._fileService.getGeneralFileListCount(this.searchKeyword, this.roleId, this.dateFrom, this.dateTo).subscribe(
                 (res) => {
                     // this._uiService.hideSpinner();
                     this.length = res.json().data;
 
-                    this._ccmPlanService.getCcmPlanListPagination(this.patientId, this.pageIndex, this.pageSize, this.searchKeyword, this.startDate, this.endDate).subscribe(
+                    this._fileService.getGeneralFileListPagination(this.pageIndex, this.pageSize, this.searchKeyword, this.roleId, this.dateFrom, this.dateTo).subscribe(
                         (res) => {
                             // this.userList = res.json();
                             // this._uiService.hideSpinner();
@@ -234,17 +259,17 @@ export class CcmPlanListComponent implements OnInit {
                             // console.log('res list:', array);
                             var uList = [];
                             for (let i = 0; i < array.length; i++) {
-                                let u = this._mappingService.mapCcmPlan(array[i]);
+                                let u = this._mappingService.mapGenericFileUpload(array[i]);
                                 uList.push(u);
                             }
-                            this.ccmPlanList = uList;
+                            this.fileUploadList = uList;
 
                             // this.dataSource = new MatTableDataSource<User>(this.userList);
                             // this.dataSource.paginator = this.paginator;
                             // console.log('user list:', this.userList);
 
-                            if (this.ccmPlanList.length == 0) {
-                                msg.msg = 'No Plan Found';
+                            if (this.fileUploadList.length == 0) {
+                                msg.msg = 'No File Found';
                                 msg.msgType = MessageTypes.Information;
                                 msg.autoCloseAfter = 400;
                                 this._uiService.showToast(msg, 'info');
@@ -289,7 +314,7 @@ export class CcmPlanListComponent implements OnInit {
         }
     }
 
-    confirmDialog(ccmPlan: CcmPlan, btn, index) {
+    confirmDialog(fileUpload: GenericFileUpload, btn, index) {
         let msg = "";
         let title = "";
         let type = "";
@@ -303,12 +328,6 @@ export class CcmPlanListComponent implements OnInit {
             title = 'Reject Request';
             // msg = 'Are you sure you want to Reject this Appointment? Appointment No: ' + ccmPlan.planNumber + '';
             type = "reject";
-
-        }
-        else if (btn === 'cancel') {
-            title = 'Cancel Request';
-            msg = 'Are you sure you want to Cancel this Appointment? Appointment No: ' + ccmPlan.planNumber + '';
-            type = "cancel";
 
         }
         const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -346,26 +365,13 @@ export class CcmPlanListComponent implements OnInit {
         console.log("nevigateTo data", data);
 
         if (type == "form") {
-            this._router.navigate(['/ccm/plan/form', this.patientId]);
-            // this._router.navigate([url]).then(result => {
-            //     console.log("nevigateTo navigate ", result);
-            //     window.open(url, '_blank');
-            // });
-            // window.open(url, "_blank");
-            // window.open(FlowRouter.url("/ticket/t/discussion", data.id), '_blank')
+            let url = "/file/upload/fu/form/";
+            this._router.navigate(['/file/upload/fu/form']);
 
         }
-
-        if (type == "ticket-discussion") {
-            let url = "/ticket/t/discussion/" + data.id
-            this._router.navigate(['/ticket/t/discussion', data.id]);
-            // this._router.navigate([url]).then(result => {
-            //     console.log("nevigateTo navigate ", result);
-            //     window.open(url, '_blank');
-            // });
-            // window.open(url, "_blank");
-            // window.open(FlowRouter.url("/ticket/t/discussion", data.id), '_blank')
-
+        else if (type == "form-test") {
+            let url = "/file/upload/fu/form/"
+            this._router.navigate(['/file/upload/fu/form', data.id]);
         }
 
     }

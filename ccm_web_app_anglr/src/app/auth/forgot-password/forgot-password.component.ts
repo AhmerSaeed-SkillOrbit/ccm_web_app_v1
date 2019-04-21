@@ -100,7 +100,6 @@ export class ForgotPasswordComponent implements OnInit {
     recoverPassword() {
        
         // this.role = this.activatedRoute.snapshot.queryParams['role'];
-        // this.user.entityType = this.role;
         //console.log(this.user);
 
         const msg = new Message();

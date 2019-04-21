@@ -7,9 +7,11 @@
     <div class="inf">
       <secure-header *ngIf="isLoggedIn">
       </secure-header>
+
+      <sidebar class="sidebar sidebar-main col-sm-4" *ngIf="isLoggedIn"></sidebar>
     </div>
 
-    <div>
+    <div class="col-sm-9">
       <router-outlet></router-outlet>
     </div>
 

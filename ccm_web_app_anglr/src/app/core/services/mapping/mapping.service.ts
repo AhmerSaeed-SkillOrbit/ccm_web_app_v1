@@ -2,7 +2,8 @@ import { Injectable, Inject } from '@angular/core';
 
 import { User } from '../../models/user';
 import { Role } from '../../models/role';
-import { Document } from "../../models/document";
+import { FileUpload } from "../../models/fileUpload";
+import { GenericFileUpload } from "../../models/genericFileUpload";
 import { Config } from '../../../config/config';
 
 import { UtilityService } from '../general/utility.service';
@@ -83,8 +84,10 @@ export class MappingService {
             // isUser.roles = userData.roles;
             isUser.permissions = userData.permissions;
 
+            isUser.profilePicture = this.mapFileUpload(userData.FileUpload);
             if (userData.profilePicture) {
-                isUser.profilePicture = userData.profilePicture;
+                // isUser.profilePicture = userData.profilePicture;
+
                 // u.resume = this._fileService.mapDocument(element.resume);
             }
 
@@ -283,35 +286,60 @@ export class MappingService {
         return isAppointment;
     }
 
-    public mapDocument(res: any): Document {
+    public mapFileUpload(res: any): FileUpload {
         // const userData = res.json().genericResponse.genericBody.data.userData;
         // const userData = res.json().genericBody.data.userData;
 
         // const userData = res.json();
         // const caseData = res.json().length > 0 ? res.json()[0] : null;
-        const documentData = res ? res : null;
-        let isDocument = new Document();
-        if (documentData) {
-            isDocument.documentId = documentData.documentUploadedId || null;
-            isDocument.documentOriginalName = documentData.documentOriginalName || "";
-            isDocument.documentName = documentData.documentName || "";
-            isDocument.documentExtension = documentData.documentExtension || "";
-            isDocument.documentUrl = documentData.documentUrl || "";
-            // isDocument.documentType = documentData.observationBelongTo.belongTo || "";
-            isDocument.documentType = documentData.documentType || "";
-            isDocument.documentTypeId = documentData.documentTypeId || null;
-            isDocument.documentUploadId = documentData.documentUploadId || "";
-            const dob = [];
-            // if (documentData.caseDocumentObservation && documentData.caseDocumentObservation.length > 0) {
-            //     documentData.caseDocumentObservation.forEach(element => {
-            //         dob.push(this.mapObservation(element));
-            //     });
+        const fileUploadData = res ? res : null;
+        let isFileUpload = new FileUpload();
+        if (fileUploadData) {
+            isFileUpload.id = fileUploadData.Id || null;
+            isFileUpload.fileUploadId = fileUploadData.Id || null;
+            isFileUpload.fileUploadOriginalName = fileUploadData.FileOriginalName || "";
+            isFileUpload.fileUploadName = fileUploadData.FileName || "";
+            isFileUpload.fileUploadExtension = fileUploadData.FileExtension || "";
+            isFileUpload.fileUploadUrl = fileUploadData.Path || "";
+            isFileUpload.fileUploadBelongTo = fileUploadData.BelongTo || "";
 
-            // }
-            // isDocument.observations = dob;
+            // isFileUpload.fileUploadType = fileUploadData.observationBelongTo.belongTo || "";
+            isFileUpload.fileUploadType = fileUploadData.FileType || "";
+            isFileUpload.fileUploadTypeId = fileUploadData.FileTypeId || null;
+
         }
 
-        return isDocument;
+        return isFileUpload;
+    }
+
+    public mapGenericFileUpload(res: any): GenericFileUpload {
+        // const userData = res.json().genericResponse.genericBody.data.userData;
+        // const userData = res.json().genericBody.data.userData;
+
+        // const userData = res.json();
+        // const caseData = res.json().length > 0 ? res.json()[0] : null;
+        const genericFileUploadData = res ? res : null;
+        let isGenericFileUpload = new GenericFileUpload();
+        if (genericFileUploadData) {
+            isGenericFileUpload.id = genericFileUploadData.Id || null;
+            isGenericFileUpload.fileUploadId = genericFileUploadData.Id || null;
+            isGenericFileUpload.fileUploadOriginalName = genericFileUploadData.FileOriginalName || "";
+            isGenericFileUpload.fileUploadName = genericFileUploadData.FileName || "";
+            isGenericFileUpload.fileUploadExtension = genericFileUploadData.FileExtension || "";
+            isGenericFileUpload.fileUploadUrl = genericFileUploadData.Path || "";
+            isGenericFileUpload.fileUploadBelongTo = genericFileUploadData.BelongTo || "";
+            isGenericFileUpload.fileUploadPurpose = genericFileUploadData.Purpose || "";
+            isGenericFileUpload.createdOn = genericFileUploadData.CreatedOn || null;
+
+            isGenericFileUpload.role = this.mapRole(genericFileUploadData.Role);
+            isGenericFileUpload.createdBy = this.mapUser(genericFileUploadData.CreatedBy);
+            // isGenericFileUpload.fileUploadType = genericFileUploadData.observationBelongTo.belongTo || "";
+            isGenericFileUpload.fileUploadType = genericFileUploadData.FileType || "";
+            isGenericFileUpload.fileUploadTypeId = genericFileUploadData.FileTypeId || null;
+
+        }
+
+        return isGenericFileUpload;
     }
 
     public mapForumFeed(res: any): ForumFeed {

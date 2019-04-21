@@ -8,12 +8,14 @@ import { MaterialModule } from "../material/material.module";
 import { SharedModule } from '../shared/shared.module';
 
 import { CcmPlanFormComponent } from './ccm.plan.form/ccm.plan.form.component';
+import { CcmPlanSummaryComponent } from './ccm.plan.summary/ccm.plan.summary.component';
 import { CcmPlanListComponent } from './ccm.plan.list/ccm.plan.list.component';
 
 
 @NgModule({
     declarations: [
         CcmPlanFormComponent,
+        CcmPlanSummaryComponent,
         CcmPlanListComponent
     ],
     imports: [
@@ -34,6 +36,11 @@ import { CcmPlanListComponent } from './ccm.plan.list/ccm.plan.list.component';
             {
                 path: 'plan/list/:id',
                 component: CcmPlanListComponent,
+                pathMatch: 'full'
+            },
+            {
+                path: 'plan/summary/:id/:pId',
+                component: CcmPlanSummaryComponent,
                 pathMatch: 'full'
             },
 

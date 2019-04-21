@@ -2,7 +2,7 @@ import { BaseModel } from './base.model';
 
 import { Role } from './role';
 import { Permission } from './permission';
-import { Document } from './document';
+import { FileUpload } from './fileUpload';
 import { Country } from './country';
 import { Region } from './region';
 import { City } from './city';
@@ -69,7 +69,7 @@ export class User extends BaseModel {
     entityType: string;
     entityName: string;
     entityId: number;
-    profilePicture: any;
+
     accountVerified: boolean;
 
     userRole: string;
@@ -82,8 +82,8 @@ export class User extends BaseModel {
     roleName: string;
     roleCode: string;
 
-
-    resume: Document = new Document();
+    profilePicture: FileUpload = new FileUpload();
+    resume: FileUpload = new FileUpload();
 
     // roleId: number;
     // roleName: string;

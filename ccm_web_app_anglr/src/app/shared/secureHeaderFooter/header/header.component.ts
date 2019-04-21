@@ -75,7 +75,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
         if (this.user && this.user.profilePicture) {
 
-            this.profilePic = this.user.profilePicture.documentUrl;
+            this.profilePic = this.user.profilePicture.fileUploadUrl;
 
             // this.permission = this._authService.getSidebarPermissions();
             // console.log('sidebar permissions', this.permission);
@@ -85,6 +85,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this._authService.loginUserStatusChanged.subscribe(
             (user) => {
                 this.user = user;
+
+                if (this.user && this.user.profilePicture) {
+
+                    this.profilePic = this.user.profilePicture.fileUploadUrl;
+
+                    // this.permission = this._authService.getSidebarPermissions();
+                    // console.log('sidebar permissions', this.permission);
+
+                }
             },
             (error) => console.error(error),
             () => console.log('Login state has been marked completed!')
