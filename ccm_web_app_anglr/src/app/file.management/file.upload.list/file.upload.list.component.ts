@@ -376,6 +376,11 @@ export class FileUploadListComponent implements OnInit {
 
     }
 
+    onNavigate(url) {
+        console.log("test");
+        window.open(url, "_blank");
+    }
+
     ngOnDestroy(): void {
         if (this._sub) {
             this._sub.unsubscribe();
