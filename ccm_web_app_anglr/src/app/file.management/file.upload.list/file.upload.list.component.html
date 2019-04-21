@@ -27,7 +27,7 @@
                     <div class="page-header-content">
                         <div class="page-title">
                             <h4><i class="icon-arrow-left52 position-left"></i>
-                                <span class="text-semibold">CCM Plans</span>
+                                <span class="text-semibold">File Manager</span>
                                 <!-- - List -->
                             </h4>
                         </div>
@@ -92,7 +92,7 @@
 
                             <div class="panel-body">
                                 <button type="button" class="btn btn-default btn-sm" (click)="nevigateTo(null,'form')">
-                                    Create New 
+                                    Upload File 
                                     <i class="icon-play3 position-right"></i>
                                 </button>
                             </div>
@@ -191,6 +191,9 @@
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="End Date: activate to sort column ascending">
                                                     Upload Date
                                                 </th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="End Date: activate to sort column ascending">
+                                                    Purpose
+                                                </th>
                                                 <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Status</th> -->
                                                 <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="    width: 183px;">
@@ -211,12 +214,16 @@
                                                     <!-- {{ fileUpload?.createdOn || "NA" }} -->
                                                     {{ fileUpload?.createdOn | date:'dd-MMM-yyyy' }}
                                                 </td>
+
+                                                <td>
+                                                    {{ fileUpload?.fileUploadPurpose || "NA" }}
+                                                </td>
                                                 <td class="text-center">
-                                                    <!-- <span *ngIf="updatePermission" matTooltipPosition="above" matTooltip="Edit">
-                                                        <a [routerLink]="['/ccm/plan/form/edit', patientId, plan.id]">
+                                                    <span matTooltipPosition="above" matTooltip="View File">
+                                                        <a (click)="onNavigate(fileUpload.fileUploadUrl)">
                                                             <i style="color:#ffa808;" class=" icon-pencil"></i>
                                                         </a>
-                                                    </span> &nbsp; -->
+                                                    </span> &nbsp;
 
                                                     <!-- <span *ngIf="cancelPermission" matTooltipPosition="above"
                                                         matTooltip="Delete Ticket">

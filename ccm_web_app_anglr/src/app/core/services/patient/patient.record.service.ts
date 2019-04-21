@@ -160,7 +160,7 @@ export class PatientRecordService implements OnDestroy {
 
         let userId = token.userId;
 
-        const getUrl = 'update/active/medicine?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+        const getUrl = 'update/active/medicine?userId=' + (userId || null) + "&patientId=" + (patientId || null) + "&id=" + (activeMedication.id || null);
 
 
         let body = {
@@ -255,7 +255,7 @@ export class PatientRecordService implements OnDestroy {
 
         let userId = token.userId;
 
-        const getUrl = 'update/allergy/medicine?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+        const getUrl = 'update/allergy/medicine?userId=' + (userId || null) + "&patientId=" + (patientId || null) + "&id=" + (allergyMedication.id || null);
 
 
         let body = {
@@ -348,7 +348,7 @@ export class PatientRecordService implements OnDestroy {
 
         let userId = token.userId;
 
-        const getUrl = 'update/non/medicine?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+        const getUrl = 'update/non/medicine?userId=' + (userId || null) + "&patientId=" + (patientId || null) + "&id=" + (allergyNonMedication.id || null);
 
 
         let body = {
