@@ -303,14 +303,15 @@
         </li>
 
         <li>
-          <a (click)="expandRow(8)">
+          <!-- <a (click)="expandRow(8)"> -->
+          <a [routerLink]="['/file/upload/fu/list']">
             <i class="icon-folder"></i>
             <span>File Manager</span>
             <span>
               <i class="right-ico fa" [ngClass]="(8 === expandedIndex) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
             </span>
           </a>
-          <ul class="sub" [ngClass]="(8 === expandedIndex) ? 'show' : ''">
+          <ul *ngIf="false" class="sub" [ngClass]="(8 === expandedIndex) ? 'show' : ''">
             <span *ngIf="8 === expandedIndex">
               <li>
                 <a [routerLink]="['/file/upload/fu/form']">
@@ -320,9 +321,9 @@
         </li>
         <li>
           <a [routerLink]="['/file/upload/fu/list']">
-                  <i class="icon-folder"></i>
-                  <span>Uploaded File List</span>
-                </a>
+                      <i class="icon-folder"></i>
+                      <span>Uploaded File List</span>
+                    </a>
         </li>
         </span>
         </ul>

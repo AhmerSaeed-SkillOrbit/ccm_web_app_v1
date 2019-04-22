@@ -25,6 +25,30 @@ export class CcmPlan {
 
 }
 
+export class CcmPlanWithReview {
+
+    id: number;
+    ccmPlanId: number;
+    planNumber: string;
+    startDate: string;
+    endDate: string;
+    items: CcmPlanItem[] = [];
+
+    isHealthParam: boolean = false;
+    healthParams: CcmPlanHealthParam[] = [];
+
+    ccmPlanReviews: CcmPlanReview[] = [];
+
+    // createdBy: number;
+    createdBy: User = new User();
+    createdOn: string;
+    updatedBy: string;
+    updatedOn: string;
+
+    isActive: boolean = true;
+
+}
+
 export class CcmPlanItem {
 
     id: number;
@@ -41,6 +65,7 @@ export class CcmPlanItemGoal {
 
     id: number;
     ccmPlanItemGoalId: number;
+    goalNumber: string;
     goal: string;
     intervention: string;
     result: string;
@@ -71,5 +96,20 @@ export class HealthParam {
     name: string;
     description: string;
 
+    isActive: boolean = true;
+}
+
+export class CcmPlanReview {
+
+    id: number;
+    ccmPlanReviewId: number;
+    barrier: string;
+    reviewDate: string;
+    reviewerComment: string;
+
+    ccmPlan: CcmPlan = new CcmPlan();
+    ccmPlanItemGoal: CcmPlanItemGoal = new CcmPlanItemGoal();
+
+    isGoalAchieve: boolean = false;
     isActive: boolean = true;
 }

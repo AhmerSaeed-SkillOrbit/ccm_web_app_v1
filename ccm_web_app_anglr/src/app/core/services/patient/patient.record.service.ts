@@ -62,6 +62,7 @@ export class PatientRecordService implements OnDestroy {
             CountryPhoneCode: user.countryPhoneCode || null,
             MobileNumber: user.mobileNumber || null,
             TelephoneNumber: user.phoneNumber || null,
+            Summary: user.summary || null,
             // OfficeAddress: user.officeAddress || null,
             // ResidentialAddress: user.residentialAddress || null,
             Gender: user.gender || null,

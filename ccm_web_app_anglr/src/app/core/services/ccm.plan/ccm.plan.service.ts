@@ -209,6 +209,73 @@ export class CcmPlanService implements OnDestroy {
             });
     }
 
+    getReviewListCount(ccmPlanId, searchKeyword, searchDateFrom, searchDateTo) {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        // ccm/plan/review/all/count?ccmPlanId=351&searchDateFrom=2019-02-02&searchDateTo=2019-02-04
+        let getUrl = "ccm/plan/review/all/count?userId=" + (userId || null) + "&ccmPlanId=" + (ccmPlanId || null) + "&searchKeyword=" + (searchKeyword || null) +
+            "&searchDateFrom=" + (searchDateFrom || null) + "&searchDateTo=" + (searchDateTo || null);
+
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+
+    }
+
+    getReviewListPagination(ccmPlanId, pageNo, limit, searchKeyword, searchDateFrom, searchDateTo) {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        // ccm/plan/review/all?pageNo=0&limit=10&ccmPlanId=351&searchDateFrom=2019-02-02&searchDateTo=2019-02-04
+        let getUrl = "ccm/plan/review/all?userId=" + (userId || null) + "&ccmPlanId=" + (ccmPlanId || null) + "&pageNo=" + (pageNo || 0) + "&limit=" + (limit || 5) +
+            "&searchKeyword=" + (searchKeyword || null) + "&searchDateFrom=" + (searchDateFrom || null) +
+            "&searchDateTo=" + (searchDateTo || null);
+
+
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+
+    }
+
+    getSingleReview(reviewId) {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        // ccm/plan/review/single?id=331
+        let getUrl = 'ccm/plan/review/single?userId=' + (userId || null) + '&id=' + (reviewId || null);
+
+        return this._http.get(getUrl)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+
+    }
+
     ngOnDestroy() {
 
     }
