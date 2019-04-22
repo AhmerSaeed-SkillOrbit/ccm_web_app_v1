@@ -10,13 +10,17 @@ import { SharedModule } from '../shared/shared.module';
 import { CcmPlanFormComponent } from './ccm.plan.form/ccm.plan.form.component';
 import { CcmPlanSummaryComponent } from './ccm.plan.summary/ccm.plan.summary.component';
 import { CcmPlanListComponent } from './ccm.plan.list/ccm.plan.list.component';
+import { ReviewFormComponent } from './review.form/review.form.component';
+import { ReviewListComponent } from './review.list/review.list.component';
 
 
 @NgModule({
     declarations: [
         CcmPlanFormComponent,
         CcmPlanSummaryComponent,
-        CcmPlanListComponent
+        CcmPlanListComponent,
+        ReviewFormComponent,
+        ReviewListComponent
     ],
     imports: [
         CommonModule,
@@ -41,6 +45,22 @@ import { CcmPlanListComponent } from './ccm.plan.list/ccm.plan.list.component';
             {
                 path: 'plan/summary/:id/:pId',
                 component: CcmPlanSummaryComponent,
+                pathMatch: 'full'
+            },
+
+            {
+                path: 'plan/review/form/:id',
+                component: ReviewFormComponent,
+                pathMatch: 'full'
+            },
+            {
+                path: 'plan/review/form/edit/:id/:pId',
+                component: ReviewFormComponent,
+                pathMatch: 'full'
+            },
+            {
+                path: 'plan/review/list/:id',
+                component: ReviewListComponent,
                 pathMatch: 'full'
             },
 

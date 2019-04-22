@@ -27,7 +27,7 @@
                     <div class="page-header-content">
                         <div class="page-title">
                             <h4><i class="icon-arrow-left52 position-left"></i>
-                                <span class="text-semibold">CCM Plans</span>
+                                <span class="text-semibold">Review History</span>
                                 <!-- - List -->
                             </h4>
                         </div>
@@ -110,8 +110,8 @@
                                     <div class="col-md-3">
                                         <mat-form-field class="full-width">
                                             <!-- <mat-label>Start Date</mat-label> -->
-                                            <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" placeholder="Start Date" [(ngModel)]="startDate"
-                                                (dateChange)="dateChanged($event, 'startDate')" readonly>
+                                            <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" placeholder="Date From" [(ngModel)]="dateFrom"
+                                                (dateChange)="dateChanged($event, 'dateFrom')" readonly>
                                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                             <mat-datepicker #picker></mat-datepicker>
                                         </mat-form-field>
@@ -121,8 +121,8 @@
                                     <div class="col-md-3">
                                         <mat-form-field class="full-width">
                                             <!-- <mat-label>End Date</mat-label> -->
-                                            <input matInput [matDatepickerFilter]="dateFilter" [min]="startDate" [matDatepicker]="picker1" placeholder="End Date" [(ngModel)]="endDate"
-                                                (dateChange)="dateChanged($event, 'endDate')" readonly>
+                                            <input matInput [matDatepickerFilter]="dateFilter" [min]="dateFrom" [matDatepicker]="picker1" placeholder="Date To" [(ngModel)]="dateTo"
+                                                (dateChange)="dateChanged($event, 'dateTo')" readonly>
                                             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                             <mat-datepicker #picker1></mat-datepicker>
                                         </mat-form-field>
@@ -173,8 +173,9 @@
                                                 </th>
                                                 <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Status</th> -->
-                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="    width: 183px;">Review</th>
-                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="    width: 183px;">Actions</th>
+                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="    width: 183px;">
+                                                    Actions
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -189,20 +190,6 @@
                                                 <td>
                                                     {{ plan?.endDate || "NA" }}
                                                 </td>
-
-                                                <td class="text-center">
-                                                    <span matTooltipPosition="above" matTooltip="History">
-                                                        <a [routerLink]="['/ccm/plan/review/list',plan.id]">
-                                                            <i style="color:#0aa700;" class=" icon-eye2"></i>
-                                                        </a>
-                                                    </span> &nbsp;
-                                                    <span *ngIf="updatePermission" matTooltipPosition="above" matTooltip="Take">
-                                                        <a [routerLink]="['/ccm/plan/review/form',plan.id]">
-                                                            <i style="color:#ffa808;" class=" icon-pencil"></i>
-                                                        </a>
-                                                    </span>
-                                                </td>
-
                                                 <td class="text-center">
                                                     <span *ngIf="updatePermission" matTooltipPosition="above" matTooltip="Edit">
                                                         <a [routerLink]="['/ccm/plan/form/edit', patientId, plan.id]">

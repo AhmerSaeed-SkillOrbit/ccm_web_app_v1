@@ -25,6 +25,7 @@ export class User extends BaseModel {
     countryPhoneCode: String;
     mobileNumber: String;
     phoneNumber: String;
+    summary: String;
 
     officeAddress: String;
     residentialAddress: String;

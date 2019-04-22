@@ -19,7 +19,7 @@ import { Tag } from '../../models/tag';
 import { Comment, Reply } from '../../models/comment';
 import { Ticket, TicketAssignee } from '../../models/ticket';
 import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo, ResourceInfo, QuestionAnswer, Answer, DiabeteSupplement, DiabeteSupplementAnswer, PreventiveScreen, PreventiveScreenAnswer, PsychologicalReview, PsychologicalReviewAnswer, FunctionalReview, FunctionalReviewAnswer, SocialReview, SocialReviewAnswer, HealthCareHistory, HospitalizationHistory, SurgeryHistory, AssistanceType, AssistanceOrganization, PatientOrganizationAssistance } from '../../models/user.record';
-import { CcmPlan, CcmPlanItem, CcmPlanItemGoal, CcmPlanHealthParam, HealthParam } from '../../models/user.ccm.plan';
+import { CcmPlan, CcmPlanItem, CcmPlanItemGoal, CcmPlanHealthParam, HealthParam, CcmPlanReview } from '../../models/user.ccm.plan';
 
 @Injectable()
 export class MappingService {
@@ -54,6 +54,7 @@ export class MappingService {
             isUser.gender = userData.Gender || null;
             // isUser.associationType = userData.AssociationType || null;
             isUser.blockReason = userData.BlockReason || null;
+            isUser.summary = userData.summary || null;
 
 
             isUser.password = userData.userPassword;
@@ -1170,7 +1171,8 @@ export class MappingService {
             isCcmPlan.items = items;
 
 
-            isCcmPlan.isHealthParam = ccmPlanData.HealthParams && ccmPlanData.HealthParams.length > 0 ? true : false;
+            isCcmPlan.isHealthParam = ccmPlanData.IsInitialHealthReading || false;
+            // isCcmPlan.isHealthParam = ccmPlanData.HealthParams && ccmPlanData.HealthParams.length > 0 ? true : false;
             // isCcmPlan.healthParams = ccmPlanData.HealthParams || [];
 
             let hps = [];
@@ -1259,6 +1261,27 @@ export class MappingService {
         }
 
         return isHealthParam;
+    }
+
+    public mapCcmPlanReview(res: any): CcmPlanReview {
+        const ccmPlanReviewData = res;
+        const isCcmPlanReview = new CcmPlanReview();
+        if (ccmPlanReviewData) {
+            isCcmPlanReview.id = ccmPlanReviewData.Id || null;
+            isCcmPlanReview.ccmPlanReviewId = ccmPlanReviewData.Id || null;
+            isCcmPlanReview.barrier = ccmPlanReviewData.Barrier || null;
+            isCcmPlanReview.reviewDate = ccmPlanReviewData.ReviewDate || null;
+            isCcmPlanReview.reviewerComment = ccmPlanReviewData.ReviewerComment || null;
+
+
+            isCcmPlanReview.ccmPlan = this.mapCcmPlan(ccmPlanReviewData.CcmPlan);
+            isCcmPlanReview.ccmPlanItemGoal = this.mapCcmPlanItemGoal(ccmPlanReviewData.CcmPlanGoal);
+
+            isCcmPlanReview.isGoalAchieve = ccmPlanReviewData.IsGoalAchieve || true;
+            isCcmPlanReview.isActive = ccmPlanReviewData.IsActive || true;
+        }
+
+        return isCcmPlanReview;
     }
 
 }

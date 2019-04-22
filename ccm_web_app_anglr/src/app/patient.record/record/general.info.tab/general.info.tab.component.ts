@@ -74,6 +74,7 @@ export class GeneralInfoTabComponent implements OnInit {
             'age': [this.patient.age, Validators.compose([])],
             'email': [this.patient.email, Validators.compose([])],
             'telephoneNumber': [this.patient.phoneNumber, Validators.compose([])],
+            'summary': [this.patient.summary, Validators.compose([])],
 
         });
         this.generalInfoFormGroup.get('email').disable();
