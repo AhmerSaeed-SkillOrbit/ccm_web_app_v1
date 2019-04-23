@@ -6,7 +6,7 @@ import { DatePipe } from '@angular/common';
 
 import { Message, MessageTypes } from '../../core/models/message';
 import { User } from '../../core/models/user';
-import { CcmPlan, CcmPlanItem, CcmPlanItemGoal } from '../../core/models/user.ccm.plan';
+import { CcmPlan, CcmPlanItem, CcmPlanItemGoal, CcmPlanReview } from '../../core/models/user.ccm.plan';
 
 
 import { IAuthService } from '../../core/services/auth/iauth.service';
@@ -21,6 +21,7 @@ import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmationDi
 import { ViewAppointmentDialogeComponent } from '../../shared/appointment.dialoge/view.appointment.dialoge.component';
 import { ForumService } from '../../core/services/forum/forum.service';
 import { SetupService } from '../../core/services/setup/setup.service';
+import { UserService } from '../../core/services/user/user.service';
 
 declare var libraryVar: any;
 
@@ -57,7 +58,7 @@ export class ReviewListComponent implements OnInit {
     ccmPlanId: number = null;
     ccmPlan: CcmPlan = new CcmPlan();
 
-    ccmPlanList: CcmPlan[] = [];
+    ccmPlanReviewList: CcmPlanReview[] = [];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -90,7 +91,7 @@ export class ReviewListComponent implements OnInit {
         public dialog: MatDialog,
         private _uiService: UIService,
         // public _messaging: MessagingService,
-        // private _userService: UserService,
+        private _userService: UserService,
         private _setupService: SetupService,
         private _ccmPlanService: CcmPlanService,
         private _mappingService: MappingService,
@@ -99,10 +100,16 @@ export class ReviewListComponent implements OnInit {
         private route: ActivatedRoute, private _router: Router
     ) {
         this.currentURL = window.location.href;
-        const id = this.route.snapshot.params['id'];
 
-        // this.patientId = id;
-        this.ccmPlanId = id;
+        const paId = this.route.snapshot.params['paId'];
+
+        this.patientId = paId;
+
+        const planId = this.route.snapshot.params['planId'];
+        ;
+        this.ccmPlanId = planId;
+
+
     }
 
     ngOnInit(): void {
@@ -137,6 +144,7 @@ export class ReviewListComponent implements OnInit {
                 // this.cancelPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
                 this.cancelPermission = true;
 
+                this.loadUserById();
                 this.loadReviewList();
 
             }
@@ -215,10 +223,32 @@ export class ReviewListComponent implements OnInit {
 
     }
 
+    loadUserById() {
+        // this._uiService.showSpinner();
+
+        this._userService.getUserById(this.patientId).subscribe(
+            (res) => {
+                // this._uiService.hideSpinner();
+
+                const user = res.data;
+                console.log('u Object', user);
+                // this.newUser = user;
+                this.patient = this._mappingService.mapUser(user);
+                console.log('newUser', this.patient);
+                // this.userId = this.user.id;
+            },
+            (err) => {
+                console.log(err);
+                // this._uiService.hideSpinner();
+                // this._authService.errStatusCheckResponse(err);
+            }
+        );
+    }
+
     loadReviewList() {
         const msg = new Message();
         this.length = 0;
-        this.ccmPlanList = [];
+        this.ccmPlanReviewList = [];
         // this.dataSource = new MatTableDataSource<User>(this.userList);
         if (this.listPagePermission) {
             this.isSpinner = true;
@@ -238,17 +268,17 @@ export class ReviewListComponent implements OnInit {
                             // console.log('res list:', array);
                             var uList = [];
                             for (let i = 0; i < array.length; i++) {
-                                let u = this._mappingService.mapCcmPlan(array[i]);
+                                let u = this._mappingService.mapCcmPlanReview(array[i]);
                                 uList.push(u);
                             }
-                            this.ccmPlanList = uList;
+                            this.ccmPlanReviewList = uList;
 
                             // this.dataSource = new MatTableDataSource<User>(this.userList);
                             // this.dataSource.paginator = this.paginator;
                             // console.log('user list:', this.userList);
 
-                            if (this.ccmPlanList.length == 0) {
-                                msg.msg = 'No Plan Found';
+                            if (this.ccmPlanReviewList.length == 0) {
+                                msg.msg = 'No Review Found';
                                 msg.msgType = MessageTypes.Information;
                                 msg.autoCloseAfter = 400;
                                 this._uiService.showToast(msg, 'info');
@@ -350,7 +380,7 @@ export class ReviewListComponent implements OnInit {
         console.log("nevigateTo data", data);
 
         if (type == "form") {
-            this._router.navigate(['/ccm/plan/review/form', this.patientId]);
+            this._router.navigate(['/ccm/plan/review/form', this.patientId, this.ccmPlanId]);
             // this._router.navigate([url]).then(result => {
             //     console.log("nevigateTo navigate ", result);
             //     window.open(url, '_blank');

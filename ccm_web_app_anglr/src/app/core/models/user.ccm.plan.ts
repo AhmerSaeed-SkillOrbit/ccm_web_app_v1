@@ -107,8 +107,13 @@ export class CcmPlanReview {
     reviewDate: string;
     reviewerComment: string;
 
+    ccmPlanId: number;
     ccmPlan: CcmPlan = new CcmPlan();
+    ccmPlanItemName: string;
+    ccmPlanItem: CcmPlanItem = new CcmPlanItem();
+    ccmPlanItemGoalId: number;
     ccmPlanItemGoal: CcmPlanItemGoal = new CcmPlanItemGoal();
+
 
     isGoalAchieve: boolean = false;
     isActive: boolean = true;

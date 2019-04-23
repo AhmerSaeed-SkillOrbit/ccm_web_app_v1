@@ -62,7 +62,7 @@ export class PatientRecordService implements OnDestroy {
             CountryPhoneCode: user.countryPhoneCode || null,
             MobileNumber: user.mobileNumber || null,
             TelephoneNumber: user.phoneNumber || null,
-            Summary: user.summary || null,
+            ProfileSummary: user.profileSummary || null,
             // OfficeAddress: user.officeAddress || null,
             // ResidentialAddress: user.residentialAddress || null,
             Gender: user.gender || null,
@@ -507,6 +507,10 @@ export class PatientRecordService implements OnDestroy {
             NightTimePhoneNumber: personalContactInfo.nightTimePhoneNumber || null,
             CanCallOnNightTimePhone: personalContactInfo.canCallOnNightTimePhone || false,
             CanMsgOnNightTimePhone: personalContactInfo.canMsgOnNightTimePhone || false,
+
+            LastPcpVisitDate: personalContactInfo.lastPcpVisitDate || null,
+            IsAgreeCcmService: personalContactInfo.isAgreeCcmService || false,
+            IsAgreeToDiscussHealthInfo: personalContactInfo.isAgreeToDiscussHealthInfo || false,
 
             IsInternetAvailable: personalContactInfo.isInternetAvailable || false,
             IsInternetHelper: personalContactInfo.isInternetHelper || false,
@@ -1021,7 +1025,8 @@ export class PatientRecordService implements OnDestroy {
         let body = {
             Id: psychologicalReview.answer.id || null,
             PsychologicalReviewParamId: psychologicalReview.id || null,
-            IsPatientExamined: psychologicalReview.answer.isPatientExamined || false,
+            // IsPatientExamined: psychologicalReview.answer.isPatientExamined || false,
+            IsOkay: psychologicalReview.answer.isPatientExamined || false,
             Description: psychologicalReview.answer.description || null,
             IsActive: psychologicalReview.answer.isActive || false,
         };

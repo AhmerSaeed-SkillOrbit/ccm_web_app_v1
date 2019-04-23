@@ -70,6 +70,10 @@ export class PersonalContactInfo {
     canCallOnNightTimePhone: boolean = false;
     canMsgOnNightTimePhone: boolean = false;
 
+    isAgreeCcmService: boolean = false;
+    isAgreeToDiscussHealthInfo: boolean = false;
+    lastPcpVisitDate: string;
+
     isInternetAvailable: boolean = false;
     isInternetHelper: boolean = false;
     canUseInternet: boolean = false;

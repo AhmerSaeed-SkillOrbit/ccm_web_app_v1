@@ -28,38 +28,38 @@ import { ReviewListComponent } from './review.list/review.list.component';
         MaterialModule, SharedModule,
         RouterModule.forChild([
             {
-                path: 'plan/form/:id',
+                path: 'plan/form/:paId',
                 component: CcmPlanFormComponent,
                 pathMatch: 'full'
             },
             {
-                path: 'plan/form/edit/:id/:pId',
+                path: 'plan/form/edit/:paId/:planId',
                 component: CcmPlanFormComponent,
                 pathMatch: 'full'
             },
             {
-                path: 'plan/list/:id',
+                path: 'plan/list/:paId',
                 component: CcmPlanListComponent,
                 pathMatch: 'full'
             },
             {
-                path: 'plan/summary/:id/:pId',
+                path: 'plan/summary/:paId/:planId',
                 component: CcmPlanSummaryComponent,
                 pathMatch: 'full'
             },
 
             {
-                path: 'plan/review/form/:id',
+                path: 'plan/review/form/:paId/:planId',
                 component: ReviewFormComponent,
                 pathMatch: 'full'
             },
             {
-                path: 'plan/review/form/edit/:id/:pId',
+                path: 'plan/review/form/edit/:paId/:planId/:rId',
                 component: ReviewFormComponent,
                 pathMatch: 'full'
             },
             {
-                path: 'plan/review/list/:id',
+                path: 'plan/review/list/:paId/:planId',
                 component: ReviewListComponent,
                 pathMatch: 'full'
             },

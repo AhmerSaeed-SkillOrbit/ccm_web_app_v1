@@ -81,13 +81,13 @@ export class CcmPlanSummaryComponent implements OnInit, OnChanges, OnDestroy {
         public dialog: MatDialog,
     ) {
 
-        const id = this.route.snapshot.params['id'];
+        const paId = this.route.snapshot.params['paId'];
 
-        this.patientId = id;
+        this.patientId = paId;
 
-        const pId = this.route.snapshot.params['pId'];
+        const planId = this.route.snapshot.params['planId'];
 
-        this.planId = pId;
+        this.planId = planId;
 
     }
 
