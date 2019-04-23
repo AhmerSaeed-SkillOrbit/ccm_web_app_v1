@@ -1279,11 +1279,13 @@ export class MappingService {
 
 
             isCcmPlanReview.ccmPlan = this.mapCcmPlan(ccmPlanReviewData.CcmPlan);
+            isCcmPlanReview.ccmPlanItemName = this.mapCcmPlanItem(ccmPlanReviewData.CcmPlanGoal).name;
             isCcmPlanReview.ccmPlanItem = this.mapCcmPlanItem(ccmPlanReviewData.CcmPlanGoal);
+            isCcmPlanReview.ccmPlanItemGoalId = this.mapCcmPlanItemGoal(ccmPlanReviewData.CcmPlanGoal).id;
             isCcmPlanReview.ccmPlanItemGoal = this.mapCcmPlanItemGoal(ccmPlanReviewData.CcmPlanGoal);
 
 
-            isCcmPlanReview.isGoalAchieve = ccmPlanReviewData.IsGoalAchieve || true;
+            isCcmPlanReview.isGoalAchieve = ccmPlanReviewData.IsGoalAchieve || false;
             isCcmPlanReview.isActive = ccmPlanReviewData.IsActive || true;
         }
 

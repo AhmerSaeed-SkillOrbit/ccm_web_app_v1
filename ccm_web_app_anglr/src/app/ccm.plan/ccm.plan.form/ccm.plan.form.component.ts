@@ -83,7 +83,7 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
         private _uiService: UIService,
         private _utilityService: UtilityService,
         private _mappingService: MappingService,
-        private route: ActivatedRoute,
+        private route: ActivatedRoute, private _router: Router,
         private _setupService: SetupService,
         private _userService: UserService,
         // private _router: Router,
@@ -511,6 +511,8 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
                     msg.msgType = MessageTypes.Information;
                     msg.autoCloseAfter = 400;
                     this._uiService.showToast(msg, 'info');
+
+                    this._router.navigate(["/ccm/plan/list", this.patientId]);
 
                 },
                 (err) => {

@@ -8,7 +8,7 @@ import { DatePipe } from '@angular/common';
 
 import { Token } from '../../models/token';
 import { User } from '../../models/user';
-import { CcmPlan, HealthParam } from '../../models/user.ccm.plan';
+import { CcmPlan, HealthParam, CcmPlanReview } from '../../models/user.ccm.plan';
 
 @Injectable()
 export class CcmPlanService implements OnDestroy {
@@ -173,7 +173,8 @@ export class CcmPlanService implements OnDestroy {
             StartDate: ccmPlan.startDate || null,
             EndDate: ccmPlan.endDate || null,
             Item: items,
-            IsHealthParam: ccmPlan.isHealthParam || false,
+            // IsHealthParam: ccmPlan.isHealthParam || false,
+            IsInitialHealthReading: ccmPlan.isHealthParam || false,
             HealthParams: hp,
         };
 
@@ -275,6 +276,41 @@ export class CcmPlanService implements OnDestroy {
                 return Observable.throw(err);
             });
 
+    }
+
+    public addUpdateCcmPlanReview(ccmPlanReview: CcmPlanReview, ccmPlan: CcmPlan, patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        let getUrl = "";
+
+        if (ccmPlanReview.id) {
+            // ccm/plan/review/update?userId=11&ccmPlanId=351&ccmPlanGoalId=387&patientId=65&reviewId=331
+            getUrl = 'ccm/plan/review/update?userId=' + (userId || null) + "&patientId=" + (patientId || null) + "&ccmPlanId=" + (ccmPlan.id || null) + "&ccmPlanGoalId=" + (ccmPlanReview.ccmPlanItemGoalId || null) + "&reviewId=" + (ccmPlanReview.id || null);
+        }
+        else {
+            // ccm/plan/review/add?userId=11&ccmPlanId=351&ccmPlanGoalId=387&patientId=65
+            getUrl = 'ccm/plan/review/add?userId=' + (userId || null) + "&patientId=" + (patientId || null) + "&ccmPlanId=" + (ccmPlan.id || null) + "&ccmPlanGoalId=" + (ccmPlanReview.ccmPlanItemGoalId || null);
+        }
+
+        // let body = am;
+        let body = {
+            ReviewDate: ccmPlanReview.reviewDate || null,
+            Barrier: ccmPlanReview.barrier || null,
+            ReviewerComment: ccmPlanReview.reviewerComment || null,
+            IsGoalAchieve: ccmPlanReview.isGoalAchieve || false
+        };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
     }
 
     ngOnDestroy() {

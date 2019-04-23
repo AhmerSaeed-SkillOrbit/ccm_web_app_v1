@@ -91,7 +91,7 @@ export class ReviewFormComponent implements OnInit, OnChanges, OnDestroy {
         private _uiService: UIService,
         private _utilityService: UtilityService,
         private _mappingService: MappingService,
-        private route: ActivatedRoute,
+        private route: ActivatedRoute, private _router: Router,
         private _setupService: SetupService,
         private _userService: UserService,
         // private _router: Router,
@@ -183,6 +183,18 @@ export class ReviewFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     onComponentChange() {
+        this.ccmPlanReview.ccmPlanItemGoalId = null;
+        this.ccmPlanReview.ccmPlanItemGoal = new CcmPlanItemGoal();
+
+        const item = this.ccmPlan.items.filter(i => i.name === this.ccmPlanReview.ccmPlanItemName);
+
+        if (item.length > 0) {
+            this.goalList = item[0].itemGoals;
+        }
+        else {
+
+            this.goalList = [];
+        }
 
     }
 
@@ -270,6 +282,23 @@ export class ReviewFormComponent implements OnInit, OnChanges, OnDestroy {
                 console.log('u Object', array);
 
                 this.ccmPlanReview = this._mappingService.mapCcmPlanReview(array);
+
+
+                if (this.ccmPlanReview.ccmPlanItemName) {
+
+                    const item = this.ccmPlan.items.filter(i => i.name === this.ccmPlanReview.ccmPlanItemName);
+
+                    if (item.length > 0) {
+                        this.goalList = item[0].itemGoals;
+                    }
+                    else {
+                        this.goalList = [];
+                    }
+
+
+                }
+
+
                 // let ccmPlan = this._mappingService.mapCcmPlan(array);
 
                 // this.ccmPlan = this._utilityService.deepCopy(ccmPlan);
@@ -286,7 +315,7 @@ export class ReviewFormComponent implements OnInit, OnChanges, OnDestroy {
 
     }
 
-    onSubmitCcmPlan() {
+    onSubmitCcmPlanReview() {
         const msg = new Message();
         // this.scrollTo(0,0,0)
         // this.isSubmitted = !this.isSubmitted;
@@ -299,17 +328,19 @@ export class ReviewFormComponent implements OnInit, OnChanges, OnDestroy {
             this.isSubmitted = true;
             this._uiService.showSpinner();
             // this.isSubmitStarted = true;
-            this._ccmPlanService.addUpdateCcmPlan(this.ccmPlan, this.patientId).subscribe(
+            this._ccmPlanService.addUpdateCcmPlanReview(this.ccmPlanReview, this.ccmPlan, this.patientId).subscribe(
                 (res) => {
                     this.isSubmitted = false;
                     this._uiService.hideSpinner();
                     // this._authServices.storeUser(this.userForm);
 
-                    msg.msg = res.json() ? res.json().message : 'Plan Updated Successfully';
+                    msg.msg = res.json() ? res.json().message : 'Review Updated Successfully';
                     // msg.msg = 'You have successfully signed up';
                     msg.msgType = MessageTypes.Information;
                     msg.autoCloseAfter = 400;
                     this._uiService.showToast(msg, 'info');
+
+                    this._router.navigate(["/ccm/plan/review/list", this.patientId, this.planId]);
 
                 },
                 (err) => {
