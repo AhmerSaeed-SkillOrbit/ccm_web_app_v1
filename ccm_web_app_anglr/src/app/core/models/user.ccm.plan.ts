@@ -57,6 +57,8 @@ export class CcmPlanItem {
 
     itemGoals: CcmPlanItemGoal[] = [];
 
+    ccmPlanReviews: CcmPlanReview[] = [];
+
     isActive: boolean = true;
 }
 
@@ -72,6 +74,8 @@ export class CcmPlanItemGoal {
     patientComment: string;
     reviewerComment: string;
     reviewDate: string;
+
+    ccmPlanReviews: CcmPlanReview[] = [];
 
     isActive: boolean = true;
 }

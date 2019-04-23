@@ -182,9 +182,33 @@
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                        <!-- <div class="row" *ngFor="let itemGoal of ccmPlan.items[i].itemGoals; let iy=index">
-                                                                                    {{ itemGoal?.goal || "NA" }}
-                                                                                </div> -->
+                                                                        <div class="row" *ngFor="let itemGoalReview of ccmPlan.items[i].ccmPlanReviews; let iy=index">
+
+                                                                            <div class="col-md-12">
+                                                                                <!-- <div class="col-md-12"> -->
+                                                                                <div>
+                                                                                    <b>Goal Achieved:</b> {{ itemGoalReview?.isGoalAchieve
+                                                                                    ? "Yes" : "No" }}
+                                                                                </div>
+                                                                                <!-- <div class="col-md-12"> -->
+                                                                                <div>
+                                                                                    <b>Barrier:</b> {{ itemGoalReview?.barrier
+                                                                                    || "NA" }}
+                                                                                </div>
+                                                                                <!-- <div class="col-md-12"> -->
+                                                                                <div>
+                                                                                    <b>Comments:</b> {{ itemGoalReview?.reviewerComment
+                                                                                    || "NA" }}
+                                                                                </div>
+
+                                                                                <hr *ngIf="iy < ccmPlan.items[i].ccmPlanReviews.length - 1">
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div *ngIf="ccmPlan.items[i].ccmPlanReviews.length == 0">
+                                                                            No Review Found
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -200,144 +224,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div class="row" *ngIf="false">
-                                                <div class="col-md-12">
-                                                    <div class="row" *ngFor="let X of ccmPlan.items; let i = index">
-                                                        <div class="col-sm-12">
-
-                                                            <!-- <h3>Detail {{i+1}}</h3> -->
-                                                            <h4>{{ i+1 }}</h4>
-                                                            <div class="row">
-
-                                                                <!-- Component -->
-                                                                <div class="col-md-6">
-                                                                    <div class="form-field">
-                                                                        <mat-form-field class="full-width">
-                                                                            <input matInput placeholder="Component" [(ngModel)]="ccmPlan.items[i].name">                                                                            >
-                                                                        </mat-form-field>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-md-12">
-                                                                    <div class="row">
-                                                                        <div class="col-md-12">
-                                                                            <div class="row" *ngFor="let Y of ccmPlan.items[i].itemGoals; let iy=index">
-                                                                                <div class="col-sm-12">
-
-                                                                                    <!-- <h3>Detail {{i+1}}</h3> -->
-                                                                                    <h4>{{ iy+1 }}</h4>
-                                                                                    <div class="row">
-
-                                                                                        <!-- Goal -->
-                                                                                        <div class="col-md-6">
-                                                                                            <div class="form-field">
-                                                                                                <mat-form-field class="full-width">
-                                                                                                    <input matInput placeholder="Goal" [(ngModel)]="ccmPlan.items[i].itemGoals[iy].goal">
-                                                                                                </mat-form-field>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <!-- Intervention -->
-                                                                                        <div class="col-md-6">
-                                                                                            <div class="form-field">
-                                                                                                <mat-form-field class="full-width">
-                                                                                                    <input matInput placeholder="Intervention" [(ngModel)]="ccmPlan.items[i].itemGoals[iy].intervention">
-                                                                                                </mat-form-field>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                    </div>
-                                                                                    <!-- <hr> -->
-                                                                                    <hr class="line-dash">
-                                                                                    <!-- <div class="line-dash"></div> -->
-                                                                                </div>
-
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
-
-
-                                                            </div>
-                                                            <!-- <hr> -->
-                                                            <hr class="line-dash">
-                                                            <!-- <div class="line-dash"></div> -->
-
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row" *ngIf="false">
-                                                <div class="col-md-12">
-
-                                                    <h3>Health Reading</h3>
-
-                                                    <mat-slide-toggle color="primary" [(ngModel)]="ccmPlan.isHealthParam">
-                                                        Yes
-                                                    </mat-slide-toggle>
-
-                                                </div>
-                                            </div>
-
-
-                                            <div class="row" *ngIf="ccmPlan.isHealthParam && false">
-                                                <div class="col-md-12">
-                                                    <div class="row" *ngFor="let X of ccmPlan.healthParams; let i = index">
-                                                        <div class="col-sm-12">
-
-                                                            <!-- <h3>Detail {{i+1}}</h3> -->
-                                                            <h4>{{ i+1 }}</h4>
-                                                            <div class="row">
-
-                                                                <!-- Attribute -->
-                                                                <div class="col-md-6">
-                                                                    <div class="form-field">
-                                                                        <mat-form-field class="full-width">
-                                                                            <!-- <input matInput placeholder="Attribute" [(ngModel)]="ccmPlan.healthParams[i].healthParamId"> -->
-                                                                            <mat-select placeholder="Select Attribute" [(ngModel)]="ccmPlan.healthParams[i].healthParamId">
-                                                                                <mat-option>None</mat-option>
-                                                                                <mat-option *ngFor="let healthParam of healthParamList" [value]="healthParam.id">
-                                                                                    {{ healthParam.name }}
-                                                                                </mat-option>
-                                                                            </mat-select>
-                                                                        </mat-form-field>
-                                                                    </div>
-                                                                </div>
-
-                                                                <!-- Reading Date -->
-                                                                <div class="col-md-6">
-                                                                    <div class="form-field">
-                                                                        <mat-form-field class="full-width">
-                                                                            <input matInput placeholder="Reading Date" value="{{ ccmPlan.healthParams[i].readingDate | date:'dd-MMM-yyyy' }}" readonly>
-                                                                        </mat-form-field>
-                                                                    </div>
-                                                                </div>
-
-                                                                <!-- Attribute Value -->
-                                                                <div class="col-md-6">
-                                                                    <div class="form-field">
-                                                                        <mat-form-field class="full-width">
-                                                                            <input matInput placeholder="Attribute Value" [(ngModel)]="ccmPlan.healthParams[i].readingValue">
-                                                                        </mat-form-field>
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                            <!-- <hr> -->
-                                                            <hr class="line-dash">
-                                                            <!-- <div class="line-dash"></div> -->
-
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
 
                                         </div>
                                     </div>
