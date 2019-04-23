@@ -10,6 +10,8 @@ import { RegistrationComponent } from './auth/registration/registration.componen
 import { VerificationComponent } from './auth/verfication/verification.component';
 import { PermissionDeniedComponent } from './others/permission.denied.component';
 import { NotFoundComponent } from './others/not-found.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './auth/forgot-password/reset-password.component';
 // import { SchedulerComponent } from './scheduler/scheduler.component';
 // import { ScheduleComponent } from './Schedule/schedule.component';
 // import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
@@ -49,18 +51,18 @@ const routes: Routes = [
   //   canActivate: [CanActivateViaMainGuard],
   //   children: []
   // },
-  // {
-  //   path: 'forgot-password',
-  //   component: ForgotPasswordComponent,
-  //   canActivate: [CanActivateViaMainGuard],
-  //   children: []
-  // },
-  // {
-  //   path: 'reset-password',
-  //   component: ResetPasswordComponent,
-  //   canActivate: [CanActivateViaMainGuard],
-  //   children: []
-  // },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent,
+    canActivate: [CanActivateViaMainGuard],
+    children: []
+  },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent,
+    canActivate: [CanActivateViaMainGuard],
+    children: []
+  },
   {
     path: 'home',
     loadChildren: './home/home.module#HomeModule',
@@ -100,6 +102,47 @@ const routes: Routes = [
     // pathMatch: 'full',
     // component: SchedulerComponent,
     // component: ScheduleComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    // children: []
+  },
+  {
+    path: 'forum',
+    loadChildren: './forum/forum.module#ForumModule',
+    // pathMatch: 'full',
+    // component: SchedulerComponent,
+    // component: ScheduleComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    // children: []
+  },
+  {
+    path: 'ticket',
+    loadChildren: './ticket.management/ticket.management.module#TicketManagementModule',
+    // pathMatch: 'full',
+    // component: SchedulerComponent,
+    // component: ScheduleComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    // children: []
+  },
+  {
+    path: 'patient',
+    loadChildren: './patient.record/patient.record.module#PatientRecordModule',
+    // pathMatch: 'full',
+    // component: SchedulerComponent,
+    // component: ScheduleComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    // children: []
+  },
+  {
+    path: 'ccm',
+    loadChildren: './ccm.plan/ccm.plan.module#CcmPlanModule',
+    // pathMatch: 'full',
+    canActivate: [CanActivateViaAuthGuard],
+    // children: []
+  },
+  {
+    path: 'file/upload',
+    loadChildren: './file.management/file.management.module#FileManagementModule',
+    // pathMatch: 'full',
     canActivate: [CanActivateViaAuthGuard],
     // children: []
   },

@@ -15,6 +15,7 @@ import { InviteDialogComponent } from '../invite.dialoge/invite.dialog.component
 import { UserService } from '../../core/services/user/user.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 import { UtilityService } from '../../core/services/general/utility.service';
+import { AddUpdateUserDialogeComponent } from '../add.update.user.dialoge/add.update.user.dialoge.component';
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
 // import { EasyPay } from '../core/models/payment/easypay.payment';
 
@@ -38,10 +39,12 @@ export class SupportStaffListComponent implements OnInit {
 
 
     email: string = "";
+    countryCode: string = "";
     mobileNo: string = "";
     type: string = "superadmin_doctor";
     userId: number = null;
     searchKeyword: string = null;
+    roleId: number = null;
     roleCode: string = null;
 
     userList: User[] = [];
@@ -87,7 +90,7 @@ export class SupportStaffListComponent implements OnInit {
         this.isLogin = this._authService.isLoggedIn();
         // console.log('this.isLogin', this.isLogin);
 
-
+        this.roleId = 4;
         this.roleCode = "support_staff";
 
         if (!this.isLogin) {
@@ -233,6 +236,28 @@ export class SupportStaffListComponent implements OnInit {
         })
     }
 
+    openAddUpdateDialog() {
+
+        let dialog = this.dialog.open(AddUpdateUserDialogeComponent, {
+            maxWidth: "700px",
+            minWidth: "550px",
+            // width: "550px",
+            // height: '465px',
+            // data: this.id,
+            data: {
+                user: null,
+                roleId: this.roleId,
+                roleCode: this.roleCode,
+            },
+        });
+        dialog.afterClosed().subscribe((result) => {
+            console.log("result", result);
+            if (result) {
+                this.refreshList();
+            }
+        })
+    }
+
     resetForm() {
         this.email = null;
         this.display = 'block';
@@ -249,7 +274,7 @@ export class SupportStaffListComponent implements OnInit {
 
         if (this.email) {
 
-            this._userService.sendInvite(this.email, this.mobileNo, this.type, this.userId).subscribe(
+            this._userService.sendInvite(this.email, this.mobileNo, this.countryCode, this.type, this.userId).subscribe(
                 (res) => {
 
                     this.isSubmitted = false;

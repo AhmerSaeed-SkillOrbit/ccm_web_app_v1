@@ -15,6 +15,7 @@ import { Country } from '../../models/country';
 import { Region } from '../../models/region';
 import { City } from '../../models/city';
 import { Branch } from '../../models/branch';
+import { Tag } from '../../models/tag';
 
 
 @Injectable()
@@ -355,7 +356,7 @@ export class SetupService {
 
     public getRoles(): Observable<any> {
         // const getUrl = 'role/all';
-        const getUrl = 'test/list';
+        const getUrl = 'role/list';
         return this._http.get(getUrl)
             // .map(res => res.json())
             .map((res: Response) => res)
@@ -624,7 +625,348 @@ export class SetupService {
             );
     }
 
+    public addTag(tag: Tag): Observable<any> {
+        const getUrl = 'tag/add';
+        const body =
+            {
+                Name: tag.name,
+                Code: tag.code,
+                Description: tag.description,
+                ToolTip: tag.toolTip,
+                // SortOrder: tag.sortOrder,
+            };
 
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
 
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            });
+    }
+
+    public getTags(): Observable<any> {
+        const getUrl = 'tag/list';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public getPriorityList(): Observable<any> {
+        const getUrl = 'ticket/priority/list';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public getTypeList(): Observable<any> {
+        const getUrl = 'ticket/type/list';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public getTrackStatusList(): Observable<any> {
+        const getUrl = 'ticket/track/status/list';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public getInsuranceTypeList(): Observable<any> {
+        const getUrl = 'insurance/type/list';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public getInsuranceCoverageTypeList(): Observable<any> {
+        const getUrl = 'insurance/coverage/type/list';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public getLiveTypeList(): Observable<any> {
+        const getUrl = 'patient/live/type/list';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public getChallengeTypeList(): Observable<any> {
+        const getUrl = 'patient/challenge/type/list';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public getAssistanceAvailableTypeList(): Observable<any> {
+        const getUrl = 'patient/assistance/available/type/list';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public getLearnBestByTypeList(): Observable<any> {
+        const getUrl = 'patient/learn/by/type/list';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public getPrimaryLanguageList(): Observable<any> {
+        const getUrl = 'patient/primary/language/list';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public getThingImpactHealthList(): Observable<any> {
+        const getUrl = 'patient/things/impact/list';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public getQuestionList(): Observable<any> {
+        const getUrl = 'question/list';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public getAnswerTypeList(): Observable<any> {
+        const getUrl = 'answer/type/list';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public getAssistanceTypeList(): Observable<any> {
+        const getUrl = 'assistance/type/all';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public getHealthParamList(): Observable<any> {
+        const getUrl = 'ccm/plan/health/param/all';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
 
 }

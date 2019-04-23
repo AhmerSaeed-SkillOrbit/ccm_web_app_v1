@@ -2,7 +2,7 @@ import { BaseModel } from './base.model';
 
 import { Role } from './role';
 import { Permission } from './permission';
-import { Document } from './document';
+import { FileUpload } from './fileUpload';
 import { Country } from './country';
 import { Region } from './region';
 import { City } from './city';
@@ -11,17 +11,21 @@ import { Branch } from './branch';
 export class User extends BaseModel {
 
     userId: number;
-    sapId: string;
+    patientUniqueId: string;
+    fullName: string;
     firstName: string;
+    middleName: string;
     lastName: string;
     joiningDate: string;
     password: any;
     confirmPassword: any;
     email: string;
 
-    fullName: string;
+    primaryTelephoneNumber: String;
+    countryPhoneCode: String;
     mobileNumber: String;
     phoneNumber: String;
+    profileSummary: String;
 
     officeAddress: String;
     residentialAddress: String;
@@ -33,6 +37,8 @@ export class User extends BaseModel {
     functionalTitle: String;
     age: String;
     ageGroup: String;
+    dateOfBirth: String;
+    gender: String;
 
     country: Country = new Country();
     // country: string;
@@ -64,21 +70,21 @@ export class User extends BaseModel {
     entityType: string;
     entityName: string;
     entityId: number;
-    profilePicture: any;
+
     accountVerified: boolean;
 
     userRole: string;
     roles: Role[] = [];
     permissions: Permission[];
     userRolePermission: Role = new Role();
-    
+
     role: Role = new Role();
     roleId: number;
     roleName: string;
     roleCode: string;
 
-
-    resume: Document = new Document();
+    profilePicture: FileUpload = new FileUpload();
+    resume: FileUpload = new FileUpload();
 
     // roleId: number;
     // roleName: string;
@@ -90,7 +96,6 @@ export class User extends BaseModel {
     // createdBy: string;
     // updatedOn: string;
     // updatedBy: string;
-    gender: string;
 
     utcDSTOffset: number;
     // employer: string;

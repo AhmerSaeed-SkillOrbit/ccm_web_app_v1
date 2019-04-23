@@ -58,39 +58,6 @@ export class AuthService implements IAuthService, OnDestroy {
         return environment.apiBaseUrl + url;
     }
 
-    protected mapUser(res: any): User {
-        const userData = res.json();
-        const isUser = new User();
-        isUser.id = userData.id;
-        isUser.sapId = userData.sapId;
-        isUser.email = userData.userEmail;
-        isUser.password = userData.userPassword;
-        isUser.firstName = userData.firstName;
-        isUser.lastName = userData.lastName;
-
-        isUser.cnic = userData.cnic;
-        isUser.mobileNumber = userData.mobileNum;
-        isUser.phoneNumber = userData.phoneNum;
-
-        // isUser.roleId =  userData.roleId;
-        isUser.countryId = userData.countryId;
-        isUser.stateId = userData.stateId;
-        isUser.regionId = userData.regionId;
-        isUser.cityId = userData.cityId;
-        isUser.branchId = userData.branchId;
-
-        // isUser.accountVerified = userData.isActive;
-        isUser.isActive = userData.isActive;
-        isUser.isBlocked = userData.isBlocked;
-        isUser.lastLogin = userData.lastLogin;
-        isUser.createdOn = userData.createdOn;
-        isUser.createdBy = userData.createdBy;
-        isUser.updatedOn = userData.updatedOn;
-        isUser.updatedBy = userData.updatedBy;
-
-        return isUser;
-    }
-
     /**
      * Build API url
      * @param res
@@ -186,11 +153,13 @@ export class AuthService implements IAuthService, OnDestroy {
     }
 
     forgotPassword(user: User): Observable<any> {
-        const url = this.getAPIFullUrl('user/reset/password/' + user.email);
+        const url = this.getAPIFullUrl('forgetPass');
         const options = new RequestOptions();
         options.headers = new Headers();
         options.headers.append('Content-Type', 'application/json');
-        const body = {};
+        const body = {
+            EmailAddress: user.email || null
+        };
 
         return this._http.post(url, body, options)
             .catch((err, caught) => {
@@ -200,7 +169,7 @@ export class AuthService implements IAuthService, OnDestroy {
 
 
     resetPassword(user: User, key: string): Observable<any> {
-        const url = this.getFullUrl('user/registration/verify');
+        const url = this.getFullUrl('resetPass');
 
         const options = new RequestOptions();
         options.headers = new Headers();
@@ -210,7 +179,7 @@ export class AuthService implements IAuthService, OnDestroy {
             VerificationKey: key,
             UserPassword: user.password,
         };
-        return this._http.put(url, body)
+        return this._http.post(url, body)
             .catch((err, caught) => {
                 return Observable.throw(err);
             });

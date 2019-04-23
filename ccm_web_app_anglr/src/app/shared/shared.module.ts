@@ -31,7 +31,9 @@ import { from } from 'rxjs/observable/from';
 // import { ConfirmationDialogComponent } from './dialog-box/confirmation.dialog.component';
 import { ConfirmationDialogComponent } from './dialogs/confirmationDialog.component';
 import { AppointmentDialogeComponent } from './appointment.dialoge/appointment.dialoge.component';
-
+import { ViewAppointmentDialogeComponent } from './appointment.dialoge/view.appointment.dialoge.component';
+import { AddUpdateTicketDialogeComponent } from './add.update.ticket.dialoge/add.update.ticket.dialoge.component';
+import { AssignTicketDialogeComponent } from './assign.ticket.dialoge/assign.ticket.dialoge.component';
 
 @NgModule({
     imports: [
@@ -63,6 +65,8 @@ import { AppointmentDialogeComponent } from './appointment.dialoge/appointment.d
         FooterComponent,
         ConfirmationDialogComponent,
         AppointmentDialogeComponent,
+        ViewAppointmentDialogeComponent,
+        AddUpdateTicketDialogeComponent, AssignTicketDialogeComponent,
 
     ],
 
@@ -75,11 +79,13 @@ import { AppointmentDialogeComponent } from './appointment.dialoge/appointment.d
         MsgDialog, HeaderComponent, SidebarComponent,
         // HeaderNotificationComponent, 
         FooterComponent, ConfirmationDialogComponent,
-        AppointmentDialogeComponent,
+        AppointmentDialogeComponent, ViewAppointmentDialogeComponent
     ],
 
     entryComponents: [
-        MsgDialog, ConfirmationDialogComponent, AppointmentDialogeComponent
+        MsgDialog, ConfirmationDialogComponent, AppointmentDialogeComponent,
+        ViewAppointmentDialogeComponent,
+        AddUpdateTicketDialogeComponent, AssignTicketDialogeComponent
     ]
 })
 export class SharedModule {

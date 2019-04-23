@@ -15,7 +15,8 @@
                     <div class="col-md-12">
                         <div class="example-header">
                             <mat-form-field>
-                                <input matInput [(ngModel)]="filter" (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                <input matInput [(ngModel)]="filter" (keyup)="applyFilter($event.target.value)"
+                                    placeholder="Filter">
                             </mat-form-field>
                         </div>
 
@@ -57,7 +58,8 @@
                                 <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
                                 <mat-cell *matCellDef="let role">
                                     <div class="btn-group" role="group">
-                                        <button mat-raised-button [disabled]="!assignRolePermissionPermission" (click)="onEdit(role)" class="edit-btn"><i class="material-icons">mode_edit</i></button>
+                                        <button mat-raised-button [disabled]="!assignRolePermissionPermission" (click)="onEdit(role)"
+                                            class="edit-btn"><i class="material-icons">mode_edit</i></button>
                                     </div>
                                 </mat-cell>
                             </ng-container>
@@ -73,9 +75,10 @@
                                 </button>
                             </div>
                         </div>
-                        <spinner [visible]='isSpinner'></spinner>
+                        <spinner class="spinner-box" [visible]='isSpinner'></spinner>
 
-                        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+                        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"
+                            [showFirstLastButtons]="true">
                         </mat-paginator>
                     </div>
                 </div>
@@ -104,7 +107,8 @@
                             </span>
                             <span matTooltipPosition="above" matTooltip="{{!assignRolePermissionPermission ? 'Dont have permission' : (isSave ? 'Processing' : 'Save') }}">
                                 <!-- save() -->
-                                <button (click)="openConfirmDialog('assign')" mat-raised-button color="primary" [disabled]="!assignRolePermissionPermission || isSave">
+                                <button (click)="openConfirmDialog('assign')" mat-raised-button color="primary"
+                                    [disabled]="!assignRolePermissionPermission || isSave">
                                     Save
                                     <!-- <i class="material-icons">Save</i> -->
                                 </button>
@@ -114,7 +118,8 @@
                         <div class="col-sm-12 scrollable mtl">
                             <div class="example-header">
                                 <mat-form-field>
-                                    <input matInput [(ngModel)]="filter2" (keyup)="applyFilter2($event.target.value)" placeholder="Filter">
+                                    <input matInput [(ngModel)]="filter2" (keyup)="applyFilter2($event.target.value)"
+                                        placeholder="Filter">
                                 </mat-form-field>
                             </div>
 
@@ -140,13 +145,14 @@
                                 <!-- Serial No -->
                                 <ng-container matColumnDef="sNo">
                                     <mat-header-cell *matHeaderCellDef>
-                                        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()"
-                                            matTooltip='Select'>
+                                        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+                                            [indeterminate]="selection.hasValue() && !isAllSelected()" matTooltip='Select'>
                                         </mat-checkbox>
                                         S.No
                                     </mat-header-cell>
                                     <mat-cell *matCellDef="let row; let i = index;">
-                                        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                                        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                                            [checked]="selection.isSelected(row)">
                                         </mat-checkbox>
                                         {{i + 1}}
                                     </mat-cell>

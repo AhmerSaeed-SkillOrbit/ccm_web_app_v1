@@ -16,7 +16,8 @@ import {
   MatExpansionModule, MatProgressBarModule,
   MatMenuModule,
   // MatTableModule, 
-  MatPaginatorModule, MatStepper, MatNativeDateModule
+  MatPaginatorModule, MatStepper, MatNativeDateModule, MatSliderModule,
+  MatSlideToggleModule,
 } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -43,7 +44,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatTooltipModule, MatSidenavModule,
     MatToolbarModule, MatListModule,
     MatExpansionModule, MatProgressBarModule,
-    MatMenuModule, MatTableModule, MatPaginatorModule, MatDatepickerModule, MatNativeDateModule
+    MatMenuModule, MatTableModule, MatPaginatorModule, MatDatepickerModule, MatNativeDateModule,
+    MatSliderModule, MatSlideToggleModule,
   ],
 
   exports: [
@@ -64,7 +66,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatToolbarModule, MatListModule,
     MatExpansionModule, MatProgressBarModule,
     MatMenuModule, MatTableModule, MatPaginatorModule, MatStepperModule,
-    MatDatepickerModule, MatGridListModule, MatNativeDateModule
+    MatDatepickerModule, MatGridListModule, MatNativeDateModule,
+    MatSliderModule, MatSlideToggleModule,
   ]
 })
 export class MaterialModule { }

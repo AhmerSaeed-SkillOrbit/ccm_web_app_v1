@@ -132,6 +132,18 @@ export const Config = {
             code: "company",
         }
     ],
+    gender: [
+        {
+            id: 1,
+            name: "Male",
+            code: "Male",
+        },
+        {
+            id: 2,
+            name: "Female",
+            code: "Female",
+        }
+    ],
     months: [
         {
             id: 0,
@@ -202,78 +214,52 @@ export const Config = {
         1,
         2
     ],
-    // expertises: [
-    //     {
-    //         id: 1,
-    //         name: "Expertise 1",
-    //         code: "expertise_1",
-    //     },
-    //     {
-    //         id: 2,
-    //         name: "Expertise 2",
-    //         code: "expertise_3",
-    //     }
-    // ],
-    expertise: {
+
+    activeMedicine: {
         min: 1,
         max: 50
     },
-    blacListEvent: {
+    allergyMedicine: {
         min: 1,
         max: 50
     },
-    reference: {
-        min: 2,
-        max: 10
-    },
-    associatePartner: {
+    allergyNonMedicine: {
         min: 1,
         max: 50
     },
-    managingPartner: {
+    vaccine: {
         min: 1,
         max: 50
     },
-    lawyerRecommendation: {
+    healthCareHistory: {
         min: 1,
         max: 50
     },
-    director: {
+    hospitalizationHistory: {
         min: 1,
         max: 50
     },
-    collateral: {
+    surgeryHistory: {
         min: 1,
         max: 50
     },
-    collateralDetail: {
+    item: {
         min: 1,
         max: 50
     },
-    collateralValuation: {
+    itemGoal: {
         min: 1,
         max: 50
     },
-    settlementPaymentTerm: {
+    healthPanael: {
         min: 1,
         max: 50
     },
-    courtCompliance: {
-        min: 1,
-        max: 50
-    },
-    externalParty: {
-        min: 1,
-        max: 50
-    },
-    internalUnion: {
-        min: 1,
-        max: 50
-    },
-    firParty: {
-        min: 1,
-        max: 50
-    },
+    // vaccine: {
+    //     min: 1,
+    //     max: 50
+    // },
+
     finalRemarks: [
         {
             id: 1,

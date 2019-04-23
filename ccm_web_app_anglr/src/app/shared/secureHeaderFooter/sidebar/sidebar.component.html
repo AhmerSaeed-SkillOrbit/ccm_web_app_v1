@@ -5,7 +5,13 @@
   <div class="sidebar-user">
     <div class="category-content">
       <div class="media">
-        <a class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
+        <!-- <a class="media-left" (click)="changeProfilePic()"> -->
+        <a class="media-left" (click)="clickToUpload.click()">
+          <input style="display : none" type="file" accept='image/*' (change)="changeProfilePic($event)" #clickToUpload>
+          <img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+          <!-- <img src="{{profilePic}}" class="img-circle img-sm" alt="profile_pic"> -->
+          <!-- <img src="{{user?.profilePicture?.fileUploadUrl}}" class="img-circle img-sm" alt="profile_pic"> -->
+        </a>
         <div class="media-body">
           <span class="media-heading text-semibold">{{ user?.firstName || "NA"}}</span>
           <div class="text-size-mini text-muted">
@@ -50,28 +56,46 @@
 
 
               <li *ngIf="adminListPagePermission">
-                <a [routerLink]="['/um/list/admin']">Super Admin</a>
-              </li>
-              <li *ngIf="facilitatorListPagePermission">
-                <a [routerLink]="['/um/list/facilitator']">Facilitator</a>
-              </li>
-              <li *ngIf="doctorListPagePermission">
-                <a [routerLink]="['/um/list/doctor']">Doctor</a>
-              </li>
-              <li *ngIf="patientListPagePermission">
-                <a [routerLink]="['/um/list/patient']">Patient</a>
-              </li>
-              <li *ngIf="supportStaffListPagePermission">
-                <a [routerLink]="['/um/list/supStaff']">Support Staff</a>
-              </li>
-              <li *ngIf="inviteFacilitatorPagePermission">
-                <a [routerLink]="['/um/invite/facilitator']">Invite Facilitator</a>
-              </li>
-              <!-- <li><a [routerLink]="['/um/invite/doctor']">Invite Doctors</a></li> -->
-              <!-- <li><a [routerLink]="['/um/invite/patient']">Invite Patients</a></li> -->
+                <a [routerLink]="['/um/list/admin']">
+                  <i class=" icon-users"></i>
+                  <span>Super Admin</span>
+            </a>
+        </li>
+        <li *ngIf="facilitatorListPagePermission">
+          <a [routerLink]="['/um/list/facilitator']">
+                  <i class=" icon-users"></i>
+                  <span>Facilitator</span>
+                </a>
+        </li>
+        <li *ngIf="doctorListPagePermission">
+          <a [routerLink]="['/um/list/doctor']">
+                  <i class=" icon-users"></i>
+                  <span>Doctor</span>
+                </a>
+        </li>
+        <li *ngIf="patientListPagePermission">
+          <a [routerLink]="['/um/list/patient']">
+                  <i class=" icon-users"></i>
+                  <span>Patient</span>
+                </a>
+        </li>
+        <li *ngIf="supportStaffListPagePermission">
+          <a [routerLink]="['/um/list/supStaff']">
+                  <i class=" icon-users"></i>
+                  <span>Support Staff</span>
+                </a>
+        </li>
+        <li *ngIf="inviteFacilitatorPagePermission">
+          <a [routerLink]="['/um/invite/facilitator']">
+                  <i class=" icon-users"></i>
+                  <span>Invite Facilitator</span>
+                </a>
+        </li>
+        <!-- <li><a [routerLink]="['/um/invite/doctor']">Invite Doctors</a></li> -->
+        <!-- <li><a [routerLink]="['/um/invite/patient']">Invite Patients</a></li> -->
 
-            </span>
-          </ul>
+        </span>
+        </ul>
         </li>
 
         <li>
@@ -84,12 +108,17 @@
           </a>
           <ul class="sub" [ngClass]="(2 === expandedIndex) ? 'show' : ''">
             <span *ngIf="2 === expandedIndex">
-              <li><a [routerLink]="['/rm/assign/permission']">Role</a></li>
-            </span>
-          </ul>
+              <li>
+                <a [routerLink]="['/rm/assign/permission']">
+                  <i class="icon-user-check"></i>
+                  <span>Role</span>
+            </a>
+        </li>
+        </span>
+        </ul>
         </li>
 
-        <li *ngIf="(pendingRequestListPagePermission || acceptedRequestListPagePermission || rejectedRequestListPagePermission ||true)">
+        <li *ngIf="user.role.roleCode == 'doctor' && (pendingRequestListPagePermission || acceptedRequestListPagePermission || rejectedRequestListPagePermission || true)">
           <a (click)="expandRow(3)">
             <i class="icon-user-check"></i>
             <span>Appointment Management</span>
@@ -99,12 +128,58 @@
           </a>
           <ul class="sub" [ngClass]="(3 === expandedIndex) ? 'show' : ''">
             <span *ngIf="3 === expandedIndex">
-              <li *ngIf="pendingRequestListPagePermission || true"><a [routerLink]="['/appointment/list/p']">Appointment
-                  Request</a></li>
-              <li *ngIf="acceptedRequestListPagePermission || true"><a [routerLink]="['/appointment/list/a']">Appointment Accept</a></li>
-              <li *ngIf="rejectedRequestListPagePermission || true"><a [routerLink]="['/appointment/list/r']">Appointment Reject</a></li>
+              <li *ngIf="pendingRequestListPagePermission || true">
+                <a [routerLink]="['/appointment/d/list/p']">
+                  <i class="icon-user-check"></i>
+                  <span>Appointment Request</span>
+            </a>
+        </li>
+        <li *ngIf="acceptedRequestListPagePermission || true">
+          <a [routerLink]="['/appointment/d/list/a']">
+                  <i class="icon-user-check"></i>
+                  <span>Appointment Accept</span>
+                </a>
+        </li>
+        <li *ngIf="rejectedRequestListPagePermission || true">
+          <a [routerLink]="['/appointment/d/list/r']">
+                  <i class="icon-user-check"></i>
+                  <span>Appointment Reject</span>
+                </a>
+        </li>
+        </span>
+        </ul>
+        </li>
+
+        <li *ngIf="user.role.roleCode == 'patient' && (pendingRequestListPagePermission || acceptedRequestListPagePermission || rejectedRequestListPagePermission ||true)">
+          <a (click)="expandRow(3)">
+            <i class="icon-user-check"></i>
+            <span>Appointment Management</span>
+            <span>
+              <i class="right-ico fa" [ngClass]="(3 === expandedIndex) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
             </span>
-          </ul>
+          </a>
+          <ul class="sub" [ngClass]="(3 === expandedIndex) ? 'show' : ''">
+            <span *ngIf="3 === expandedIndex">
+              <li *ngIf="pendingRequestListPagePermission || true">
+                <a [routerLink]="['/appointment/p/list/p']">
+                  <i class="icon-user-check"></i>
+                  <span>Appointment Request</span>
+            </a>
+        </li>
+        <li *ngIf="acceptedRequestListPagePermission || true">
+          <a [routerLink]="['/appointment/p/list/a']">Appointment
+                  <i class="icon-user-check"></i>
+                  <span>Accept</span>
+                </a>
+        </li>
+        <li *ngIf="rejectedRequestListPagePermission || true">
+          <a [routerLink]="['/appointment/p/list/r']">
+                  <i class="icon-user-check"></i>
+                  <span>Appointment Reject</span>
+                </a>
+        </li>
+        </span>
+        </ul>
         </li>
 
         <li *ngIf="(doctorScheduleListPagePermission || viewDoctorSchedulePagePermission)">
@@ -118,14 +193,56 @@
           <ul class="sub" [ngClass]="(4 === expandedIndex) ? 'show' : ''">
             <span *ngIf="4 === expandedIndex">
               <!-- <li *ngIf="addDoctorSchedulePagePermission"><a [routerLink]="['/schedule/add']">Add Schedule</a></li> -->
-              <li *ngIf="doctorScheduleListPagePermission"><a [routerLink]="['/schedule/list']">My Schedule</a></li>
-              <li *ngIf="viewDoctorSchedulePagePermission"><a [routerLink]="['/schedule/view']">View Schedule</a></li>
-            </span>
-          </ul>
+              <li *ngIf="doctorScheduleListPagePermission">
+                <a [routerLink]="['/schedule/list']">
+                  <i class="icon-user-check"></i>
+                  <span>My Schedule</span>
+            </a>
+        </li>
+        <li *ngIf="viewDoctorSchedulePagePermission">
+          <a [routerLink]="['/schedule/view']">
+            <i class="icon-user-check"></i>
+              <span>View Schedule</span>
+          </a>
+        </li>
+        </span>
+        </ul>
         </li>
 
+        <li *ngIf="forumPermission">
+          <a [routerLink]="['/forum/feed']">
+            <i class="icon-stats-dots"></i>
+            <span>Forum</span>
+          </a>
+        </li>
+        <li *ngIf="false">
+          <a (click)="expandRow(10)">
+            <i class="icon-stats-dots"></i>
+            <span>Forum</span>
+            <span>
+              <i class="right-ico fa" [ngClass]="(10 === expandedIndex) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+            </span>
+          </a>
+          <ul class="sub" [ngClass]="(10 === expandedIndex) ? 'show' : ''">
+            <span *ngIf="10 === expandedIndex">
+              <!-- <li><a [routerLink]="['/']">Add New</a></li> -->
+              <li>
+                <a [routerLink]="['/forum/feed']">
+                  <i class="icon-stats-dots"></i>
+                  <span>Feed</span>
+            </a>
+        </li>
+        </span>
+        </ul>
+        </li>
 
-        <li>
+        <li *ngIf="ticketPermission">
+          <a [routerLink]="['/ticket/t/list']">
+            <i class="icon-ticket"></i>
+            <span>Support Ticket</span>
+          </a>
+        </li>
+        <li *ngIf="false">
           <a (click)="expandRow(5)">
             <i class="icon-ticket"></i>
             <span>Tickets Managment</span>
@@ -135,12 +252,17 @@
           </a>
           <ul class="sub" [ngClass]="(5 === expandedIndex) ? 'show' : ''">
             <span *ngIf="5 === expandedIndex">
-              <li><a [routerLink]="['/']">Tickets</a></li>
-            </span>
-          </ul>
+              <li>
+                <a [routerLink]="['/ticket/t/list']">
+                  <i class="icon-stats-dots"></i>
+                  <span>Tickets</span>
+            </a>
+        </li>
+        </span>
+        </ul>
         </li>
 
-        <li>
+        <li *ngIf="false">
           <a (click)="expandRow(6)">
             <i class=" icon-calendar5"></i>
             <span>CCM Plan</span>
@@ -150,12 +272,17 @@
           </a>
           <ul class="sub" [ngClass]="(6 === expandedIndex) ? 'show' : ''">
             <span *ngIf="6 === expandedIndex">
-              <li><a [routerLink]="['/']">Plans</a></li>
-            </span>
-          </ul>
+              <li>
+                <a [routerLink]="['/']">
+                  <i class=" icon-calendar5"></i>
+                  <span>Plans</span>
+            </a>
+        </li>
+        </span>
+        </ul>
         </li>
 
-        <li>
+        <li *ngIf="false">
           <a (click)="expandRow(7)">
             <i class=" icon-calendar5"></i>
             <span>Emails</span>
@@ -165,27 +292,41 @@
           </a>
           <ul class="sub" [ngClass]="(7 === expandedIndex) ? 'show' : ''">
             <span *ngIf="7 === expandedIndex">
-              <li><a [routerLink]="['/']">Invite Email</a></li>
-            </span>
-          </ul>
+              <li>
+                <a [routerLink]="['/']">
+                  <i class=" icon-calendar5"></i>
+                  <span>Invite Email</span>
+            </a>
+        </li>
+        </span>
+        </ul>
         </li>
 
         <li>
-          <a (click)="expandRow(8)">
+          <!-- <a (click)="expandRow(8)"> -->
+          <a [routerLink]="['/file/upload/fu/list']">
             <i class="icon-folder"></i>
             <span>File Manager</span>
             <span>
               <i class="right-ico fa" [ngClass]="(8 === expandedIndex) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
             </span>
           </a>
-          <ul class="sub" [ngClass]="(8 === expandedIndex) ? 'show' : ''">
+          <ul *ngIf="false" class="sub" [ngClass]="(8 === expandedIndex) ? 'show' : ''">
             <span *ngIf="8 === expandedIndex">
-              <li><a [routerLink]="['/']">Upload by Doctor</a></li>
-              <li><a [routerLink]="['/']">Upload by Patient</a></li>
-              <li><a [routerLink]="['/']">Upload by Facilitator</a></li>
-              <li><a [routerLink]="['/']">Upload by Support Staff</a></li>
-            </span>
-          </ul>
+              <li>
+                <a [routerLink]="['/file/upload/fu/form']">
+                  <i class="icon-folder"></i>
+                  <span>Upload File</span>
+            </a>
+        </li>
+        <li>
+          <a [routerLink]="['/file/upload/fu/list']">
+                      <i class="icon-folder"></i>
+                      <span>Uploaded File List</span>
+                    </a>
+        </li>
+        </span>
+        </ul>
         </li>
 
         <li>
@@ -198,10 +339,20 @@
           </a>
           <ul class="sub" [ngClass]="(9 === expandedIndex) ? 'show' : ''">
             <span *ngIf="9 === expandedIndex">
-              <li><a [routerLink]="['/']">Daily Reports</a></li>
-              <li><a [routerLink]="['/']">Complete Summary</a></li>
-            </span>
-          </ul>
+              <li>
+                <a [routerLink]="['/']">
+                  <i class="icon-stats-dots"></i>
+                  <span>Daily Reports</span>
+            </a>
+        </li>
+        <li>
+          <a [routerLink]="['/']">
+                  <i class="icon-stats-dots"></i>
+                  <span>Complete Summary</span>
+                </a>
+        </li>
+        </span>
+        </ul>
         </li>
         <!-- /page kits -->
 

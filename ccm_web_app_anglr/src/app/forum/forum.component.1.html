@@ -1,0 +1,94 @@
+<section class="content-block">
+    <div class="row align-item-center">
+        <!-- Campaign -->
+        <div class="col-md-8">
+            <div class="newsfeed" *ngFor="let newsFeed of newsFeeds; let $index=index;">
+                <div class="feed-by clearfix">
+                    <!-- <img class="feed-owner-thumb" src="assets/img/unilever.png"> -->
+                    <img class="feed-owner-thumb" src="{{newsFeed?.basicInfo?.owner?.profilePic?.thumbnails?.large?.url}}">
+
+                    <div class="feed-creator-info">
+                        <div class="name">{{newsFeed?.basicInfo?.owner?.name}}</div>
+                        <div class="time-loc">
+                            <!-- <a>2 hrs ago</a> -->
+                            <a>{{newsFeed?.basicInfo?.createdOn}}</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="feed-details">
+                    <div class="feed-content">
+                        <!-- By the end of 2018 our goal is to
+              <a class="content-highlight" href="#">clean the garbage and trash we see on the coastal areas of Pakistan.</a> We invite you to join our hands in this
+              cause to make this effort real and impactful. -->
+                        {{newsFeed?.basicInfo?.description}}
+                    </div>
+                    <div class="feed-img">
+                        <img src="assets/img/hbt.jpeg">
+                    </div>
+                    <div class="feed-stats"></div>
+                    <div class="feed-action mbs pbs br-btm">
+                        <span class="action-item" [ngClass]="newsFeed?.emotionsDetails?.like?.self === true ? 'selected': ' ' "
+                            (click)="like($index)">
+                            <i class="fa fa-heart"></i>{{newsFeed?.emotionsDetails?.like?.count}} Like</span>
+                        <span class="action-item">
+                            <i class="fa fa-comment"></i>{{newsFeed?.commentsDetail?.count}} Comment</span>
+                        <span class="action-item">
+                            <i class="fa fa-star"></i>{{newsFeed?.volunteerDetail?.count}} Volunteer</span>
+                    </div>
+                    <div class="feed-comments">
+                        <div class="view-more" *ngIf="newsFeed.commentsDetail.viewMore < newsFeed.commentsDetail.list.length">
+                            <span (click)="newsFeed.commentsDetail.viewMore = newsFeed.commentsDetail.viewMore + 5 <= newsFeed.commentsDetail.list.length ? newsFeed.commentsDetail.viewMore + 5 : newsFeed.commentsDetail.list.length">
+                                View previous comments
+                            </span>
+                        </div>
+                        <div class="other-comments">
+
+                            <div class="other-comment-box clearfix" *ngFor="let data of newsFeed.commentsDetail.list | slice: viewMore(newsFeed.commentsDetail.viewMore, newsFeed.commentsDetail.list.length) ; let $index1=index;">
+                                <!-- <div class="other-comment-box clearfix" *ngFor="let data of newsFeed.commentsDetail.list; let $index1=index;"> -->
+
+
+                                <!-- <img class="comment-box-thumb-self" src="assets/img/unilever.png" alt="profile-pic"> -->
+                                <img class="comment-box-thumb-self" src="{{data?.commentBy?.profilePic?.data?.thumbnails?.small?.url}}"
+                                    alt="profile-pic">
+                                <div class="comment" *ngIf="!data?.isEdit">
+                                    <a class="comment-name">{{data?.commentBy?.name}}</a>{{data?.comment}}
+                                    <div class="time-loc">
+                                        <a>{{data?.commentDate}}</a>
+                                        <!-- <span>Edit</span> -->
+                                        <span class="comment-action" *ngIf="((user.entityType == 'influencer') && (user.entityId == data?.commentBy?.id))"
+                                            (click)="onEdit($index,$index1)">Edit</span>
+                                        <!-- <span class="comment-action" *ngIf="((user.entityType == 'influencer') && (user.entityId == data?.commentBy?.id)) || ((user.entityType == 'brand'))" (click)="onDelete($index,$index1,data?.commentId)">Delete</span> -->
+                                        <span class="comment-action" *ngIf="((user.entityType == 'influencer') && (user.entityId == data?.commentBy?.id))"
+                                            (click)="onDelete($index,$index1,data?.commentId)">Delete</span>
+                                    </div>
+
+                                </div>
+
+                                <div class="comment-type" *ngIf="data?.isEdit">
+                                    <input type="text" placeholder="Comment" name="comment" value="{{data?.comment}}"
+                                        (keyup.enter)="updateComment($event, newsFeed.basicInfo.id, data.commentId, $index,$index1)">
+                                    <span class="comment-action" (click)="onCancel($index,$index1)">Cancel</span>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="self-comment-box clearfix" *ngIf="newsFeed.commentsDetail.isComment && (user.entityType == 'influencer')">
+                            <img class="comment-box-thumb-self" src="{{user?.profilePic?.thumbnails?.small?.url}}" alt="profile-pic">
+                            <div class="comment-type">
+                                <input type="text" placeholder="Comment" name="comment" (keyup.enter)="addComment($event, newsFeed.basicInfo.id, $index)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button (click)="loadMore()">Load More</button>
+        </div>
+        <!-- End of campaigns -->
+
+    </div>
+
+</section>

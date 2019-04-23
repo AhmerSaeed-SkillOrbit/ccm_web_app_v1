@@ -86,6 +86,7 @@ export class AddUpdateUserDialogeComponent {
             'firstName': [this.newUser.firstName, Validators.compose([Validators.required])],
             'lastName': [this.newUser.lastName, Validators.compose([Validators.required])],
             'email': [this.newUser.email, Validators.compose([Validators.required, Validators.email])],
+            'phoneCode': [this.newUser.mobileNumber, Validators.compose([])],
             'mobileNumber': [this.newUser.mobileNumber, Validators.compose([])],
             'telephoneNumber': [this.newUser.phoneNumber, Validators.compose([])],
             'officeAddress': [this.newUser.officeAddress, Validators.compose([])],

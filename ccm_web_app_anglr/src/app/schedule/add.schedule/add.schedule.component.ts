@@ -50,6 +50,7 @@ export class AddScheduleComponent implements OnInit {
     userPermissions: Permission[] = [];
     isLogin: any;
 
+    currentMonth: number;
     schedule: Schedule = new Schedule()
 
     newUser: User = new User();
@@ -101,6 +102,12 @@ export class AddScheduleComponent implements OnInit {
         // for (let index = this.minYear; index <= this.maxYear; index++) {
         //     this.years.push(index);
         // }
+
+        this.currentDate = new Date();
+        this.currentMonth = this.currentDate.getMonth();
+
+        console.log("this.currentMonth", this.currentMonth);
+
 
         let min = new Date().getFullYear();
         let max = min + 9;
@@ -280,6 +287,8 @@ export class AddScheduleComponent implements OnInit {
     }
 
     onMonthYearFocusOut() {
+
+        console.log("this.schedule.monthId", this.schedule.monthId)
 
         if ((this.schedule.monthId || this.schedule.monthId == 0) && this.schedule.year) {
 
@@ -493,8 +502,12 @@ export class AddScheduleComponent implements OnInit {
                     // this.schedule.scheduleDetails[index].endTime = null;
                 }
                 else {
-                    this.schedule.scheduleDetails[index].noOfShift = this.noOfShift;
-                    this.schedule.scheduleDetails[index].scheduleShifts = this.setTimeAllData;
+                    // this.schedule.scheduleDetails[index].noOfShift = this.noOfShift;
+                    // this.schedule.scheduleDetails[index].scheduleShifts = this.setTimeAllData;
+
+                    this.schedule.scheduleDetails[index].noOfShift = this._utilityService.deepCopy(this.noOfShift);
+                    this.schedule.scheduleDetails[index].scheduleShifts = this._utilityService.deepCopy(this.setTimeAllData);
+
                     // this.schedule.scheduleDetails[index].startTime = this.startTime;
                     // this.schedule.scheduleDetails[index].endTime = this.endTime;
                 }
@@ -508,14 +521,15 @@ export class AddScheduleComponent implements OnInit {
                         this.schedule.scheduleDetails[index].scheduleShifts = [];
                     }
                     else {
-                        this.schedule.scheduleDetails[index].scheduleShifts = this.setTimeAllData;
+                        // this.schedule.scheduleDetails[index].scheduleShifts = this.setTimeAllData;
+                        this.schedule.scheduleDetails[index].scheduleShifts = this._utilityService.deepCopy(this.setTimeAllData);
                     }
 
                 });
 
             }, 500);
 
-
+            // this._utilityService.deepCopy()
 
 
 
@@ -639,11 +653,13 @@ export class AddScheduleComponent implements OnInit {
         }
         else if (this.formScheduleDetail.valid) {
             this.isSubmitted = true;
+            this._uiService.showSpinner();
             // this.isSubmitStarted = true;
             const msg = new Message();
             this._scheduleService.scheduleDoctor(this.user.id, this.schedule).subscribe(
                 (res) => {
                     this.isSubmitted = false;
+                    this._uiService.hideSpinner();
                     // this._authServices.storeUser(this.userForm);
 
                     msg.msg = res.json() ? res.json().message : 'Schedule Successfully';
@@ -652,10 +668,13 @@ export class AddScheduleComponent implements OnInit {
                     msg.autoCloseAfter = 400;
                     this._uiService.showToast(msg, 'info');
 
+                    // schedule/list
+                    this._router.navigate(["/schedule/list"]);
                 },
                 (err) => {
                     console.log(err);
                     this.isSubmitted = false;
+                    this._uiService.hideSpinner();
                     this._authService.errStatusCheckResponse(err);
                 }
             );

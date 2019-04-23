@@ -1,0 +1,340 @@
+<div>
+
+    <!-- Main navbar -->
+    <secure-header>
+    </secure-header>
+    <!-- /main navbar -->
+
+
+    <!-- Page container -->
+    <div class="page-container">
+
+        <!-- Page content -->
+        <div class="page-content">
+
+            <!-- Main sidebar -->
+            <!-- @include('structure/sidebar') -->
+            <!-- <sidebar></sidebar> -->
+            <sidebar class="sidebar sidebar-main"></sidebar>
+            <!-- /main sidebar -->
+
+
+            <!-- Main content -->
+            <div class="content-wrapper">
+
+                <!-- Page header -->
+                <div class="page-header page-header-default">
+                    <div class="page-header-content">
+                        <div class="page-title">
+                            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Ticket</span>
+                                <!-- - Patients -->
+                            </h4>
+                        </div>
+
+                        <!-- <div class="heading-elements">
+                                <div class="heading-btn-group">
+                                    <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+                                    <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i>
+                                        <span>Invoices</span></a>
+                                    <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i>
+                                        <span>Schedule</span></a>
+                                </div>
+                            </div> -->
+                    </div>
+
+                    <div class="breadcrumb-line">
+                        <ul class="breadcrumb">
+                            <li><a href="index.html"><i class="icon-home2 position-left"></i> Home</a></li>
+                            <li class="active">Dashboard</li>
+                        </ul>
+
+                        <!-- <ul class="breadcrumb-elements">
+                                <li><a href="#"><i class="icon-comment-discussion position-left"></i> Support</a></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="icon-gear position-left"></i>
+                                        Settings
+                                        <span class="caret"></span>
+                                    </a>
+    
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li><a href="#"><i class="icon-user-lock"></i> Account security</a></li>
+                                        <li><a href="#"><i class="icon-statistics"></i> Analytics</a></li>
+                                        <li><a href="#"><i class="icon-accessibility"></i> Accessibility</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#"><i class="icon-gear"></i> All settings</a></li>
+                                    </ul>
+                                </li>
+                            </ul> -->
+                    </div>
+                </div>
+                <!-- /page header -->
+
+
+                <!-- Content area -->
+                <div class="content">
+
+
+                    <div class="row align-item-center">
+                        <!-- Ticket -->
+                        <div class="col-md-12">
+                            <div class="row ticket" *ngIf="ticketData.id">
+                                <div class="col-md-12">
+                                    <mat-card>
+                                        <mat-card-header>
+                                            <!-- <div mat-card-avatar class="example-header-image"></div> -->
+                                            <div mat-card-avatar>
+                                                <img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+                                            </div>
+                                            <mat-card-title>
+                                                {{ ticketData?.createdBy?.firstName || "Unknown" }}
+                                                <span class="sub-heading">{{ ticketData?.role?.roleName }}</span>
+                                            </mat-card-title>
+                                            <!-- <mat-card-subtitle>{{ ticketData?.role?.roleName }}</mat-card-subtitle> -->
+                                            <mat-card-subtitle>{{ ticketData?.createdOn }}</mat-card-subtitle>
+                                            <div class="rigth-btn text-center" *ngIf="(user.id == ticketData?.createdBy?.id) ">
+                                                <ul class="icons-list">
+                                                    <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                                                                class="icon-menu7"></i></a>
+                                                        <ul class="dropdown-menu dropdown-menu-right">
+                                                            <li>
+                                                                <a (click)="openEditTicketDialog(ticketData)">
+                                                                    <i class="icon-pencil"></i>
+                                                                    Edit
+                                                                </a>
+                                                            </li>
+                                                            <!-- <li class="divider"></li> -->
+                                                            <!-- <li>
+                                                                <a (click)="onDeleteTicket(ticketData.id)">
+                                                                    <i class="icon-cross2 text-danger"></i>
+                                                                    Delete
+                                                                </a>
+                                                            </li> -->
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </mat-card-header>
+
+                                        <mat-card-content>
+                                            <mat-card-title>
+                                                <a>{{ ticketData?.title }}</a>
+                                            </mat-card-title>
+                                            <p>{{ ticketData?.description }}</p>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="label-heading">Ticket No</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            {{ ticketData?.ticketNumber || "NA" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="label-heading">Raised From</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <!-- {{ ticketData?.raisedFrom || "NA" }} -->
+                                                            {{ replaceText(ticketData?.raisedFrom) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="label-heading">Priority</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <!-- {{ ticketData?.priority || "NA" }} -->
+                                                            {{ replaceText(ticketData?.priority) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="label-heading">Type</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <!-- {{ ticketData?.type || "NA" }} -->
+                                                            {{ replaceText(ticketData?.type) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6" *ngIf="ticketData?.type == 'other'">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="label-heading">Other Type</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <!-- {{ ticketData?.type || "NA" }} -->
+                                                            {{ replaceText(ticketData?.otherType) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="label-heading">Status</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <!-- {{ ticketData?.trackStatus || "NA" }} -->
+                                                            {{ replaceText(ticketData?.trackStatus) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="label-heading">Assigned</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            {{ ticketData?.ticketAssignee?.length > 0 ?
+                                                            ticketData?.ticketAssignee[0]?.assignTo?.firstName || "NA"
+                                                            : "NA" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row" *ngIf="!(ticketData?.trackStatus == 'close')">
+                                                <div class="col-md-6" *ngIf="user?.role?.roleCode == 'support_staff'">
+                                                    <span matTooltipPosition="above" matTooltip="{{!assignPermission ? 'Dont have permission' : 'Assign To' }}">
+                                                        <button mat-raised-button color="primary" [disabled]="!assignPermission"
+                                                            (click)="openAssignTicketDialog()">
+                                                            Assign To
+                                                        </button>
+                                                    </span>
+                                                </div>
+
+                                                <div class="col-md-6" *ngIf="user?.role?.roleCode == 'patient' && !(ticketData?.trackStatus == 'close') ">
+                                                    <span matTooltipPosition="above" matTooltip="{{!closePermission ? 'Dont have permission' : 'Close' }}">
+                                                        <button mat-raised-button color="primary" [disabled]="!closePermission"
+                                                            (click)="openCloseTicketDialog()">
+                                                            Close
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </mat-card-content>
+
+                                        <mat-card-actions class="ticket-action">
+                                            <!-- (click)="loadComment()" -->
+                                            <button mat-button matTooltipPosition="above" matTooltip="View Replies"
+                                                (click)="loadTicketDetail(ticketData.id)">
+                                                {{ ticketData?.replyCount > 0 ? ticketData?.replyCount + " Replies" :
+                                                "Reply" }}
+                                            </button>
+                                        </mat-card-actions>
+
+                                        <div class="feed-comments">
+                                            <div class="view-more" *ngIf="ticketData.viewMoreReply < ticketData.replyList?.length">
+                                                <span (click)="ticketData.viewMoreReply = ticketData.viewMoreReply + 5 <= ticketData.replyList.length ? ticketData.viewMoreReply + 5 : ticketData.replyList.length">
+                                                    View previous comments
+                                                </span>
+                                            </div>
+                                            <div class="other-comments">
+
+                                                <div class="other-comment-box clearfix" *ngFor="let data of ticketData.replyList | slice: viewMore(ticketData.viewMoreReply, ticketData.replyList.length) ; let $index1=index;">
+
+                                                    <img class="comment-box-thumb-self" src="assets/images/placeholder.jpg"
+                                                        alt="profile-pic">
+                                                    <!-- <img class="comment-box-thumb-self" src="{{data?.commentBy?.profilePic?.data?.thumbnails?.small?.url}}"
+                                                        alt="profile-pic"> -->
+                                                    <div class="comment" *ngIf="!data?.isEdit">
+                                                        <a class="comment-name">
+                                                            {{ data?.createdBy?.firstName || "Unknown" }}
+                                                            <!-- <span class="sub-heading">{{ data?.role?.roleName }}</span> -->
+                                                            <span class="sub-heading">{{
+                                                                data?.createdBy?.role?.roleName }}</span>
+                                                        </a>
+                                                        {{data?.reply}}
+                                                        <div class="time-loc">
+                                                            <!-- <a>{{data?.commentDate}}</a> -->
+                                                            <a>{{data?.createdOn}}</a>
+
+                                                        </div>
+                                                        <div class="comment-action" *ngIf="!(ticketData?.trackStatus == 'close')">
+                                                            <!-- <span>Edit</span> -->
+                                                            <span class="edit pointer" *ngIf="((user.id == data?.createdBy?.id))"
+                                                                (click)="onEdit($index1)">Edit</span>
+                                                            <span class="delete pointer" *ngIf="((user.id == ticketData?.createdBy?.id) || (user.id == data?.createdBy?.id))"
+                                                                (click)="onDeleteReply($index1, data.replyId)">Delete</span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="comment-type" *ngIf="data?.isEdit">
+                                                        <input type="text" placeholder="Comment" name="comment" value="{{data?.reply}}"
+                                                            (keyup.enter)="updateReply($event, ticketData, data.replyId, $index1)">
+                                                        <span class="comment-action pointer" (click)="onCancel($index1)">Cancel</span>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <!-- *ngIf="!(ticketData?.trackStatus == 'close')" -->
+                                            <div class="self-comment-box clearfix" *ngIf="ticketData.isReply && !(ticketData?.trackStatus == 'close')">
+                                                <img class="comment-box-thumb-self" src="assets/images/placeholder.jpg"
+                                                    alt="profile-pic">
+                                                <!-- <img class="comment-box-thumb-self" src="{{user?.profilePic?.thumbnails?.small?.url}}"
+                                                    alt="profile-pic"> -->
+                                                <div class="comment-type">
+                                                    <input type="text" placeholder="Comment" name="comment"
+                                                        (keyup.enter)="addReply($event, ticketData.id)">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </mat-card>
+                                </div>
+                                <div class="row">
+                                    <div class="clearfix" style="height: 15px;"></div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- End of Ticket -->
+
+                    </div>
+
+
+                    <!-- Dashboard content -->
+                    <div>
+
+                    </div>
+                    <!-- /dashboard content -->
+
+
+
+                    <!-- Footer -->
+                    <!-- @include('structure/footer') -->
+                    <secure-footer>
+                    </secure-footer>
+                    <!-- /footer -->
+
+                </div>
+                <!-- /content area -->
+
+            </div>
+            <!-- /main content -->
+
+        </div>
+        <!-- /page content -->
+    </div>
+    <!-- Page container -->
+</div>

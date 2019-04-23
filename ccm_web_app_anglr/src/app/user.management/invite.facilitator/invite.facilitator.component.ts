@@ -46,6 +46,7 @@ export class InviteFacilitatorComponent implements OnInit {
     // easyPay = new EasyPay();
 
     email: string = "";
+    countryCode: string = "";
     mobileNo: string = "";
     type: string = "";
     userId: number = null;
@@ -87,7 +88,7 @@ export class InviteFacilitatorComponent implements OnInit {
 
             // this.invitePermission = this._utilityService.checkUserPermission(this.user, 'invite_facilitator');
             this.invitePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'invite_facilitator');
-                // this.invitePermission = true;
+            // this.invitePermission = true;
         }
 
         // this.loadDashboard(this.user.entityType);
@@ -112,6 +113,8 @@ export class InviteFacilitatorComponent implements OnInit {
     openInviteDialog() {
 
         let dialog = this.dialog.open(InviteDialogComponent, {
+            maxWidth: "700px",
+            minWidth: "550px",
             // width: "550px",
             // height: '465px',
             // data: this.id,
@@ -138,7 +141,7 @@ export class InviteFacilitatorComponent implements OnInit {
 
         if (this.email) {
 
-            this._userService.sendInvite(this.email, this.mobileNo, this.type, this.userId).subscribe(
+            this._userService.sendInvite(this.email, this.mobileNo, this.countryCode, this.type, this.userId).subscribe(
                 (res) => {
 
                     this.isSubmitted = false;

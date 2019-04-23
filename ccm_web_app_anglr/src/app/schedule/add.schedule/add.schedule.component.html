@@ -125,7 +125,7 @@
                                             (ngModelChange)="onMonthYearFocusOut()" required>
                                             <mat-option *ngFor="
                                             let month of months"
-                                                [value]="month.id">
+                                                [value]="month.id" [disabled]="currentMonth > month.id">
                                                 {{month.shortName}}
                                             </mat-option>
                                         </mat-select>

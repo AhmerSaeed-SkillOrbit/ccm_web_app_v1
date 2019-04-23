@@ -1,0 +1,135 @@
+<div class="align-item-center">
+    <div class="col-lg-12 col-md-12 col-xs-12 tr-campaign case">
+
+        <div class="tr-sec-box">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <!-- <mat-card-title>General Information</mat-card-title> -->
+                    <!-- <mat-card-title>General Information</mat-card-title> -->
+                </div>
+            </div>
+
+            <hr>
+
+            <form [formGroup]="questionAnswerFormGroup">
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="row" formArrayName="form">
+                            <div class="col-md-12">
+
+                                <div class="row" *ngFor="let X of questionAnswerFormGroup['controls'].form['controls']; let i = index"
+                                    [formGroupName]="i">
+
+                                    <div class="col-sm-12">
+
+
+                                        <div class="row">
+
+                                            <!-- isAnswered -->
+                                            <div class="col-md-12">
+
+                                                <!-- [checked]="checked" -->
+
+                                                <h2>Question {{ i + 1 }}</h2>
+
+                                                <h3>{{ questionAnswers[i].question || "NA" }} ?</h3>
+
+                                                <!-- <mat-slide-toggle *ngIf="false" color="primary" formControlName="isAnswered"
+                                                    [(ngModel)]="questionAnswers[i].answer.isAnswered">
+                                                    Yes
+                                                </mat-slide-toggle> -->
+                                            </div>
+
+                                            <!-- Answer Type -->
+                                            <div class="col-md-6">
+                                                <div class="form-field">
+
+                                                    <mat-form-field class="full-width">
+                                                        <!-- <mat-label>Select Answer Option</mat-label> -->
+                                                        <mat-select placeholder="Select Answer Option" formControlName="isAnswered"
+                                                            [(ngModel)]="questionAnswers[i].answer.isAnswered" (change)="onAnswerTypeSelect()">
+                                                            <mat-option>None</mat-option>
+                                                            <mat-option *ngFor="let answerType of answerTypes" [value]="answerType.code">
+                                                                <!-- {{ answerType.name }} -->
+                                                                {{ replaceText(answerType?.name) }}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                        <!-- <mat-error>
+                                                    Select Answer Option is
+                                                    <strong>required</strong>
+                                                </mat-error> -->
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+
+                                            <!-- Answer -->
+                                            <div class="col-md-12">
+                                                <div class="form-field">
+                                                    <mat-form-field class="full-width">
+                                                        <textarea matInput placeholder="Detail Answer" formControlName="answer"
+                                                            [(ngModel)]="questionAnswers[i].answer.answer" maxlength="500"
+                                                            matTextareaAutosize matAutosizeMinRows="2"
+                                                            matAutosizeMaxRows="4" trim></textarea>
+                                                        <!-- <mat-error>
+                                                    Detail Answer is
+                                                    <strong>required</strong>
+                                                </mat-error> -->
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <!-- <hr> -->
+                                        <hr class="line-dash">
+                                    </div>
+
+                                    <div class="col-md-12 text-right">
+                                        <!-- *ngIf="questionAnswers.length > minQuestionAnswer" -->
+                                        <!-- <button *ngIf="questionAnswers.length > minQuestionAnswer" mat-raised-button
+                                            color="primary" (click)="remove(i)">Remove</button> -->
+                                        <button *ngIf="!(questionAnswers[i].answer.id)" mat-raised-button color="primary"
+                                            (click)="onAddAnswer(i)">
+                                            <!-- Add -->
+                                            Save
+                                        </button>
+                                        <button *ngIf="questionAnswers[i].answer.id" mat-raised-button color="primary"
+                                            (click)="onUpdateAnswer(i)">
+                                            <!-- Update -->
+                                            Save
+                                        </button>
+
+                                        <!-- <hr> -->
+                                        <hr class="line-dash">
+                                        <!-- <div class="line-dash"></div> -->
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row" *ngIf="false">
+                    <div class="col-md-4"></div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <button type="submit" class="btn bg-blue btn-block" [disabled]="isSubmitted">
+                                Save <i class="icon-arrow-right14 position-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

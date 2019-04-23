@@ -187,5 +187,90 @@ export class UtilityService {
         }
         return newObj;
     }
+
+    public convertTime12to24(time12h: any) {
+
+        if (time12h) {
+            const [time, modifier] = time12h.split(' ');
+
+            let [hours, minutes] = time.split(':');
+
+            if (hours === '12') {
+                hours = '00';
+            }
+
+            if (modifier === 'PM') {
+                hours = parseInt(hours, 10) + 12;
+            }
+
+            return `${hours}:${minutes}`;
+        }
+
+        return null;
+
+    }
+
+    public replaceConfigText(text: string) {
+
+        var newText = text ? text : "NA";
+
+        if (text == "sms") {
+            newText = "SMS";
+        }
+        else if (text == "portal") {
+            newText = "Portal";
+        }
+        else if (text == "open") {
+            newText = "Open";
+        }
+        else if (text == "close") {
+            newText = "Close";
+        }
+        else if (text == "in_progress") {
+            newText = "In-Progress";
+        }
+        else if (text == "feedback") {
+            newText = "Feedback";
+        }
+        else if (text == "normal") {
+            newText = "Normal";
+        }
+        else if (text == "consult") {
+            newText = "Consult";
+        }
+        else if (text == "other") {
+            newText = "Other";
+        }
+        else if (text == "emergency") {
+            newText = "Emergency";
+        }
+        else if (text == "high") {
+            newText = "High";
+        }
+        else if (text == "low") {
+            newText = "Low";
+        }
+        else if (text == "very_high") {
+            newText = "Very High";
+        }
+
+        return newText;
+    }
+
+    public findIndexViaItemName(data: any, dataList: any): any {
+
+        // console.log("checkCustomRoleAllow ", dataRole);
+        let result = -1;
+        // if (this.user.roles.length > 0 && this.user.roles[0].roleCode != 'cad') {
+        if (dataList && dataList.length > 0) {
+            dataList.forEach((element, index) => {
+                if (element.name == data.name) {
+                    result = index;
+                }
+            });
+        }
+
+        return result;
+    }
 }
 

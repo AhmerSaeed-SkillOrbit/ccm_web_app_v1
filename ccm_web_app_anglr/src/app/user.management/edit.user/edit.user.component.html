@@ -140,6 +140,26 @@
                                     </div>
                                 </div>
 
+                                <!-- Country Phone Code -->
+                                <div class="col-md-4">
+                                    <div class="form-field">
+
+                                        <mat-form-field class="full-width">
+                                            <mat-select [(ngModel)]="newUser.countryPhoneCode" formControlName="phoneCode"
+                                                placeholder="Select Country Phone Code" required>
+                                                <mat-option>None</mat-option>
+                                                <mat-option value="+1">+1</mat-option>
+                                                <mat-option value="+92">+92</mat-option>
+                                            </mat-select>
+                                            <!-- <mat-error *ngIf="formRegister.controls['designationId'].errors?.required">
+                                                Designation is
+                                                <strong>required</strong>
+                                            </mat-error> -->
+                                        </mat-form-field>
+
+                                    </div>
+                                </div>
+
                                 <!-- Mobile Number -->
                                 <div class="col-md-4">
                                     <div class="form-group has-feedback has-feedback-left">

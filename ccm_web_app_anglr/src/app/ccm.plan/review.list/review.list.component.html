@@ -1,0 +1,357 @@
+<div>
+
+    <!-- Main navbar -->
+    <secure-header>
+    </secure-header>
+    <!-- /main navbar -->
+
+
+    <!-- Page container -->
+    <div class="page-container">
+
+        <!-- Page content -->
+        <div class="page-content">
+
+            <!-- Main sidebar -->
+            <!-- @include('structure/sidebar') -->
+            <!-- <sidebar></sidebar> -->
+            <sidebar class="sidebar sidebar-main"></sidebar>
+            <!-- /main sidebar -->
+
+
+            <!-- Main content -->
+            <div class="content-wrapper">
+
+                <!-- Page header -->
+                <div class="page-header page-header-default">
+                    <div class="page-header-content">
+                        <div class="page-title">
+                            <h4><i class="icon-arrow-left52 position-left"></i>
+                                <span class="text-semibold">Review History</span>
+                                <!-- - List -->
+                            </h4>
+                        </div>
+
+                        <!-- <div class="heading-elements">
+                            <div class="heading-btn-group">
+                                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+                                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i>
+                                    <span>Invoices</span></a>
+                                <a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i>
+                                    <span>Schedule</span></a>
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <div class="breadcrumb-line">
+                        <ul class="breadcrumb">
+                            <li><a href="index.html"><i class="icon-home2 position-left"></i> Home</a></li>
+                            <li class="active">Dashboard</li>
+                        </ul>
+
+                        <!-- <ul class="breadcrumb-elements">
+                            <li><a href="#"><i class="icon-comment-discussion position-left"></i> Support</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="icon-gear position-left"></i>
+                                    Settings
+                                    <span class="caret"></span>
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="#"><i class="icon-user-lock"></i> Account security</a></li>
+                                    <li><a href="#"><i class="icon-statistics"></i> Analytics</a></li>
+                                    <li><a href="#"><i class="icon-accessibility"></i> Accessibility</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#"><i class="icon-gear"></i> All settings</a></li>
+                                </ul>
+                            </li>
+                        </ul> -->
+                    </div>
+                </div>
+                <!-- /page header -->
+
+
+                <!-- Content area -->
+                <div class="content">
+
+
+
+                    <!-- Page Sub Content -->
+                    <!-- @yield('content') -->
+
+
+                    <div class="row">
+                        <div class="panel panel-flat">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">
+                                    Patient Info
+                                    <a class="heading-elements-toggle"><i class="icon-more"></i></a>
+                                </h5>
+                            </div>
+
+                            <div class="panel-body">
+
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <!-- <h2>Patient Info</h2> -->
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="label-heading">Patient Name</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <!-- {{ patient?.firstName || "NA" }} -->
+                                                            {{ patient?.firstName || patient?.lastName ? patient?.firstName + " " + patient?.lastName : "NA" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="label-heading">Gender</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            {{ patient?.gender || "NA" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="label-heading">Age</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            {{ patient?.age || "NA" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <hr>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-default btn-sm" (click)="nevigateTo(null,'form')">
+                                        Create New 
+                                        <i class="icon-play3 position-right"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+
+                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
+                                <div class="datatable-header">
+                                    <div id="DataTables_Table_0_filter" class="dataTables_filter" *ngIf="false">
+                                        <label>
+                                            <span>Filter:</span>
+                                            <input type="search" [(ngModel)]="searchKeyword" class="" placeholder="Type to search..."
+                                                (keyup.enter)="search()">
+                                        </label>
+                                    </div>
+                                    <!-- <div id="DataTables_Table_0_filter" class="dataTables_filter"> -->
+                                    <div class="col-md-3">
+                                        <mat-form-field class="full-width">
+                                            <!-- <mat-label>Start Date</mat-label> -->
+                                            <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" placeholder="Date From" [(ngModel)]="dateFrom"
+                                                (dateChange)="dateChanged($event, 'dateFrom')" readonly>
+                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <!-- <div id="DataTables_Table_0_filter" class="dataTables_filter"> -->
+                                    <div class="col-md-3">
+                                        <mat-form-field class="full-width">
+                                            <!-- <mat-label>End Date</mat-label> -->
+                                            <input matInput [matDatepickerFilter]="dateFilter" [min]="dateFrom" [matDatepicker]="picker1" placeholder="Date To" [(ngModel)]="dateTo"
+                                                (dateChange)="dateChanged($event, 'dateTo')" readonly>
+                                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker1></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                        <button mat-raised-button color="primary" (click)="reset()"> Reset <i class="material-icons">refresh</i></button>
+                                    </div>
+                                    <!-- <div class="dataTables_length" id="DataTables_Table_0_length">
+                                        <label>
+                                            <span>Show:</span>
+                                            <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0"
+                                                class="select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                                <option value="10">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                            <span class="select2 select2-container select2-container--default" dir="ltr"
+                                                style="width: auto;"><span class="selection"><span class="select2-selection select2-selection--single"
+                                                        role="combobox" aria-haspopup="true" aria-expanded="false"
+                                                        tabindex="0" aria-labelledby="select2-DataTables_Table_0_length-ok-container"><span
+                                                            class="select2-selection__rendered" id="select2-DataTables_Table_0_length-ok-container"
+                                                            title="10">10</span><span class="select2-selection__arrow"
+                                                            role="presentation"><b role="presentation"></b></span></span></span><span
+                                                    class="dropdown-wrapper" aria-hidden="true"></span>
+                                            </span>
+                                        </label>
+                                    </div> -->
+                                </div>
+
+                                <div class="datatable-scroll">
+                                    <!-- <table class="table datatable-sorting dataTable no-footer" id="DataTables_Table_0"
+                                        role="grid" aria-describedby="DataTables_Table_0_info"> -->
+                                    <table class="table no-footer">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="S.No: activate to sort column ascending">
+                                                    S.No
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Plan No.: activate to sort column ascending">
+                                                    Plan No.
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Plan No.: activate to sort column ascending">
+                                                    Component
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Plan No.: activate to sort column ascending">
+                                                    Goal
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Plan No.: activate to sort column ascending">
+                                                    Goal Achieved
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Plan No.: activate to sort column ascending">
+                                                    Barrior
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Start Date: activate to sort column ascending">
+                                                    Reviewer Comments
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="End Date: activate to sort column ascending">
+                                                    Review Date
+                                                </th>
+                                                <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Status</th> -->
+                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="    width: 183px;">
+                                                    Actions
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr role="row" class="odd" *ngFor="let ccmPlanReview of ccmPlanReviewList; let i=index">
+                                                <td>{{ i + 1 }}</td>
+                                                <td>
+                                                    {{ ccmPlanReview?.ccmPlan?.planNumber || "NA" }}
+                                                </td>
+                                                <td>
+                                                    {{ ccmPlanReview?.ccmPlanItem?.name || "NA" }}
+                                                </td>
+                                                <td>
+                                                    {{ ccmPlanReview?.ccmPlanItemGoal?.goal || "NA" }}
+                                                </td>
+                                                <td>
+                                                    {{ ccmPlanReview?.isGoalAchieve ? "Yes" : "No" }}
+                                                </td>
+                                                <td>
+                                                    {{ ccmPlanReview?.barrier || "NA" }}
+                                                </td>
+                                                <td>
+                                                    {{ ccmPlanReview?.reviewerComment || "NA" }}
+                                                </td>
+                                                <td>
+                                                    {{ ccmPlanReview?.reviewDate || "NA" }}
+                                                </td>
+                                                <td class="text-center">
+                                                    <span *ngIf="updatePermission" matTooltipPosition="above" matTooltip="Edit">
+                                                        <a [routerLink]="['/ccm/plan/review/form/edit', this.patientId, ccmPlanReview.ccmPlan.id, ccmPlanReview.id]">
+                                                            <i style="color:#ffa808;" class=" icon-pencil"></i>
+                                                        </a>
+                                                    </span> &nbsp;
+
+                                                    <!-- <span *ngIf="cancelPermission" matTooltipPosition="above"
+                                                        matTooltip="Delete Ticket">
+                                                        <i style="color:#f70a0a;" class="icon-cross2" (click)="confirmDialog(ticket, 'delete', i)"></i>
+                                                    </span> &nbsp; -->
+
+                                                    <!-- <span *ngIf="rejectPermission" matTooltipPosition="above"
+                                                        matTooltip="Reject Request">
+                                                        <i style="color:#f70a0a;" class="icon-bin" (click)="changeRequestStatus(appointment.id, 'rejected', '')"></i>
+                                                    </span> -->
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="" *ngIf="(ccmPlanList?.length == 0) && !isSpinner">
+                                        <div class="snipet download-btn">
+                                            <button (click)="refreshList()" mat-raised-button>
+                                                <i class="material-icons">refresh</i> No Data Found
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <spinner class="spinner-box" [visible]='isSpinner'></spinner>
+                                </div>
+                                <!-- <div class="datatable-footer">
+                                    <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing
+                                        1 to 10 of 15 entries</div>
+                                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                        <a class="paginate_button previous disabled" aria-controls="DataTables_Table_0"
+                                            data-dt-idx="0" tabindex="0" id="DataTables_Table_0_previous">
+                                            ←
+                                        </a>
+                                        <span>
+                                            <a class="paginate_button current" aria-controls="DataTables_Table_0"
+                                                data-dt-idx="1" tabindex="0">
+                                                1
+                                            </a>
+                                            <a class="paginate_button " aria-controls="DataTables_Table_0" data-dt-idx="2"
+                                                tabindex="0">
+                                                2
+                                            </a>
+                                        </span>
+                                        <a class="paginate_button next" aria-controls="DataTables_Table_0" data-dt-idx="3"
+                                            tabindex="0" id="DataTables_Table_0_next">→</a>
+                                    </div>
+                                </div> -->
+                                <mat-paginator #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent = pageChangeEvent($event)">
+                                </mat-paginator>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Dashboard content -->
+                    <div>
+
+                    </div>
+                    <!-- /dashboard content -->
+
+
+                    <!-- /Page Sub Content -->
+
+
+
+
+
+                    <!-- Footer -->
+                    <!-- @include('structure/footer') -->
+                    <secure-footer>
+                    </secure-footer>
+                    <!-- /footer -->
+
+                </div>
+                <!-- /content area -->
+
+            </div>
+            <!-- /main content -->
+
+        </div>
+        <!-- /page content -->
+    </div>
+    <!-- Page container -->
+</div>

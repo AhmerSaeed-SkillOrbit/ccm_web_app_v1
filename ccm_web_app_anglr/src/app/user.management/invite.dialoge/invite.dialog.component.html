@@ -13,30 +13,76 @@
                     <!-- Email Address -->
                     <div class="col-md-12">
                         <!-- <div class="form-group has-feedback has-feedback-left">
-                                <input type="email" class="form-control" placeholder="Email Address" formControlName="email"
-                                    [(ngModel)]="newUser.email">
-                                <div class="form-control-feedback">
-                                    <i class="icon-user text-muted"></i>
-                                </div>
-                            </div> -->
+                            <input type="email" class="form-control" placeholder="Email Address" formControlName="email"
+                                [(ngModel)]="newUser.email">
+                            <div class="form-control-feedback">
+                                <i class="icon-user text-muted"></i>
+                            </div>
+                        </div> -->
 
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Email:</label>
                             <div class="col-lg-9">
-                                <input type="text" class="form-control" placeholder="example@abc.com" formControlName="email"
-                                    [(ngModel)]="email">
+                                <!-- <input type="text" class="form-control" placeholder="example@abc.com" formControlName="email"
+                                    [(ngModel)]="email" required> -->
+
+                                <div class="form-field">
+                                    <mat-form-field class="full-width">
+                                        <!-- <mat-label>Email</mat-label> -->
+                                        <input matInput type="text" placeholder="example@abc.com" formControlName="email"
+                                            [(ngModel)]="email" required>
+                                    </mat-form-field>
+                                </div>
+
                             </div>
                         </div>
                     </div>
-                    
+
+                    <div class="col-md-12">
+
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Country Phone Code:</label>
+                            <div class="col-lg-9">
+                                <div class="form-field">
+
+                                    <!-- <mat-label>Country Phone Code</mat-label> -->
+                                    <mat-form-field class="full-width">
+                                        <mat-select [(ngModel)]="countryCode" formControlName="phoneCode" placeholder="Select Country Phone Code"
+                                            required>
+                                            <mat-option>None</mat-option>
+                                            <mat-option value="+1">+1</mat-option>
+                                            <mat-option value="+92">+92</mat-option>
+                                        </mat-select>
+                                        <!-- <mat-error *ngIf="formRegister.controls['designationId'].errors?.required">
+                                            Designation is
+                                            <strong>required</strong>
+                                        </mat-error> -->
+                                    </mat-form-field>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Phone No -->
                     <div class="col-md-12">
-                        
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Mobile Number:</label>
                             <div class="col-lg-9">
-                                <input type="number" class="form-control" placeholder="0123456789" formControlName="mobileNumber"
-                                    [(ngModel)]="mobileNo">
+                                <!-- <input type="number" class="form-control" placeholder="0123456789" formControlName="mobileNumber"
+                                    [(ngModel)]="mobileNo" required> -->
+
+
+                                <div class="form-field">
+                                    <mat-form-field class="full-width">
+                                        <!-- <mat-label>Mobile Number</mat-label> -->
+                                        <input matInput type="number" placeholder="0123456789" formControlName="mobileNumber"
+                                            [(ngModel)]="mobileNo" required>
+                                    </mat-form-field>
+                                </div>
+
+
+
                             </div>
                         </div>
                     </div>

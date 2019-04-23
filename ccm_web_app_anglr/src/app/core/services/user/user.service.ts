@@ -151,6 +151,7 @@ export class UserService {
             LastName: user.lastName || null,
             EmailAddress: user.email || null,
             // Password: user.password || null,
+            CountryPhoneCode: user.countryPhoneCode || null,
             MobileNumber: user.mobileNumber || null,
             TelephoneNumber: user.phoneNumber || null,
             OfficeAddress: user.officeAddress || null,
@@ -191,6 +192,7 @@ export class UserService {
             LastName: user.lastName || null,
             // EmailAddress: user.email || null,
             // Password: user.password || null,
+            CountryPhoneCode: user.countryPhoneCode || null,
             MobileNumber: user.mobileNumber || null,
             TelephoneNumber: user.phoneNumber || null,
             OfficeAddress: user.officeAddress || null,
@@ -260,10 +262,11 @@ export class UserService {
             });
     }
 
-    sendInvite(email, mobileNo, type, userId): Observable<any> {
+    sendInvite(email, mobileNo, phoneCode, type, userId): Observable<any> {
         const url = 'invite';
         const body = {
             email: email || null,
+            CountryPhoneCode: phoneCode || null,
             mobileNumber: mobileNo || null,
             type: type || null,
             userId: userId || null
@@ -414,5 +417,25 @@ export class UserService {
             .catch((err, caught) => {
                 return Observable.throw(err);
             });
+    }
+
+    // --------- User List Via Role Code
+    public getUserListViaRole(roleCode): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        // let userId = token.userId;
+        // user/list/search?p=0&c=2&s=null&r=null
+        const getUrl = 'user/via/role?roleCode=' + (roleCode || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
     }
 }

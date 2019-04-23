@@ -97,6 +97,12 @@ ul.navigation ul.sub.show {
 } */
 
 
+label.label-heading {
+    font-weight: 600;
+    color: #666;
+    font-size: 14px;
+}
+
 
 /* Loader CSS */
 
@@ -122,4 +128,46 @@ ul.navigation ul.sub.show {
     top: 50%;
     left: 50%;
     margin: -50px 0 0 -50px;
+}
+
+.form-field label {
+    font-size: 15px;
+    display: block;
+    color: #222;
+}
+
+.label-dt {
+    display: inline-block;
+    font-size: 14px;
+    color: #323232;
+}
+
+span.label-dt:last-child .comma {
+    display: none;
+}
+
+.case label {
+    /* color: #22974b;
+    font-size: 18px; */
+    font-weight:bold;
+}
+.pointer{
+    cursor: pointer;
+}
+
+.toast-container {
+    position: fixed !important;
+}
+
+.spinner-box {
+    padding: 1px;
+}
+
+.line-dash{
+    border: none;
+    border-top: 1px dashed #ddd;
+    color: #fff;
+    background-color: #fff;
+    height: 1px;
+    width: 100%;
 }
