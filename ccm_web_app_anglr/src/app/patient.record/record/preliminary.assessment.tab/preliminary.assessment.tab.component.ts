@@ -105,6 +105,10 @@ export class PreliminaryAssessmentTabComponent implements OnInit {
             'canCallOnNightTimePhone': [null, Validators.compose([])],
             'canMsgOnNightTimePhone': [null, Validators.compose([])],
 
+            'lastPcpVisitDate': [null, Validators.compose([])],
+            'isAgreeCcmService': [null, Validators.compose([])],
+            'isAgreeToDiscussHealthInfo': [null, Validators.compose([])],
+
             'isInternetAvailable': [null, Validators.compose([])],
             'isInternetHelper': [null, Validators.compose([])],
             'canUseInternet': [null, Validators.compose([])],
@@ -679,6 +683,18 @@ export class PreliminaryAssessmentTabComponent implements OnInit {
                 // this._authService.errStatusCheckResponse(err);
             }
         );
+
+    }
+
+    dateChanged(event, type) {
+        console.log('event', event.value);
+        console.log('type', type);
+        if (type == 'lastPcpVisitDate') {
+            this.personalContactInfo.lastPcpVisitDate = this.datePipe.transform(this.personalContactInfo.lastPcpVisitDate, 'yyyy-MM-dd');
+            // this.projectActivityForm.projectActivityDate = this.datePipe.transform(this.projectActivityForm.projectActivityDate, 'yyyy-MM-dd h:mm:ss a');
+            console.log('event', this.personalContactInfo.lastPcpVisitDate);
+
+        }
 
     }
 

@@ -54,7 +54,7 @@ export class MappingService {
             isUser.gender = userData.Gender || null;
             // isUser.associationType = userData.AssociationType || null;
             isUser.blockReason = userData.BlockReason || null;
-            isUser.summary = userData.summary || null;
+            isUser.profileSummary = userData.ProfileSummary || null;
 
 
             isUser.password = userData.userPassword;
@@ -633,6 +633,10 @@ export class MappingService {
             isPersonalContactInfo.nightTimePhoneNumber = personalContactInfoData.NightTimePhoneNumber || null;
             isPersonalContactInfo.canCallOnNightTimePhone = personalContactInfoData.CanCallOnNightTimePhone || false;
             isPersonalContactInfo.canMsgOnNightTimePhone = personalContactInfoData.CanMsgOnNightTimePhone || false;
+
+            isPersonalContactInfo.lastPcpVisitDate = personalContactInfoData.LastPcpVisitDate || null;
+            isPersonalContactInfo.isAgreeCcmService = personalContactInfoData.IsAgreeCcmService || false;
+            isPersonalContactInfo.isAgreeToDiscussHealthInfo = personalContactInfoData.IsAgreeToDiscussHealthInfo || false;
 
             isPersonalContactInfo.isInternetAvailable = personalContactInfoData.IsInternetAvailable || false;
             isPersonalContactInfo.isInternetHelper = personalContactInfoData.IsInternetHelper || false;
@@ -1275,7 +1279,9 @@ export class MappingService {
 
 
             isCcmPlanReview.ccmPlan = this.mapCcmPlan(ccmPlanReviewData.CcmPlan);
+            isCcmPlanReview.ccmPlanItem = this.mapCcmPlanItem(ccmPlanReviewData.CcmPlanGoal);
             isCcmPlanReview.ccmPlanItemGoal = this.mapCcmPlanItemGoal(ccmPlanReviewData.CcmPlanGoal);
+
 
             isCcmPlanReview.isGoalAchieve = ccmPlanReviewData.IsGoalAchieve || true;
             isCcmPlanReview.isActive = ccmPlanReviewData.IsActive || true;

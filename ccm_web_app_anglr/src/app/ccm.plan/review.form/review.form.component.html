@@ -29,7 +29,7 @@
                             <h4>
                                 <i class="icon-arrow-left52 position-left"></i>
                                 <span class="text-semibold">
-                                    CCM Plan
+                                    CCM Plan - Review
                                 </span>
                                 <!-- - Record -->
                             </h4>
@@ -152,296 +152,107 @@
                                     <div class="row">
                                         <div class="col-md-12">
 
-                                            <form [formGroup]="ccmPlanFormGroup" (ngSubmit)="onSubmitCcmPlan()">
+                                            <form [formGroup]="ccmPlanReviewFormGroup" (ngSubmit)="onSubmitCcmPlan()">
                                                 <div class="row">
 
                                                     <div class="col-md-12">
 
                                                         <div class="row">
-                                                            <!-- Start Date -->
+                                                            <!-- Plan Number -->
+                                                            <div class="col-md-6">
+                                                                <div class="form-field">
+                                                                    <mat-form-field class="full-width">
+                                                                        <input matInput placeholder="Plan Number" [(ngModel)]="ccmPlan.planNumber" [ngModelOptions]="{standalone: true}" readonly>
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Review Date -->
                                                             <div class="col-md-6">
                                                                 <div class="form-field">
 
-                                                                    <!-- [min]="ccmPlan.startDate" -->
+                                                                    <!-- [min]="ccmPlan.reviewDate" -->
                                                                     <mat-form-field class="full-width">
-                                                                        <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" placeholder="Start Date" formControlName="startDate"
-                                                                            [(ngModel)]="ccmPlan.startDate" (dateChange)="dateChanged($event, 'startDate')"
+                                                                        <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" placeholder="Review Date" formControlName="reviewDate"
+                                                                            [(ngModel)]="ccmPlanReview.reviewDate" (dateChange)="dateChanged($event, 'reviewDate')"
                                                                             required readonly>
                                                                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                                         <mat-datepicker #picker></mat-datepicker>
+
+                                                                        <mat-error *ngIf="ccmPlanReviewFormGroup.controls['reviewDate'].touched && ccmPlanReviewFormGroup.controls['reviewDate'].errors?.required">
+                                                                            Review Date is
+                                                                            <strong>required</strong>
+                                                                        </mat-error>
                                                                     </mat-form-field>
                                                                 </div>
                                                             </div>
 
-                                                            <!-- End Date -->
                                                             <div class="col-md-6">
                                                                 <div class="form-field">
 
-                                                                    <!-- [min]="ccmPlan.startDate" -->
                                                                     <mat-form-field class="full-width">
-                                                                        <input matInput [matDatepickerFilter]="dateFilter" [min]="ccmPlan.startDate" [matDatepicker]="picker1" placeholder="End Date"
-                                                                            formControlName="endDate" [(ngModel)]="ccmPlan.endDate"
-                                                                            (dateChange)="dateChanged($event, 'endDate')" readonly>
-                                                                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                                                                        <mat-datepicker #picker1></mat-datepicker>
+                                                                        <mat-select placeholder="Select Component" formControlName="component" [(ngModel)]="ccmPlanReview.ccmPlanItemName" (change)="onComponentChange()">
+                                                                            <mat-option>None</mat-option>
+                                                                            <mat-option *ngFor="let component of componentList" [value]="component.name">
+                                                                                {{ component.name }}
+                                                                            </mat-option>
+                                                                        </mat-select>
+                                                                        <mat-error *ngIf="ccmPlanReviewFormGroup.controls['component'].touched && ccmPlanReviewFormGroup.controls['component'].errors?.required">
+                                                                            Component is
+                                                                            <strong>required</strong>
+                                                                        </mat-error>
                                                                     </mat-form-field>
                                                                 </div>
                                                             </div>
 
-                                                        </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-field">
 
-                                                        <div class="row" formArrayName="itemForm">
-                                                            <div class="col-md-12">
-                                                                <!-- <div class="row" *ngFor="let bidder of heldObject.auctionBidder; let $i=index;"> -->
-                                                                <!-- <div class="row" *ngFor="let b of formScheduleDetail.controls.scheduleDetail.controls; let i = index"
-                                                                                                [formGroupName]="i"> -->
-                                                                <div class="row" *ngFor="let X of ccmPlanFormGroup['controls'].itemForm['controls']; let i = index" [formGroupName]="i">
-                                                                    <div class="col-sm-12">
-
-                                                                        <!-- <h3>Detail {{i+1}}</h3> -->
-                                                                        <h4>{{ i+1 }}</h4>
-                                                                        <div class="row">
-
-                                                                            <!-- Component -->
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-field">
-                                                                                    <mat-form-field class="full-width">
-                                                                                        <input matInput placeholder="Component" [(ngModel)]="ccmPlan.items[i].name" formControlName="component" required>
-                                                                                        <mat-error>
-                                                                                            Component is
-                                                                                            <strong>required</strong>
-                                                                                        </mat-error>
-                                                                                    </mat-form-field>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="col-md-12">
-                                                                                <div class="row" formArrayName="goalForm">
-                                                                                    <div class="col-md-12">
-                                                                                        <!-- <div class="row" *ngFor="let X of ccmPlanFormGroup['controls'].form['controls']; let i = index" [formGroupName]="i"> -->
-                                                                                        <div class="row" *ngFor="let Y of X['controls'].goalForm['controls']; let iy=index" [formGroupName]="iy">
-                                                                                            <div class="col-sm-12">
-
-                                                                                                <!-- <h3>Detail {{i+1}}</h3> -->
-                                                                                                <h4>{{ iy+1 }}</h4>
-                                                                                                <div class="row">
-
-                                                                                                    <!-- Goal -->
-                                                                                                    <div class="col-md-6">
-                                                                                                        <div class="form-field">
-                                                                                                            <mat-form-field class="full-width">
-                                                                                                                <input matInput placeholder="Goal" [(ngModel)]="ccmPlan.items[i].itemGoals[iy].goal" formControlName="goal">
-                                                                                                                <mat-error>
-                                                                                                                    Goal is
-                                                                                                                    <strong>required</strong>
-                                                                                                                </mat-error>
-                                                                                                            </mat-form-field>
-                                                                                                        </div>
-                                                                                                    </div>
-
-                                                                                                    <!-- Intervention -->
-                                                                                                    <div class="col-md-6">
-                                                                                                        <div class="form-field">
-                                                                                                            <mat-form-field class="full-width">
-                                                                                                                <input matInput placeholder="Intervention" [(ngModel)]="ccmPlan.items[i].itemGoals[iy].intervention" formControlName="intervention">
-                                                                                                                <mat-error>
-                                                                                                                    Intervention is
-                                                                                                                    <strong>required</strong>
-                                                                                                                </mat-error>
-                                                                                                            </mat-form-field>
-                                                                                                        </div>
-                                                                                                    </div>
-
-
-
-                                                                                                </div>
-                                                                                                <!-- <hr> -->
-                                                                                                <hr class="line-dash">
-                                                                                                <!-- <div class="line-dash"></div> -->
-                                                                                            </div>
-                                                                                            <!-- <div class="col-sm-12 text-right" *ngIf="ccmPlan.items[i].itemGoals.length > minItemGoal"> -->
-                                                                                            <div class="col-sm-12 text-right">
-                                                                                                <!-- *ngIf="ccmPlan.items[i].itemGoals.length > minItemGoal" -->
-                                                                                                <button *ngIf="ccmPlan.items[i].itemGoals.length > minItemGoal" mat-raised-button color="primary" (click)="remove(i,'itemGoalForm',iy)">Remove Goal</button>
-
-                                                                                                <!-- <hr> -->
-                                                                                                <hr class="line-dash">
-                                                                                                <!-- <div class="line-dash"></div> -->
-                                                                                            </div>
-
-                                                                                        </div>
-                                                                                        <div class="row">
-                                                                                            <div class="col-sm-12">
-                                                                                                <!-- [disabled]="!(ccmPlan.items.length < maxItem)" -->
-                                                                                                <button type="button" mat-raised-button color="primary" (click)="addMore('itemGoalForm', i)">
-                                                                                                    Add More Goals
-                                                                                                </button>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                            </div>
-
-
-                                                                        </div>
-                                                                        <!-- <hr> -->
-                                                                        <hr class="line-dash">
-                                                                        <!-- <div class="line-dash"></div> -->
-
-
-
-
-
-                                                                    </div>
-                                                                    <!-- <div class="col-sm-12 text-right" *ngIf="ccmPlan.items.length > minItem"> -->
-                                                                    <div class="col-sm-12 text-right">
-                                                                        <!-- *ngIf="ccmPlan.items.length > minItem" -->
-                                                                        <button *ngIf="ccmPlan.items.length > minItem" mat-raised-button color="primary" (click)="remove(i,'itemForm',null)">Remove Component</button>
-
-                                                                        <!-- <hr> -->
-                                                                        <hr class="line-dash">
-                                                                        <!-- <div class="line-dash"></div> -->
-                                                                    </div>
-
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <!-- [disabled]="!(ccmPlan.items.length < maxItem)" -->
-                                                                        <button type="button" mat-raised-button color="primary" (click)="addMore('itemForm',i)">
-                                                                            Add More Component
-                                                                        </button>
-                                                                    </div>
+                                                                    <mat-form-field class="full-width">
+                                                                        <mat-select placeholder="Select Goal" formControlName="goal" [(ngModel)]="ccmPlanReview.ccmPlanItemGoalId">
+                                                                            <mat-option>None</mat-option>
+                                                                            <mat-option *ngFor="let goal of goalList" [value]="goal.id">
+                                                                                {{ goal.goal }}
+                                                                            </mat-option>
+                                                                        </mat-select>
+                                                                        <mat-error *ngIf="ccmPlanReviewFormGroup.controls['goal'].touched && ccmPlanReviewFormGroup.controls['goal'].errors?.required">
+                                                                            Goal is
+                                                                            <strong>required</strong>
+                                                                        </mat-error>
+                                                                    </mat-form-field>
                                                                 </div>
                                                             </div>
-                                                        </div>
 
-                                                        <div class="row">
-                                                            <div class="col-md-12">
+                                                            <div class="col-md-6">
 
-                                                                <h3>Health Reading</h3>
+                                                                <h3>Goal Achieve</h3>
 
-                                                                <mat-slide-toggle color="primary" formControlName="healthReading" [(ngModel)]="ccmPlan.isHealthParam" (change)="onIsHealthParamChange()">
+                                                                <mat-slide-toggle color="primary" formControlName="goalAcheive" [(ngModel)]="ccmPlanReview.isGoalAchieve">
                                                                     Yes
                                                                 </mat-slide-toggle>
 
                                                             </div>
-                                                        </div>
 
-                                                        <div class="row" *ngIf="ccmPlan.isHealthParam">
-
-
-                                                            <!-- New Attribute -->
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-12">
                                                                 <div class="form-field">
                                                                     <mat-form-field class="full-width">
-                                                                        <input matInput id="new_attribute" placeholder="New Attribute" value="">
-                                                                        <!-- <mat-error>
-                                                                                New Attribute is
-                                                                                <strong>required</strong>
-                                                                            </mat-error> -->
+                                                                        <input matInput placeholder="Barrier" formControlName="barrier" [(ngModel)]="ccmPlanReview.barrier">
                                                                     </mat-form-field>
                                                                 </div>
                                                             </div>
 
-                                                            <div class="col-md-6">
-                                                                <button type="button" mat-raised-button color="primary" (click)="addNewParam()">
-                                                                    Add New
-                                                                </button>
-                                                            </div>
-
-                                                        </div>
-
-
-                                                        <div class="row" formArrayName="healthParamForm" *ngIf="ccmPlan.isHealthParam">
                                                             <div class="col-md-12">
-                                                                <!-- <div class="row" *ngFor="let bidder of heldObject.auctionBidder; let $i=index;"> -->
-                                                                <!-- <div class="row" *ngFor="let b of formScheduleDetail.controls.scheduleDetail.controls; let i = index"
-                                                                                                [formGroupName]="i"> -->
-                                                                <div class="row" *ngFor="let X of ccmPlanFormGroup['controls'].healthParamForm['controls']; let i = index" [formGroupName]="i">
-                                                                    <div class="col-sm-12">
-
-                                                                        <!-- <h3>Detail {{i+1}}</h3> -->
-                                                                        <h4>{{ i+1 }}</h4>
-                                                                        <div class="row">
-
-                                                                            <!-- Attribute -->
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-field">
-                                                                                    <mat-form-field class="full-width">
-                                                                                        <!-- <input matInput placeholder="Attribute" [(ngModel)]="ccmPlan.healthParams[i].healthParamId" formControlName="attribute"> -->
-                                                                                        <mat-select placeholder="Select Attribute" formControlName="attribute" [(ngModel)]="ccmPlan.healthParams[i].healthParamId">
-                                                                                            <mat-option>None</mat-option>
-                                                                                            <mat-option *ngFor="let healthParam of healthParamList" [value]="healthParam.id">
-                                                                                                {{ healthParam.name }}
-                                                                                            </mat-option>
-                                                                                        </mat-select>
-                                                                                        <mat-error>
-                                                                                            Attribute is
-                                                                                            <strong>required</strong>
-                                                                                        </mat-error>
-                                                                                    </mat-form-field>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <!-- Reading Date -->
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-field">
-                                                                                    <mat-form-field class="full-width">
-                                                                                        <input matInput placeholder="Reading Date" value="{{ ccmPlan.healthParams[i].readingDate | date:'dd-MMM-yyyy' }}" formControlName="attributeDate"
-                                                                                            readonly>
-                                                                                        <!-- <mat-error>
-                                                                                            Reading Date is
-                                                                                            <strong>required</strong>
-                                                                                        </mat-error> -->
-                                                                                    </mat-form-field>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <!-- Attribute Value -->
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-field">
-                                                                                    <mat-form-field class="full-width">
-                                                                                        <input matInput placeholder="Attribute Value" [(ngModel)]="ccmPlan.healthParams[i].readingValue" formControlName="attributeValue">
-                                                                                        <mat-error>
-                                                                                            Attribute Value is
-                                                                                            <strong>required</strong>
-                                                                                        </mat-error>
-                                                                                    </mat-form-field>
-                                                                                </div>
-                                                                            </div>
-
-                                                                        </div>
-                                                                        <!-- <hr> -->
-                                                                        <hr class="line-dash">
-                                                                        <!-- <div class="line-dash"></div> -->
-
-
-
-
-
-                                                                    </div>
-                                                                    <!-- <div class="col-sm-12 text-right" *ngIf="ccmPlan.healthParams.length > minHealthPanael"> -->
-                                                                    <div class="col-sm-12 text-right">
-                                                                        <!-- *ngIf="ccmPlan.healthParams.length > minHealthPanael" -->
-                                                                        <button *ngIf="ccmPlan.healthParams.length > minHealthPanael" mat-raised-button color="primary" (click)="remove(i,'healthParam',null)">Remove </button>
-
-                                                                        <!-- <hr> -->
-                                                                        <hr class="line-dash">
-                                                                        <!-- <div class="line-dash"></div> -->
-                                                                    </div>
-
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <!-- [disabled]="!(ccmPlan.healthParams.length < maxItem)" -->
-                                                                        <button type="button" mat-raised-button color="primary" (click)="addMore('healthParam',i)">
-                                                                            Add More
-                                                                        </button>
-                                                                    </div>
+                                                                <div class="form-field">
+                                                                    <mat-form-field class="full-width">
+                                                                        <input matInput placeholder="Comment" formControlName="comment" [(ngModel)]="ccmPlanReview.reviewerComment">
+                                                                    </mat-form-field>
                                                                 </div>
                                                             </div>
+
+
                                                         </div>
+
+
                                                     </div>
 
                                                 </div>

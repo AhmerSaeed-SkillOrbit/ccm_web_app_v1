@@ -119,10 +119,11 @@ export class CcmPlanService implements OnDestroy {
 
                 if (element.itemGoals && element.itemGoals.length > 0) {
 
-                    element.itemGoals.forEach(element => {
+                    element.itemGoals.forEach((element, index) => {
 
                         let d = {
                             Id: element.id || null,
+                            GoalNumber: index + 1 || null,
                             Name: element.goal || null,
                             Intervention: element.intervention || null,
                             IsActive: element.isActive || false,

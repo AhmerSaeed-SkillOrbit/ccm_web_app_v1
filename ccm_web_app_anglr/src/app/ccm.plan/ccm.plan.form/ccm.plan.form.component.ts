@@ -94,13 +94,13 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
         public dialog: MatDialog,
     ) {
 
-        const id = this.route.snapshot.params['id'];
+        const paId = this.route.snapshot.params['paId'];
 
-        this.patientId = id;
+        this.patientId = paId;
 
-        const pId = this.route.snapshot.params['pId'];
+        const planId = this.route.snapshot.params['planId'];
 
-        this.planId = pId;
+        this.planId = planId;
 
         this.ccmPlanFormGroup = this._formBuilder.group({
             'startDate': ["", Validators.compose([Validators.required])],
@@ -128,8 +128,12 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
 
         if (this.isLogin) {
 
-            if (this.patientId && this.planId) {
+            if (this.patientId) {
                 this.loadUserById();
+            }
+
+            if (this.patientId && this.planId) {
+
                 this.loadCcmPlan();
             }
 

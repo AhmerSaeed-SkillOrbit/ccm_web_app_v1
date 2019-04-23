@@ -155,33 +155,47 @@
                                 </div>
 
                                 <div class="row">
+                                    <!-- last Pcp Visit Date -->
+                                    <div class="col-md-6">
 
-                                    <!-- Is Internet Available -->
+                                        <div class="form-field">
+
+                                            <!-- [min]="personalContactInfo.lastPcpVisitDate" -->
+                                            <mat-form-field class="full-width">
+                                                <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" placeholder="Date Of Last PCP Visit?" formControlName="lastPcpVisitDate"
+                                                    [(ngModel)]="personalContactInfo.lastPcpVisitDate" (dateChange)="dateChanged($event, 'lastPcpVisitDate')"
+                                                    readonly>
+                                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker></mat-datepicker>
+
+                                                <!-- <mat-error *ngIf="ccmPlanReviewFormGroup.controls['lastPcpVisitDate'].touched && ccmPlanReviewFormGroup.controls['lastPcpVisitDate'].errors?.required">
+                                                    Last Date is
+                                                    <strong>required</strong>
+                                                </mat-error> -->
+                                            </mat-form-field>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <!-- Is Agree Ccm Service -->
                                     <div class="col-md-12">
 
                                         <!-- [checked]="checked" -->
                                         Do You Agree To Care Coordination Management Service?
-                                        <mat-slide-toggle color="primary" formControlName="isInternetAvailable" [(ngModel)]="personalContactInfo.isInternetAvailable">
+                                        <mat-slide-toggle color="primary" formControlName="isAgreeCcmService" [(ngModel)]="personalContactInfo.isAgreeCcmService">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
 
-                                    <!-- Is Internet Available -->
+                                    <!-- Is Agree To Discuss Health Info -->
                                     <div class="col-md-12">
 
                                         <!-- [checked]="checked" -->
                                         Do You Agree To Discuss Your Health Information With Me Today?
-                                        <mat-slide-toggle color="primary" formControlName="isInternetAvailable" [(ngModel)]="personalContactInfo.isInternetAvailable">
-                                            Yes
-                                        </mat-slide-toggle>
-                                    </div>
-
-                                    <!-- Is Internet Available -->
-                                    <div class="col-md-12">
-
-                                        <!-- [checked]="checked" -->
-                                        Date Of Last PCP Visit?
-                                        <mat-slide-toggle color="primary" formControlName="isInternetAvailable" [(ngModel)]="personalContactInfo.isInternetAvailable">
+                                        <mat-slide-toggle color="primary" formControlName="isAgreeToDiscussHealthInfo" [(ngModel)]="personalContactInfo.isAgreeToDiscussHealthInfo">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>

@@ -21,6 +21,7 @@ import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmationDi
 import { ViewAppointmentDialogeComponent } from '../../shared/appointment.dialoge/view.appointment.dialoge.component';
 import { ForumService } from '../../core/services/forum/forum.service';
 import { SetupService } from '../../core/services/setup/setup.service';
+import { UserService } from '../../core/services/user/user.service';
 
 declare var libraryVar: any;
 
@@ -87,7 +88,7 @@ export class CcmPlanListComponent implements OnInit {
         public dialog: MatDialog,
         private _uiService: UIService,
         // public _messaging: MessagingService,
-        // private _userService: UserService,
+        private _userService: UserService,
         private _setupService: SetupService,
         private _ccmPlanService: CcmPlanService,
         private _mappingService: MappingService,
@@ -96,9 +97,9 @@ export class CcmPlanListComponent implements OnInit {
         private route: ActivatedRoute, private _router: Router
     ) {
         this.currentURL = window.location.href;
-        const id = this.route.snapshot.params['id'];
+        const paId = this.route.snapshot.params['paId'];
 
-        this.patientId = id;
+        this.patientId = paId;
     }
 
     ngOnInit(): void {
@@ -133,6 +134,7 @@ export class CcmPlanListComponent implements OnInit {
                 // this.cancelPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
                 this.cancelPermission = true;
 
+                this.loadUserById();
                 this.loadCCMPlanList();
 
             }
@@ -209,6 +211,28 @@ export class CcmPlanListComponent implements OnInit {
             this.loadCCMPlanList();
         }
 
+    }
+
+    loadUserById() {
+        // this._uiService.showSpinner();
+
+        this._userService.getUserById(this.patientId).subscribe(
+            (res) => {
+                // this._uiService.hideSpinner();
+
+                const user = res.data;
+                console.log('u Object', user);
+                // this.newUser = user;
+                this.patient = this._mappingService.mapUser(user);
+                console.log('newUser', this.patient);
+                // this.userId = this.user.id;
+            },
+            (err) => {
+                console.log(err);
+                // this._uiService.hideSpinner();
+                // this._authService.errStatusCheckResponse(err);
+            }
+        );
     }
 
     loadCCMPlanList() {
