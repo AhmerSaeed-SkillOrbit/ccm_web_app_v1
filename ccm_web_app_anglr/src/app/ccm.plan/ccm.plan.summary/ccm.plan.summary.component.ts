@@ -20,7 +20,7 @@ import { IAuthService } from '../../core/services/auth/iauth.service';
 import { UtilityService } from '../../core/services/general/utility.service';
 import { Region } from '../../core/models/region';
 import { Country } from '../../core/models/country';
-import { CcmPlan, CcmPlanItem, CcmPlanItemGoal, CcmPlanHealthParam, HealthParam } from '../../core/models/user.ccm.plan';
+import { CcmPlan, CcmPlanItem, CcmPlanItemGoal, CcmPlanHealthParam, HealthParam, CcmPlanReview } from '../../core/models/user.ccm.plan';
 
 import { SetupService } from '../../core/services/setup/setup.service';
 import { LogService } from '../../core/services/log/log.service';
@@ -29,6 +29,7 @@ import { FormService } from '../../core/services/form/form.service';
 import { CcmPlanService } from '../../core/services/ccm.plan/ccm.plan.service';
 import { Config } from '../../config/config';
 import { UserService } from '../../core/services/user/user.service';
+import { PatientRecordService } from '../../core/services/patient/patient.record.service';
 
 // import { ReportService } from '../../core/services/report/report.service';
 
@@ -72,6 +73,7 @@ export class CcmPlanSummaryComponent implements OnInit, OnChanges, OnDestroy {
         private _mappingService: MappingService,
         private route: ActivatedRoute,
         private _setupService: SetupService,
+        private _patientRecordService: PatientRecordService,
         private _userService: UserService,
         // private _router: Router,
         private _formService: FormService,
@@ -104,8 +106,10 @@ export class CcmPlanSummaryComponent implements OnInit, OnChanges, OnDestroy {
         if (this.isLogin) {
 
             if (this.patientId && this.planId) {
-                this.loadUserById();
+                // this.loadUserById();
+                this.loadGeneralInfo();
                 this.loadCcmPlan();
+                // this.loadReviewList();
             }
 
             this.loadHealthParams();
@@ -182,6 +186,29 @@ export class CcmPlanSummaryComponent implements OnInit, OnChanges, OnDestroy {
         );
     }
 
+    loadGeneralInfo() {
+        this._uiService.showSpinner();
+
+        this._patientRecordService.getGeneralInfo(this.patientId).subscribe(
+            (res) => {
+                this._uiService.hideSpinner();
+
+                const user = res.json().data;
+                // console.log('u Object', user);
+                // this.newUser = user;
+                this.patient = this._mappingService.mapUser(user);
+                console.log('patient general info', this.patient);
+                // this.userId = this.user.id;
+            },
+            (err) => {
+                console.log(err);
+                this._uiService.hideSpinner();
+                this._authService.errStatusCheckResponse(err);
+            }
+        );
+
+    }
+
     loadCcmPlan() {
 
         this._uiService.showSpinner();
@@ -201,6 +228,8 @@ export class CcmPlanSummaryComponent implements OnInit, OnChanges, OnDestroy {
                 // console.log('this.ccmPlan', this.ccmPlan);
 
 
+                this.loadReviewList();
+
             },
             (err) => {
                 console.log(err);
@@ -211,6 +240,78 @@ export class CcmPlanSummaryComponent implements OnInit, OnChanges, OnDestroy {
 
     }
 
+    loadReviewList() {
+        const msg = new Message();
+        let length = 0;
+        // this.dataSource = new MatTableDataSource<User>(this.userList);
+        // if (this.listPagePermission) {
+
+
+        this._uiService.showSpinner();
+
+        this._ccmPlanService.getReviewListCount(this.planId, null, null, null).subscribe(
+            (res) => {
+                // this._uiService.hideSpinner();
+                length = res.json().data;
+
+                this._ccmPlanService.getReviewListPagination(this.planId, 0, length, null, null, null).subscribe(
+                    (res) => {
+                        // this.userList = res.json();
+                        this._uiService.hideSpinner();
+                        let array = res.json().data || [];
+                        // console.log('res list:', array);
+                        var uList: CcmPlanReview[] = [];
+                        for (let i = 0; i < array.length; i++) {
+                            let u = this._mappingService.mapCcmPlanReview(array[i]);
+                            uList.push(u);
+                        }
+                        // this.ccmPlanReviewList = uList;
+
+
+                        uList.forEach(element => {
+                            this.ccmPlan.items.forEach((element1, index1) => {
+                                if (element.ccmPlanItemName == element1.name) {
+                                    this.ccmPlan.items[index1].ccmPlanReviews.push(element);
+                                }
+
+                                element1.itemGoals.forEach((element2, index2) => {
+
+                                    if (element.ccmPlanItemGoalId == element2.id) {
+                                        this.ccmPlan.items[index1].itemGoals[index2].ccmPlanReviews.push(element);
+                                    }
+                                });
+
+                            });
+                        });
+
+                        // this.ccmPlan.ccmPlanReviews
+
+                        console.log("map reviews ", this.ccmPlan);
+
+                    },
+                    (err) => {
+                        console.log(err);
+                        this._uiService.hideSpinner();
+                        // this.dataSource = new MatTableDataSource<User>(this.userList);
+                        // this._authService.errStatusCheck(err);
+                    }
+                );
+
+            },
+            (err) => {
+                console.log(err);
+                this._uiService.hideSpinner();
+                // this._authService.errStatusCheckResponse(err);
+            }
+        );
+
+        // }
+        // else {
+        //     this.isSpinner = false;
+        //     let msg = this._utilityService.permissionMsg();
+        //     this._uiService.showToast(msg, '');
+        // }
+    }
 
     ngOnDestroy() {
         this.ngUnsubscribe.unsubscribe();

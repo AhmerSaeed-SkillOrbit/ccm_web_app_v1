@@ -22,6 +22,7 @@ import { ViewAppointmentDialogeComponent } from '../../shared/appointment.dialog
 import { ForumService } from '../../core/services/forum/forum.service';
 import { SetupService } from '../../core/services/setup/setup.service';
 import { UserService } from '../../core/services/user/user.service';
+import { PatientRecordService } from '../../core/services/patient/patient.record.service';
 
 declare var libraryVar: any;
 
@@ -89,6 +90,7 @@ export class CcmPlanListComponent implements OnInit {
         private _uiService: UIService,
         // public _messaging: MessagingService,
         private _userService: UserService,
+        private _patientRecordService: PatientRecordService,
         private _setupService: SetupService,
         private _ccmPlanService: CcmPlanService,
         private _mappingService: MappingService,
@@ -134,7 +136,8 @@ export class CcmPlanListComponent implements OnInit {
                 // this.cancelPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
                 this.cancelPermission = true;
 
-                this.loadUserById();
+                // this.loadUserById();
+                this.loadGeneralInfo();
                 this.loadCCMPlanList();
 
             }
@@ -233,6 +236,29 @@ export class CcmPlanListComponent implements OnInit {
                 // this._authService.errStatusCheckResponse(err);
             }
         );
+    }
+
+    loadGeneralInfo() {
+        this._uiService.showSpinner();
+
+        this._patientRecordService.getGeneralInfo(this.patientId).subscribe(
+            (res) => {
+                this._uiService.hideSpinner();
+
+                const user = res.json().data;
+                // console.log('u Object', user);
+                // this.newUser = user;
+                this.patient = this._mappingService.mapUser(user);
+                console.log('patient general info', this.patient);
+                // this.userId = this.user.id;
+            },
+            (err) => {
+                console.log(err);
+                this._uiService.hideSpinner();
+                this._authService.errStatusCheckResponse(err);
+            }
+        );
+
     }
 
     loadCCMPlanList() {

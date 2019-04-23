@@ -29,6 +29,7 @@ import { FormService } from '../../core/services/form/form.service';
 import { CcmPlanService } from '../../core/services/ccm.plan/ccm.plan.service';
 import { Config } from '../../config/config';
 import { UserService } from '../../core/services/user/user.service';
+import { PatientRecordService } from '../../core/services/patient/patient.record.service';
 
 // import { ReportService } from '../../core/services/report/report.service';
 
@@ -85,6 +86,7 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
         private _mappingService: MappingService,
         private route: ActivatedRoute, private _router: Router,
         private _setupService: SetupService,
+        private _patientRecordService: PatientRecordService,
         private _userService: UserService,
         // private _router: Router,
         private _formService: FormService,
@@ -129,7 +131,8 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
         if (this.isLogin) {
 
             if (this.patientId) {
-                this.loadUserById();
+                // this.loadUserById();
+                this.loadGeneralInfo();
             }
 
             if (this.patientId && this.planId) {
@@ -361,6 +364,29 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
                 // this._authService.errStatusCheckResponse(err);
             }
         );
+    }
+
+    loadGeneralInfo() {
+        this._uiService.showSpinner();
+
+        this._patientRecordService.getGeneralInfo(this.patientId).subscribe(
+            (res) => {
+                this._uiService.hideSpinner();
+
+                const user = res.json().data;
+                // console.log('u Object', user);
+                // this.newUser = user;
+                this.patient = this._mappingService.mapUser(user);
+                console.log('patient general info', this.patient);
+                // this.userId = this.user.id;
+            },
+            (err) => {
+                console.log(err);
+                this._uiService.hideSpinner();
+                this._authService.errStatusCheckResponse(err);
+            }
+        );
+
     }
 
     loadCcmPlan() {
