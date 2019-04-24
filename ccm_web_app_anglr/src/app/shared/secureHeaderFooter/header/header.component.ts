@@ -175,7 +175,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this._router.navigateByUrl('user/view/profile');
     }
 
-    onlogOut() {
+    onlogOut_bk() {
 
         this.redirectUrl = 'login';
         this._authService.logoutUser();
@@ -186,6 +186,31 @@ export class HeaderComponent implements OnInit, OnDestroy {
         } else {
             this._router.navigate([this.redirectUrl]);
         }
+    }
+
+    onlogOut() {
+        this.redirectUrl = 'login';
+        // this._authService.logoutUser();
+
+        this._uiService.showSpinner();
+        this._authService.logout().subscribe(
+            (res) => {
+                this._uiService.hideSpinner();
+                console.log('res', res);
+
+
+                this.isUser = this._authService.getUser();
+                if (this.isUser) {
+                    return;
+                } else {
+                    this._router.navigate([this.redirectUrl]);
+                }
+            },
+            (err) => {
+                console.log('err', err);
+                this._uiService.hideSpinner();
+            }
+        );
     }
 
     ngOnDestroy(): void {

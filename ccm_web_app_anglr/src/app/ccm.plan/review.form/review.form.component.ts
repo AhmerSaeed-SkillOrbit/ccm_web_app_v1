@@ -203,6 +203,16 @@ export class ReviewFormComponent implements OnInit, OnChanges, OnDestroy {
 
     onGoalChange() {
 
+        const goal = this.goalList.filter(g => g.id === this.ccmPlanReview.ccmPlanItemGoalId);
+
+        if (goal.length > 0) {
+            this.ccmPlanReview.ccmPlanItemGoal = goal[0];
+        }
+        else {
+
+            this.ccmPlanReview.ccmPlanItemGoal = new CcmPlanItemGoal();
+        }
+
     }
 
     loadUserById() {

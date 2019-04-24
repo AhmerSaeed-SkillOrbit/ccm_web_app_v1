@@ -220,16 +220,25 @@
                                                                 <div class="form-field">
 
                                                                     <mat-form-field class="full-width">
-                                                                        <mat-select placeholder="Select Goal" formControlName="goal" [(ngModel)]="ccmPlanReview.ccmPlanItemGoalId">
+                                                                        <mat-select placeholder="Select Goal" formControlName="goal" [(ngModel)]="ccmPlanReview.ccmPlanItemGoalId" (change)="onGoalChange()">
                                                                             <mat-option>None</mat-option>
                                                                             <mat-option *ngFor="let goal of goalList" [value]="goal.id">
-                                                                                {{ goal.goal }}
+                                                                                {{ goal.goalNumber }}
                                                                             </mat-option>
                                                                         </mat-select>
                                                                         <mat-error *ngIf="ccmPlanReviewFormGroup.controls['goal'].touched && ccmPlanReviewFormGroup.controls['goal'].errors?.required">
                                                                             Goal is
                                                                             <strong>required</strong>
                                                                         </mat-error>
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-12">
+                                                                <div class="form-field">
+
+                                                                    <mat-form-field class="full-width">
+                                                                        <input matInput placeholder="Goal Description" value="{{ccmPlanReview.ccmPlanItemGoal.goal || 'NA' }}" readonly>
                                                                     </mat-form-field>
                                                                 </div>
                                                             </div>

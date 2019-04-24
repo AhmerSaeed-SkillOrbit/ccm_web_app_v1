@@ -26,8 +26,7 @@
                 <div class="page-header page-header-default">
                     <div class="page-header-content">
                         <div class="page-title">
-                            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Super Admin</span>
-                                - List</h4>
+                            <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Super Admin</span>                                - List</h4>
                         </div>
 
                         <!-- <div class="heading-elements">
@@ -143,18 +142,14 @@
                                     <table class="table no-footer">
                                         <thead>
                                             <tr role="row">
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" aria-label="First Name: activate to sort column ascending">ID</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">Name</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Email</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Role</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="First Name: activate to sort column ascending">ID</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">Name</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Email</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Role</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Last Login</th>
                                                 <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Status</th> -->
-                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1"
-                                                    aria-label="Actions" style="    width: 183px;">Actions</th>
+                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="    width: 183px;">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -171,14 +166,16 @@
                                                 <td class="sorting_1">
                                                     {{ user?.roleName || "NA" }}
                                                 </td>
+                                                <td class="sorting_1">
+                                                    {{ user?.isCurrentlyLoggedIn ? "Online" : (user?.lastLoggedIn || "NA") }}
+                                                </td>
                                                 <!-- <td>
                                                     <span class="label label-default">
                                                         {{ user?.roleName || "NA" }}
                                                     </span>
                                                 </td> -->
                                                 <td class="text-center">
-                                                    <span *ngIf="updatePermission" matTooltipPosition="above"
-                                                        matTooltip="Edit">
+                                                    <span *ngIf="updatePermission" matTooltipPosition="above" matTooltip="Edit">
                                                         <a [routerLink]="['/um/edit',user.id]">
                                                             <i style="color:#ffa808;" class=" icon-pencil"></i>
                                                         </a>
@@ -189,8 +186,7 @@
 
                                                     <!-- <a (click)=""> -->
 
-                                                    <span *ngIf="viewProfilePermission && false" matTooltipPosition="above"
-                                                        matTooltip="View">
+                                                    <span *ngIf="viewProfilePermission && false" matTooltipPosition="above" matTooltip="View">
                                                         <a>
                                                             <i style="color:#0aa700;" class="icon-eye2"></i>
                                                         </a>
@@ -200,8 +196,7 @@
                                                     </a>&nbsp; -->
 
                                                     <!-- <a (click)=""> -->
-                                                    <span *ngIf="deletePermission" matTooltipPosition="above"
-                                                        matTooltip="Delete">
+                                                    <span *ngIf="deletePermission" matTooltipPosition="above" matTooltip="Delete">
                                                         <i style="color:#f70a0a;" class="icon-bin" (click)="userDelete(user.id)"></i>
                                                     </span>
                                                 </td>
@@ -240,8 +235,7 @@
                                             tabindex="0" id="DataTables_Table_0_next">→</a>
                                     </div>
                                 </div> -->
-                                <mat-paginator #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
-                                    (page)="pageEvent = pageChangeEvent($event)">
+                                <mat-paginator #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent = pageChangeEvent($event)">
                                 </mat-paginator>
                             </div>
                         </div>
@@ -285,8 +279,7 @@
                                                             <!-- First Name -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group has-feedback has-feedback-left">
-                                                                    <input type="text" class="form-control" placeholder="First Name"
-                                                                        formControlName="firstName" [(ngModel)]="newUser.firstName">
+                                                                    <input type="text" class="form-control" placeholder="First Name" formControlName="firstName" [(ngModel)]="newUser.firstName">
                                                                     <div class="form-control-feedback">
                                                                         <i class="icon-user text-muted"></i>
                                                                     </div>
@@ -296,8 +289,7 @@
                                                             <!-- Last Name -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group has-feedback has-feedback-left">
-                                                                    <input type="text" class="form-control" placeholder="Last Name"
-                                                                        formControlName="lastName" [(ngModel)]="newUser.lastName">
+                                                                    <input type="text" class="form-control" placeholder="Last Name" formControlName="lastName" [(ngModel)]="newUser.lastName">
                                                                     <div class="form-control-feedback">
                                                                         <i class="icon-user text-muted"></i>
                                                                     </div>
@@ -307,9 +299,7 @@
                                                             <!-- Email Address -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group has-feedback has-feedback-left">
-                                                                    <input type="email" class="form-control"
-                                                                        placeholder="Email Address" formControlName="email"
-                                                                        [(ngModel)]="newUser.email">
+                                                                    <input type="email" class="form-control" placeholder="Email Address" formControlName="email" [(ngModel)]="newUser.email">
                                                                     <div class="form-control-feedback">
                                                                         <i class="icon-user text-muted"></i>
                                                                     </div>
@@ -319,9 +309,7 @@
                                                             <!-- Mobile Number -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group has-feedback has-feedback-left">
-                                                                    <input type="number" class="form-control"
-                                                                        placeholder="Mobile Number" formControlName="mobileNumber"
-                                                                        [(ngModel)]="newUser.mobileNumber">
+                                                                    <input type="number" class="form-control" placeholder="Mobile Number" formControlName="mobileNumber" [(ngModel)]="newUser.mobileNumber">
                                                                     <div class="form-control-feedback">
                                                                         <i class="icon-user text-muted"></i>
                                                                     </div>
@@ -331,9 +319,7 @@
                                                             <!-- Telephone Number -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group has-feedback has-feedback-left">
-                                                                    <input type="number" class="form-control"
-                                                                        placeholder="Telephone Number" formControlName="telephoneNumber"
-                                                                        [(ngModel)]="newUser.phoneNumber">
+                                                                    <input type="number" class="form-control" placeholder="Telephone Number" formControlName="telephoneNumber" [(ngModel)]="newUser.phoneNumber">
                                                                     <div class="form-control-feedback">
                                                                         <i class="icon-user text-muted"></i>
                                                                     </div>
@@ -343,8 +329,7 @@
                                                             <!-- Office Address -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group has-feedback has-feedback-left">
-                                                                    <input type="text" class="form-control" placeholder="Office Address"
-                                                                        formControlName="officeAddress" [(ngModel)]="newUser.officeAddress">
+                                                                    <input type="text" class="form-control" placeholder="Office Address" formControlName="officeAddress" [(ngModel)]="newUser.officeAddress">
                                                                     <div class="form-control-feedback">
                                                                         <i class="icon-user text-muted"></i>
                                                                     </div>
@@ -354,9 +339,7 @@
                                                             <!-- Residential Address -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group has-feedback has-feedback-left">
-                                                                    <input type="text" class="form-control" placeholder="Residential Address"
-                                                                        formControlName="residentialAddress"
-                                                                        [(ngModel)]="newUser.residentialAddress">
+                                                                    <input type="text" class="form-control" placeholder="Residential Address" formControlName="residentialAddress" [(ngModel)]="newUser.residentialAddress">
                                                                     <div class="form-control-feedback">
                                                                         <i class="icon-user text-muted"></i>
                                                                     </div>
@@ -378,12 +361,10 @@
 
                                     <div class="modal-footer">
                                         <!-- <button type="button" class="btn btn-link" data-dismiss="modal">Close</button> -->
-                                        <button type="button" class="btn btn-link" (click)="onCloseHandled(false)"
-                                            [disabled]="isSubmitted">
+                                        <button type="button" class="btn btn-link" (click)="onCloseHandled(false)" [disabled]="isSubmitted">
                                             Close
                                         </button>
-                                        <button type="submit" class="btn btn-primary" (click)="onSubmitAddUser()"
-                                            [disabled]="isSubmitted">
+                                        <button type="submit" class="btn btn-primary" (click)="onSubmitAddUser()" [disabled]="isSubmitted">
                                             Submit form <i class="icon-arrow-right14 position-right"></i>
                                         </button>
                                         <!-- <button type="submit" class="btn btn-primary">Submit form <i class="icon-arrow-right14 position-right"></i></button> -->
