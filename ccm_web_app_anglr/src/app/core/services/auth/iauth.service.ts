@@ -150,6 +150,15 @@ export interface IAuthService {
      */
     getUrlPath(): string;
 
+    // loginStatusChangedNew : Subject<any>;
+    /**
+     * Returns user object on successfull logged in
+     * @param userId
+     * @param password
+     * @returns {Obaservable<User>}
+     */
+    logout(): Observable<any>;
+
     /**
      * remove user from local storage
      */

@@ -94,9 +94,12 @@ export class MappingService {
 
             // isUser.resume = this._fileService.mapDocument(userData.resume);
 
-            isUser.isBlocked = userData.isBlocked;
-            isUser.isActive = userData.isActive || false;
-            isUser.lastLogin = userData.lastLogin || null;
+            isUser.isBlocked = userData.IsBlocked || false;
+            isUser.isActive = userData.IsActive || false;
+            isUser.lastLogin = userData.LastLogin || null;
+
+            isUser.isCurrentlyLoggedIn = userData.IsCurrentlyLoggedIn || false;
+            isUser.lastLoggedIn = userData.LastLoggedIn || null;
 
             isUser.createdOn = userData.createdOn || null;
             isUser.createdBy = userData.createdBy || null;
@@ -1224,6 +1227,7 @@ export class MappingService {
         if (ccmPlanItemGoalData) {
             isCcmPlanItemGoal.id = ccmPlanItemGoalData.Id || null;
             isCcmPlanItemGoal.ccmPlanItemGoalId = ccmPlanItemGoalData.Id || null;
+            isCcmPlanItemGoal.goalNumber = ccmPlanItemGoalData.GoalNumber || null;
             isCcmPlanItemGoal.goal = ccmPlanItemGoalData.Goal || null;
             isCcmPlanItemGoal.intervention = ccmPlanItemGoalData.Intervention || null;
             isCcmPlanItemGoal.result = ccmPlanItemGoalData.Result || false;

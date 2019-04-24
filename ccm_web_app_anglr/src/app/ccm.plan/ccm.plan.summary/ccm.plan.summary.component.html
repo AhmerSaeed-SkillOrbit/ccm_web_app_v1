@@ -119,15 +119,26 @@
                                                 <div class="col-md-10">
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <label class="label-heading">{{ patient?.firstName || patient?.lastName ? patient?.firstName + " " + patient?.lastName : "NA" }}</label>
-                                                        </div>
-                                                        <!-- <div class="col-md-12">
-                                                            {{ patient?.firstName || patient?.lastName ? patient?.firstName + " " + patient?.lastName : "NA" }}
-                                                        </div> -->
-                                                        <div class="col-md-6">
-                                                            <label class="label-heading">{{ patient?.patientUniqueId || "NA" }}</label>
+                                                            <!-- <label class="label-heading">{{ patient?.firstName || patient?.lastName ? patient?.firstName + " " + patient?.lastName : "NA" }}</label> -->
+                                                            <h2>{{ patient?.firstName || patient?.lastName ? patient?.firstName
+                                                                + " " + patient?.lastName : "NA" }}</h2>
                                                         </div>
                                                     </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <label class="label-heading">Patient Unique Id: {{ patient?.patientUniqueId || "NA" }}</label>
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label class="label-heading">Gender: {{ patient?.gender || "NA" }}</label>
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label class="label-heading">Age: {{ patient?.age || "NA" }}</label>
+                                                        </div>
+                                                    </div>
+
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <p>{{ patient?.profileSummary || "Not Available" }}</p>
@@ -153,7 +164,7 @@
                                                             <thead>
                                                                 <tr role="row">
                                                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="S.No: activate to sort column ascending">
-
+                                                                        Component
                                                                     </th>
                                                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Plan No.: activate to sort column ascending">
                                                                         Goal

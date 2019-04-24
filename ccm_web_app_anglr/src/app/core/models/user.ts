@@ -89,6 +89,8 @@ export class User extends BaseModel {
     // roleId: number;
     // roleName: string;
 
+    isCurrentlyLoggedIn: boolean = false;
+    lastLoggedIn: string;
     lastLogin: string;
     stateName: string;
 

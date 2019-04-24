@@ -27,8 +27,7 @@
                     <div class="page-header-content">
                         <div class="page-title">
                             <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Support
-                                    Staff</span>
-                                - List</h4>
+                                    Staff</span> - List</h4>
                         </div>
 
                         <!-- <div class="heading-elements">
@@ -135,18 +134,14 @@
                                     <table class="table no-footer">
                                         <thead>
                                             <tr role="row">
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" aria-label="First Name: activate to sort column ascending">ID</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">Name</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Email</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Role</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="First Name: activate to sort column ascending">ID</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">Name</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Email</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Role</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Last Login</th>
                                                 <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Status</th> -->
-                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1"
-                                                    aria-label="Actions" style="    width: 183px;">Actions</th>
+                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="    width: 183px;">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -163,14 +158,16 @@
                                                 <td class="sorting_1">
                                                     {{ user?.roleName || "NA" }}
                                                 </td>
+                                                <td class="sorting_1">
+                                                    {{ user?.isCurrentlyLoggedIn ? "Online" : (user?.lastLoggedIn || "NA") }}
+                                                </td>
                                                 <!-- <td>
                                                     <span class="label label-default">
                                                         {{ user?.roleName || "NA" }}
                                                     </span>
                                                 </td> -->
                                                 <td class="text-center">
-                                                    <span *ngIf="updatePermission" matTooltipPosition="above"
-                                                        matTooltip="Edit">
+                                                    <span *ngIf="updatePermission" matTooltipPosition="above" matTooltip="Edit">
                                                         <a [routerLink]="['/um/edit',user.id]">
                                                             <i style="color:#ffa808;" class=" icon-pencil"></i>
                                                         </a>
@@ -181,8 +178,7 @@
 
                                                     <!-- <a (click)=""> -->
 
-                                                    <span *ngIf="viewProfilePermission && false" matTooltipPosition="above"
-                                                        matTooltip="View">
+                                                    <span *ngIf="viewProfilePermission && false" matTooltipPosition="above" matTooltip="View">
                                                         <a>
                                                             <i style="color:#0aa700;" class="icon-eye2"></i>
                                                         </a>
@@ -194,8 +190,7 @@
                                                     <!-- <a (click)=""> -->
 
 
-                                                    <span *ngIf="deletePermission" matTooltipPosition="above"
-                                                        matTooltip="Delete">
+                                                    <span *ngIf="deletePermission" matTooltipPosition="above" matTooltip="Delete">
                                                         <i style="color:#f70a0a;" class="icon-bin" (click)="userDelete(user.id)"></i>
                                                     </span>
                                                     <!-- <a>
@@ -236,8 +231,7 @@
                                             tabindex="0" id="DataTables_Table_0_next">→</a>
                                     </div>
                                 </div> -->
-                                <mat-paginator #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
-                                    (page)="pageEvent = pageChangeEvent($event)">
+                                <mat-paginator #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent = pageChangeEvent($event)">
                                 </mat-paginator>
                             </div>
                         </div>
@@ -275,8 +269,7 @@
                                                         <div class="form-group">
                                                             <label class="col-lg-3 control-label">Email:</label>
                                                             <div class="col-lg-9">
-                                                                <input type="text" class="form-control" placeholder="example@abc.com"
-                                                                    name="email" [(ngModel)]="email">
+                                                                <input type="text" class="form-control" placeholder="example@abc.com" name="email" [(ngModel)]="email">
                                                             </div>
                                                         </div>
 

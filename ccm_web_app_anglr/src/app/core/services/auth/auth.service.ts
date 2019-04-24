@@ -423,6 +423,36 @@ export class AuthService implements IAuthService, OnDestroy {
         });
     }
 
+    logout(): Observable<any> {
+        // const url = this.getAuthFullUrl('connect/token');
+        let token: Token;
+        token = this.getTokenData()
+
+        let userId = token.userId;
+
+        const url = this.getAuthFullUrl('logout?Id=' + userId);
+
+        const options = new RequestOptions();
+
+        options.headers = new Headers();
+        options.headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+
+
+        return this._http.get(url, options)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            })
+            .do((res) => {
+                this.logoutUser();
+            });
+
+
+    }
+
     logoutUser() {
         console.log("logout");
         localStorage.clear();
