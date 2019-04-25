@@ -9,7 +9,7 @@ import 'rxjs/add/operator/map';
 import { IAuthService } from '../../core/services/auth/iauth.service';
 import { UIService } from '../../core/services/ui/ui.service';
 import { Message, MessageTypes } from '../../core/models/message';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, PageEvent } from '@angular/material';
 import { SetupService } from '../../core/services/setup/setup.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 
@@ -38,7 +38,7 @@ export class AssignPermissionComponent implements OnInit {
 
     searchKeywordR: string = null;
     pageIndexR: number = 0;
-    pageSizeR: number = 5; // by default
+    pageSizeR: number = 25; // by default
     lengthR: number = 0;
     pageSizeOptionsR = [5, 10, 25, 50];
     // pageSizeOptions = [10];
@@ -129,6 +129,17 @@ export class AssignPermissionComponent implements OnInit {
 
         this.loadRoleList();
         // }
+    }
+
+    pageChangeEvent(event?: PageEvent): PageEvent {
+
+        // console.log("getServerData event", event);
+
+        this.pageIndexR = event.pageIndex;
+        this.pageSizeR = event.pageSize;
+        this.loadRoleList();
+
+        return event;
     }
 
     search() {
