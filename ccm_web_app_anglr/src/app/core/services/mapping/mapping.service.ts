@@ -85,7 +85,8 @@ export class MappingService {
             // isUser.roles = userData.roles;
             isUser.permissions = userData.permissions;
 
-            isUser.profilePicture = this.mapFileUpload(userData.FileUpload);
+            // isUser.profilePicture = this.mapFileUpload(userData.FileUpload);
+            isUser.profilePicture = this.mapFileUpload(userData.ProfilePicture);
             if (userData.profilePicture) {
                 // isUser.profilePicture = userData.profilePicture;
 
