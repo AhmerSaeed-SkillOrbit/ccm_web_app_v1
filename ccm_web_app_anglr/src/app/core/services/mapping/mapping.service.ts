@@ -133,8 +133,12 @@ export class MappingService {
         if (permissionData) {
             isPermission.id = permissionData.Id || null;
             isPermission.permissionId = permissionData.Id || null;
-            isPermission.permissionName = permissionData.PermissionName || null;
-            isPermission.permissionCode = permissionData.PermissionCodeName || null;
+            isPermission.permissionName = permissionData.PermissionName || permissionData.Name || null;
+            isPermission.permissionCode = permissionData.PermissionCodeName || permissionData.CodeName || null;
+            isPermission.description = permissionData.Description || null;
+            isPermission.tooltip = permissionData.ToolTip || null;
+            isPermission.sortOrder = permissionData.SortOrder || null;
+            isPermission.isActive = permissionData.IsActive || null;
         }
 
         return isPermission;
