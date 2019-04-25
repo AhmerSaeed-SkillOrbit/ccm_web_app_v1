@@ -329,7 +329,8 @@ export class SetupService {
 
 
     public getRolesWithCount(keyword): Observable<any> {
-        const getUrl = 'role/all/count/' + (keyword || "null");
+        // const getUrl = 'role/all/count/' + (keyword || "null");
+        const getUrl = 'role/count?s=' + (keyword || null);
         return this._http.get(getUrl)
             // .map(res => res.json())
             .map((res: Response) => res)
@@ -342,7 +343,8 @@ export class SetupService {
     }
 
     public getRolesWithPgno(keyword, pageNo, limit): Observable<any> {
-        const getUrl = 'role/all/' + (keyword || "null") + '/' + (pageNo || 0) + '/' + (limit || 10);
+        // const getUrl = 'role/all/' + (keyword || "null") + '/' + (pageNo || 0) + '/' + (limit || 10);
+        const getUrl = 'role/list/search?s=' + (keyword || null) + '&p=' + (pageNo || 0) + '&c=' + (limit || 10);
         return this._http.get(getUrl)
             // .map(res => res.json())
             .map((res: Response) => res)
@@ -454,13 +456,34 @@ export class SetupService {
 
     // --------- Permission
 
-    public getPermissionListCount(): Observable<any> {
+    public getPermissionsViaRole(roleId): Observable<any> {
+        const getUrl = 'permission/via/role/id?RoleId=' + (roleId || null);
+
         let token: Token;
         token = this._authService.getTokenData();
         const options = new RequestOptions();
         options.headers = new Headers();
         options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
-        const getUrl = 'permission/all/count';
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public getPermissionListCount(searchKeyword?: string): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+        // const getUrl = 'permission/all/count';
+        const getUrl = 'permission/count?s=' + (searchKeyword || null);
         return this._http.get(getUrl, options)
             .map((res: Response) => res)
             .catch((error: any) => {
@@ -468,8 +491,9 @@ export class SetupService {
             });
     }
 
-    public getPermissionsWithPgno(pageNo, limit): Observable<any> {
-        const getUrl = 'permission/all/' + pageNo + '/' + limit;
+    public getPermissionsWithPgno(pageNo, limit, searchKeyword?: string): Observable<any> {
+        // const getUrl = 'permission/all/' + pageNo + '/' + limit;
+        const getUrl = 'permission/list/search?p=' + (pageNo || 0) + '&c=' + (limit || 5) + '&s=' + (searchKeyword || null);
 
         let token: Token;
         token = this._authService.getTokenData();
@@ -592,11 +616,28 @@ export class SetupService {
     }
 
     public assignPermissionToRole(role, permissions): Observable<any> {
-        // const getUrl = 'assign/role/permissions';
+
+        // const getUrl = 'role/permission/assign';
         const getUrl = 'role/permission/assign';
+
+
+        let pm = [];
+
+        if (permissions && permissions.length > 0) {
+
+            permissions.forEach(element => {
+                pm.push({
+                    Id: element.id
+                });
+            });
+
+        }
+
+
         const body = {
             RoleId: role.roleId,
-            Permissions: permissions,
+            // Permission: permissions,
+            Permission: pm || [],
         };
 
         let token: Token;

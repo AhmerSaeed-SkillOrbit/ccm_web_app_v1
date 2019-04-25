@@ -8,7 +8,12 @@ export class Permission {
     selected: boolean;
     permissionCode: string;
     permissionType: string;
+    description: string;
+    tooltip: string;
     accessUrl: string;
     value: string;
+    sortOrder: number;
+
+    isActive: boolean = true;
 
 }

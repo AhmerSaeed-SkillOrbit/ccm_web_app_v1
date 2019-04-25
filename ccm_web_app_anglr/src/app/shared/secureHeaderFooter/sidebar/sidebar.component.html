@@ -8,9 +8,9 @@
         <!-- <a class="media-left" (click)="changeProfilePic()"> -->
         <a class="media-left" (click)="clickToUpload.click()" matTooltipPosition="above" matTooltip="Upload Profile Picture">
           <input style="display : none" type="file" accept='image/*' (change)="changeProfilePic($event)" #clickToUpload>
-          <img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
+          <!-- <img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""> -->
           <!-- <img src="{{profilePic}}" class="img-circle img-sm" alt="profile_pic"> -->
-          <!-- <img src="{{user?.profilePicture?.fileUploadUrl}}" class="img-circle img-sm" alt="profile_pic"> -->
+          <img src="{{user?.profilePicture?.fileUploadUrl}}" class="img-circle img-sm" alt="profile_pic">
         </a>
         <div class="media-body">
           <span class="media-heading text-semibold">{{ user?.firstName || "NA"}}</span>
@@ -329,7 +329,7 @@
         </ul>
         </li>
 
-        <li>
+        <li *ngIf="false">
           <a (click)="expandRow(9)">
             <i class="icon-stats-dots"></i>
             <span>Reports</span>
