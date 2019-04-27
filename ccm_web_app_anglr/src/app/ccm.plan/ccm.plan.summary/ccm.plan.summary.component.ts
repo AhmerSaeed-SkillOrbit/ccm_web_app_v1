@@ -106,8 +106,8 @@ export class CcmPlanSummaryComponent implements OnInit, OnChanges, OnDestroy {
         if (this.isLogin) {
 
             if (this.patientId && this.planId) {
-                // this.loadUserById();
-                this.loadGeneralInfo();
+                this.loadUserById();
+                // this.loadGeneralInfo();
                 this.loadCcmPlan();
                 // this.loadReviewList();
             }
@@ -159,6 +159,25 @@ export class CcmPlanSummaryComponent implements OnInit, OnChanges, OnDestroy {
             (err) => {
                 console.log(err);
                 // this._uiService.hideSpinner();
+                // this._authService.errStatusCheckResponse(err);
+            }
+        );
+    }
+
+    sentTo() {
+        this._uiService.showSpinner();
+
+        this._ccmPlanService.sendCcmPlanSummaryEmail(this.planId).subscribe(
+            (res) => {
+                this._uiService.hideSpinner();
+
+                let array = res.json().data;
+                console.log('u Object', array);
+
+            },
+            (err) => {
+                console.log(err);
+                this._uiService.hideSpinner();
                 // this._authService.errStatusCheckResponse(err);
             }
         );
