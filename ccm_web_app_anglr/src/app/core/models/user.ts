@@ -91,6 +91,7 @@ export class User extends BaseModel {
 
     isCurrentlyLoggedIn: boolean = false;
     lastLoggedIn: string;
+    loginDateTime: string;
     lastLogin: string;
     stateName: string;
 

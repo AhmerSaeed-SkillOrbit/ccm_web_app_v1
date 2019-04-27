@@ -67,26 +67,19 @@
                     <!-- (dateChange)="dateChanged($event, 'startDate')" -->
                     <!-- (ngModelChange)="onStartDateFocusOut()" -->
                     <!-- [min]="currentDate" -->
-                    <div class="col-md-3" *ngIf="false">
+                    <div class="col-md-3">
                         <mat-form-field class="full-width">
                             <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" placeholder="Date of Birth (DOB)" formControlName="dateOfBirth"
                                 [(ngModel)]="patient.dateOfBirth" (dateChange)="dateChanged($event, 'dob')" readonly>
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
-                        <!-- <mat-form-field class="full-width">
-                        <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" placeholder="Choose start date"
-                            formControlName="startDate" [(ngModel)]="startDate" (dateChange)="dateChanged($event, 'startDate')"
-                            (ngModelChange)="onStartDateFocusOut()" readonly>
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field> -->
                     </div>
 
                     <!-- Age -->
                     <div class="col-md-3">
                         <mat-form-field class="full-width">
-                            <input matInput placeholder="Age" formControlName="age" [(ngModel)]="patient.age">
+                            <input matInput placeholder="Age" formControlName="age" [(ngModel)]="patient.age" readonly>
                         </mat-form-field>
                     </div>
 

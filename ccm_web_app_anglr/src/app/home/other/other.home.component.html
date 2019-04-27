@@ -85,8 +85,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="row">
-                                                <label for="">Name : </label>
-                                                {{ assocDoctor?.firstName || "NA" }}
+                                                <label for="">Name : </label> {{ assocDoctor?.firstName || "NA" }}
                                             </div>
 
                                         </div>
@@ -128,6 +127,68 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="row">
+                        <div class="panel panel-flat">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">
+                                    Login History
+                                    <a class="heading-elements-toggle"><i class="icon-more"></i></a>
+                                </h5>
+                            </div>
+
+                            <div class="panel-body">
+
+                                <div class="col-lg-4">
+                                    <mat-table #table [dataSource]="dataSourceHs" class="table table-responsive soc-table">
+
+                                        <!-- Serial No -->
+                                        <ng-container matColumnDef="sNo">
+                                            <mat-header-cell *matHeaderCellDef> S.No </mat-header-cell>
+                                            <mat-cell *matCellDef="let u; let i = index;"> {{i + 1}} </mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="name">
+                                            <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                                            <mat-cell *matCellDef="let u">
+                                                {{ u?.investigationOfficerName || 'NA' }}
+                                            </mat-cell>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="dateTime">
+                                            <mat-header-cell *matHeaderCellDef> Date Time </mat-header-cell>
+                                            <mat-cell *matCellDef="let u">
+                                                {{u?.loginDateTime || "NA"}}
+                                                <!-- {{ u.LoginDateTime | date:'dd-MMM-yyyy' }} -->
+                                            </mat-cell>
+                                        </ng-container>
+
+
+                                        <mat-header-row *matHeaderRowDef="displayedColumnsHs"></mat-header-row>
+                                        <mat-row *matRowDef="let row; columns: displayedColumnsHs;"></mat-row>
+                                    </mat-table>
+
+                                    <div class="" *ngIf="(dataSourceHs.data.length == 0 || dataSourceHs.filteredData.length == 0) && !isSpinnerHs">
+                                        <div class="snipet download-btn">
+                                            <button (click)="refreshList()" mat-raised-button>
+                                                <i class="material-icons">refresh</i> No Data Found
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <spinner [visible]='isSpinnerHs'></spinner>
+
+                                    <!-- <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+                                            </mat-paginator> -->
+                                    <mat-paginator #paginator [length]="lengthHs" [pageIndex]="pageIndexHs" [pageSize]="pageSizeHs" [pageSizeOptions]="pageSizeOptions"
+                                        (page)="pageEventHs = pageChangeEvent($event)">
+                                    </mat-paginator>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
 
                     <!-- Dashboard content -->
                     <div class="row" *ngIf="user.roleCode=='patient'">

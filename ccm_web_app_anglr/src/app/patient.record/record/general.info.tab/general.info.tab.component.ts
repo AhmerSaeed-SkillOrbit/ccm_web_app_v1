@@ -136,6 +136,12 @@ export class GeneralInfoTabComponent implements OnInit {
             this.patient.dateOfBirth = this.datePipe.transform(this.patient.dateOfBirth, 'yyyy-MM-dd');
             // this.projectActivityForm.projectActivityDate = this.datePipe.transform(this.projectActivityForm.projectActivityDate, 'yyyy-MM-dd h:mm:ss a');
             console.log('event', this.patient.dateOfBirth);
+
+            let currentDate = new Date();
+
+            let age = this._utilityService.dateDifferenceInYears(this.patient.dateOfBirth, currentDate);
+            this.patient.age = age;
+            console.log('age', age);
         }
         // else if (type == 'endDate') {
         //     // this.schedule.endDate = this.datePipe.transform(this.schedule.endDate, 'yyyy-MM-dd');
