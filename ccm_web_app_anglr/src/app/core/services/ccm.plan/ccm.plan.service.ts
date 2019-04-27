@@ -313,6 +313,28 @@ export class CcmPlanService implements OnDestroy {
             });
     }
 
+    sendCcmPlanSummaryEmail(planId) {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        let getUrl = 'ccm/plan/summary/email/pdf?userId=' + (userId || null) + '&ccmPlanId=' + (planId || null);
+
+        let body = {};
+        // return this._http.get(getUrl)
+        return this._http.post(getUrl, body)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+
+    }
+
     ngOnDestroy() {
 
     }
