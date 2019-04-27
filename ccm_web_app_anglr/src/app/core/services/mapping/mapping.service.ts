@@ -49,6 +49,7 @@ export class MappingService {
             isUser.mobileNumber = userData.MobileNumber || null;
             isUser.phoneNumber = userData.TelephoneNumber || null;
             isUser.cnic = userData.Cnic || null;
+            isUser.dateOfBirth = userData.DateOfBirth || null;
             isUser.age = userData.Age || null;
             isUser.ageGroup = userData.AgeGroup || null;
             isUser.gender = userData.Gender || null;
@@ -101,6 +102,7 @@ export class MappingService {
 
             isUser.isCurrentlyLoggedIn = userData.IsCurrentlyLoggedIn || false;
             isUser.lastLoggedIn = userData.LastLoggedIn || null;
+            isUser.loginDateTime = userData.LoginDateTime || null;
 
             isUser.createdOn = userData.createdOn || null;
             isUser.createdBy = userData.createdBy || null;

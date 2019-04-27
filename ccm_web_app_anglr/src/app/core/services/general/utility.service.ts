@@ -155,6 +155,23 @@ export class UtilityService {
         return days;
     }
 
+    public dateDifferenceInYears(startDate, endDate): any {
+
+        var month = 0;
+
+        var date1 = new Date(startDate);
+        var date2 = new Date(endDate);
+        console.log('date1', date1);
+        console.log('date2', date2);
+
+
+        var diff = (date2.getTime() - date1.getTime()) / 1000;
+        diff /= (60 * 60 * 24);
+        // console.log('days', days);
+        return Math.abs(Math.round(diff / 365.25));
+
+    }
+
     public addDaysInDate(noOfDays = 0, date): any {
         //Get 1 day in milliseconds
         var one_day = 1000 * 60 * 60 * 24;

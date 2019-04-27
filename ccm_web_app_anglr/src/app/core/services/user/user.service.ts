@@ -438,4 +438,45 @@ export class UserService {
             }
             );
     }
+
+
+
+    // --------- User login history List Count with role and search
+    public getUserLoginHistoryListCount(ofUserId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+        const getUrl = 'login/history/count?byUserId=' + (userId || null) + '&ofUserId=' + (ofUserId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    // --------- User Login History Pagination
+    public getUserLoginHistoryListPagination(pageNo, limit, ofUserId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+        // user/list/search?p=0&c=2&s=null&r=null
+        const getUrl = 'login/history/all?byUserId=1' + (userId || null) + '&ofUserId=' + (ofUserId || null) + '&p=' + (pageNo || 0) + '&c=' + (limit || 5);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
 }
