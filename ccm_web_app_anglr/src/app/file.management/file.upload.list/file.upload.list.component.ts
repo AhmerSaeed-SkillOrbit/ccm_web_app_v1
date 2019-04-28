@@ -22,6 +22,7 @@ import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmationDi
 import { ViewAppointmentDialogeComponent } from '../../shared/appointment.dialoge/view.appointment.dialoge.component';
 import { ForumService } from '../../core/services/forum/forum.service';
 import { SetupService } from '../../core/services/setup/setup.service';
+import { Permission } from '../../core/models/permission';
 
 
 declare var libraryVar: any;
@@ -44,6 +45,8 @@ export class FileUploadListComponent implements OnInit {
     isUser: User = new User();
     user: User = new User();
     isLogin: any;
+
+    userPermissions: Permission[] = [];
 
     userId: number = null;
 
@@ -72,6 +75,7 @@ export class FileUploadListComponent implements OnInit {
     listPagePermission = false;
     addPermission = false;
     updatePermission = false;
+    deletePermission = false;
     viewPermission = false;
 
     roleList: Role[] = []
@@ -100,6 +104,9 @@ export class FileUploadListComponent implements OnInit {
     ngOnInit(): void {
 
         this.user = this._authService.getUser();
+
+        this.userPermissions = this._authService.getUserPermissions();
+
         console.log('this.user', this.user);
         this.isLogin = this._authService.isLoggedIn();
         // console.log('this.isLogin', this.isLogin);
@@ -110,15 +117,22 @@ export class FileUploadListComponent implements OnInit {
             // this._router.navigateByUrl('login');
         } else {
 
-            // this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'appointment_list_page');
-            this.listPagePermission = true;
+            // this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'general_file_list_page');
+            this.listPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'general_file_list_page');
+            // this.listPagePermission = true;
 
             if (this.listPagePermission) {
-                // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+                // this.addPermission = this._utilityService.checkUserPermission(this.user, 'upload_general_file');
+                this.addPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'upload_general_file');
                 this.addPermission = true;
-                // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+                // this.updatePermission = this._utilityService.checkUserPermission(this.user, 'update_general_file');
+                this.updatePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'update_general_file');
                 this.updatePermission = true;
-                // this.viewPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+                // this.deletePermission = this._utilityService.checkUserPermission(this.user, 'delete_general_file');
+                this.deletePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'delete_general_file');
+                this.deletePermission = true;
+                // this.viewPermission = this._utilityService.checkUserPermission(this.user, 'view_general_file');
+                this.viewPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_general_file');
                 this.viewPermission = true;
 
                 this.loadRoleList();
@@ -319,7 +333,12 @@ export class FileUploadListComponent implements OnInit {
         let title = "";
         let type = "";
 
-        if (btn === 'accept') {
+        if (btn === 'delete') {
+            title = 'Delete File';
+            msg = 'Are you sure you want to Remove this File?';
+            type = "remove";
+        }
+        else if (btn === 'accept') {
             title = 'Accept Request';
             // msg = 'Are you sure you want to Accept this Appointment? Appointment No: ' + ccmPlan.planNumber + '';
             type = "accept";
@@ -338,6 +357,9 @@ export class FileUploadListComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             console.log('dialog close', result);
 
+            if (result && result.status && btn === 'delete') {
+                this.fileDelete(fileUpload.id);
+            }
             if (result && result.status && btn === 'accept') {
                 // this.approveRequest(user, index);
                 // this.approveRequest(user, result.reason);
@@ -379,6 +401,36 @@ export class FileUploadListComponent implements OnInit {
     onNavigate(url) {
         console.log("test");
         window.open(url, "_blank");
+    }
+
+    fileDelete(fileUploadId) {
+        const msg = new Message();
+        console.log('delete file');
+        console.log(fileUploadId);
+        // this._userService.deleteUser(userId)
+
+        this._uiService.showSpinner();
+        this._fileService.removeGenericFile(fileUploadId).subscribe(
+            (res) => {
+
+                this.isSubmitted = false;
+
+                this._uiService.hideSpinner();
+
+                msg.msg = res.json().message ? res.json().message : 'File deleted successfully';
+                // msg.msg = 'You have successfully added an activity';
+                msg.msgType = MessageTypes.Information;
+                msg.autoCloseAfter = 400;
+                this._uiService.showToast(msg, 'info');
+                // this._router.navigate([this.currentURL]);
+                this.refreshList();
+            },
+            (err) => {
+                console.log(err);
+                this.isSubmitted = false;
+                this._uiService.hideSpinner();
+                this._authService.errStatusCheckResponse(err);
+            });
     }
 
     ngOnDestroy(): void {

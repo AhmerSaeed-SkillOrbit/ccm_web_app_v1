@@ -85,7 +85,7 @@ export class FileService {
     }
 
     // --------- file remove
-    public removeGenericFile(caseBasicId, documentUploadId): Observable<any> {
+    public removeGenericFile(fileUploadId): Observable<any> {
         let token: Token;
         token = this._authService.getTokenData();
         const options = new RequestOptions();
@@ -95,7 +95,8 @@ export class FileService {
         options.headers.append('Accept', 'application/json');
         // options.headers.append('Content-Type', 'application/json');
 
-        let getUrl = 'remove/case/document/' + caseBasicId + '/' + documentUploadId;
+        // general/file/remove?id=361
+        let getUrl = 'general/file/remove?id=' + (fileUploadId || null);
         let body = {}
 
         return this._http.post(getUrl, body, options)

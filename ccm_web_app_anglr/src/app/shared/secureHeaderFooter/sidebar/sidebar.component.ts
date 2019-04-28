@@ -59,6 +59,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     supportStaffListPagePermission = false;
     inviteFacilitatorPagePermission = false;
 
+    rolePermissionPagePermission = false;
+
     addDoctorSchedulePagePermission = false;
     doctorScheduleListPagePermission = false;
     viewDoctorSchedulePagePermission = false;
@@ -67,9 +69,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
     acceptedRequestListPagePermission = false;
     rejectedRequestListPagePermission = false;
 
-    forumPermission = false;
+    forumFeedPagePermission = false;
 
-    ticketPermission = false;
+    ticketListPagePermission = false;
+
+    fileUploadListPagePermission = false;
 
     selectedFile: File = null;
 
@@ -182,6 +186,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
         // this.inviteFacilitatorPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_doctor_schedule');
         this.inviteFacilitatorPagePermission = true;
 
+
+        // this.rolePermissionPagePermission = this._utilityService.checkUserPermission(this.user, 'role_list_page');
+        this.rolePermissionPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'role_list_page');
+        // this.rolePermissionPagePermission = true;
+
         // <-- Scheduler Management Permissions -->
 
         // this.addDoctorSchedulePagePermission = this._utilityService.checkUserPermission(this.user, 'add_doctor_schedule');
@@ -198,23 +207,29 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
         // <-- Appointment Management Permissions -->
 
-        // this.pendingRequestListPagePermission = this._utilityService.checkUserPermission(this.user, 'support_staff_list_page');
-        this.pendingRequestListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'support_staff_list_page');
+        // this.pendingRequestListPagePermission = this._utilityService.checkUserPermission(this.user, 'appointment_request_list_page');
+        this.pendingRequestListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'appointment_request_list_page');
         // this.pendingRequestListPagePermission = true;
-        // this.acceptedRequestListPagePermission = this._utilityService.checkUserPermission(this.user, 'support_staff_list_page');
-        this.acceptedRequestListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'support_staff_list_page');
+        // this.acceptedRequestListPagePermission = this._utilityService.checkUserPermission(this.user, 'appointment_accept_list_page');
+        this.acceptedRequestListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'appointment_accept_list_page');
         // this.acceptedRequestListPagePermission = true;
-        // this.rejectedRequestListPagePermission = this._utilityService.checkUserPermission(this.user, 'support_staff_list_page');
-        this.rejectedRequestListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'support_staff_list_page');
+        // this.rejectedRequestListPagePermission = this._utilityService.checkUserPermission(this.user, 'appointment_reject_list_page');
+        this.rejectedRequestListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'appointment_reject_list_page');
         // this.rejectedRequestListPagePermission = true;
 
         // <-- /Appointment Management Permissions -->
 
-        // this.forumPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'forum_feed');
-        this.forumPermission = true;
+        // this.forumFeedPagePermission = this._utilityService.checkUserPermission(this.user, 'view_forum_topic_feed');
+        this.forumFeedPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_forum_topic_feed');
+        // this.forumFeedPagePermission = true;
 
-        // this.ticketPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'forum_feed');
-        this.ticketPermission = true;
+        // this.ticketListPagePermission = this._utilityService.checkUserPermission(this.user, 'ticket_list_page');
+        this.ticketListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'ticket_list_page');
+        // this.ticketListPagePermission = true;
+
+        // this.fileUploadListPagePermission = this._utilityService.checkUserPermission(this.user, 'general_file_list_page');
+        this.fileUploadListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'general_file_list_page');
+        // this.fileUploadListPagePermission = true;
 
     }
 

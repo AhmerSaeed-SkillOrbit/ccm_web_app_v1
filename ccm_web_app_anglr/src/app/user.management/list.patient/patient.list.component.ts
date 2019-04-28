@@ -15,6 +15,7 @@ import { UtilityService } from '../../core/services/general/utility.service';
 import { InviteDialogComponent } from '../invite.dialoge/invite.dialog.component';
 import { AddUpdateUserDialogeComponent } from '../add.update.user.dialoge/add.update.user.dialoge.component';
 import { LoginHistoryDialogComponent } from '../../shared/login.history.dialog/login.history.dialog.component';
+import { Permission } from '../../core/models/permission';
 
 declare var libraryVar: any;
 
@@ -34,6 +35,7 @@ export class PatientListComponent implements OnInit {
     user: User = new User();
     isLogin: any;
 
+    userPermissions: Permission[] = [];
 
     email: string = "";
     countryCode: string = "";
@@ -62,8 +64,10 @@ export class PatientListComponent implements OnInit {
     upperLimit = 0;
 
     listPagePermission = false;
+
     addPermission = false;
     invitePermission = false;
+
     updatePermission = false;
     viewProfilePermission = false;
     deletePermission = false;
@@ -90,6 +94,8 @@ export class PatientListComponent implements OnInit {
     ngOnInit(): void {
 
         this.user = this._authService.getUser();
+        this.userPermissions = this._authService.getUserPermissions();
+
         console.log('this.user', this.user);
         this.isLogin = this._authService.isLoggedIn();
         // console.log('this.isLogin', this.isLogin);
@@ -102,19 +108,26 @@ export class PatientListComponent implements OnInit {
         } else {
 
             this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'patient_list_page');
+            // this.listPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'patient_list_page');
             // this.listPagePermission = true;
 
             if (this.listPagePermission) {
+
                 this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+                // this.addPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_patient');
                 // this.addPermission = true;
                 this.invitePermission = this._utilityService.checkUserPermission(this.user, 'invite_patient');
+                // this.invitePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'invite_patient');
                 // this.invitePermission = true;
                 this.updatePermission = this._utilityService.checkUserPermission(this.user, 'update_patient');
-                // this.addPermission = true;
+                // this.updatePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'update_patient');
+                // this.updatePermission = true;
                 this.viewProfilePermission = this._utilityService.checkUserPermission(this.user, 'view_patient_profile');
-                // this.viewPermission = true;
+                // this.viewProfilePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_patient_profile');
+                // this.viewProfilePermission = true;
                 this.deletePermission = this._utilityService.checkUserPermission(this.user, 'delete_patient');
-                // this.addPermission = true;
+                // this.deletePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'delete_patient');
+                // this.deletePermission = true;
 
                 this.loadUserList();
             }

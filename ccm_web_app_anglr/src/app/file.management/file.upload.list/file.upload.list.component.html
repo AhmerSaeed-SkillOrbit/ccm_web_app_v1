@@ -226,6 +226,11 @@
                                                         </a>
                                                     </span> &nbsp;
 
+                                                    <span *ngIf="deletePermission" matTooltipPosition="above" matTooltip="Delete">
+                                                        <!-- <i style="color:#f70a0a;" class="icon-bin" (click)="fileDelete(fileUpload.id)"></i> -->
+                                                        <i style="color:#f70a0a;" class="icon-bin" (click)="confirmDialog(fileUpload, 'delete', i)"></i>
+                                                    </span>
+
                                                     <!-- <span *ngIf="cancelPermission" matTooltipPosition="above"
                                                         matTooltip="Delete Ticket">
                                                         <i style="color:#f70a0a;" class="icon-cross2" (click)="confirmDialog(ticket, 'delete', i)"></i>
