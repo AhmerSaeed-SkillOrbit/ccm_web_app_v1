@@ -1,20 +1,18 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { User } from '../../core/models/user';
-import { IAuthService } from '../../core/services/auth/iauth.service';
-import { UIService } from '../../core/services/ui/ui.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEvent, MatDialog, MatTableDataSource, MatPaginator } from '@angular/material';
-// import { ScriptService } from '../core/services/script.service';
-// import { UtilityService } from '../core/services/general/utility.service';
-// import { MessagingService } from '../messaging.service';
-// import { DashboardService } from '../core/services/general/dashboard.service';
-// import { Dashboard } from '../core/models/dashboard';
+
+
+import { User } from '../../core/models/user';
 import { Message, MessageTypes } from '../../core/models/message';
+
+import { IAuthService } from '../../core/services/auth/iauth.service';
+import { UIService } from '../../core/services/ui/ui.service';
+// import { UtilityService } from '../core/services/general/utility.service';
 import { SetupService } from '../../core/services/setup/setup.service';
-import { InviteDialogComponent } from '../invite.dialoge/invite.dialog.component';
 import { UserService } from '../../core/services/user/user.service';
-// import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
-// import { EasyPay } from '../core/models/payment/easypay.payment';
+
+import { InviteDialogComponent } from '../invite.dialoge/invite.dialog.component';
 
 declare var libraryVar: any;
 
@@ -52,7 +50,7 @@ export class InvitePatientComponent implements OnInit {
 
     isSubmitted: boolean = false;
 
-    constructor(@Inject('IAuthService') private _authService: IAuthService,
+    constructor( @Inject('IAuthService') private _authService: IAuthService,
         public dialog: MatDialog,
         private _uiService: UIService,
         // public _messaging: MessagingService,

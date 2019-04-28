@@ -35,6 +35,8 @@ import { ViewAppointmentDialogeComponent } from './appointment.dialoge/view.appo
 import { AddUpdateTicketDialogeComponent } from './add.update.ticket.dialoge/add.update.ticket.dialoge.component';
 import { AssignTicketDialogeComponent } from './assign.ticket.dialoge/assign.ticket.dialoge.component';
 
+import { LoginHistoryDialogComponent } from './login.history.dialog/login.history.dialog.component';
+
 @NgModule({
     imports: [
         MaterialModule,
@@ -68,6 +70,8 @@ import { AssignTicketDialogeComponent } from './assign.ticket.dialoge/assign.tic
         ViewAppointmentDialogeComponent,
         AddUpdateTicketDialogeComponent, AssignTicketDialogeComponent,
 
+        LoginHistoryDialogComponent,
+
     ],
 
     exports: [
@@ -85,7 +89,9 @@ import { AssignTicketDialogeComponent } from './assign.ticket.dialoge/assign.tic
     entryComponents: [
         MsgDialog, ConfirmationDialogComponent, AppointmentDialogeComponent,
         ViewAppointmentDialogeComponent,
-        AddUpdateTicketDialogeComponent, AssignTicketDialogeComponent
+        AddUpdateTicketDialogeComponent, AssignTicketDialogeComponent,
+
+        LoginHistoryDialogComponent
     ]
 })
 export class SharedModule {

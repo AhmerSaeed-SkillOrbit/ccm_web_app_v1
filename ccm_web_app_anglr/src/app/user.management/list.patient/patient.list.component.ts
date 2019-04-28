@@ -1,23 +1,20 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { User } from '../../core/models/user';
-import { IAuthService } from '../../core/services/auth/iauth.service';
-import { UIService } from '../../core/services/ui/ui.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEvent, MatDialog, MatTableDataSource, MatPaginator } from '@angular/material';
-// import { ScriptService } from '../core/services/script.service';
-// import { UtilityService } from '../core/services/general/utility.service';
-// import { MessagingService } from '../messaging.service';
-// import { DashboardService } from '../core/services/general/dashboard.service';
-// import { Dashboard } from '../core/models/dashboard';
+
+import { User } from '../../core/models/user';
 import { Message, MessageTypes } from '../../core/models/message';
-// import { SetupService } from '../../core/services/setup/setup.service';
-import { InviteDialogComponent } from '../invite.dialoge/invite.dialog.component';
+
+import { IAuthService } from '../../core/services/auth/iauth.service';
+import { UIService } from '../../core/services/ui/ui.service';
+// import { UtilityService } from '../core/services/general/utility.service';
 import { UserService } from '../../core/services/user/user.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 import { UtilityService } from '../../core/services/general/utility.service';
+
+import { InviteDialogComponent } from '../invite.dialoge/invite.dialog.component';
 import { AddUpdateUserDialogeComponent } from '../add.update.user.dialoge/add.update.user.dialoge.component';
-// import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
-// import { EasyPay } from '../core/models/payment/easypay.payment';
+import { LoginHistoryDialogComponent } from '../../shared/login.history.dialog/login.history.dialog.component';
 
 declare var libraryVar: any;
 
@@ -306,6 +303,26 @@ export class PatientListComponent implements OnInit {
             console.log("result", result);
             if (result) {
                 this.refreshList();
+            }
+        })
+    }
+
+    openLoginHistoryDialog() {
+
+        let dialog = this.dialog.open(LoginHistoryDialogComponent, {
+            width: "550px",
+            height: '465px',
+            // data: this.id,
+            data: {
+                user: this.user,
+                type: "doctor_patient",
+                // type: "superadmin_doctor",
+            },
+        });
+        dialog.afterClosed().subscribe((result) => {
+            console.log("result", result);
+            if (result) {
+                // this.refreshList();
             }
         })
     }

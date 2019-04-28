@@ -50,7 +50,7 @@ export class AdminHomeComponent implements OnInit {
     // influencerProfile = new InfluencerProfile();
     // easyPay = new EasyPay();
 
-    constructor(@Inject('IAuthService') private _authService: IAuthService,
+    constructor( @Inject('IAuthService') private _authService: IAuthService,
         private _uiService: UIService,
         // public _messaging: MessagingService,
         private _dashboardService: DashboardService,
@@ -102,8 +102,25 @@ export class AdminHomeComponent implements OnInit {
         );
     }
 
-    navigateTo(id) {
-        // console.log('navigation ID', id);
+    // navigateTo(id) {
+    navigateTo(type) {
+        // console.log('navigation type', type);
+
+        if (type === 'admin') {
+            this._router.navigateByUrl('um/list/admin');
+        }
+        if (type === 'facilitator') {
+            this._router.navigateByUrl('um/list/facilitator');
+        }
+        if (type === 'patient') {
+            this._router.navigateByUrl('um/list/patient');
+        }
+        if (type === 'doctor') {
+            this._router.navigateByUrl('um/list/doctor');
+        }
+        if (type === 'supStaff') {
+            this._router.navigateByUrl('um/list/supStaff');
+        }
 
         // if (this.user.entityType === 'brand' ) {
         //     this._router.navigateByUrl('brand/campaign/details/' + id);

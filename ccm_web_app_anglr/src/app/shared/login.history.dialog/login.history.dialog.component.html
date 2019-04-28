@@ -1,0 +1,70 @@
+<div class="dialog-box-content">
+
+    <div class="row align-item-center">
+        <div class="col-md-12">
+            <h1 mat-dialog-title>Login History</h1>
+            <!-- <h1 mat-dialog-title>{{title}}</h1> -->
+        </div>
+        <div class="col-lg-11">
+            <mat-table #table [dataSource]="dataSourceHs" class="table table-responsive soc-table">
+
+                <!-- Serial No -->
+                <ng-container matColumnDef="sNo">
+                    <mat-header-cell *matHeaderCellDef> S.No </mat-header-cell>
+                    <mat-cell *matCellDef="let u; let i = index;"> {{i + 1}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                    <mat-cell *matCellDef="let u">
+                        {{ u?.investigationOfficerName || 'NA' }}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="dateTime">
+                    <mat-header-cell *matHeaderCellDef> Date Time </mat-header-cell>
+                    <mat-cell *matCellDef="let u">
+                        {{u?.loginDateTime || "NA"}}
+                        <!-- {{ u.LoginDateTime | date:'dd-MMM-yyyy' }} -->
+                    </mat-cell>
+                </ng-container>
+
+
+                <mat-header-row *matHeaderRowDef="displayedColumnsHs"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnsHs;"></mat-row>
+            </mat-table>
+
+            <div class="" *ngIf="(dataSourceHs.data.length == 0 || dataSourceHs.filteredData.length == 0) && !isSpinnerHs">
+                <div class="snipet download-btn">
+                    <button (click)="refreshList()" mat-raised-button>
+                        <i class="material-icons">refresh</i> No Data Found
+                    </button>
+                </div>
+            </div>
+            <spinner [visible]='isSpinnerHs'></spinner>
+
+            <!-- <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+                                                                    </mat-paginator> -->
+            <mat-paginator #paginator [length]="lengthHs" [pageIndex]="pageIndexHs" [pageSize]="pageSizeHs" [pageSizeOptions]="pageSizeOptions"
+                (page)="pageEventHs = pageChangeEvent($event)">
+            </mat-paginator>
+        </div>
+    </div>
+
+    <div mat-dialog-actions class="row align-item-center dialog-btn-contianer">
+        <div class="col-lg-12 col-md-12 col-sm-12 text-right">
+            <!-- <button mat-raised-button tabindex="-1" (click)="onNoClick()">CANCEL</button> -->
+            <button mat-raised-button color="primary" (click)="onYesClick()" tabindex="2">OK</button></div>
+    </div>
+
+</div>
+
+<!-- <h2 mat-dialog-title>User Form</h2>
+<mat-dialog-content class="mat-typography">
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+</mat-dialog-actions> -->

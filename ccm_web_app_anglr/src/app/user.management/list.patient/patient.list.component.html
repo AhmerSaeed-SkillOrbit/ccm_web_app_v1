@@ -190,6 +190,10 @@
                                                 </td>
                                                 <td class="sorting_1">
                                                     {{ user?.isCurrentlyLoggedIn ? "Online" : (user?.lastLoggedIn || "NA") }}
+
+                                                    <div>
+                                                        <button (click)="openLoginHistoryDialog()" mat-raised-button color="primary">View History</button>
+                                                    </div>
                                                 </td>
                                                 <!-- <td>
                                                     <span class="label label-default">
