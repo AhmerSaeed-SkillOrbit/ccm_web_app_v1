@@ -68,6 +68,12 @@ export class PatientListComponent implements OnInit {
     addPermission = false;
     invitePermission = false;
 
+    ccmPlanListPagePermission = false;
+    ccmPlanCreatePagePermission = false;
+
+    viewPatientRecordPagePermission = false;
+    addPatientRecordPagePermission = false;
+
     updatePermission = false;
     viewProfilePermission = false;
     deletePermission = false;
@@ -113,21 +119,37 @@ export class PatientListComponent implements OnInit {
 
             if (this.listPagePermission) {
 
-                this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                // this.addPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_patient');
+                // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+                this.addPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_patient');
                 // this.addPermission = true;
-                this.invitePermission = this._utilityService.checkUserPermission(this.user, 'invite_patient');
-                // this.invitePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'invite_patient');
+                // this.invitePermission = this._utilityService.checkUserPermission(this.user, 'invite_patient');
+                this.invitePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'invite_patient');
                 // this.invitePermission = true;
-                this.updatePermission = this._utilityService.checkUserPermission(this.user, 'update_patient');
-                // this.updatePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'update_patient');
+
+                // this.ccmPlanListPagePermission = this._utilityService.checkUserPermission(this.user, 'ccm_plan_list_page');
+                this.ccmPlanListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'ccm_plan_list_page');
+                // this.ccmPlanListPagePermission = true;
+                // this.ccmPlanCreatePagePermission = this._utilityService.checkUserPermission(this.user, 'create_ccm_plan');
+                this.ccmPlanCreatePagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'create_ccm_plan');
+                // this.ccmPlanCreatePagePermission = true;
+
+                // this.viewPatientRecordPagePermission = this._utilityService.checkUserPermission(this.user, 'view_patient_record');
+                this.viewPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_patient_record');
+                // this.viewPatientRecordPagePermission = true;
+                // this.addPatientRecordPagePermission = this._utilityService.checkUserPermission(this.user, 'add_patient_record');
+                this.addPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_patient_record');
+                // this.addPatientRecordPagePermission = true;
+
+                // this.updatePermission = this._utilityService.checkUserPermission(this.user, 'update_patient');
+                this.updatePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'update_patient');
                 // this.updatePermission = true;
-                this.viewProfilePermission = this._utilityService.checkUserPermission(this.user, 'view_patient_profile');
-                // this.viewProfilePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_patient_profile');
+                // this.viewProfilePermission = this._utilityService.checkUserPermission(this.user, 'view_patient_profile');
+                this.viewProfilePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_patient_profile');
                 // this.viewProfilePermission = true;
-                this.deletePermission = this._utilityService.checkUserPermission(this.user, 'delete_patient');
-                // this.deletePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'delete_patient');
+                // this.deletePermission = this._utilityService.checkUserPermission(this.user, 'delete_patient');
+                this.deletePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'delete_patient');
                 // this.deletePermission = true;
+
 
                 this.loadUserList();
             }

@@ -201,12 +201,12 @@
                                                     </span>
                                                 </td> -->
                                                 <td class="text-center">
-                                                    <span matTooltipPosition="above" matTooltip="CCM Plan">
+                                                    <span *ngIf="ccmPlanListPagePermission" matTooltipPosition="above" matTooltip="CCM Plan">
                                                         <a [routerLink]="['/ccm/plan/list',user.id]">
                                                             <i style="color:#0aa700;" class=" icon-eye2"></i>
                                                         </a>
                                                     </span> &nbsp;
-                                                    <span *ngIf="updatePermission" matTooltipPosition="above" matTooltip="Create Plan">
+                                                    <span *ngIf="ccmPlanCreatePagePermission" matTooltipPosition="above" matTooltip="Create Plan">
                                                         <a [routerLink]="['/ccm/plan/form',user.id]">
                                                             <i style="color:#ffa808;" class=" icon-pencil"></i>
                                                         </a>
@@ -214,7 +214,7 @@
                                                 </td>
 
                                                 <td class="text-center">
-                                                    <span matTooltipPosition="above" matTooltip="Record">
+                                                    <span *ngIf="viewPatientRecordPagePermission || addPatientRecordPagePermission" matTooltipPosition="above" matTooltip="Record">
                                                         <a [routerLink]="['/patient/record',user.id]">
                                                             <i style="color:#0aa700;" class=" icon-eye2"></i>
                                                         </a>

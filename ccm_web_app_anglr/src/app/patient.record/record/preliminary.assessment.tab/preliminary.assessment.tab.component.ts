@@ -22,6 +22,7 @@ import { PatientRecordService } from '../../../core/services/patient/patient.rec
 import { Config } from '../../../config/config';
 import { PersonalContactInfo, AlternateContactInfo, InsuranceType, InsuranceCoverageType, InsuranceInfo, SelfAssessmentInfo, LiveType, ChallengeType, PrimaryLanguage, LearnBestBy, ThingImpactHealth, AssistanceAvailable, AbilityConcernInfo, ResourceInfo } from '../../../core/models/user.record';
 import { SetupService } from '../../../core/services/setup/setup.service';
+import { Permission } from '../../../core/models/permission';
 
 // import { Config } from '../../../config/config';
 
@@ -40,6 +41,13 @@ export class PreliminaryAssessmentTabComponent implements OnInit {
 
     @Input() id: number = null;
     @Input() isTabActive: boolean = false;
+
+
+    userPermissions: Permission[] = [];
+
+    viewPatientRecordPagePermission = false;
+    addPatientRecordPagePermission = false;
+
 
     patient: User = new User();
 
@@ -229,15 +237,29 @@ export class PreliminaryAssessmentTabComponent implements OnInit {
 
         console.log("this.payLoad in parent on init =-=-==-=-=");
 
-        this.loadInsuranceType();
-        this.loadInsuranceCoverageType();
+        this.userPermissions = this._authService.getUserPermissions();
 
-        this.loadLiveType();
-        this.loadChallengeType();
-        this.loadPrimaryLanguage();
-        this.loadLearnBestBy();
-        this.loadThingImpactHealth();
-        this.loadAssistanceAvailable();
+        // this.viewPatientRecordPagePermission = this._utilityService.checkUserPermission(this.user, 'view_patient_record');
+        this.viewPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_patient_record');
+        // this.viewPatientRecordPagePermission = true;
+        // this.addPatientRecordPagePermission = this._utilityService.checkUserPermission(this.user, 'add_patient_record');
+        this.addPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_patient_record');
+        // this.addPatientRecordPagePermission = true;
+        if (this.viewPatientRecordPagePermission || this.addPatientRecordPagePermission) {
+
+            this.loadInsuranceType();
+            this.loadInsuranceCoverageType();
+
+            this.loadLiveType();
+            this.loadChallengeType();
+            this.loadPrimaryLanguage();
+            this.loadLearnBestBy();
+            this.loadThingImpactHealth();
+            this.loadAssistanceAvailable();
+
+        }
+
+
 
     }
 

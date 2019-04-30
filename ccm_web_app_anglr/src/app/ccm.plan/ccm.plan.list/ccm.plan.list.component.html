@@ -153,7 +153,7 @@
 
 
                                 <div class="col-md-12">
-                                    <button type="button" class="btn btn-default btn-sm" (click)="nevigateTo(null,'form')">
+                                    <button *ngIf="addPermission" type="button" class="btn btn-default btn-sm" (click)="nevigateTo(null,'form')">
                                         Create New 
                                         <i class="icon-play3 position-right"></i>
                                     </button>
@@ -255,12 +255,12 @@
                                                 </td>
 
                                                 <td class="text-center">
-                                                    <span matTooltipPosition="above" matTooltip="History">
+                                                    <span *ngIf="reviewHistoryPermission" matTooltipPosition="above" matTooltip="History">
                                                         <a [routerLink]="['/ccm/plan/review/list', patientId, plan.id]">
                                                             <i style="color:#0aa700;" class=" icon-eye2"></i>
                                                         </a>
                                                     </span> &nbsp;
-                                                    <span *ngIf="updatePermission" matTooltipPosition="above" matTooltip="Take">
+                                                    <span *ngIf="takeReviewPermission" matTooltipPosition="above" matTooltip="Take">
                                                         <a [routerLink]="['/ccm/plan/review/form', patientId, plan.id]">
                                                             <i style="color:#ffa808;" class=" icon-pencil"></i>
                                                         </a>
@@ -280,15 +280,6 @@
                                                         </a>
                                                     </span> &nbsp;
 
-                                                    <!-- <span *ngIf="cancelPermission" matTooltipPosition="above"
-                                                        matTooltip="Delete Ticket">
-                                                        <i style="color:#f70a0a;" class="icon-cross2" (click)="confirmDialog(ticket, 'delete', i)"></i>
-                                                    </span> &nbsp; -->
-
-                                                    <!-- <span *ngIf="rejectPermission" matTooltipPosition="above"
-                                                        matTooltip="Reject Request">
-                                                        <i style="color:#f70a0a;" class="icon-bin" (click)="changeRequestStatus(appointment.id, 'rejected', '')"></i>
-                                                    </span> -->
                                                 </td>
                                             </tr>
                                         </tbody>

@@ -22,6 +22,7 @@ import { PatientRecordService } from '../../../core/services/patient/patient.rec
 import { MappingService } from '../../../core/services/mapping/mapping.service';
 import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine } from '../../../core/models/user.record';
 import { FormService } from '../../../core/services/form/form.service';
+import { Permission } from '../../../core/models/permission';
 
 
 @Component({
@@ -38,6 +39,12 @@ export class MedicationTabComponent implements OnInit {
 
     @Input() id: number = null;
     @Input() isTabActive: boolean = false;
+
+    userPermissions: Permission[] = [];
+
+    viewPatientRecordPagePermission = false;
+    addPatientRecordPagePermission = false;
+
 
     patient: User = new User();
 
@@ -113,6 +120,18 @@ export class MedicationTabComponent implements OnInit {
         // if (this.id) {
         //     this.loadActiveMedications();
         // }
+
+        this.userPermissions = this._authService.getUserPermissions();
+
+        // this.viewPatientRecordPagePermission = this._utilityService.checkUserPermission(this.user, 'view_patient_record');
+        this.viewPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_patient_record');
+        // this.viewPatientRecordPagePermission = true;
+        // this.addPatientRecordPagePermission = this._utilityService.checkUserPermission(this.user, 'add_patient_record');
+        this.addPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_patient_record');
+        // this.addPatientRecordPagePermission = true;
+        if (this.viewPatientRecordPagePermission || this.addPatientRecordPagePermission) {
+            // this.loadAssistanceOrganization();
+        }
 
     }
 

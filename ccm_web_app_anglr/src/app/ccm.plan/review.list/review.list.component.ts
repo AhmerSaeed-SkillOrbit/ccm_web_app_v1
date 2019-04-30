@@ -6,23 +6,22 @@ import { DatePipe } from '@angular/common';
 
 import { Message, MessageTypes } from '../../core/models/message';
 import { User } from '../../core/models/user';
+import { Permission } from '../../core/models/permission';
 import { CcmPlan, CcmPlanItem, CcmPlanItemGoal, CcmPlanReview } from '../../core/models/user.ccm.plan';
-
 
 import { IAuthService } from '../../core/services/auth/iauth.service';
 import { UIService } from '../../core/services/ui/ui.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 import { UtilityService } from '../../core/services/general/utility.service';
 import { CcmPlanService } from '../../core/services/ccm.plan/ccm.plan.service';
-
-
-
-import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmationDialog.component';
-import { ViewAppointmentDialogeComponent } from '../../shared/appointment.dialoge/view.appointment.dialoge.component';
 import { ForumService } from '../../core/services/forum/forum.service';
 import { SetupService } from '../../core/services/setup/setup.service';
 import { UserService } from '../../core/services/user/user.service';
 import { PatientRecordService } from '../../core/services/patient/patient.record.service';
+
+import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmationDialog.component';
+import { ViewAppointmentDialogeComponent } from '../../shared/appointment.dialoge/view.appointment.dialoge.component';
+
 
 declare var libraryVar: any;
 
@@ -44,6 +43,8 @@ export class ReviewListComponent implements OnInit {
     isUser: User = new User();
     user: User = new User();
     isLogin: any;
+
+    userPermissions: Permission[] = [];
 
     userId: number = null;
 
@@ -77,11 +78,6 @@ export class ReviewListComponent implements OnInit {
     listPagePermission = false;
     addPermission = false;
     updatePermission = false;
-    summaryPermission = false;
-    viewPermission = false;
-    acceptPermission = false;
-    rejectPermission = false;
-    cancelPermission = false;
 
     isSubmitted: boolean = false;
 
@@ -117,6 +113,7 @@ export class ReviewListComponent implements OnInit {
     ngOnInit(): void {
 
         this.user = this._authService.getUser();
+        this.userPermissions = this._authService.getUserPermissions();
         console.log('this.user', this.user);
         this.isLogin = this._authService.isLoggedIn();
         // console.log('this.isLogin', this.isLogin);
@@ -127,24 +124,20 @@ export class ReviewListComponent implements OnInit {
             // this._router.navigateByUrl('login');
         } else {
 
-            // this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'appointment_list_page');
-            this.listPagePermission = true;
+            // this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'ccm_plan_review_history');
+            this.listPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'ccm_plan_review_history');
+            // this.listPagePermission = true;
 
             if (this.listPagePermission) {
-                // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.addPermission = true;
-                // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.updatePermission = true;
-                // this.summaryPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.summaryPermission = true;
+                // this.addPermission = this._utilityService.checkUserPermission(this.user, 'take_ccm_plan_review');
+                this.addPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'take_ccm_plan_review');
+                // this.addPermission = true;
+                // this.updatePermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+                this.updatePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'update_ccm_plan_review');
+                // this.updatePermission = true;
                 // this.viewPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.viewPermission = true;
-                // this.acceptPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                // this.acceptPermission = true;
-                // this.rejectPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                // this.rejectPermission = true;
-                // this.cancelPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.cancelPermission = true;
+                // this.viewPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'take_ccm_plan_review');
+                // this.viewPermission = true;
 
                 // this.loadUserById();
                 this.loadGeneralInfo();

@@ -20,6 +20,7 @@ import { FormService } from '../../../core/services/form/form.service';
 import { PatientRecordService } from '../../../core/services/patient/patient.record.service';
 import { SetupService } from '../../../core/services/setup/setup.service';
 import { PreventiveScreen, DiabeteSupplement } from '../../../core/models/user.record';
+import { Permission } from '../../../core/models/permission';
 
 // import { Config } from '../../../config/config';
 
@@ -38,6 +39,11 @@ export class PreventiveScreeningTabComponent implements OnInit {
 
     @Input() id: number = null;
     @Input() isTabActive: boolean = false;
+
+    userPermissions: Permission[] = [];
+
+    viewPatientRecordPagePermission = false;
+    addPatientRecordPagePermission = false;
 
 
     preventiveScreenAnswers: PreventiveScreen[] = [];
@@ -83,6 +89,18 @@ export class PreventiveScreeningTabComponent implements OnInit {
         console.log("this.payLoad in parent on init =-=-==-=-=");
 
         // this.loadPreventiveScreen();
+
+        this.userPermissions = this._authService.getUserPermissions();
+
+        // this.viewPatientRecordPagePermission = this._utilityService.checkUserPermission(this.user, 'view_patient_record');
+        this.viewPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_patient_record');
+        // this.viewPatientRecordPagePermission = true;
+        // this.addPatientRecordPagePermission = this._utilityService.checkUserPermission(this.user, 'add_patient_record');
+        this.addPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_patient_record');
+        // this.addPatientRecordPagePermission = true;
+        if (this.viewPatientRecordPagePermission || this.addPatientRecordPagePermission) {
+            // this.loadPreventiveScreen();
+        }
 
 
     }

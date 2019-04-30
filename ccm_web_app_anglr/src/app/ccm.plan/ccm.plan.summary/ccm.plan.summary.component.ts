@@ -14,23 +14,24 @@ import { DatePipe } from '@angular/common';
 
 import { Message, MessageTypes } from '../../core/models/message';
 import { User } from '../../core/models/user';
-
-import { UIService } from '../../core/services/ui/ui.service';
-import { IAuthService } from '../../core/services/auth/iauth.service';
-import { UtilityService } from '../../core/services/general/utility.service';
+import { Permission } from '../../core/models/permission';
 import { Region } from '../../core/models/region';
 import { Country } from '../../core/models/country';
 import { CcmPlan, CcmPlanItem, CcmPlanItemGoal, CcmPlanHealthParam, HealthParam, CcmPlanReview } from '../../core/models/user.ccm.plan';
 
+import { UIService } from '../../core/services/ui/ui.service';
+import { IAuthService } from '../../core/services/auth/iauth.service';
+import { UtilityService } from '../../core/services/general/utility.service';
 import { SetupService } from '../../core/services/setup/setup.service';
 import { LogService } from '../../core/services/log/log.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 import { FormService } from '../../core/services/form/form.service';
 import { CcmPlanService } from '../../core/services/ccm.plan/ccm.plan.service';
-import { Config } from '../../config/config';
 import { UserService } from '../../core/services/user/user.service';
 import { PatientRecordService } from '../../core/services/patient/patient.record.service';
 
+
+import { Config } from '../../config/config';
 // import { ReportService } from '../../core/services/report/report.service';
 
 
@@ -49,9 +50,10 @@ export class CcmPlanSummaryComponent implements OnInit, OnChanges, OnDestroy {
     isLogin: boolean;
     private ngUnsubscribe: Subject<any> = new Subject();
 
-    preFileListPermission = false;
-    addPermission = false;
-    updatePermission = false;
+    userPermissions: Permission[] = [];
+
+    summaryPermission = false;
+    generatePDFPermission = false;
 
     listFilter: string;
 
@@ -71,7 +73,6 @@ export class CcmPlanSummaryComponent implements OnInit, OnChanges, OnDestroy {
         private _uiService: UIService,
         private _utilityService: UtilityService,
         private _mappingService: MappingService,
-        private route: ActivatedRoute,
         private _setupService: SetupService,
         private _patientRecordService: PatientRecordService,
         private _userService: UserService,
@@ -81,6 +82,7 @@ export class CcmPlanSummaryComponent implements OnInit, OnChanges, OnDestroy {
         private _ccmPlanService: CcmPlanService,
         private datePipe: DatePipe,
         public dialog: MatDialog,
+        private route: ActivatedRoute, private _router: Router
     ) {
 
         const paId = this.route.snapshot.params['paId'];
@@ -96,6 +98,7 @@ export class CcmPlanSummaryComponent implements OnInit, OnChanges, OnDestroy {
     ngOnInit(): void {
 
         this.user = this._authService.getUser();
+        this.userPermissions = this._authService.getUserPermissions();
         // check if a user is logged in
         this.isLogin = this._authService.isLoggedIn();
         // if (!this._authService.isLoggedIn()) {
@@ -105,26 +108,32 @@ export class CcmPlanSummaryComponent implements OnInit, OnChanges, OnDestroy {
 
         if (this.isLogin) {
 
-            if (this.patientId && this.planId) {
-                this.loadUserById();
-                // this.loadGeneralInfo();
-                this.loadCcmPlan();
-                // this.loadReviewList();
-            }
+            // this.summaryPermission = this._utilityService.checkUserPermission(this.user, 'ccm_plan_summary_page');
+            this.summaryPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'ccm_plan_summary_page');
+            // this.summaryPermission = true;
+            if (this.summaryPermission) {
+                // this.generatePDFPermission = this._utilityService.checkUserPermission(this.user, 'ccm_plan_generate_pdf');
+                this.generatePDFPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'ccm_plan_generate_pdf');
+                // this.generatePDFPermission = true;
 
-            this.loadHealthParams();
+                if (this.patientId && this.planId) {
+                    this.loadUserById();
+                    // this.loadGeneralInfo();
+                    this.loadCcmPlan();
+                    // this.loadReviewList();
+                }
+
+                this.loadHealthParams();
+
+            }
+            else {
+                // this._router.navigate(['/permission']);
+                this._router.navigateByUrl('permission');
+            }
 
         }
 
-        // this.preFileListPermission = this.utilityService.checkUserPermission(this.user, 'settlement_prefiling_list');
-        // if (this.preFileListPermission) {
-        //     this.addPermission = this.utilityService.checkUserPermission(this.user, 'settlement_prefiling_add');
-        //     this.updatePermission = this.utilityService.checkUserPermission(this.user, 'settlement_prefiling_update');
-        //     this.loadPrefileList();
-        // }
-        // else {
-        //     this._router.navigate(['/permission']);
-        // }
+
 
 
     }

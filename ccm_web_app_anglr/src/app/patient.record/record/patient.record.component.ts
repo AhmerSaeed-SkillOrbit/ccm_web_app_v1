@@ -23,6 +23,7 @@ import { Country } from '../../core/models/country';
 
 import { SetupService } from '../../core/services/setup/setup.service';
 import { LogService } from '../../core/services/log/log.service';
+import { Permission } from '../../core/models/permission';
 // import { ReportService } from '../../core/services/report/report.service';
 
 
@@ -41,9 +42,10 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
     isLogin: boolean;
     private ngUnsubscribe: Subject<any> = new Subject();
 
-    preFileListPermission = false;
-    addPermission = false;
-    updatePermission = false;
+    userPermissions: Permission[] = [];
+
+    viewPatientRecordPagePermission = false;
+    addPatientRecordPagePermission = false;
 
     listFilter: string;
 
@@ -72,7 +74,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
         private _router: Router,
         @Inject('IAuthService') private _authService: IAuthService,
         private _setupService: SetupService,
-        private utilityService: UtilityService,
+        private _utilityService: UtilityService,
         // private _logService: LogService,
         private datePipe: DatePipe,
         private route: ActivatedRoute,
@@ -88,24 +90,31 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
     ngOnInit(): void {
 
         this.user = this._authService.getUser();
+        this.userPermissions = this._authService.getUserPermissions();
         // check if a user is logged in
         this.isLogin = this._authService.isLoggedIn();
         // if (!this._authService.isLoggedIn()) {
         //     this._router.navigateByUrl('login');
         // }
 
-        // this.preFileListPermission = this.utilityService.checkUserPermission(this.user, 'settlement_prefiling_list');
-        // if (this.preFileListPermission) {
-        //     this.addPermission = this.utilityService.checkUserPermission(this.user, 'settlement_prefiling_add');
-        //     this.updatePermission = this.utilityService.checkUserPermission(this.user, 'settlement_prefiling_update');
-        //     this.loadPrefileList();
-        // }
-        // else {
-        //     this._router.navigate(['/permission']);
-        // }
+        if (this.isLogin) {
 
-        this.tab.generalInfo = true;
+            // this.viewPatientRecordPagePermission = this._utilityService.checkUserPermission(this.user, 'view_patient_record');
+            this.viewPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_patient_record');
+            // this.viewPatientRecordPagePermission = true;
+            // this.addPatientRecordPagePermission = this._utilityService.checkUserPermission(this.user, 'add_patient_record');
+            this.addPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_patient_record');
+            // this.addPatientRecordPagePermission = true;
+            if (this.viewPatientRecordPagePermission || this.addPatientRecordPagePermission) {
 
+            }
+            else {
+                this._router.navigate(['/permission']);
+            }
+
+            this.tab.generalInfo = true;
+
+        }
     }
 
     ngAfterViewInit() {

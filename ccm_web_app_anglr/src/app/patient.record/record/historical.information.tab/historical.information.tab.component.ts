@@ -23,6 +23,7 @@ import { MappingService } from '../../../core/services/mapping/mapping.service';
 import { HealthCareHistory, HospitalizationHistory, SurgeryHistory, PatientOrganizationAssistance, AssistanceType } from '../../../core/models/user.record';
 import { FormService } from '../../../core/services/form/form.service';
 import { SetupService } from '../../../core/services/setup/setup.service';
+import { Permission } from '../../../core/models/permission';
 
 
 @Component({
@@ -40,6 +41,11 @@ export class HistoricalInformationTabComponent implements OnInit {
 
     @Input() id: number = null;
     @Input() isTabActive: boolean = false;
+
+    userPermissions: Permission[] = [];
+
+    viewPatientRecordPagePermission = false;
+    addPatientRecordPagePermission = false;
 
     patient: User = new User();
 
@@ -115,6 +121,18 @@ export class HistoricalInformationTabComponent implements OnInit {
         console.log("this.payLoad in parent on init =-=-==-=-=");
 
         // this.loadAssistanceOrganization();
+
+        this.userPermissions = this._authService.getUserPermissions();
+
+        // this.viewPatientRecordPagePermission = this._utilityService.checkUserPermission(this.user, 'view_patient_record');
+        this.viewPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_patient_record');
+        // this.viewPatientRecordPagePermission = true;
+        // this.addPatientRecordPagePermission = this._utilityService.checkUserPermission(this.user, 'add_patient_record');
+        this.addPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_patient_record');
+        // this.addPatientRecordPagePermission = true;
+        if (this.viewPatientRecordPagePermission || this.addPatientRecordPagePermission) {
+            // this.loadAssistanceOrganization();
+        }
 
     }
 

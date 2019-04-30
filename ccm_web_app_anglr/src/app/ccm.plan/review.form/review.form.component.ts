@@ -14,24 +14,23 @@ import { DatePipe } from '@angular/common';
 
 import { Message, MessageTypes } from '../../core/models/message';
 import { User } from '../../core/models/user';
-
-import { UIService } from '../../core/services/ui/ui.service';
-import { IAuthService } from '../../core/services/auth/iauth.service';
-import { UtilityService } from '../../core/services/general/utility.service';
+import { Permission } from '../../core/models/permission';
 import { Region } from '../../core/models/region';
 import { Country } from '../../core/models/country';
 import { CcmPlan, CcmPlanItem, CcmPlanItemGoal, CcmPlanHealthParam, HealthParam, CcmPlanReview } from '../../core/models/user.ccm.plan';
 
+import { UIService } from '../../core/services/ui/ui.service';
+import { IAuthService } from '../../core/services/auth/iauth.service';
+import { UtilityService } from '../../core/services/general/utility.service';
 import { SetupService } from '../../core/services/setup/setup.service';
 import { LogService } from '../../core/services/log/log.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 import { FormService } from '../../core/services/form/form.service';
 import { CcmPlanService } from '../../core/services/ccm.plan/ccm.plan.service';
-import { Config } from '../../config/config';
 import { UserService } from '../../core/services/user/user.service';
 import { PatientRecordService } from '../../core/services/patient/patient.record.service';
 
-// import { ReportService } from '../../core/services/report/report.service';
+import { Config } from '../../config/config';
 
 
 @Component({
@@ -49,7 +48,8 @@ export class ReviewFormComponent implements OnInit, OnChanges, OnDestroy {
     isLogin: boolean;
     private ngUnsubscribe: Subject<any> = new Subject();
 
-    preFileListPermission = false;
+    userPermissions: Permission[] = [];
+
     addPermission = false;
     updatePermission = false;
 
@@ -131,6 +131,7 @@ export class ReviewFormComponent implements OnInit, OnChanges, OnDestroy {
     ngOnInit(): void {
 
         this.user = this._authService.getUser();
+        this.userPermissions = this._authService.getUserPermissions();
         // check if a user is logged in
         this.isLogin = this._authService.isLoggedIn();
         // if (!this._authService.isLoggedIn()) {
@@ -140,28 +141,31 @@ export class ReviewFormComponent implements OnInit, OnChanges, OnDestroy {
 
         if (this.isLogin) {
 
-            if (this.patientId && this.planId) {
-                // this.loadUserById();
-                this.loadGeneralInfo();
-                this.loadCcmPlan();
-            }
-            if (this.reviewId) {
-                this.loadCcmPlanReview();
-            }
 
+            // this.addPermission = this._utilityService.checkUserPermission(this.user, 'take_ccm_plan_review');
+            this.addPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'take_ccm_plan_review');
+            // this.addPermission = true;
+            // this.updatePermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+            this.updatePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'update_ccm_plan_review');
+            // this.updatePermission = true;
+
+            if ((this.addPermission && !this.reviewId) || (this.updatePermission && this.reviewId)) {
+
+                if (this.patientId && this.planId) {
+                    // this.loadUserById();
+                    this.loadGeneralInfo();
+                    this.loadCcmPlan();
+                }
+                if (this.reviewId) {
+                    this.loadCcmPlanReview();
+                }
+
+            }
+            else {
+                this._router.navigate(['/permission']);
+            }
 
         }
-
-        // this.preFileListPermission = this.utilityService.checkUserPermission(this.user, 'settlement_prefiling_list');
-        // if (this.preFileListPermission) {
-        //     this.addPermission = this.utilityService.checkUserPermission(this.user, 'settlement_prefiling_add');
-        //     this.updatePermission = this.utilityService.checkUserPermission(this.user, 'settlement_prefiling_update');
-        //     this.loadPrefileList();
-        // }
-        // else {
-        //     this._router.navigate(['/permission']);
-        // }
-
 
     }
 

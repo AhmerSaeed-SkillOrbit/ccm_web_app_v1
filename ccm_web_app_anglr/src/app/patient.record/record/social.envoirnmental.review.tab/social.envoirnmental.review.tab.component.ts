@@ -20,6 +20,7 @@ import { FormService } from '../../../core/services/form/form.service';
 import { PatientRecordService } from '../../../core/services/patient/patient.record.service';
 import { SetupService } from '../../../core/services/setup/setup.service';
 import { SocialReview } from '../../../core/models/user.record';
+import { Permission } from '../../../core/models/permission';
 
 // import { Config } from '../../../config/config';
 
@@ -38,6 +39,10 @@ export class SocialEnvoirnmentalReviewTabComponent implements OnInit {
     @Input() id: number = null;
     @Input() isTabActive: boolean = false;
 
+    userPermissions: Permission[] = [];
+
+    viewPatientRecordPagePermission = false;
+    addPatientRecordPagePermission = false;
 
     socialReviewAnswers: SocialReview[] = [];
 
@@ -109,9 +114,9 @@ export class SocialEnvoirnmentalReviewTabComponent implements OnInit {
     addSubForm(type) {
 
         // if (type == "sr") {
-            // const control = <FormArray>this.socialReviewFormGroup.controls['activeMedicationListForm'];
-            const control = <FormArray>this.socialReviewFormGroup.controls['form'];
-            control.push(this.initSR());
+        // const control = <FormArray>this.socialReviewFormGroup.controls['activeMedicationListForm'];
+        const control = <FormArray>this.socialReviewFormGroup.controls['form'];
+        control.push(this.initSR());
         // }
 
 
@@ -121,9 +126,9 @@ export class SocialEnvoirnmentalReviewTabComponent implements OnInit {
         console.log("index ", idx);
 
         // if (type == "sr") {
-            // const control = <FormArray>this.socialReviewFormGroup.controls['activeMedicationListForm'];
-            const control = <FormArray>this.socialReviewFormGroup.controls['form'];
-            control.removeAt(idx);
+        // const control = <FormArray>this.socialReviewFormGroup.controls['activeMedicationListForm'];
+        const control = <FormArray>this.socialReviewFormGroup.controls['form'];
+        control.removeAt(idx);
         // }
 
     }
@@ -138,10 +143,10 @@ export class SocialEnvoirnmentalReviewTabComponent implements OnInit {
 
 
         // if (type == "sr") {
-            let psData = new SocialReview();
-            // sData.scheduleDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
-            this.socialReviewAnswers.push(psData);
-            this.addSubForm(type);
+        let psData = new SocialReview();
+        // sData.scheduleDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
+        this.socialReviewAnswers.push(psData);
+        this.addSubForm(type);
         // }
 
 
