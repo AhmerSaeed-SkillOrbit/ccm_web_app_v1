@@ -111,11 +111,14 @@
                                 </span>
                             </div>
 
-                            <div>
+                            <div class="col=md-12" *ngIf="bulkUploadPermission">
                                 <div class="panel-heading">
-                                    <h5 class="panel-title">Upload Bulk Users<a class="heading-elements-toggle"><i
-                                                class="icon-more"></i></a></h5>
-
+                                    <h5 class="panel-title">
+                                        Upload Bulk Users
+                                        <a class="heading-elements-toggle">
+                                            <i class="icon-more"></i>
+                                        </a>
+                                    </h5>
                                 </div>
 
                                 <div class="panel-body">
@@ -124,11 +127,16 @@
                                         accept=".csv,.xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
                                     <span matTooltipPosition="above"
                                         matTooltip="{{!bulkUploadPermission ? 'Dont have permission' : 'Upload' }}">
-                                        <button mat-raised-button type="button" class="btn btn-default btn-sm"
+                                        <button style="margin-top: 10px;" mat-raised-button type="button"
+                                            color="primary" class="btn btn-default btn-sm"
                                             [disabled]="!bulkUploadPermission" (click)="clickBulkUpload()">
-                                            Upload <i class="icon-play3 position-right"></i>
+                                            Upload
+                                            <!-- <i class="icon-play3 position-right"></i> -->
                                         </button>
                                     </span>
+
+
+
                                 </div>
                             </div>
 
