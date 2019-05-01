@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { User } from '../../core/models/user';
 import { IAuthService } from '../../core/services/auth/iauth.service';
 import { UIService } from '../../core/services/ui/ui.service';
@@ -13,14 +13,18 @@ import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl } from
 // import { Dashboard } from '../core/models/dashboard';
 import { Message, MessageTypes } from '../../core/models/message';
 // import { SetupService } from '../../core/services/setup/setup.service';
+import { Permission } from '../../core/models/permission';
 
 import { UserService } from '../../core/services/user/user.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 import { UtilityService } from '../../core/services/general/utility.service';
 import { FormService } from '../../core/services/form/form.service';
+import { FileService } from '../../core/services/file/file.service';
 
 import { InviteDialogComponent } from '../invite.dialoge/invite.dialog.component';
 import { AddUpdateUserDialogeComponent } from '../add.update.user.dialoge/add.update.user.dialoge.component';
+
+
 
 declare var libraryVar: any;
 
@@ -40,6 +44,7 @@ export class AdminListComponent implements OnInit {
     user: User = new User();
     isLogin: any;
 
+    userPermissions: Permission[] = [];
 
     email: string = "";
     countryCode: string = "";
@@ -54,8 +59,10 @@ export class AdminListComponent implements OnInit {
     userList: User[] = [];
 
     display = 'none';
+    file: any;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild('myInput') myInputVariable: ElementRef;
 
     isSpinner = false;
     filter: string = "";
@@ -73,6 +80,7 @@ export class AdminListComponent implements OnInit {
     updatePermission = false;
     viewProfilePermission = false;
     deletePermission = false;
+    bulkUploadPermission = false;
 
     isSubmitted: boolean = false;
 
@@ -82,6 +90,7 @@ export class AdminListComponent implements OnInit {
         public dialog: MatDialog,
         private _uiService: UIService,
         private _formService: FormService,
+        private _fileService: FileService,
         private _userService: UserService,
         private _mappingService: MappingService,
         private _utilityService: UtilityService,
@@ -111,6 +120,7 @@ export class AdminListComponent implements OnInit {
     ngOnInit(): void {
 
         this.user = this._authService.getUser();
+        this.userPermissions = this._authService.getUserPermissions();
         console.log('this.user', this.user);
         this.isLogin = this._authService.isLoggedIn();
         // console.log('this.isLogin', this.isLogin);
@@ -123,18 +133,26 @@ export class AdminListComponent implements OnInit {
         //     // this._router.navigateByUrl('login');
         // } else {
 
-        this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'super_admin_list_page');
+        // this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'super_admin_list_page');
+        this.listPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'super_admin_list_page');
         // this.listPagePermission = true;
 
         if (this.listPagePermission) {
-            this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_super_admin');
+            // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_super_admin');
+            this.addPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_super_admin');
             // this.addPermission = true;
-            this.updatePermission = this._utilityService.checkUserPermission(this.user, 'update_super_admin');
-            // this.addPermission = true;
-            this.viewProfilePermission = this._utilityService.checkUserPermission(this.user, 'view_super_admin_profile');
-            // this.viewPermission = true;
-            this.deletePermission = this._utilityService.checkUserPermission(this.user, 'delete_super_admin');
-            // this.addPermission = true;
+            // this.updatePermission = this._utilityService.checkUserPermission(this.user, 'update_super_admin');
+            this.updatePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'update_super_admin');
+            // this.updatePermission = true;
+            // this.viewProfilePermission = this._utilityService.checkUserPermission(this.user, 'view_super_admin_profile');
+            this.viewProfilePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_super_admin_profile');
+            // this.viewProfilePermission = true;
+            // this.deletePermission = this._utilityService.checkUserPermission(this.user, 'delete_super_admin');
+            this.deletePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'delete_super_admin');
+            // this.deletePermission = true;
+            // this.bulkUploadPermission = this._utilityService.checkUserPermission(this.user, 'upload_bulk_super_admin');
+            this.bulkUploadPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'upload_bulk_super_admin');
+            // this.bulkUploadPermission = true;
 
             this.loadUserList();
         }
@@ -244,6 +262,58 @@ export class AdminListComponent implements OnInit {
             let msg = this._utilityService.permissionMsg();
             this._uiService.showToast(msg, '');
         }
+    }
+
+    public changeListener(files: FileList) {
+
+        this.file = files.item(0);
+    }
+
+    clickBulkUpload() {
+        const msg = new Message();
+        if (this.bulkUploadPermission) {
+
+            if (this.file) {
+
+                this._uiService.showSpinner();
+
+                this._userService.addBulkUser(this.file, "super_admin").subscribe(
+                    (res) => {
+                        this._uiService.hideSpinner();
+
+                        this.myInputVariable.nativeElement.value = "";
+                        this.file = null;
+
+                        msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
+                        // msg.msg = 'You have successfully signed up';
+                        msg.msgType = MessageTypes.Information;
+                        msg.autoCloseAfter = 400;
+                        this._uiService.showToast(msg, 'info');
+
+                        this.refreshList();
+
+                    },
+                    (err) => {
+                        console.log(err);
+                        this._uiService.hideSpinner();
+                        this._authService.errStatusCheckResponse(err);
+                    }
+                );
+
+            }
+            else {
+                msg.msg = 'Please Select File';
+                msg.msgType = MessageTypes.Error;
+                msg.autoCloseAfter = 400;
+                this._uiService.showToast(msg, '');
+            }
+
+        }
+        else {
+            let msg = this._utilityService.permissionMsg();
+            this._uiService.showToast(msg, '');
+        }
+
     }
 
     openInviteDialog() {

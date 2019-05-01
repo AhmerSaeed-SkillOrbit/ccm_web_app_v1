@@ -137,6 +137,47 @@ export class UserService {
             });
     }
 
+    // --------- Add Bulk User
+    public addBulkUser(file, type): Observable<any> {
+        console.log("file", file);
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+        // options.headers.append('Content-Type', 'multipart/form-data');
+        options.headers.append('Accept', 'application/json');
+        // options.headers.append('Content-Type', 'application/json');
+
+        let userId = token.userId;
+
+        // bulk/user/register/
+        // let getUrl = "bulk/user/register?byUserId=" + (userId || null);
+        let getUrl = "bulk/user/register";
+        let body: FormData = new FormData();
+
+        body.append('file', file, file.name);
+        body.append('id', userId.toString() || null);
+        body.append('type', type || null);
+
+        // let body = {
+        //     CaseBasicId: caseBasicId || 0, //for insert or update 
+        //     DocumentTypeId: documentTypeId || 0,
+        //     File: file || null,
+        // }
+
+        // return this._http.post(getUrl, body, options)
+        //     .map((res: Response) => res)
+        //     .catch((err, caught) => {
+        //         return Observable.throw(err);
+        //     })
+        return this._http.postWithFile(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            })
+    }
+
     public addUser(user: User): Observable<any> {
         let token: Token;
         token = this._authService.getTokenData();

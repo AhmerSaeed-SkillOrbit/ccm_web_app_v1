@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { User } from '../../core/models/user';
 import { IAuthService } from '../../core/services/auth/iauth.service';
 import { UIService } from '../../core/services/ui/ui.service';
@@ -10,12 +10,15 @@ import { PageEvent, MatDialog, MatTableDataSource, MatPaginator } from '@angular
 // import { DashboardService } from '../core/services/general/dashboard.service';
 // import { Dashboard } from '../core/models/dashboard';
 import { Message, MessageTypes } from '../../core/models/message';
+import { Permission } from '../../core/models/permission';
+
 // import { SetupService } from '../../core/services/setup/setup.service';
 import { InviteDialogComponent } from '../invite.dialoge/invite.dialog.component';
 import { UserService } from '../../core/services/user/user.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 import { UtilityService } from '../../core/services/general/utility.service';
 import { AddUpdateUserDialogeComponent } from '../add.update.user.dialoge/add.update.user.dialoge.component';
+
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
 // import { EasyPay } from '../core/models/payment/easypay.payment';
 
@@ -37,6 +40,7 @@ export class SupportStaffListComponent implements OnInit {
     user: User = new User();
     isLogin: any;
 
+    userPermissions: Permission[] = [];
 
     email: string = "";
     countryCode: string = "";
@@ -50,6 +54,7 @@ export class SupportStaffListComponent implements OnInit {
     userList: User[] = [];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild('myInput') myInputVariable: ElementRef;
 
     isSpinner = false;
     filter: string = "";
@@ -67,10 +72,12 @@ export class SupportStaffListComponent implements OnInit {
     updatePermission = false;
     viewProfilePermission = false;
     deletePermission = false;
+    bulkUploadPermission = false;
 
     isSubmitted: boolean = false;
 
     display = 'none';
+    file: any;
 
     constructor(@Inject('IAuthService') private _authService: IAuthService,
         public dialog: MatDialog,
@@ -86,6 +93,8 @@ export class SupportStaffListComponent implements OnInit {
     ngOnInit(): void {
 
         this.user = this._authService.getUser();
+        this.userPermissions = this._authService.getUserPermissions();
+
         console.log('this.user', this.user);
         this.isLogin = this._authService.isLoggedIn();
         // console.log('this.isLogin', this.isLogin);
@@ -97,18 +106,30 @@ export class SupportStaffListComponent implements OnInit {
             // this._router.navigateByUrl('login');
         } else {
 
-            this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'support_staff_list_page');
+            // this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'support_staff_list_page');
+            this.listPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'support_staff_list_page');
             // this.listPagePermission = true;
 
             if (this.listPagePermission) {
-                this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_support_staff');
+                // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_support_staff');
+                this.addPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_support_staff');
                 // this.addPermission = true;
-                this.updatePermission = this._utilityService.checkUserPermission(this.user, 'update_support_staff');
-                // this.addPermission = true;
-                this.viewProfilePermission = this._utilityService.checkUserPermission(this.user, 'view_support_staff_profile');
-                // this.viewPermission = true;
-                this.deletePermission = this._utilityService.checkUserPermission(this.user, 'delete_support_staff');
-                // this.addPermission = true;
+
+                // this.updatePermission = this._utilityService.checkUserPermission(this.user, 'update_support_staff');
+                this.updatePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'update_support_staff');
+                // this.updatePermission = true;
+
+                // this.viewProfilePermission = this._utilityService.checkUserPermission(this.user, 'view_support_staff_profile');
+                this.viewProfilePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_support_staff_profile');
+                // this.viewProfilePermission = true;
+
+                // this.deletePermission = this._utilityService.checkUserPermission(this.user, 'delete_support_staff');
+                this.deletePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'delete_support_staff');
+                // this.deletePermission = true;
+
+                // this.bulkUploadPermission = this._utilityService.checkUserPermission(this.user, 'upload_bulk_support_staff');
+                this.bulkUploadPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'upload_bulk_support_staff');
+                // this.bulkUploadPermission = true;
 
                 this.loadUserList();
             }
@@ -215,6 +236,58 @@ export class SupportStaffListComponent implements OnInit {
             let msg = this._utilityService.permissionMsg();
             this._uiService.showToast(msg, '');
         }
+    }
+
+    public changeListener(files: FileList) {
+
+        this.file = files.item(0);
+    }
+
+    clickBulkUpload() {
+        const msg = new Message();
+        if (this.bulkUploadPermission) {
+
+            if (this.file) {
+
+                this._uiService.showSpinner();
+
+                this._userService.addBulkUser(this.file, "support_staff").subscribe(
+                    (res) => {
+                        this._uiService.hideSpinner();
+
+                        this.myInputVariable.nativeElement.value = "";
+                        this.file = null;
+
+                        msg.msg = res.json() ? res.json().message : 'Record Updated Successfully';
+                        // msg.msg = 'You have successfully signed up';
+                        msg.msgType = MessageTypes.Information;
+                        msg.autoCloseAfter = 400;
+                        this._uiService.showToast(msg, 'info');
+
+                        this.refreshList();
+
+                    },
+                    (err) => {
+                        console.log(err);
+                        this._uiService.hideSpinner();
+                        this._authService.errStatusCheckResponse(err);
+                    }
+                );
+
+            }
+            else {
+                msg.msg = 'Please Select File';
+                msg.msgType = MessageTypes.Error;
+                msg.autoCloseAfter = 400;
+                this._uiService.showToast(msg, '');
+            }
+
+        }
+        else {
+            let msg = this._utilityService.permissionMsg();
+            this._uiService.showToast(msg, '');
+        }
+
     }
 
     openInviteDialog() {

@@ -82,13 +82,15 @@
                     <div class="row">
                         <div class="panel panel-flat">
                             <div class="panel-heading">
-                                <h5 class="panel-title">Support Staff<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
+                                <h5 class="panel-title">Support Staff<a class="heading-elements-toggle"><i
+                                            class="icon-more"></i></a></h5>
 
                             </div>
 
 
                             <div class="panel-body">
-                                <span matTooltipPosition="above" matTooltip="{{!addPermission ? 'Dont have permission' : 'Add New' }}">
+                                <span matTooltipPosition="above"
+                                    matTooltip="{{!addPermission ? 'Dont have permission' : 'Add New' }}">
                                     <button type="button" class="btn btn-default btn-sm" [disabled]="!addPermission"
                                         (click)="openAddUpdateDialog()">
                                         Add New
@@ -97,13 +99,34 @@
                                 </span>
                             </div>
 
+                            <div>
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">Upload Bulk Users<a class="heading-elements-toggle"><i
+                                                class="icon-more"></i></a></h5>
+
+                                </div>
+
+                                <div class="panel-body">
+                                    <input type="file" #myInput id="file" class="upload" placeholder="csv upload"
+                                        (change)="changeListener($event.target.files)"
+                                        accept=".csv,.xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
+                                    <span matTooltipPosition="above"
+                                        matTooltip="{{!bulkUploadPermission ? 'Dont have permission' : 'Upload' }}">
+                                        <button mat-raised-button type="button" class="btn btn-default btn-sm"
+                                            [disabled]="!bulkUploadPermission" (click)="clickBulkUpload()">
+                                            Upload <i class="icon-play3 position-right"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+
                             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
                                 <div class="datatable-header">
                                     <div id="DataTables_Table_0_filter" class="dataTables_filter">
                                         <label>
                                             <span>Filter:</span>
-                                            <input type="search" [(ngModel)]="searchKeyword" class="" placeholder="Type to filter..."
-                                                (keyup.enter)="search()">
+                                            <input type="search" [(ngModel)]="searchKeyword" class=""
+                                                placeholder="Type to filter..." (keyup.enter)="search()">
                                         </label>
                                     </div>
                                     <!-- <div class="dataTables_length" id="DataTables_Table_0_length">
@@ -134,14 +157,26 @@
                                     <table class="table no-footer">
                                         <thead>
                                             <tr role="row">
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="First Name: activate to sort column ascending">ID</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">Name</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Email</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Role</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Job Title: activate to sort column ascending">Last Login</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="First Name: activate to sort column ascending">ID</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Last Name: activate to sort column ascending">Name</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Job Title: activate to sort column ascending">Email</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Job Title: activate to sort column ascending">Role</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Job Title: activate to sort column ascending">Last Login
+                                                </th>
                                                 <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Status</th> -->
-                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="    width: 183px;">Actions</th>
+                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1"
+                                                    aria-label="Actions" style="    width: 183px;">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -167,7 +202,8 @@
                                                     </span>
                                                 </td> -->
                                                 <td class="text-center">
-                                                    <span *ngIf="updatePermission" matTooltipPosition="above" matTooltip="Edit">
+                                                    <span *ngIf="updatePermission" matTooltipPosition="above"
+                                                        matTooltip="Edit">
                                                         <a [routerLink]="['/um/edit',user.id]">
                                                             <i style="color:#ffa808;" class=" icon-pencil"></i>
                                                         </a>
@@ -178,7 +214,8 @@
 
                                                     <!-- <a (click)=""> -->
 
-                                                    <span *ngIf="viewProfilePermission && false" matTooltipPosition="above" matTooltip="View">
+                                                    <span *ngIf="viewProfilePermission && false"
+                                                        matTooltipPosition="above" matTooltip="View">
                                                         <a>
                                                             <i style="color:#0aa700;" class="icon-eye2"></i>
                                                         </a>
@@ -190,8 +227,10 @@
                                                     <!-- <a (click)=""> -->
 
 
-                                                    <span *ngIf="deletePermission" matTooltipPosition="above" matTooltip="Delete">
-                                                        <i style="color:#f70a0a;" class="icon-bin" (click)="userDelete(user.id)"></i>
+                                                    <span *ngIf="deletePermission" matTooltipPosition="above"
+                                                        matTooltip="Delete">
+                                                        <i style="color:#f70a0a;" class="icon-bin"
+                                                            (click)="userDelete(user.id)"></i>
                                                     </span>
                                                     <!-- <a>
                                                             <i style="color:#f70a0a;" class="icon-bin"></i>
@@ -231,7 +270,8 @@
                                             tabindex="0" id="DataTables_Table_0_next">→</a>
                                     </div>
                                 </div> -->
-                                <mat-paginator #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent = pageChangeEvent($event)">
+                                <mat-paginator #paginator [length]="length" [pageSize]="pageSize"
+                                    [pageSizeOptions]="pageSizeOptions" (page)="pageEvent = pageChangeEvent($event)">
                                 </mat-paginator>
                             </div>
                         </div>
@@ -269,7 +309,9 @@
                                                         <div class="form-group">
                                                             <label class="col-lg-3 control-label">Email:</label>
                                                             <div class="col-lg-9">
-                                                                <input type="text" class="form-control" placeholder="example@abc.com" name="email" [(ngModel)]="email">
+                                                                <input type="text" class="form-control"
+                                                                    placeholder="example@abc.com" name="email"
+                                                                    [(ngModel)]="email">
                                                             </div>
                                                         </div>
 
