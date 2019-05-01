@@ -440,7 +440,7 @@ export class PatientRecordService implements OnDestroy {
 
         let userId = token.userId;
 
-        const getUrl = 'update/immunization/vaccine?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+        const getUrl = 'update/immunization/vaccine?userId=' + (userId || null) + "&patientId=" + (patientId || null) + "&id=" + (vaccine.id || null);
 
 
         let body = {
@@ -1116,7 +1116,8 @@ export class PatientRecordService implements OnDestroy {
         let body = {
             Id: socialReview.answer.id || null,
             SocialReviewParamId: socialReview.id || null,
-            IsPatientExamined: socialReview.answer.isPatientExamined || false,
+            // IsPatientExamined: socialReview.answer.isPatientExamined || false,
+            IsOkay: socialReview.answer.isPatientExamined || false,
             Description: socialReview.answer.description || null,
             IsActive: socialReview.answer.isActive || false,
         };
