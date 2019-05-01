@@ -131,10 +131,10 @@ export class CcmPlanFormComponent implements OnInit, OnChanges, OnDestroy {
 
         if (this.isLogin) {
 
-            // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+            // this.addPermission = this._utilityService.checkUserPermission(this.user, 'create_ccm_plan');
             this.addPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'create_ccm_plan');
             // this.addPermission = true;
-            // this.updatePermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+            // this.updatePermission = this._utilityService.checkUserPermission(this.user, 'update_ccm_plan');
             this.updatePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'update_ccm_plan');
             // this.updatePermission = true;
 

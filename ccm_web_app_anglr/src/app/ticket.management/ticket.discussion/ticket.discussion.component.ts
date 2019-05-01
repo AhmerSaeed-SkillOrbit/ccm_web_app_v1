@@ -5,6 +5,7 @@ import { User } from '../../core/models/user';
 // import { Dashboard } from '../core/models/dashboard';
 import { Message, MessageTypes } from '../../core/models/message';
 import { Ticket } from '../../core/models/ticket';
+import { Permission } from '../../core/models/permission';
 
 import { IAuthService } from '../../core/services/auth/iauth.service';
 import { UIService } from '../../core/services/ui/ui.service';
@@ -19,6 +20,7 @@ import { TicketService } from '../../core/services/ticket/ticket.service';
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmationDialog.component';
 import { AssignTicketDialogeComponent } from '../../shared/assign.ticket.dialoge/assign.ticket.dialoge.component';
 import { AddUpdateTicketDialogeComponent } from '../../shared/add.update.ticket.dialoge/add.update.ticket.dialoge.component';
+
 
 declare var libraryVar: any;
 
@@ -36,11 +38,14 @@ export class TicketDiscussionComponent implements OnInit {
     isUser: User = new User();
     user: User = new User();
 
+    userPermissions: Permission[] = [];
+
     redirectUrl: string;
     isLogin: any;
 
     isEditBtn = true;
 
+    viewPermission = false;
     addPermission = false;
     assignPermission = false;
     closePermission = false;
@@ -59,27 +64,46 @@ export class TicketDiscussionComponent implements OnInit {
     ngOnInit(): void {
 
         this.user = this._authService.getUser();
+        this.userPermissions = this._authService.getUserPermissions();
+
         this.isLogin = this._authService.isLoggedIn();
         console.log(this.user);
 
         if (!this.isLogin) {
             this._router.navigateByUrl('login');
         }
+        else {
 
-        const id = this.route.snapshot.params['id'];
+            // this.viewPermission = this._utilityService.checkUserPermission(this.user, 'ticket_detail_page');
+            this.viewPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'ticket_detail_page');
+            // this.viewPermission = true;
 
-        if (id) {
-            // this.reply.id = id;
-            this.loadTicketDetail(id);
+            if (this.viewPermission) {
+
+                // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_ticket');
+                this.addPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_ticket');
+                // this.addPermission = true;
+
+                // this.assignPermission = this._utilityService.checkUserPermission(this.user, 'assign_ticket');
+                this.assignPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'assign_ticket');
+                // this.assignPermission = true;
+
+                // this.closePermission = this._utilityService.checkUserPermission(this.user, 'ticket_close');
+                this.closePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'ticket_close');
+                // this.closePermission = true;
+
+                const id = this.route.snapshot.params['id'];
+
+                if (id) {
+                    // this.reply.id = id;
+                    this.loadTicketDetail(id);
+                }
+
+            } else {
+                this._router.navigateByUrl('permission');
+            }
+
         }
-
-
-        // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_doctor');
-        this.addPermission = true;
-        // this.assignPermission = this._utilityService.checkUserPermission(this.user, 'add_doctor');
-        this.assignPermission = true;
-        // this.closePermission = this._utilityService.checkUserPermission(this.user, 'add_doctor');
-        this.closePermission = true;
 
     }
 

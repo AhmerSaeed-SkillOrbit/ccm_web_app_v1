@@ -19,7 +19,8 @@
                         <div class="row" formArrayName="form">
                             <div class="col-md-12">
 
-                                <div class="row" *ngFor="let X of questionAnswerFormGroup['controls'].form['controls']; let i = index"
+                                <div class="row"
+                                    *ngFor="let X of questionAnswerFormGroup['controls'].form['controls']; let i = index"
                                     [formGroupName]="i">
 
                                     <div class="col-sm-12">
@@ -48,10 +49,13 @@
 
                                                     <mat-form-field class="full-width">
                                                         <!-- <mat-label>Select Answer Option</mat-label> -->
-                                                        <mat-select placeholder="Select Answer Option" formControlName="isAnswered"
-                                                            [(ngModel)]="questionAnswers[i].answer.isAnswered" (change)="onAnswerTypeSelect()">
+                                                        <mat-select placeholder="Select Answer Option"
+                                                            formControlName="isAnswered"
+                                                            [(ngModel)]="questionAnswers[i].answer.isAnswered"
+                                                            (change)="onAnswerTypeSelect()">
                                                             <mat-option>None</mat-option>
-                                                            <mat-option *ngFor="let answerType of answerTypes" [value]="answerType.code">
+                                                            <mat-option *ngFor="let answerType of answerTypes"
+                                                                [value]="answerType.code">
                                                                 <!-- {{ answerType.name }} -->
                                                                 {{ replaceText(answerType?.name) }}
                                                             </mat-option>
@@ -68,9 +72,10 @@
                                             <div class="col-md-12">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <textarea matInput placeholder="Detail Answer" formControlName="answer"
-                                                            [(ngModel)]="questionAnswers[i].answer.answer" maxlength="500"
-                                                            matTextareaAutosize matAutosizeMinRows="2"
+                                                        <textarea matInput placeholder="Detail Answer"
+                                                            formControlName="answer"
+                                                            [(ngModel)]="questionAnswers[i].answer.answer"
+                                                            maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
                                                             matAutosizeMaxRows="4" trim></textarea>
                                                         <!-- <mat-error>
                                                     Detail Answer is
@@ -86,12 +91,12 @@
                                         <hr class="line-dash">
                                     </div>
 
-                                    <div class="col-md-12 text-right">
+                                    <div class="col-md-12 text-right" *ngIf="addPatientRecordPagePermission">
                                         <!-- *ngIf="questionAnswers.length > minQuestionAnswer" -->
                                         <!-- <button *ngIf="questionAnswers.length > minQuestionAnswer" mat-raised-button
                                             color="primary" (click)="remove(i)">Remove</button> -->
-                                        <button *ngIf="!(questionAnswers[i].answer.id)" mat-raised-button color="primary"
-                                            (click)="onAddAnswer(i)">
+                                        <button *ngIf="!(questionAnswers[i].answer.id)" mat-raised-button
+                                            color="primary" (click)="onAddAnswer(i)">
                                             <!-- Add -->
                                             Save
                                         </button>

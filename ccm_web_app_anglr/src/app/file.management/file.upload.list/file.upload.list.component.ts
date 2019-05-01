@@ -124,16 +124,19 @@ export class FileUploadListComponent implements OnInit {
             if (this.listPagePermission) {
                 // this.addPermission = this._utilityService.checkUserPermission(this.user, 'upload_general_file');
                 this.addPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'upload_general_file');
-                this.addPermission = true;
+                // this.addPermission = true;
+
                 // this.updatePermission = this._utilityService.checkUserPermission(this.user, 'update_general_file');
                 this.updatePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'update_general_file');
-                this.updatePermission = true;
+                // this.updatePermission = true;
+                
                 // this.deletePermission = this._utilityService.checkUserPermission(this.user, 'delete_general_file');
                 this.deletePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'delete_general_file');
-                this.deletePermission = true;
+                // this.deletePermission = true;
+                
                 // this.viewPermission = this._utilityService.checkUserPermission(this.user, 'view_general_file');
                 this.viewPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_general_file');
-                this.viewPermission = true;
+                // this.viewPermission = true;
 
                 this.loadRoleList();
                 this.loadFileUploadedList();

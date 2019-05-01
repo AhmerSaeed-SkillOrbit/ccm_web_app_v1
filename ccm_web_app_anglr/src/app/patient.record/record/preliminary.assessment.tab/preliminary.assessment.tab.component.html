@@ -29,7 +29,8 @@
 
                                         <!-- [checked]="checked" -->
                                         I Know How To Call On My Cell Phone?
-                                        <mat-slide-toggle color="primary" formControlName="ableToCall" [(ngModel)]="personalContactInfo.ableToCall">
+                                        <mat-slide-toggle color="primary" formControlName="ableToCall"
+                                            [(ngModel)]="personalContactInfo.ableToCall">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -39,7 +40,9 @@
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
                                                 <mat-label>Feasible Call Time</mat-label>
-                                                <input matInput placeholder="e.g. 10:30 Am - 07:00 Pm" [(ngModel)]="personalContactInfo.feasibleCallTime" formControlName="feasibleCallTime">
+                                                <input matInput placeholder="e.g. 10:30 Am - 07:00 Pm"
+                                                    [(ngModel)]="personalContactInfo.feasibleCallTime"
+                                                    formControlName="feasibleCallTime">
                                                 <!-- <mat-error>
                                                         feasibleCallTime is
                                                         <strong>required</strong>
@@ -56,7 +59,8 @@
 
                                         <!-- [checked]="checked" -->
                                         I Know How To Text On My Cell Phone?
-                                        <mat-slide-toggle color="primary" formControlName="ableToMessage" [(ngModel)]="personalContactInfo.ableToMessage">
+                                        <mat-slide-toggle color="primary" formControlName="ableToMessage"
+                                            [(ngModel)]="personalContactInfo.ableToMessage">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -66,7 +70,9 @@
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
                                                 <mat-label>Feasible Message Time</mat-label>
-                                                <input matInput placeholder="e.g. 10:30 Am - 07:00 Pm" [(ngModel)]="personalContactInfo.feasibleMessageTime" formControlName="feasibleMessageTime">
+                                                <input matInput placeholder="e.g. 10:30 Am - 07:00 Pm"
+                                                    [(ngModel)]="personalContactInfo.feasibleMessageTime"
+                                                    formControlName="feasibleMessageTime">
                                                 <!-- <mat-error>
                                                             feasibleMessageTime is
                                                             <strong>required</strong>
@@ -84,7 +90,9 @@
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
                                                 <mat-label>Day Time Phone Number</mat-label>
-                                                <input matInput placeholder="+1323232323" [(ngModel)]="personalContactInfo.dayTimePhoneNumber" formControlName="dayTimePhoneNumber">
+                                                <input matInput placeholder="+1323232323"
+                                                    [(ngModel)]="personalContactInfo.dayTimePhoneNumber"
+                                                    formControlName="dayTimePhoneNumber">
                                                 <!-- <mat-error>
                                                     Day Time Phone Number is
                                                     <strong>required</strong>
@@ -98,7 +106,8 @@
 
                                         <!-- [checked]="checked" -->
                                         Can Call
-                                        <mat-slide-toggle color="primary" formControlName="canCallOnDayTimePhone" [(ngModel)]="personalContactInfo.canCallOnDayTimePhone">
+                                        <mat-slide-toggle color="primary" formControlName="canCallOnDayTimePhone"
+                                            [(ngModel)]="personalContactInfo.canCallOnDayTimePhone">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -108,7 +117,8 @@
 
                                         <!-- [checked]="checked" -->
                                         Can Text
-                                        <mat-slide-toggle color="primary" formControlName="canMsgOnDayTimePhone" [(ngModel)]="personalContactInfo.canMsgOnDayTimePhone">
+                                        <mat-slide-toggle color="primary" formControlName="canMsgOnDayTimePhone"
+                                            [(ngModel)]="personalContactInfo.canMsgOnDayTimePhone">
                                             Yes
                                         </mat-slide-toggle>
 
@@ -123,7 +133,9 @@
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
                                                 <mat-label>Night Time Phone Number</mat-label>
-                                                <input matInput placeholder="+1323232323" [(ngModel)]="personalContactInfo.nightTimePhoneNumber" formControlName="nightTimePhoneNumber">
+                                                <input matInput placeholder="+1323232323"
+                                                    [(ngModel)]="personalContactInfo.nightTimePhoneNumber"
+                                                    formControlName="nightTimePhoneNumber">
                                                 <!-- <mat-error>
                                                     Night Time Phone Number is
                                                     <strong>required</strong>
@@ -137,7 +149,8 @@
 
                                         <!-- [checked]="checked" -->
                                         Can Call
-                                        <mat-slide-toggle color="primary" formControlName="canCallOnNightTimePhone" [(ngModel)]="personalContactInfo.canCallOnNightTimePhone">
+                                        <mat-slide-toggle color="primary" formControlName="canCallOnNightTimePhone"
+                                            [(ngModel)]="personalContactInfo.canCallOnNightTimePhone">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -147,7 +160,8 @@
 
                                         <!-- [checked]="checked" -->
                                         Can Text
-                                        <mat-slide-toggle color="primary" formControlName="canMsgOnNightTimePhone" [(ngModel)]="personalContactInfo.canMsgOnNightTimePhone">
+                                        <mat-slide-toggle color="primary" formControlName="canMsgOnNightTimePhone"
+                                            [(ngModel)]="personalContactInfo.canMsgOnNightTimePhone">
                                             Yes
                                         </mat-slide-toggle>
 
@@ -164,9 +178,11 @@
 
                                             <!-- [min]="personalContactInfo.lastPcpVisitDate" -->
                                             <mat-form-field class="full-width">
-                                                <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" placeholder="Date Of Last PCP Visit?" formControlName="lastPcpVisitDate"
-                                                    [(ngModel)]="personalContactInfo.lastPcpVisitDate" (dateChange)="dateChanged($event, 'lastPcpVisitDate')"
-                                                    readonly>
+                                                <input matInput [matDatepickerFilter]="dateFilter"
+                                                    [matDatepicker]="picker" placeholder="Date Of Last PCP Visit?"
+                                                    formControlName="lastPcpVisitDate"
+                                                    [(ngModel)]="personalContactInfo.lastPcpVisitDate"
+                                                    (dateChange)="dateChanged($event, 'lastPcpVisitDate')" readonly>
                                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                 <mat-datepicker #picker></mat-datepicker>
 
@@ -187,7 +203,8 @@
 
                                         <!-- [checked]="checked" -->
                                         Do You Agree To Care Coordination Management Service?
-                                        <mat-slide-toggle color="primary" formControlName="isAgreeCcmService" [(ngModel)]="personalContactInfo.isAgreeCcmService">
+                                        <mat-slide-toggle color="primary" formControlName="isAgreeCcmService"
+                                            [(ngModel)]="personalContactInfo.isAgreeCcmService">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -197,7 +214,8 @@
 
                                         <!-- [checked]="checked" -->
                                         Do You Agree To Discuss Your Health Information With Me Today?
-                                        <mat-slide-toggle color="primary" formControlName="isAgreeToDiscussHealthInfo" [(ngModel)]="personalContactInfo.isAgreeToDiscussHealthInfo">
+                                        <mat-slide-toggle color="primary" formControlName="isAgreeToDiscussHealthInfo"
+                                            [(ngModel)]="personalContactInfo.isAgreeToDiscussHealthInfo">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -207,7 +225,8 @@
 
                                         <!-- [checked]="checked" -->
                                         I Have Access To The Internet?
-                                        <mat-slide-toggle color="primary" formControlName="isInternetAvailable" [(ngModel)]="personalContactInfo.isInternetAvailable">
+                                        <mat-slide-toggle color="primary" formControlName="isInternetAvailable"
+                                            [(ngModel)]="personalContactInfo.isInternetAvailable">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -217,7 +236,8 @@
 
                                         <!-- [checked]="checked" -->
                                         I Have Someone Who Can Help Me With The Internet?
-                                        <mat-slide-toggle color="primary" formControlName="isInternetHelper" [(ngModel)]="personalContactInfo.isInternetHelper">
+                                        <mat-slide-toggle color="primary" formControlName="isInternetHelper"
+                                            [(ngModel)]="personalContactInfo.isInternetHelper">
                                             Yes
                                         </mat-slide-toggle>
 
@@ -228,7 +248,8 @@
 
                                         <!-- [checked]="checked" -->
                                         I Would Like To Communicate Using The Internet?
-                                        <mat-slide-toggle color="primary" formControlName="canUseInternet" [(ngModel)]="personalContactInfo.canUseInternet">
+                                        <mat-slide-toggle color="primary" formControlName="canUseInternet"
+                                            [(ngModel)]="personalContactInfo.canUseInternet">
                                             Yes
                                         </mat-slide-toggle>
 
@@ -243,8 +264,10 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Want To Change" formControlName="wantToChange" [(ngModel)]="personalContactInfo.wantToChange"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                <textarea matInput placeholder="Want To Change"
+                                                    formControlName="wantToChange"
+                                                    [(ngModel)]="personalContactInfo.wantToChange" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
                                                     trim></textarea>
                                                 <!-- <mat-error>
                                                     Want To Change is
@@ -258,8 +281,10 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Effort To Change" formControlName="effortToChange" [(ngModel)]="personalContactInfo.effortToChange"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                <textarea matInput placeholder="Effort To Change"
+                                                    formControlName="effortToChange"
+                                                    [(ngModel)]="personalContactInfo.effortToChange" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
                                                     trim></textarea>
                                                 <!-- <mat-error>
                                                     Effort To Change is
@@ -282,7 +307,7 @@
 
 
 
-                <div class="row">
+                <div class="row" *ngIf="addPatientRecordPagePermission">
                     <div class="col-md-4"></div>
 
                     <div class="col-md-2">
@@ -316,7 +341,9 @@
                                     <div class="col-md-6">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <input matInput placeholder="Care Giver Name" [(ngModel)]="alternateContactInfo.careGiverName" formControlName="careGiverName">
+                                                <input matInput placeholder="Care Giver Name"
+                                                    [(ngModel)]="alternateContactInfo.careGiverName"
+                                                    formControlName="careGiverName">
                                                 <!-- <mat-error>
                                                         Care Giver Name is
                                                         <strong>required</strong>
@@ -329,7 +356,9 @@
                                     <div class="col-md-6">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <input matInput placeholder="Care Giver Phone Number" [(ngModel)]="alternateContactInfo.careGiverPhoneNumber" formControlName="careGiverPhoneNumber">
+                                                <input matInput placeholder="Care Giver Phone Number"
+                                                    [(ngModel)]="alternateContactInfo.careGiverPhoneNumber"
+                                                    formControlName="careGiverPhoneNumber">
                                                 <!-- <mat-error>
                                                         Care Giver Phone Number is
                                                         <strong>required</strong>
@@ -347,7 +376,9 @@
                                     <div class="col-md-6">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <input matInput placeholder="Emergency Contact Name" [(ngModel)]="alternateContactInfo.emergencyContactName" formControlName="emergencyContactName">
+                                                <input matInput placeholder="Emergency Contact Name"
+                                                    [(ngModel)]="alternateContactInfo.emergencyContactName"
+                                                    formControlName="emergencyContactName">
                                                 <!-- <mat-error>
                                                     Emergency Contact Name is
                                                     <strong>required</strong>
@@ -360,7 +391,8 @@
                                     <div class="col-md-6">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <input matInput placeholder="Emergency Contact Phone Number" [(ngModel)]="alternateContactInfo.emergencyContactPhoneNumber"
+                                                <input matInput placeholder="Emergency Contact Phone Number"
+                                                    [(ngModel)]="alternateContactInfo.emergencyContactPhoneNumber"
                                                     formControlName="emergencyContactPhoneNumber">
                                                 <!-- <mat-error>
                                                     Emergency Contact Phone Number is
@@ -379,7 +411,9 @@
                                     <div class="col-md-6">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <input matInput placeholder="Financer Name" [(ngModel)]="alternateContactInfo.financerName" formControlName="financerName">
+                                                <input matInput placeholder="Financer Name"
+                                                    [(ngModel)]="alternateContactInfo.financerName"
+                                                    formControlName="financerName">
                                                 <!-- <mat-error>
                                                     Financer Name is
                                                     <strong>required</strong>
@@ -392,7 +426,9 @@
                                     <div class="col-md-6">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <input matInput placeholder="Financer Phone Number" [(ngModel)]="alternateContactInfo.financerPhoneNumber" formControlName="financerPhoneNumber">
+                                                <input matInput placeholder="Financer Phone Number"
+                                                    [(ngModel)]="alternateContactInfo.financerPhoneNumber"
+                                                    formControlName="financerPhoneNumber">
                                                 <!-- <mat-error>
                                                     Financer Phone Number is
                                                     <strong>required</strong>
@@ -410,7 +446,9 @@
                                     <div class="col-md-6">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <input matInput placeholder="Health Carer Name" [(ngModel)]="alternateContactInfo.healthCarerName" formControlName="healthCarerName">
+                                                <input matInput placeholder="Health Carer Name"
+                                                    [(ngModel)]="alternateContactInfo.healthCarerName"
+                                                    formControlName="healthCarerName">
                                                 <!-- <mat-error>
                                                     Health Carer Name is
                                                     <strong>required</strong>
@@ -423,7 +461,9 @@
                                     <div class="col-md-6">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <input matInput placeholder="Health Carer Phone Number" [(ngModel)]="alternateContactInfo.healthCarerPhoneNumber" formControlName="healthCarerPhoneNumber">
+                                                <input matInput placeholder="Health Carer Phone Number"
+                                                    [(ngModel)]="alternateContactInfo.healthCarerPhoneNumber"
+                                                    formControlName="healthCarerPhoneNumber">
                                                 <!-- <mat-error>
                                                     Health Carer Phone Number is
                                                     <strong>required</strong>
@@ -441,8 +481,10 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comment" formControlName="comment" [(ngModel)]="alternateContactInfo.comment" maxlength="500"
-                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4" trim></textarea>
+                                                <textarea matInput placeholder="Comment" formControlName="comment"
+                                                    [(ngModel)]="alternateContactInfo.comment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                    trim></textarea>
                                                 <!-- <mat-error>
                                                         Comment is
                                                         <strong>required</strong>
@@ -466,7 +508,7 @@
 
 
 
-                <div class="row">
+                <div class="row" *ngIf="addPatientRecordPagePermission">
                     <div class="col-md-4"></div>
 
                     <div class="col-md-2">
@@ -502,9 +544,12 @@
 
                                             <mat-form-field class="full-width">
                                                 <!-- <mat-label>Insurance Type</mat-label> -->
-                                                <mat-select placeholder="Insurance Type" formControlName="insuranceType" [(ngModel)]="insuranceInfo.insuranceType" (change)="onInsuranceTypeSelect()">
+                                                <mat-select placeholder="Insurance Type" formControlName="insuranceType"
+                                                    [(ngModel)]="insuranceInfo.insuranceType"
+                                                    (change)="onInsuranceTypeSelect()">
                                                     <mat-option>None</mat-option>
-                                                    <mat-option *ngFor="let insuranceType of insuranceTypes" [value]="insuranceType.code">
+                                                    <mat-option *ngFor="let insuranceType of insuranceTypes"
+                                                        [value]="insuranceType.code">
                                                         <!-- {{ insuranceType.name }} -->
                                                         {{ replaceText(insuranceType?.name) }}
                                                     </mat-option>
@@ -521,7 +566,9 @@
                                     <div class="col-md-4" *ngIf="insuranceInfo.insuranceType == 'other'">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <input matInput placeholder="Insurance Other Type" [(ngModel)]="insuranceInfo.insuranceOtherType" formControlName="insuranceOtherType">
+                                                <input matInput placeholder="Insurance Other Type"
+                                                    [(ngModel)]="insuranceInfo.insuranceOtherType"
+                                                    formControlName="insuranceOtherType">
                                                 <!-- <mat-error>
                                                         Insurance Other Type is
                                                         <strong>required</strong>
@@ -534,7 +581,9 @@
                                     <div class="col-md-4">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <input matInput placeholder="Insurance Policy Number" [(ngModel)]="insuranceInfo.insurancePolicyNumber" formControlName="insurancePolicyNumber">
+                                                <input matInput placeholder="Insurance Policy Number"
+                                                    [(ngModel)]="insuranceInfo.insurancePolicyNumber"
+                                                    formControlName="insurancePolicyNumber">
                                                 <!-- <mat-error>
                                                     Insurance Policy Number is
                                                     <strong>required</strong>
@@ -553,9 +602,13 @@
 
                                             <mat-form-field class="full-width">
                                                 <!-- <mat-label>Coverage Type</mat-label> -->
-                                                <mat-select placeholder="Coverage Type" formControlName="coverageType" [(ngModel)]="insuranceInfo.coverageType" (change)="onInsuranceCoverageTypeSelect()">
+                                                <mat-select placeholder="Coverage Type" formControlName="coverageType"
+                                                    [(ngModel)]="insuranceInfo.coverageType"
+                                                    (change)="onInsuranceCoverageTypeSelect()">
                                                     <mat-option>None</mat-option>
-                                                    <mat-option *ngFor="let insuranceCoverageType of insuranceCoverageTypes" [value]="insuranceCoverageType.code">
+                                                    <mat-option
+                                                        *ngFor="let insuranceCoverageType of insuranceCoverageTypes"
+                                                        [value]="insuranceCoverageType.code">
                                                         <!-- {{ insuranceCoverageType.name }} -->
                                                         {{ replaceText(insuranceCoverageType?.name) }}
                                                     </mat-option>
@@ -572,7 +625,9 @@
                                     <div class="col-md-4" *ngIf="insuranceInfo.coverageType == 'other'">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <input matInput placeholder="Coverage Other Type" [(ngModel)]="insuranceInfo.coverageOtherType" formControlName="coverageOtherType">
+                                                <input matInput placeholder="Coverage Other Type"
+                                                    [(ngModel)]="insuranceInfo.coverageOtherType"
+                                                    formControlName="coverageOtherType">
                                                 <!-- <mat-error>
                                                     Coverage Other Type is
                                                     <strong>required</strong>
@@ -585,7 +640,9 @@
                                     <div class="col-md-4">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <input matInput placeholder="Coverage Policy Number" [(ngModel)]="insuranceInfo.coveragePolicyNumber" formControlName="coveragePolicyNumber">
+                                                <input matInput placeholder="Coverage Policy Number"
+                                                    [(ngModel)]="insuranceInfo.coveragePolicyNumber"
+                                                    formControlName="coveragePolicyNumber">
                                                 <!-- <mat-error>
                                                     Coverage Policy Number is
                                                     <strong>required</strong>
@@ -602,8 +659,10 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comment" formControlName="comment" [(ngModel)]="insuranceInfo.comment" maxlength="500" matTextareaAutosize
-                                                    matAutosizeMinRows="2" matAutosizeMaxRows="4" trim></textarea>
+                                                <textarea matInput placeholder="Comment" formControlName="comment"
+                                                    [(ngModel)]="insuranceInfo.comment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                    trim></textarea>
                                                 <!-- <mat-error>
                                                             Comment is
                                                             <strong>required</strong>
@@ -627,7 +686,7 @@
 
 
 
-                <div class="row">
+                <div class="row" *ngIf="addPatientRecordPagePermission">
                     <div class="col-md-4"></div>
 
                     <div class="col-md-2">
@@ -664,9 +723,12 @@
 
                                             <mat-form-field class="full-width">
                                                 <!-- <mat-label>Live Type</mat-label> -->
-                                                <mat-select placeholder="Live Type" formControlName="liveType" [(ngModel)]="selfAssessmentInfo.liveType" (change)="onLiveTypeSelect()">
+                                                <mat-select placeholder="Live Type" formControlName="liveType"
+                                                    [(ngModel)]="selfAssessmentInfo.liveType"
+                                                    (change)="onLiveTypeSelect()">
                                                     <mat-option>None</mat-option>
-                                                    <mat-option *ngFor="let liveType of liveTypes" [value]="liveType.code">
+                                                    <mat-option *ngFor="let liveType of liveTypes"
+                                                        [value]="liveType.code">
                                                         <!-- {{ liveType.name }} -->
                                                         {{ replaceText(liveType?.name) }}
                                                     </mat-option>
@@ -683,7 +745,9 @@
                                     <div class="col-md-6" *ngIf="selfAssessmentInfo.liveType == 'other'">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <input matInput placeholder="Live Other Type" [(ngModel)]="selfAssessmentInfo.liveOtherType" formControlName="liveOtherType">
+                                                <input matInput placeholder="Live Other Type"
+                                                    [(ngModel)]="selfAssessmentInfo.liveOtherType"
+                                                    formControlName="liveOtherType">
                                                 <!-- <mat-error>
                                                     Live Other Type is
                                                     <strong>required</strong>
@@ -696,8 +760,10 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Live Comment" formControlName="liveComment" [(ngModel)]="selfAssessmentInfo.liveComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                <textarea matInput placeholder="Live Comment"
+                                                    formControlName="liveComment"
+                                                    [(ngModel)]="selfAssessmentInfo.liveComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
                                                     trim></textarea>
                                                 <!-- <mat-error>
                                                     Live Comment is
@@ -717,9 +783,12 @@
 
                                             <mat-form-field class="full-width">
                                                 <!-- <mat-label>Challenge Type</mat-label> -->
-                                                <mat-select placeholder="Challenge Type" formControlName="challengeWith" [(ngModel)]="selfAssessmentInfo.challengeWith" (change)="onChallengeTypeSelect()">
+                                                <mat-select placeholder="Challenge Type" formControlName="challengeWith"
+                                                    [(ngModel)]="selfAssessmentInfo.challengeWith"
+                                                    (change)="onChallengeTypeSelect()">
                                                     <mat-option>None</mat-option>
-                                                    <mat-option *ngFor="let challengeType of challengeTypes" [value]="challengeType.code">
+                                                    <mat-option *ngFor="let challengeType of challengeTypes"
+                                                        [value]="challengeType.code">
                                                         <!-- {{ liveType.name }} -->
                                                         {{ replaceText(challengeType?.name) }}
                                                     </mat-option>
@@ -736,7 +805,9 @@
                                     <div class="col-md-6" *ngIf="selfAssessmentInfo.challengeWith == 'other'">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <input matInput placeholder="Challenge Other Type" [(ngModel)]="selfAssessmentInfo.challengeOtherType" formControlName="challengeOtherType">
+                                                <input matInput placeholder="Challenge Other Type"
+                                                    [(ngModel)]="selfAssessmentInfo.challengeOtherType"
+                                                    formControlName="challengeOtherType">
                                                 <!-- <mat-error>
                                                         Challenge Other Type is
                                                         <strong>required</strong>
@@ -749,8 +820,10 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Challenge Comment" formControlName="challengeComment" [(ngModel)]="selfAssessmentInfo.challengeComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                <textarea matInput placeholder="Challenge Comment"
+                                                    formControlName="challengeComment"
+                                                    [(ngModel)]="selfAssessmentInfo.challengeComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
                                                     trim></textarea>
                                                 <!-- <mat-error>
                                                         Challenge Comment is
@@ -769,10 +842,13 @@
 
                                             <mat-form-field class="full-width">
                                                 <!-- <mat-label>Primary Language</mat-label> -->
-                                                <mat-select placeholder="Primary Language" formControlName="primaryLanguage" [(ngModel)]="selfAssessmentInfo.primaryLanguage"
+                                                <mat-select placeholder="Primary Language"
+                                                    formControlName="primaryLanguage"
+                                                    [(ngModel)]="selfAssessmentInfo.primaryLanguage"
                                                     (change)="onPrimaryLanguageSelect()">
                                                     <mat-option>None</mat-option>
-                                                    <mat-option *ngFor="let primaryLanguage of primaryLanguages" [value]="primaryLanguage.code">
+                                                    <mat-option *ngFor="let primaryLanguage of primaryLanguages"
+                                                        [value]="primaryLanguage.code">
                                                         <!-- {{ primaryLanguage.name }} -->
                                                         {{ replaceText(primaryLanguage?.name) }}
                                                     </mat-option>
@@ -789,7 +865,9 @@
                                     <div class="col-md-6" *ngIf="selfAssessmentInfo.primaryLanguage == 'other'">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <input matInput placeholder="Primary Other Language" [(ngModel)]="selfAssessmentInfo.primaryLanguageOther" formControlName="primaryLanguageOther">
+                                                <input matInput placeholder="Primary Other Language"
+                                                    [(ngModel)]="selfAssessmentInfo.primaryLanguageOther"
+                                                    formControlName="primaryLanguageOther">
                                                 <!-- <mat-error>
                                                         Primary Other Language is
                                                         <strong>required</strong>
@@ -802,9 +880,11 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Primary Language Comment" formControlName="primaryLanguageComment" [(ngModel)]="selfAssessmentInfo.primaryLanguageComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
-                                                    trim></textarea>
+                                                <textarea matInput placeholder="Primary Language Comment"
+                                                    formControlName="primaryLanguageComment"
+                                                    [(ngModel)]="selfAssessmentInfo.primaryLanguageComment"
+                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
+                                                    matAutosizeMaxRows="4" trim></textarea>
                                                 <!-- <mat-error>
                                                         Primary Language Comment is
                                                         <strong>required</strong>
@@ -823,9 +903,12 @@
 
                                             <mat-form-field class="full-width">
                                                 <!-- <mat-label>Learn Best By</mat-label> -->
-                                                <mat-select placeholder="Learn Best By" formControlName="learnBestBy" [(ngModel)]="selfAssessmentInfo.learnBestBy" (change)="onLearnBestBySelect()">
+                                                <mat-select placeholder="Learn Best By" formControlName="learnBestBy"
+                                                    [(ngModel)]="selfAssessmentInfo.learnBestBy"
+                                                    (change)="onLearnBestBySelect()">
                                                     <mat-option>None</mat-option>
-                                                    <mat-option *ngFor="let learnBestBy of learnBestBys" [value]="learnBestBy.code">
+                                                    <mat-option *ngFor="let learnBestBy of learnBestBys"
+                                                        [value]="learnBestBy.code">
                                                         <!-- {{ learnBestBy.name }} -->
                                                         {{ replaceText(learnBestBy?.name) }}
                                                     </mat-option>
@@ -842,7 +925,9 @@
                                     <div class="col-md-6" *ngIf="selfAssessmentInfo.learnBestBy == 'other'">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <input matInput placeholder="Learn Best By Other" [(ngModel)]="selfAssessmentInfo.learnBestByOther" formControlName="learnBestByOther">
+                                                <input matInput placeholder="Learn Best By Other"
+                                                    [(ngModel)]="selfAssessmentInfo.learnBestByOther"
+                                                    formControlName="learnBestByOther">
                                                 <!-- <mat-error>
                                                         Learn Best By Other is
                                                         <strong>required</strong>
@@ -855,8 +940,10 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Learn Best By Comment" formControlName="learnBestByComment" [(ngModel)]="selfAssessmentInfo.learnBestByComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                <textarea matInput placeholder="Learn Best By Comment"
+                                                    formControlName="learnBestByComment"
+                                                    [(ngModel)]="selfAssessmentInfo.learnBestByComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
                                                     trim></textarea>
                                                 <!-- <mat-error>
                                                         Learn Best By Comment is
@@ -876,10 +963,13 @@
 
                                             <mat-form-field class="full-width">
                                                 <!-- <mat-label>Thing Impact Health</mat-label> -->
-                                                <mat-select placeholder="Thing Impact Health" formControlName="thingImpactHealth" [(ngModel)]="selfAssessmentInfo.thingImpactHealth"
+                                                <mat-select placeholder="Thing Impact Health"
+                                                    formControlName="thingImpactHealth"
+                                                    [(ngModel)]="selfAssessmentInfo.thingImpactHealth"
                                                     (change)="onThingImpactHealthSelect()">
                                                     <mat-option>None</mat-option>
-                                                    <mat-option *ngFor="let thingImpactHealth of thingImpactHealths" [value]="thingImpactHealth.code">
+                                                    <mat-option *ngFor="let thingImpactHealth of thingImpactHealths"
+                                                        [value]="thingImpactHealth.code">
                                                         <!-- {{ thingImpactHealth.name }} -->
                                                         {{ replaceText(thingImpactHealth?.name) }}
                                                     </mat-option>
@@ -896,7 +986,9 @@
                                     <div class="col-md-6" *ngIf="selfAssessmentInfo.thingImpactHealth == 'other'">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <input matInput placeholder="Thing Impact Health Other" [(ngModel)]="selfAssessmentInfo.thingImpactHealthOther" formControlName="thingImpactHealthOther">
+                                                <input matInput placeholder="Thing Impact Health Other"
+                                                    [(ngModel)]="selfAssessmentInfo.thingImpactHealthOther"
+                                                    formControlName="thingImpactHealthOther">
                                                 <!-- <mat-error>
                                                                 Thing Impact Health Other is
                                                                 <strong>required</strong>
@@ -909,9 +1001,11 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Thing Impact Health Comment" formControlName="thingImpactHealthComment" [(ngModel)]="selfAssessmentInfo.thingImpactHealthComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
-                                                    trim></textarea>
+                                                <textarea matInput placeholder="Thing Impact Health Comment"
+                                                    formControlName="thingImpactHealthComment"
+                                                    [(ngModel)]="selfAssessmentInfo.thingImpactHealthComment"
+                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
+                                                    matAutosizeMaxRows="4" trim></textarea>
                                                 <!-- <mat-error>
                                                                 Thing Impact Health Comment is
                                                                 <strong>required</strong>
@@ -930,7 +1024,8 @@
 
                                         <!-- [checked]="checked" -->
                                         I have Special Dietary need?
-                                        <mat-slide-toggle color="primary" formControlName="isDietaryRequire" [(ngModel)]="selfAssessmentInfo.isDietaryRequire">
+                                        <mat-slide-toggle color="primary" formControlName="isDietaryRequire"
+                                            [(ngModel)]="selfAssessmentInfo.isDietaryRequire">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -939,9 +1034,11 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Please Explain" formControlName="dietaryRequireDescription" [(ngModel)]="selfAssessmentInfo.dietaryRequireDescription"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
-                                                    trim></textarea>
+                                                <textarea matInput placeholder="Please Explain"
+                                                    formControlName="dietaryRequireDescription"
+                                                    [(ngModel)]="selfAssessmentInfo.dietaryRequireDescription"
+                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
+                                                    matAutosizeMaxRows="4" trim></textarea>
                                                 <!-- <mat-error>
                                                     Please Explain is
                                                     <strong>required</strong>
@@ -960,10 +1057,13 @@
 
                                             <mat-form-field class="full-width">
                                                 <!-- <mat-label>I have the Following</mat-label> -->
-                                                <mat-select placeholder="I have the Following" formControlName="assistanceAvailable" [(ngModel)]="selfAssessmentInfo.assistanceAvailable"
+                                                <mat-select placeholder="I have the Following"
+                                                    formControlName="assistanceAvailable"
+                                                    [(ngModel)]="selfAssessmentInfo.assistanceAvailable"
                                                     (change)="onAssistanceAvailableSelect()">
                                                     <mat-option>None</mat-option>
-                                                    <mat-option *ngFor="let assistanceAvailable of assistanceAvailables" [value]="assistanceAvailable.code">
+                                                    <mat-option *ngFor="let assistanceAvailable of assistanceAvailables"
+                                                        [value]="assistanceAvailable.code">
                                                         <!-- {{ thingImpactHealth.name }} -->
                                                         {{ replaceText(assistanceAvailable?.name) }}
                                                     </mat-option>
@@ -991,7 +1091,7 @@
 
 
 
-                <div class="row">
+                <div class="row" *ngIf="addPatientRecordPagePermission">
                     <div class="col-md-4"></div>
 
                     <div class="col-md-2">
@@ -1029,7 +1129,8 @@
 
                                         <!-- [checked]="checked" -->
                                         My Ability To Manage My Chronic Condition?
-                                        <mat-slide-toggle color="primary" formControlName="manageChronicCondition" [(ngModel)]="abilityConcernInfo.manageChronicCondition">
+                                        <mat-slide-toggle color="primary" formControlName="manageChronicCondition"
+                                            [(ngModel)]="abilityConcernInfo.manageChronicCondition">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -1038,9 +1139,11 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comments" formControlName="manageChronicConditionComment" [(ngModel)]="abilityConcernInfo.manageChronicConditionComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
-                                                    trim></textarea>
+                                                <textarea matInput placeholder="Comments"
+                                                    formControlName="manageChronicConditionComment"
+                                                    [(ngModel)]="abilityConcernInfo.manageChronicConditionComment"
+                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
+                                                    matAutosizeMaxRows="4" trim></textarea>
                                                 <!-- <mat-error>
                                                         Comments is
                                                         <strong>required</strong>
@@ -1058,7 +1161,8 @@
 
                                         <!-- [checked]="checked" -->
                                         My Decreased Energy Level / Chronic Fatigue?
-                                        <mat-slide-toggle color="primary" formControlName="decreaseEnergyLevel" [(ngModel)]="abilityConcernInfo.decreaseEnergyLevel">
+                                        <mat-slide-toggle color="primary" formControlName="decreaseEnergyLevel"
+                                            [(ngModel)]="abilityConcernInfo.decreaseEnergyLevel">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -1067,9 +1171,11 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comments" formControlName="decreaseEnergyLevelComment" [(ngModel)]="abilityConcernInfo.decreaseEnergyLevelComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
-                                                    trim></textarea>
+                                                <textarea matInput placeholder="Comments"
+                                                    formControlName="decreaseEnergyLevelComment"
+                                                    [(ngModel)]="abilityConcernInfo.decreaseEnergyLevelComment"
+                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
+                                                    matAutosizeMaxRows="4" trim></textarea>
                                                 <!-- <mat-error>
                                                     Comments is
                                                     <strong>required</strong>
@@ -1087,7 +1193,8 @@
 
                                         <!-- [checked]="checked" -->
                                         My Ability To Car For / Clean My House?
-                                        <mat-slide-toggle color="primary" formControlName="canCleanHome" [(ngModel)]="abilityConcernInfo.canCleanHome">
+                                        <mat-slide-toggle color="primary" formControlName="canCleanHome"
+                                            [(ngModel)]="abilityConcernInfo.canCleanHome">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -1096,8 +1203,10 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comments" formControlName="canCleanHomeComment" [(ngModel)]="abilityConcernInfo.canCleanHomeComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                <textarea matInput placeholder="Comments"
+                                                    formControlName="canCleanHomeComment"
+                                                    [(ngModel)]="abilityConcernInfo.canCleanHomeComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
                                                     trim></textarea>
                                                 <!-- <mat-error>
                                                     Comments is
@@ -1116,7 +1225,8 @@
 
                                         <!-- [checked]="checked" -->
                                         My Current Emotional Well Being / Issues?
-                                        <mat-slide-toggle color="primary" formControlName="emotionalCurrentIssue" [(ngModel)]="abilityConcernInfo.emotionalCurrentIssue">
+                                        <mat-slide-toggle color="primary" formControlName="emotionalCurrentIssue"
+                                            [(ngModel)]="abilityConcernInfo.emotionalCurrentIssue">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -1125,9 +1235,11 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comments" formControlName="emotionalCurrentIssueComment" [(ngModel)]="abilityConcernInfo.emotionalCurrentIssueComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
-                                                    trim></textarea>
+                                                <textarea matInput placeholder="Comments"
+                                                    formControlName="emotionalCurrentIssueComment"
+                                                    [(ngModel)]="abilityConcernInfo.emotionalCurrentIssueComment"
+                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
+                                                    matAutosizeMaxRows="4" trim></textarea>
                                                 <!-- <mat-error>
                                                     Comments is
                                                     <strong>required</strong>
@@ -1145,7 +1257,8 @@
 
                                         <!-- [checked]="checked" -->
                                         My Ability To Manage My Medications?
-                                        <mat-slide-toggle color="primary" formControlName="manageMedication" [(ngModel)]="abilityConcernInfo.manageMedication">
+                                        <mat-slide-toggle color="primary" formControlName="manageMedication"
+                                            [(ngModel)]="abilityConcernInfo.manageMedication">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -1154,9 +1267,11 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comments" formControlName="manageMedicationComment" [(ngModel)]="abilityConcernInfo.manageMedicationComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
-                                                    trim></textarea>
+                                                <textarea matInput placeholder="Comments"
+                                                    formControlName="manageMedicationComment"
+                                                    [(ngModel)]="abilityConcernInfo.manageMedicationComment"
+                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
+                                                    matAutosizeMaxRows="4" trim></textarea>
                                                 <!-- <mat-error>
                                                     Comments is
                                                     <strong>required</strong>
@@ -1174,7 +1289,8 @@
 
                                         <!-- [checked]="checked" -->
                                         My Ability To Obtain Healthy Food To Eat?
-                                        <mat-slide-toggle color="primary" formControlName="obtainHealthyFood" [(ngModel)]="abilityConcernInfo.obtainHealthyFood">
+                                        <mat-slide-toggle color="primary" formControlName="obtainHealthyFood"
+                                            [(ngModel)]="abilityConcernInfo.obtainHealthyFood">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -1183,9 +1299,11 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comments" formControlName="obtainHealthyFoodComment" [(ngModel)]="abilityConcernInfo.obtainHealthyFoodComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
-                                                    trim></textarea>
+                                                <textarea matInput placeholder="Comments"
+                                                    formControlName="obtainHealthyFoodComment"
+                                                    [(ngModel)]="abilityConcernInfo.obtainHealthyFoodComment"
+                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
+                                                    matAutosizeMaxRows="4" trim></textarea>
                                                 <!-- <mat-error>
                                                     Comments is
                                                     <strong>required</strong>
@@ -1203,7 +1321,8 @@
 
                                         <!-- [checked]="checked" -->
                                         My Ability To Cope With End Of Life Issues?
-                                        <mat-slide-toggle color="primary" formControlName="copeLifeIssue" [(ngModel)]="abilityConcernInfo.copeLifeIssue">
+                                        <mat-slide-toggle color="primary" formControlName="copeLifeIssue"
+                                            [(ngModel)]="abilityConcernInfo.copeLifeIssue">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -1212,9 +1331,11 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comments" formControlName="copeLifeIssueComment" [(ngModel)]="abilityConcernInfo.copeLifeIssueComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
-                                                    trim></textarea>
+                                                <textarea matInput placeholder="Comments"
+                                                    formControlName="copeLifeIssueComment"
+                                                    [(ngModel)]="abilityConcernInfo.copeLifeIssueComment"
+                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
+                                                    matAutosizeMaxRows="4" trim></textarea>
                                                 <!-- <mat-error>
                                                     Comments is
                                                     <strong>required</strong>
@@ -1232,7 +1353,8 @@
 
                                         <!-- [checked]="checked" -->
                                         My Current DNR?
-                                        <mat-slide-toggle color="primary" formControlName="isCurrentlyDnr" [(ngModel)]="abilityConcernInfo.isCurrentlyDnr">
+                                        <mat-slide-toggle color="primary" formControlName="isCurrentlyDnr"
+                                            [(ngModel)]="abilityConcernInfo.isCurrentlyDnr">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -1241,8 +1363,10 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comments" formControlName="currentlyDnrComment" [(ngModel)]="abilityConcernInfo.currentlyDnrComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                <textarea matInput placeholder="Comments"
+                                                    formControlName="currentlyDnrComment"
+                                                    [(ngModel)]="abilityConcernInfo.currentlyDnrComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
                                                     trim></textarea>
                                                 <!-- <mat-error>
                                                     Comments is
@@ -1261,7 +1385,8 @@
 
                                         <!-- [checked]="checked" -->
                                         My Current POA?
-                                        <mat-slide-toggle color="primary" formControlName="isCurrentlyPoa" [(ngModel)]="abilityConcernInfo.isCurrentlyPoa">
+                                        <mat-slide-toggle color="primary" formControlName="isCurrentlyPoa"
+                                            [(ngModel)]="abilityConcernInfo.isCurrentlyPoa">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -1270,8 +1395,10 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comments" formControlName="currentlyPoaComment" [(ngModel)]="abilityConcernInfo.currentlyPoaComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                <textarea matInput placeholder="Comments"
+                                                    formControlName="currentlyPoaComment"
+                                                    [(ngModel)]="abilityConcernInfo.currentlyPoaComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
                                                     trim></textarea>
                                                 <!-- <mat-error>
                                                     Comments is
@@ -1290,7 +1417,8 @@
 
                                         <!-- [checked]="checked" -->
                                         My Current Advance Directives?
-                                        <mat-slide-toggle color="primary" formControlName="isCurrentlyDirective" [(ngModel)]="abilityConcernInfo.isCurrentlyDirective">
+                                        <mat-slide-toggle color="primary" formControlName="isCurrentlyDirective"
+                                            [(ngModel)]="abilityConcernInfo.isCurrentlyDirective">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -1299,9 +1427,11 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comments" formControlName="currentlyDirectiveComment" [(ngModel)]="abilityConcernInfo.currentlyDirectiveComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
-                                                    trim></textarea>
+                                                <textarea matInput placeholder="Comments"
+                                                    formControlName="currentlyDirectiveComment"
+                                                    [(ngModel)]="abilityConcernInfo.currentlyDirectiveComment"
+                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
+                                                    matAutosizeMaxRows="4" trim></textarea>
                                                 <!-- <mat-error>
                                                     Comments is
                                                     <strong>required</strong>
@@ -1320,7 +1450,8 @@
 
                                         <!-- [checked]="checked" -->
                                         My Ability To Ambulate / Move Around Daily?
-                                        <mat-slide-toggle color="primary" formControlName="isAbleToMoveDaily" [(ngModel)]="abilityConcernInfo.isAbleToMoveDaily">
+                                        <mat-slide-toggle color="primary" formControlName="isAbleToMoveDaily"
+                                            [(ngModel)]="abilityConcernInfo.isAbleToMoveDaily">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -1329,9 +1460,11 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comments" formControlName="ableToMoveDailyComment" [(ngModel)]="abilityConcernInfo.ableToMoveDailyComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
-                                                    trim></textarea>
+                                                <textarea matInput placeholder="Comments"
+                                                    formControlName="ableToMoveDailyComment"
+                                                    [(ngModel)]="abilityConcernInfo.ableToMoveDailyComment"
+                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
+                                                    matAutosizeMaxRows="4" trim></textarea>
                                                 <!-- <mat-error>
                                                     Comments is
                                                     <strong>required</strong>
@@ -1348,9 +1481,11 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="More Details / Comments" formControlName="concernDetailComment" [(ngModel)]="abilityConcernInfo.concernDetailComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
-                                                    trim></textarea>
+                                                <textarea matInput placeholder="More Details / Comments"
+                                                    formControlName="concernDetailComment"
+                                                    [(ngModel)]="abilityConcernInfo.concernDetailComment"
+                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
+                                                    matAutosizeMaxRows="4" trim></textarea>
                                                 <!-- <mat-error>
                                                     More Details / Comments is
                                                     <strong>required</strong>
@@ -1374,7 +1509,7 @@
 
 
 
-                <div class="row">
+                <div class="row" *ngIf="addPatientRecordPagePermission">
                     <div class="col-md-4"></div>
 
                     <div class="col-md-2">
@@ -1412,7 +1547,8 @@
 
                                         <!-- [checked]="checked" -->
                                         I Frequently Forget To Take My Medication ?
-                                        <mat-slide-toggle color="primary" formControlName="isForgetMedicine" [(ngModel)]="resourceInfo.isForgetMedicine">
+                                        <mat-slide-toggle color="primary" formControlName="isForgetMedicine"
+                                            [(ngModel)]="resourceInfo.isForgetMedicine">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -1421,8 +1557,10 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comments" formControlName="isForgetMedicineComment" [(ngModel)]="resourceInfo.isForgetMedicineComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                <textarea matInput placeholder="Comments"
+                                                    formControlName="isForgetMedicineComment"
+                                                    [(ngModel)]="resourceInfo.isForgetMedicineComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
                                                     trim></textarea>
                                                 <!-- <mat-error>
                                                     Comments is
@@ -1441,7 +1579,8 @@
 
                                         <!-- [checked]="checked" -->
                                         I Frequently Miss My Doctor Appointments?
-                                        <mat-slide-toggle color="primary" formControlName="isForgetAppointment" [(ngModel)]="resourceInfo.isForgetAppointment">
+                                        <mat-slide-toggle color="primary" formControlName="isForgetAppointment"
+                                            [(ngModel)]="resourceInfo.isForgetAppointment">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -1450,9 +1589,11 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comments" formControlName="isForgetAppointmentComment" [(ngModel)]="resourceInfo.isForgetAppointmentComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
-                                                    trim></textarea>
+                                                <textarea matInput placeholder="Comments"
+                                                    formControlName="isForgetAppointmentComment"
+                                                    [(ngModel)]="resourceInfo.isForgetAppointmentComment"
+                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
+                                                    matAutosizeMaxRows="4" trim></textarea>
                                                 <!-- <mat-error>
                                                     Comments is
                                                     <strong>required</strong>
@@ -1470,7 +1611,8 @@
 
                                         <!-- [checked]="checked" -->
                                         I Always Choose To Go To The ER When I Am Sick?
-                                        <mat-slide-toggle color="primary" formControlName="isGoWhenSick" [(ngModel)]="resourceInfo.isGoWhenSick">
+                                        <mat-slide-toggle color="primary" formControlName="isGoWhenSick"
+                                            [(ngModel)]="resourceInfo.isGoWhenSick">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -1479,8 +1621,10 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comments" formControlName="isGoWhenSickComment" [(ngModel)]="resourceInfo.isGoWhenSickComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                <textarea matInput placeholder="Comments"
+                                                    formControlName="isGoWhenSickComment"
+                                                    [(ngModel)]="resourceInfo.isGoWhenSickComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
                                                     trim></textarea>
                                                 <!-- <mat-error>
                                                     Comments is
@@ -1499,7 +1643,8 @@
 
                                         <!-- [checked]="checked" -->
                                         Sometimes I Go Without Food To Eat At Home?
-                                        <mat-slide-toggle color="primary" formControlName="goWithoutFood" [(ngModel)]="resourceInfo.goWithoutFood">
+                                        <mat-slide-toggle color="primary" formControlName="goWithoutFood"
+                                            [(ngModel)]="resourceInfo.goWithoutFood">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -1508,8 +1653,10 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comments" formControlName="goWithoutFoodComment" [(ngModel)]="resourceInfo.goWithoutFoodComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                <textarea matInput placeholder="Comments"
+                                                    formControlName="goWithoutFoodComment"
+                                                    [(ngModel)]="resourceInfo.goWithoutFoodComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
                                                     trim></textarea>
                                                 <!-- <mat-error>
                                                     Comments is
@@ -1528,7 +1675,8 @@
 
                                         <!-- [checked]="checked" -->
                                         Sometime My Power Or Utilities Get Shut Off?
-                                        <mat-slide-toggle color="primary" formControlName="isPowerShutOff" [(ngModel)]="resourceInfo.isPowerShutOff">
+                                        <mat-slide-toggle color="primary" formControlName="isPowerShutOff"
+                                            [(ngModel)]="resourceInfo.isPowerShutOff">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -1537,8 +1685,10 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comments" formControlName="isPowerShutOffComment" [(ngModel)]="resourceInfo.isPowerShutOffComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                <textarea matInput placeholder="Comments"
+                                                    formControlName="isPowerShutOffComment"
+                                                    [(ngModel)]="resourceInfo.isPowerShutOffComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
                                                     trim></textarea>
                                                 <!-- <mat-error>
                                                     Comments is
@@ -1557,7 +1707,8 @@
 
                                         <!-- [checked]="checked" -->
                                         Sometimes I Am Unable To Get Dressed In Am?
-                                        <mat-slide-toggle color="primary" formControlName="getUnAbleToDress" [(ngModel)]="resourceInfo.getUnAbleToDress">
+                                        <mat-slide-toggle color="primary" formControlName="getUnAbleToDress"
+                                            [(ngModel)]="resourceInfo.getUnAbleToDress">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -1566,8 +1717,10 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comments" formControlName="getUnAbleToDressComment" [(ngModel)]="resourceInfo.getUnAbleToDressComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                <textarea matInput placeholder="Comments"
+                                                    formControlName="getUnAbleToDressComment"
+                                                    [(ngModel)]="resourceInfo.getUnAbleToDressComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
                                                     trim></textarea>
                                                 <!-- <mat-error>
                                                     Comments is
@@ -1586,7 +1739,8 @@
 
                                         <!-- [checked]="checked" -->
                                         It Is Hard For Me To Prepare Food For Me To Eat?
-                                        <mat-slide-toggle color="primary" formControlName="hardToPrepareFood" [(ngModel)]="resourceInfo.hardToPrepareFood">
+                                        <mat-slide-toggle color="primary" formControlName="hardToPrepareFood"
+                                            [(ngModel)]="resourceInfo.hardToPrepareFood">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -1595,8 +1749,10 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comments" formControlName="hardToPrepareFoodComment" [(ngModel)]="resourceInfo.hardToPrepareFoodComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                <textarea matInput placeholder="Comments"
+                                                    formControlName="hardToPrepareFoodComment"
+                                                    [(ngModel)]="resourceInfo.hardToPrepareFoodComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
                                                     trim></textarea>
                                                 <!-- <mat-error>
                                                     Comments is
@@ -1615,7 +1771,8 @@
 
                                         <!-- [checked]="checked" -->
                                         I Am Frequently Sad And Avoid Other People?
-                                        <mat-slide-toggle color="primary" formControlName="isFrequentlySad" [(ngModel)]="resourceInfo.isFrequentlySad">
+                                        <mat-slide-toggle color="primary" formControlName="isFrequentlySad"
+                                            [(ngModel)]="resourceInfo.isFrequentlySad">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -1624,8 +1781,10 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comments" formControlName="isFrequentlySadComment" [(ngModel)]="resourceInfo.isFrequentlySadComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                <textarea matInput placeholder="Comments"
+                                                    formControlName="isFrequentlySadComment"
+                                                    [(ngModel)]="resourceInfo.isFrequentlySadComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
                                                     trim></textarea>
                                                 <!-- <mat-error>
                                                     Comments is
@@ -1644,7 +1803,8 @@
 
                                         <!-- [checked]="checked" -->
                                         it Is Hard For Me To Bath / Keep Myself Clean?
-                                        <mat-slide-toggle color="primary" formControlName="hardToTakeBath" [(ngModel)]="resourceInfo.hardToTakeBath">
+                                        <mat-slide-toggle color="primary" formControlName="hardToTakeBath"
+                                            [(ngModel)]="resourceInfo.hardToTakeBath">
                                             Yes
                                         </mat-slide-toggle>
                                     </div>
@@ -1653,8 +1813,10 @@
                                     <div class="col-md-12">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
-                                                <textarea matInput placeholder="Comments" formControlName="hardToTakeBathComment" [(ngModel)]="resourceInfo.hardToTakeBathComment"
-                                                    maxlength="500" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
+                                                <textarea matInput placeholder="Comments"
+                                                    formControlName="hardToTakeBathComment"
+                                                    [(ngModel)]="resourceInfo.hardToTakeBathComment" maxlength="500"
+                                                    matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="4"
                                                     trim></textarea>
                                                 <!-- <mat-error>
                                                     Comments is
@@ -1678,7 +1840,7 @@
 
 
 
-                <div class="row">
+                <div class="row" *ngIf="addPatientRecordPagePermission">
                     <div class="col-md-4"></div>
 
                     <div class="col-md-2">

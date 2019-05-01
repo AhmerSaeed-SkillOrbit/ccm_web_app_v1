@@ -21,7 +21,8 @@
                         <div class="row" formArrayName="form">
                             <div class="col-md-12">
 
-                                <div class="row" *ngFor="let X of socialReviewFormGroup['controls'].form['controls']; let i = index"
+                                <div class="row"
+                                    *ngFor="let X of socialReviewFormGroup['controls'].form['controls']; let i = index"
                                     [formGroupName]="i">
 
                                     <div class="col-sm-12">
@@ -48,7 +49,8 @@
                                             <div class="col-md-12">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <textarea matInput placeholder="Comment" formControlName="answer"
+                                                        <textarea matInput placeholder="Comment"
+                                                            formControlName="answer"
                                                             [(ngModel)]="socialReviewAnswers[i].answer.description"
                                                             maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
                                                             matAutosizeMaxRows="4" trim></textarea>
@@ -66,7 +68,7 @@
                                         <hr class="line-dash">
                                     </div>
 
-                                    <div class="col-md-12 text-right">
+                                    <div class="col-md-12 text-right" *ngIf="addPatientRecordPagePermission">
                                         <!-- *ngIf="socialReviewAnswers.length > minQuestionAnswer" -->
                                         <!-- <button *ngIf="socialReviewAnswers.length > minQuestionAnswer" mat-raised-button
                                                     color="primary" (click)="remove(i)">Remove</button> -->
@@ -75,8 +77,8 @@
                                             <!-- Add -->
                                             Save
                                         </button>
-                                        <button *ngIf="socialReviewAnswers[i].answer.id" mat-raised-button color="primary"
-                                            (click)="onAddUpdateSrAnswer(i)">
+                                        <button *ngIf="socialReviewAnswers[i].answer.id" mat-raised-button
+                                            color="primary" (click)="onAddUpdateSrAnswer(i)">
                                             <!-- Update -->
                                             Save
                                         </button>

@@ -94,6 +94,7 @@ export class PsychologicalReviewTabComponent implements OnInit {
         // this.viewPatientRecordPagePermission = this._utilityService.checkUserPermission(this.user, 'view_patient_record');
         this.viewPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_patient_record');
         // this.viewPatientRecordPagePermission = true;
+        
         // this.addPatientRecordPagePermission = this._utilityService.checkUserPermission(this.user, 'add_patient_record');
         this.addPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_patient_record');
         // this.addPatientRecordPagePermission = true;

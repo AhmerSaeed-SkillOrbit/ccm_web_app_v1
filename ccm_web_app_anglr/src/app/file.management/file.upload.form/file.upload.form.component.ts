@@ -21,6 +21,7 @@ import { UtilityService } from '../../core/services/general/utility.service';
 import { Region } from '../../core/models/region';
 import { Country } from '../../core/models/country';
 import { GenericFileUpload } from '../../core/models/genericFileUpload';
+import { Permission } from '../../core/models/permission';
 
 import { SetupService } from '../../core/services/setup/setup.service';
 import { LogService } from '../../core/services/log/log.service';
@@ -29,6 +30,7 @@ import { FormService } from '../../core/services/form/form.service';
 import { FileService } from '../../core/services/file/file.service';
 import { Config } from '../../config/config';
 import { UserService } from '../../core/services/user/user.service';
+
 
 // import { ReportService } from '../../core/services/report/report.service';
 
@@ -47,6 +49,8 @@ export class FileUploadFormComponent implements OnInit, OnChanges, OnDestroy {
     // country = new CountryInfo();
     isLogin: boolean;
     private ngUnsubscribe: Subject<any> = new Subject();
+
+    userPermissions: Permission[] = [];
 
     addPermission = false;
     updatePermission = false;
@@ -92,6 +96,7 @@ export class FileUploadFormComponent implements OnInit, OnChanges, OnDestroy {
     ngOnInit(): void {
 
         this.user = this._authService.getUser();
+        this.userPermissions = this._authService.getUserPermissions();
         // check if a user is logged in
         this.isLogin = this._authService.isLoggedIn();
         // if (!this._authService.isLoggedIn()) {
@@ -101,8 +106,22 @@ export class FileUploadFormComponent implements OnInit, OnChanges, OnDestroy {
 
         if (this.isLogin) {
 
-            if (this.fileUploadId) {
-                this.loadFileUpload();
+            // this.addPermission = this._utilityService.checkUserPermission(this.user, 'upload_general_file');
+            this.addPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'upload_general_file');
+            // this.addPermission = true;
+            // this.updatePermission = this._utilityService.checkUserPermission(this.user, 'update_general_file');
+            this.updatePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'update_general_file');
+            // this.updatePermission = true;
+
+            if ((this.addPermission && !this.fileUploadId) || (this.updatePermission && this.fileUploadId)) {
+
+                if (this.fileUploadId) {
+                    this.loadFileUpload();
+                }
+
+            }
+            else {
+                this._router.navigate(['/permission']);
             }
 
         }

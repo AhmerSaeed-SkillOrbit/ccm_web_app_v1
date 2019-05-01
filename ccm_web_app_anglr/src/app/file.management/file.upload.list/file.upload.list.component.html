@@ -91,10 +91,14 @@
                             </div>
 
                             <div class="panel-body">
-                                <button type="button" class="btn btn-default btn-sm" (click)="nevigateTo(null,'form')">
-                                    Upload File 
-                                    <i class="icon-play3 position-right"></i>
-                                </button>
+                                <span matTooltipPosition="above"
+                                    matTooltip="{{!addPermission ? 'Dont have permission' : 'Upload File' }}">
+                                    <button type="button" class="btn btn-default btn-sm" [disabled]="!addPermission"
+                                        (click)="nevigateTo(null,'form')">
+                                        Upload File
+                                        <i class="icon-play3 position-right"></i>
+                                    </button>
+                                </span>
                             </div>
 
                             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
@@ -102,22 +106,24 @@
                                     <div id="DataTables_Table_0_filter" class="dataTables_filter" *ngIf="false">
                                         <label>
                                             <span>Filter:</span>
-                                            <input type="search" [(ngModel)]="searchKeyword" class="" placeholder="Type to search..."
-                                                (keyup.enter)="search()">
+                                            <input type="search" [(ngModel)]="searchKeyword" class=""
+                                                placeholder="Type to search..." (keyup.enter)="search()">
                                         </label>
                                     </div>
 
                                     <div class="col-md-2">
                                         <mat-form-field class="full-width">
                                             <!-- <mat-label>Start Date</mat-label> -->
-                                            <input matInput [(ngModel)]="searchKeyword" class="" placeholder="Type to search..." (keyup.enter)="search()">
+                                            <input matInput [(ngModel)]="searchKeyword" class=""
+                                                placeholder="Type to search..." (keyup.enter)="search()">
                                         </mat-form-field>
                                     </div>
 
                                     <div class="col-md-2">
                                         <mat-form-field class="full-width">
                                             <!-- <mat-label>Start Date</mat-label> -->
-                                            <mat-select [(ngModel)]="roleId" placeholder="Select Role" (change)="onRoleChange()">
+                                            <mat-select [(ngModel)]="roleId" placeholder="Select Role"
+                                                (change)="onRoleChange()">
                                                 <mat-option>None</mat-option>
                                                 <mat-option *ngFor="let role of roleList" [value]="role.id">
                                                     {{ role.roleName }}
@@ -130,7 +136,8 @@
                                     <div class="col-md-2">
                                         <mat-form-field class="full-width">
                                             <!-- <mat-label>Start Date</mat-label> -->
-                                            <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" placeholder="Date From" [(ngModel)]="dateFrom"
+                                            <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker"
+                                                placeholder="Date From" [(ngModel)]="dateFrom"
                                                 (dateChange)="dateChanged($event, 'dateFrom')" readonly>
                                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                             <mat-datepicker #picker></mat-datepicker>
@@ -141,7 +148,8 @@
                                     <div class="col-md-2">
                                         <mat-form-field class="full-width">
                                             <!-- <mat-label>End Date</mat-label> -->
-                                            <input matInput [matDatepickerFilter]="dateFilter" [min]="dateFrom" [matDatepicker]="picker1" placeholder="Date To" [(ngModel)]="dateTo"
+                                            <input matInput [matDatepickerFilter]="dateFilter" [min]="dateFrom"
+                                                [matDatepicker]="picker1" placeholder="Date To" [(ngModel)]="dateTo"
                                                 (dateChange)="dateChanged($event, 'dateTo')" readonly>
                                             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                             <mat-datepicker #picker1></mat-datepicker>
@@ -149,7 +157,8 @@
                                     </div>
 
                                     <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                                        <button mat-raised-button color="primary" (click)="reset()"> Reset <i class="material-icons">refresh</i></button>
+                                        <button mat-raised-button color="primary" (click)="reset()"> Reset <i
+                                                class="material-icons">refresh</i></button>
                                     </div>
                                     <!-- <div class="dataTables_length" id="DataTables_Table_0_length">
                                         <label>
@@ -179,30 +188,42 @@
                                     <table class="table no-footer">
                                         <thead>
                                             <tr role="row">
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="S.No: activate to sort column ascending">
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="S.No: activate to sort column ascending">
                                                     S.No
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Plan No.: activate to sort column ascending">
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Plan No.: activate to sort column ascending">
                                                     Upload By
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Start Date: activate to sort column ascending">
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Start Date: activate to sort column ascending">
                                                     Role
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="End Date: activate to sort column ascending">
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="End Date: activate to sort column ascending">
                                                     Upload Date
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="End Date: activate to sort column ascending">
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="End Date: activate to sort column ascending">
                                                     Purpose
                                                 </th>
                                                 <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Status</th> -->
-                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="    width: 183px;">
+                                                <th class="text-center sorting_disabled" rowspan="1" colspan="1"
+                                                    aria-label="Actions" style="    width: 183px;">
                                                     Actions
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr role="row" class="odd" *ngFor="let fileUpload of fileUploadList; let i=index">
+                                            <tr role="row" class="odd"
+                                                *ngFor="let fileUpload of fileUploadList; let i=index">
                                                 <td>{{ i + 1 }}</td>
                                                 <td>
                                                     {{ fileUpload?.createdBy?.firstName || "NA" }}
@@ -220,15 +241,18 @@
                                                     {{ fileUpload?.fileUploadPurpose || "NA" }}
                                                 </td>
                                                 <td class="text-center">
-                                                    <span matTooltipPosition="above" matTooltip="View File">
+                                                    <span *ngIf="viewPermission" matTooltipPosition="above"
+                                                        matTooltip="View File">
                                                         <a (click)="onNavigate(fileUpload.fileUploadUrl)">
                                                             <i style="color:#ffa808;" class="icon-file-picture"></i>
                                                         </a>
                                                     </span> &nbsp;
 
-                                                    <span *ngIf="deletePermission" matTooltipPosition="above" matTooltip="Delete">
+                                                    <span *ngIf="deletePermission" matTooltipPosition="above"
+                                                        matTooltip="Delete">
                                                         <!-- <i style="color:#f70a0a;" class="icon-bin" (click)="fileDelete(fileUpload.id)"></i> -->
-                                                        <i style="color:#f70a0a;" class="icon-bin" (click)="confirmDialog(fileUpload, 'delete', i)"></i>
+                                                        <i style="color:#f70a0a;" class="icon-bin"
+                                                            (click)="confirmDialog(fileUpload, 'delete', i)"></i>
                                                     </span>
 
                                                     <!-- <span *ngIf="cancelPermission" matTooltipPosition="above"
@@ -275,7 +299,8 @@
                                             tabindex="0" id="DataTables_Table_0_next">→</a>
                                     </div>
                                 </div> -->
-                                <mat-paginator #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent = pageChangeEvent($event)">
+                                <mat-paginator #paginator [length]="length" [pageSize]="pageSize"
+                                    [pageSizeOptions]="pageSizeOptions" (page)="pageEvent = pageChangeEvent($event)">
                                 </mat-paginator>
                             </div>
                         </div>

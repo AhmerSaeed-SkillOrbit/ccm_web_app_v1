@@ -23,7 +23,9 @@
                                 <!-- <div class="row" *ngFor="let bidder of heldObject.auctionBidder; let $i=index;"> -->
                                 <!-- <div class="row" *ngFor="let b of formScheduleDetail.controls.scheduleDetail.controls; let i = index"
                                                 [formGroupName]="i"> -->
-                                <div class="row" *ngFor="let X of healthCareHistoryFormGroup['controls'].form['controls']; let i = index" [formGroupName]="i">
+                                <div class="row"
+                                    *ngFor="let X of healthCareHistoryFormGroup['controls'].form['controls']; let i = index"
+                                    [formGroupName]="i">
                                     <div class="col-sm-12">
 
                                         <!-- <h3>Detail {{i+1}}</h3> -->
@@ -34,7 +36,9 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Provider Name" [(ngModel)]="healthCareHistories[i].provider" formControlName="provider" required>
+                                                        <input matInput placeholder="Provider Name"
+                                                            [(ngModel)]="healthCareHistories[i].provider"
+                                                            formControlName="provider" required>
                                                         <mat-error>
                                                             Provider Name is
                                                             <strong>required</strong>
@@ -47,7 +51,9 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width" *ngIf="false">
-                                                        <input matInput placeholder="Last Visit Date" [(ngModel)]="healthCareHistories[i].lastVisitDate" formControlName="lastVisitDate">
+                                                        <input matInput placeholder="Last Visit Date"
+                                                            [(ngModel)]="healthCareHistories[i].lastVisitDate"
+                                                            formControlName="lastVisitDate">
                                                         <!-- <mat-error>
                                                             Last Visit Date is
                                                             <strong>required</strong>
@@ -56,9 +62,12 @@
 
                                                     <!-- [min]="schedule.lastVisitDate" -->
                                                     <mat-form-field class="full-width">
-                                                        <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" placeholder="Last Visit Date" formControlName="lastVisitDate"
+                                                        <input matInput [matDatepickerFilter]="dateFilter"
+                                                            [matDatepicker]="picker" placeholder="Last Visit Date"
+                                                            formControlName="lastVisitDate"
                                                             [(ngModel)]="healthCareHistories[i].lastVisitDate" readonly>
-                                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                        <mat-datepicker-toggle matSuffix [for]="picker">
+                                                        </mat-datepicker-toggle>
                                                         <mat-datepicker #picker></mat-datepicker>
                                                     </mat-form-field>
                                                 </div>
@@ -68,7 +77,9 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Visit Reason" [(ngModel)]="healthCareHistories[i].visitReason" formControlName="visitReason">
+                                                        <input matInput placeholder="Visit Reason"
+                                                            [(ngModel)]="healthCareHistories[i].visitReason"
+                                                            formControlName="visitReason">
                                                         <!-- <mat-error>
                                                             Visit Reason is
                                                             <strong>required</strong>
@@ -87,8 +98,11 @@
                                     <!-- <div class="col-sm-12 text-right" *ngIf="healthCareHistories.length > minHealthCareHistory"> -->
                                     <div class="col-sm-12 text-right">
                                         <!-- *ngIf="healthCareHistories.length > minHealthCareHistory" -->
-                                        <button *ngIf="healthCareHistories.length > minHealthCareHistory" mat-raised-button color="primary" (click)="remove(i,'healthCareHistoryListForm')">Remove</button>
-                                        <button *ngIf="healthCareHistories[i].id" type="button" mat-raised-button color="primary" (click)="onUpdateHealthCareHistory(i)">Update</button>
+                                        <button *ngIf="healthCareHistories.length > minHealthCareHistory"
+                                            mat-raised-button color="primary"
+                                            (click)="remove(i,'healthCareHistoryListForm')">Remove</button>
+                                        <button *ngIf="healthCareHistories[i].id" type="button" mat-raised-button
+                                            color="primary" (click)="onUpdateHealthCareHistory(i)">Update</button>
 
                                         <!-- <hr> -->
                                         <hr class="line-dash">
@@ -99,7 +113,8 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <!-- [disabled]="!(healthCareHistories.length < maxHealthCareHistory)" -->
-                                        <button mat-raised-button color="primary" (click)="addMore('healthCareHistoryListForm')">
+                                        <button mat-raised-button color="primary"
+                                            (click)="addMore('healthCareHistoryListForm')">
                                             Add More
                                         </button>
                                     </div>
@@ -112,7 +127,7 @@
 
 
 
-                <div class="row">
+                <div class="row" *ngIf="addPatientRecordPagePermission">
                     <div class="col-md-4"></div>
 
                     <div class="col-md-2">
@@ -141,7 +156,9 @@
                                 <!-- <div class="row" *ngFor="let bidder of heldObject.auctionBidder; let $i=index;"> -->
                                 <!-- <div class="row" *ngFor="let b of formScheduleDetail.controls.scheduleDetail.controls; let i = index"
                                                 [formGroupName]="i"> -->
-                                <div class="row" *ngFor="let X of hospitalizationHistoryFormGroup['controls'].form['controls']; let i = index" [formGroupName]="i">
+                                <div class="row"
+                                    *ngFor="let X of hospitalizationHistoryFormGroup['controls'].form['controls']; let i = index"
+                                    [formGroupName]="i">
                                     <div class="col-sm-12">
 
                                         <!-- <h3>Detail {{i+1}}</h3> -->
@@ -152,8 +169,9 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Hospital Name" [(ngModel)]="hospitalizationHistories[i].hospitalName" formControlName="hospitalName"
-                                                            required>
+                                                        <input matInput placeholder="Hospital Name"
+                                                            [(ngModel)]="hospitalizationHistories[i].hospitalName"
+                                                            formControlName="hospitalName" required>
                                                         <mat-error>
                                                             Hospital Name is
                                                             <strong>required</strong>
@@ -166,7 +184,9 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width" *ngIf="false">
-                                                        <input matInput placeholder="Hospitalized Date" [(ngModel)]="hospitalizationHistories[i].hospitalizedDate" formControlName="hospitalizedDate">
+                                                        <input matInput placeholder="Hospitalized Date"
+                                                            [(ngModel)]="hospitalizationHistories[i].hospitalizedDate"
+                                                            formControlName="hospitalizedDate">
                                                         <!-- <mat-error>
                                                             Hospitalized Date is
                                                             <strong>required</strong>
@@ -175,9 +195,13 @@
 
                                                     <!-- [min]="schedule.startDate" -->
                                                     <mat-form-field class="full-width">
-                                                        <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" placeholder="Hospitalized Date" formControlName="hospitalizedDate"
-                                                            [(ngModel)]="hospitalizationHistories[i].hospitalizedDate" readonly>
-                                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                        <input matInput [matDatepickerFilter]="dateFilter"
+                                                            [matDatepicker]="picker" placeholder="Hospitalized Date"
+                                                            formControlName="hospitalizedDate"
+                                                            [(ngModel)]="hospitalizationHistories[i].hospitalizedDate"
+                                                            readonly>
+                                                        <mat-datepicker-toggle matSuffix [for]="picker">
+                                                        </mat-datepicker-toggle>
                                                         <mat-datepicker #picker></mat-datepicker>
                                                     </mat-form-field>
                                                 </div>
@@ -191,7 +215,9 @@
                                                             formControlName="isHospitalized">\
                                                     </mat-form-field> -->
                                                     <!-- (change)="changeIsHospitalized()" -->
-                                                    <mat-checkbox class="full-width" name="isHospitalized" formControlName="isHospitalized" [(ngModel)]="hospitalizationHistories[i].isHospitalized">
+                                                    <mat-checkbox class="full-width" name="isHospitalized"
+                                                        formControlName="isHospitalized"
+                                                        [(ngModel)]="hospitalizationHistories[i].isHospitalized">
                                                         Is Hospitalized </mat-checkbox>
                                                 </div>
                                             </div>
@@ -202,7 +228,9 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Patient Comments" [(ngModel)]="hospitalizationHistories[i].patientComments" formControlName="patientComments">
+                                                        <input matInput placeholder="Patient Comments"
+                                                            [(ngModel)]="hospitalizationHistories[i].patientComments"
+                                                            formControlName="patientComments">
                                                         <!-- <mat-error>
                                                             Patient Comments is
                                                             <strong>required</strong>
@@ -221,8 +249,11 @@
                                     <!-- <div class="col-sm-12 text-right" *ngIf="hospitalizationHistories.length > minAllergyMedicine"> -->
                                     <div class="col-sm-12 text-right">
                                         <!-- *ngIf="hospitalizationHistories.length > minAllergyMedicine" -->
-                                        <button *ngIf="hospitalizationHistories.length > minAllergyMedicine" mat-raised-button color="primary" (click)="remove(i,'hospitalizationHistoryListForm')">Remove</button>
-                                        <button *ngIf="hospitalizationHistories[i].id" type="button" mat-raised-button color="primary" (click)="onUpdateHospitalizationHistory(i)">Update</button>
+                                        <button *ngIf="hospitalizationHistories.length > minAllergyMedicine"
+                                            mat-raised-button color="primary"
+                                            (click)="remove(i,'hospitalizationHistoryListForm')">Remove</button>
+                                        <button *ngIf="hospitalizationHistories[i].id" type="button" mat-raised-button
+                                            color="primary" (click)="onUpdateHospitalizationHistory(i)">Update</button>
 
                                         <!-- <hr> -->
                                         <hr class="line-dash">
@@ -233,7 +264,8 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <!-- [disabled]="!(hospitalizationHistories.length < maxAllergyMedicine)" -->
-                                        <button mat-raised-button color="primary" (click)="addMore('hospitalizationHistoryListForm')">
+                                        <button mat-raised-button color="primary"
+                                            (click)="addMore('hospitalizationHistoryListForm')">
                                             Add More
                                         </button>
                                     </div>
@@ -246,7 +278,7 @@
 
 
 
-                <div class="row">
+                <div class="row" *ngIf="addPatientRecordPagePermission">
                     <div class="col-md-4"></div>
 
                     <div class="col-md-2">
@@ -275,7 +307,9 @@
                                 <!-- <div class="row" *ngFor="let bidder of heldObject.auctionBidder; let $i=index;"> -->
                                 <!-- <div class="row" *ngFor="let b of formScheduleDetail.controls.scheduleDetail.controls; let i = index"
                                                 [formGroupName]="i"> -->
-                                <div class="row" *ngFor="let X of surgeryHistoryFormGroup['controls'].form['controls']; let i = index" [formGroupName]="i">
+                                <div class="row"
+                                    *ngFor="let X of surgeryHistoryFormGroup['controls'].form['controls']; let i = index"
+                                    [formGroupName]="i">
                                     <div class="col-sm-12">
 
                                         <!-- <h3>Detail {{i+1}}</h3> -->
@@ -286,8 +320,9 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Diagnose Description" [(ngModel)]="surgeryHistories[i].diagnoseDescription" formControlName="diagnoseDescription"
-                                                            required>
+                                                        <input matInput placeholder="Diagnose Description"
+                                                            [(ngModel)]="surgeryHistories[i].diagnoseDescription"
+                                                            formControlName="diagnoseDescription" required>
                                                         <mat-error>
                                                             Diagnose Description is
                                                             <strong>required</strong>
@@ -300,7 +335,9 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width" *ngIf="false">
-                                                        <input matInput placeholder="Diagnose Date" [(ngModel)]="surgeryHistories[i].diagnoseDate" formControlName="diagnoseDate">
+                                                        <input matInput placeholder="Diagnose Date"
+                                                            [(ngModel)]="surgeryHistories[i].diagnoseDate"
+                                                            formControlName="diagnoseDate">
                                                         <!-- <mat-error>
                                                             Diagnose Date is
                                                             <strong>required</strong>
@@ -309,9 +346,12 @@
 
                                                     <!-- [min]="schedule.startDate" -->
                                                     <mat-form-field class="full-width">
-                                                        <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" placeholder="Diagnose Date" formControlName="diagnoseDate"
+                                                        <input matInput [matDatepickerFilter]="dateFilter"
+                                                            [matDatepicker]="picker" placeholder="Diagnose Date"
+                                                            formControlName="diagnoseDate"
                                                             [(ngModel)]="surgeryHistories[i].diagnoseDate" readonly>
-                                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                        <mat-datepicker-toggle matSuffix [for]="picker">
+                                                        </mat-datepicker-toggle>
                                                         <mat-datepicker #picker></mat-datepicker>
                                                     </mat-form-field>
                                                 </div>
@@ -325,7 +365,9 @@
                                                             formControlName="needAttention">\
                                                     </mat-form-field> -->
                                                     <!-- (change)="changeNeedAttention()" -->
-                                                    <mat-checkbox class="full-width" name="needAttention" formControlName="needAttention" [(ngModel)]="surgeryHistories[i].needAttention">
+                                                    <mat-checkbox class="full-width" name="needAttention"
+                                                        formControlName="needAttention"
+                                                        [(ngModel)]="surgeryHistories[i].needAttention">
                                                         Need Attention </mat-checkbox>
                                                 </div>
                                             </div>
@@ -336,7 +378,9 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Current Problem" [(ngModel)]="surgeryHistories[i].currentProblem" formControlName="currentProblem">
+                                                        <input matInput placeholder="Current Problem"
+                                                            [(ngModel)]="surgeryHistories[i].currentProblem"
+                                                            formControlName="currentProblem">
                                                         <!-- <mat-error>
                                                             Current Problem is
                                                             <strong>required</strong>
@@ -356,8 +400,11 @@
                                     <!-- <div class="col-sm-12 text-right" *ngIf="surgeryHistories.length > minAllergyNonMedicine"> -->
                                     <div class="col-sm-12 text-right">
                                         <!-- *ngIf="surgeryHistories.length > minAllergyNonMedicine" -->
-                                        <button *ngIf="surgeryHistories.length > minAllergyNonMedicine" mat-raised-button color="primary" (click)="remove(i,'surgeryHistoryListForm')">Remove</button>
-                                        <button *ngIf="surgeryHistories[i].id" type="button" mat-raised-button color="primary" (click)="onUpdateSurgeryHistory(i)">Update</button>
+                                        <button *ngIf="surgeryHistories.length > minAllergyNonMedicine"
+                                            mat-raised-button color="primary"
+                                            (click)="remove(i,'surgeryHistoryListForm')">Remove</button>
+                                        <button *ngIf="surgeryHistories[i].id" type="button" mat-raised-button
+                                            color="primary" (click)="onUpdateSurgeryHistory(i)">Update</button>
 
                                         <!-- <hr> -->
                                         <hr class="line-dash">
@@ -368,7 +415,8 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <!-- [disabled]="!(surgeryHistories.length < maxAllergyNonMedicine)" -->
-                                        <button mat-raised-button color="primary" (click)="addMore('surgeryHistoryListForm')">
+                                        <button mat-raised-button color="primary"
+                                            (click)="addMore('surgeryHistoryListForm')">
                                             Add More
                                         </button>
                                     </div>
@@ -380,8 +428,7 @@
                 </div>
 
 
-
-                <div class="row">
+                <div class="row" *ngIf="addPatientRecordPagePermission">
                     <div class="col-md-4"></div>
 
                     <div class="col-md-2">
@@ -398,8 +445,8 @@
 
             <hr>
 
-            <form [formGroup]="patientOrganizationAssistanceFormGroup" (ngSubmit)="onSubmitPatientOrganizationAssistance()">
-
+            <form [formGroup]="patientOrganizationAssistanceFormGroup"
+                (ngSubmit)="onSubmitPatientOrganizationAssistance()">
 
 
                 <div class="row">
@@ -412,7 +459,9 @@
                                 <!-- <div class="row" *ngFor="let bidder of heldObject.auctionBidder; let $i=index;"> -->
                                 <!-- <div class="row" *ngFor="let b of formScheduleDetail.controls.scheduleDetail.controls; let i = index"
                                                 [formGroupName]="i"> -->
-                                <div class="row" *ngFor="let X of patientOrganizationAssistanceFormGroup['controls'].form['controls']; let i = index" [formGroupName]="i">
+                                <div class="row"
+                                    *ngFor="let X of patientOrganizationAssistanceFormGroup['controls'].form['controls']; let i = index"
+                                    [formGroupName]="i">
                                     <div class="col-sm-12">
 
                                         <!-- <h3>Detail {{i+1}}</h3> -->
@@ -426,10 +475,13 @@
 
                                                     <mat-form-field class="full-width">
                                                         <!-- <mat-label>Select Answer Option</mat-label> -->
-                                                        <mat-select placeholder="Suggestion" formControlName="organizationAssistance" [(ngModel)]="patientOrganizationAssistances[i].assistanceOrganizationId"
+                                                        <mat-select placeholder="Suggestion"
+                                                            formControlName="organizationAssistance"
+                                                            [(ngModel)]="patientOrganizationAssistances[i].assistanceOrganizationId"
                                                             (change)="onAssistanceOrganizationSelect(i)">
                                                             <mat-option>None</mat-option>
-                                                            <mat-option *ngFor="let assistanceOrganization of patientOrganizationAssistances[i].assistanceTypeSingle.assistanceOrganizations"
+                                                            <mat-option
+                                                                *ngFor="let assistanceOrganization of patientOrganizationAssistances[i].assistanceTypeSingle.assistanceOrganizations"
                                                                 [value]="assistanceOrganization.id">
                                                                 {{ assistanceOrganization.organization }}
                                                                 <!-- {{ replaceText(answerType?.name) }} -->
@@ -447,7 +499,9 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Name Of Agency" [(ngModel)]="patientOrganizationAssistances[i].organization" formControlName="organization">
+                                                        <input matInput placeholder="Name Of Agency"
+                                                            [(ngModel)]="patientOrganizationAssistances[i].organization"
+                                                            formControlName="organization">
                                                         <mat-error>
                                                             Name Of Agency is
                                                             <strong>required</strong>
@@ -460,7 +514,9 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Phone Number" [(ngModel)]="patientOrganizationAssistances[i].telephoneNumber" formControlName="telephoneNumber">
+                                                        <input matInput placeholder="Phone Number"
+                                                            [(ngModel)]="patientOrganizationAssistances[i].telephoneNumber"
+                                                            formControlName="telephoneNumber">
                                                         <mat-error>
                                                             Phone Number is
                                                             <strong>required</strong>
@@ -477,7 +533,8 @@
 
                                                 <label>Is Refused</label>
 
-                                                <mat-slide-toggle color="primary" formControlName="isPatientRefused" [(ngModel)]="patientOrganizationAssistances[i].isPatientRefused">
+                                                <mat-slide-toggle color="primary" formControlName="isPatientRefused"
+                                                    [(ngModel)]="patientOrganizationAssistances[i].isPatientRefused">
                                                     Yes
                                                 </mat-slide-toggle>
                                             </div>
@@ -491,7 +548,9 @@
                                     <div class="col-sm-12 text-right">
                                         <!-- *ngIf="patientOrganizationAssistances.length > minVaccine" -->
                                         <!-- <button *ngIf="patientOrganizationAssistances.length > minVaccine" mat-raised-button color="primary" (click)="remove(i,'patientOrganizationAssistanceListForm')">Remove</button> -->
-                                        <button *ngIf="patientOrganizationAssistances[i].id" type="button" mat-raised-button color="primary" (click)="onUpdatePatientOrganizationAssistances(i)">Update</button>
+                                        <button *ngIf="patientOrganizationAssistances[i].id" type="button"
+                                            mat-raised-button color="primary"
+                                            (click)="onUpdatePatientOrganizationAssistances(i)">Update</button>
 
                                         <!-- <hr> -->
                                         <hr class="line-dash">
@@ -502,7 +561,8 @@
                                 <div class="row" *ngIf="false">
                                     <div class="col-sm-12">
                                         <!-- [disabled]="!(patientOrganizationAssistances.length < maxVaccine)" -->
-                                        <button mat-raised-button color="primary" (click)="addMore('patientOrganizationAssistanceListForm')">
+                                        <button mat-raised-button color="primary"
+                                            (click)="addMore('patientOrganizationAssistanceListForm')">
                                             Add More
                                         </button>
                                     </div>
@@ -515,7 +575,7 @@
 
 
 
-                <div class="row">
+                <div class="row" *ngIf="addPatientRecordPagePermission">
                     <div class="col-md-4"></div>
 
                     <div class="col-md-2">

@@ -82,6 +82,19 @@ export class SocialEnvoirnmentalReviewTabComponent implements OnInit {
 
         // this.loadSocialReview();
 
+        this.userPermissions = this._authService.getUserPermissions();
+
+        // this.viewPatientRecordPagePermission = this._utilityService.checkUserPermission(this.user, 'view_patient_record');
+        this.viewPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_patient_record');
+        // this.viewPatientRecordPagePermission = true;
+
+        // this.addPatientRecordPagePermission = this._utilityService.checkUserPermission(this.user, 'add_patient_record');
+        this.addPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_patient_record');
+        // this.addPatientRecordPagePermission = true;
+        if (this.viewPatientRecordPagePermission || this.addPatientRecordPagePermission) {
+            // this.loadSocialReview();
+        }
+
 
     }
 

@@ -21,7 +21,8 @@
                         <div class="row" formArrayName="form">
                             <div class="col-md-12">
 
-                                <div class="row" *ngFor="let X of preventiveScreeningFormGroup['controls'].form['controls']; let i = index"
+                                <div class="row"
+                                    *ngFor="let X of preventiveScreeningFormGroup['controls'].form['controls']; let i = index"
                                     [formGroupName]="i">
 
                                     <div class="col-sm-12">
@@ -48,7 +49,8 @@
                                             <div class="col-md-12">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <textarea matInput placeholder="Comment" formControlName="answer"
+                                                        <textarea matInput placeholder="Comment"
+                                                            formControlName="answer"
                                                             [(ngModel)]="preventiveScreenAnswers[i].answer.description"
                                                             maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
                                                             matAutosizeMaxRows="4" trim></textarea>
@@ -66,17 +68,17 @@
                                         <hr class="line-dash">
                                     </div>
 
-                                    <div class="col-md-12 text-right">
+                                    <div class="col-md-12 text-right" *ngIf="addPatientRecordPagePermission">
                                         <!-- *ngIf="preventiveScreenAnswers.length > minQuestionAnswer" -->
                                         <!-- <button *ngIf="preventiveScreenAnswers.length > minQuestionAnswer" mat-raised-button
                                             color="primary" (click)="remove(i)">Remove</button> -->
-                                        <button *ngIf="!(preventiveScreenAnswers[i].answer.id)" mat-raised-button color="primary"
-                                            (click)="onAddUpdatePsAnswer(i)">
+                                        <button *ngIf="!(preventiveScreenAnswers[i].answer.id)" mat-raised-button
+                                            color="primary" (click)="onAddUpdatePsAnswer(i)">
                                             <!-- Add -->
                                             Save
                                         </button>
-                                        <button *ngIf="preventiveScreenAnswers[i].answer.id" mat-raised-button color="primary"
-                                            (click)="onAddUpdatePsAnswer(i)">
+                                        <button *ngIf="preventiveScreenAnswers[i].answer.id" mat-raised-button
+                                            color="primary" (click)="onAddUpdatePsAnswer(i)">
                                             <!-- Update -->
                                             Save
                                         </button>
@@ -122,7 +124,8 @@
                         <div class="row" formArrayName="form">
                             <div class="col-md-12">
 
-                                <div class="row" *ngFor="let X of diabetesSupplementalFormGroup['controls'].form['controls']; let i = index"
+                                <div class="row"
+                                    *ngFor="let X of diabetesSupplementalFormGroup['controls'].form['controls']; let i = index"
                                     [formGroupName]="i">
 
                                     <div class="col-sm-12">
@@ -149,7 +152,8 @@
                                             <div class="col-md-12">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <textarea matInput placeholder="Comment" formControlName="answer"
+                                                        <textarea matInput placeholder="Comment"
+                                                            formControlName="answer"
                                                             [(ngModel)]="diabeteSupplementAnswers[i].answer.description"
                                                             maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
                                                             matAutosizeMaxRows="4" trim></textarea>
@@ -167,7 +171,7 @@
                                         <hr class="line-dash">
                                     </div>
 
-                                    <div class="col-md-12 text-right">
+                                    <div class="col-md-12 text-right" *ngIf="addPatientRecordPagePermission">
                                         <!-- *ngIf="diabeteSupplementAnswers.length > minQuestionAnswer" -->
                                         <!-- <button *ngIf="diabeteSupplementAnswers.length > minQuestionAnswer" mat-raised-button
                                             color="primary" (click)="remove(i)">Remove</button> -->
@@ -176,8 +180,8 @@
                                             <!-- Add -->
                                             Save
                                         </button>
-                                        <button *ngIf="diabeteSupplementAnswers[i].answer.id" mat-raised-button color="primary"
-                                            (click)="onAddUpdateDsAnswer(i)">
+                                        <button *ngIf="diabeteSupplementAnswers[i].answer.id" mat-raised-button
+                                            color="primary" (click)="onAddUpdateDsAnswer(i)">
                                             <!-- Update -->
                                             Save
                                         </button>

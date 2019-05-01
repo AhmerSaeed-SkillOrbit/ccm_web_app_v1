@@ -5,6 +5,7 @@ import { User } from '../core/models/user';
 // import { Dashboard } from '../core/models/dashboard';
 import { ForumFeed } from '../core/models/forum';
 import { Message, MessageTypes } from '../core/models/message';
+import { Permission } from '../core/models/permission';
 
 import { IAuthService } from '../core/services/auth/iauth.service';
 import { UIService } from '../core/services/ui/ui.service';
@@ -17,6 +18,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ForumService } from '../core/services/forum/forum.service';
 import { MappingService } from '../core/services/mapping/mapping.service';
 import { AddUpdateForumDialogeComponent } from './add.update.forum.dialoge/add.update.forum.dialoge.component';
+
 
 
 
@@ -41,6 +43,9 @@ export class ForumComponent implements OnInit {
 
     isUser: User = new User();
     user: User = new User();
+
+    userPermissions: Permission[] = [];
+
     entityType: string;
     redirectUrl: string;
     isLogin: any;
@@ -50,7 +55,14 @@ export class ForumComponent implements OnInit {
     volunteerBtn = false;
     userComment: string;
 
+    viewForumFeedPermission = false;
     addPermission = false;
+    updatePermission = false;
+    deletePermission = false;
+
+    addCommentPermission = false;
+    updateCommentPermission = false;
+    deleteCommentPermission = false;
 
     constructor(@Inject('IAuthService') private _authService: IAuthService,
         private _uiService: UIService,
@@ -66,20 +78,57 @@ export class ForumComponent implements OnInit {
     ngOnInit(): void {
 
         this.user = this._authService.getUser();
+        this.userPermissions = this._authService.getUserPermissions();
         this.isLogin = this._authService.isLoggedIn();
         console.log(this.user);
 
         if (!this.isLogin) {
             this._router.navigateByUrl('login');
         }
+        else {
+
+            // this.viewForumFeedPermission = this._utilityService.checkUserPermission(this.user, 'view_forum_topic_feed');
+            this.viewForumFeedPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_forum_topic_feed');
+            // this.viewForumFeedPermission = true;
+
+            if (this.viewForumFeedPermission) {
+
+                // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_forum_topic');
+                this.addPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_forum_topic');
+                // this.addPermission = true;
+
+                // this.updatePermission = this._utilityService.checkUserPermission(this.user, 'update_forum_topic');
+                this.updatePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'update_forum_topic');
+                // this.updatePermission = true;
+
+                // this.deletePermission = this._utilityService.checkUserPermission(this.user, 'delete_forum_topic');
+                this.deletePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'delete_forum_topic');
+                // this.deletePermission = true;
+
+                // this.addCommentPermission = this._utilityService.checkUserPermission(this.user, 'add_forum_topic_comment');
+                this.addCommentPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_forum_topic_comment');
+                // this.addCommentPermission = true;
+
+                // this.updateCommentPermission = this._utilityService.checkUserPermission(this.user, 'update_forum_topic_comment');
+                this.updateCommentPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'update_forum_topic_comment');
+                // this.updateCommentPermission = true;
+
+                // this.deleteCommentPermission = this._utilityService.checkUserPermission(this.user, 'delete_forum_topic_comment');
+                this.deleteCommentPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'delete_forum_topic_comment');
+                // this.deleteCommentPermission = true;
+
+                // this.newsFeeds.push(new NewsFeed());
+                // this.newsFeeds.push(new ForumFeed());
+                this.loadNewsFeed();
+            }
+            else {
+                this._router.navigateByUrl('permission');
+            }
 
 
-        // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_doctor');
-        this.addPermission = true;
+        }
 
-        // this.newsFeeds.push(new NewsFeed());
-        // this.newsFeeds.push(new ForumFeed());
-        this.loadNewsFeed();
+
     }
 
     openAddForumDialog() {
@@ -105,24 +154,33 @@ export class ForumComponent implements OnInit {
 
     openEditForumDialog(forum: ForumFeed) {
 
-        let dialog = this.dialog.open(AddUpdateForumDialogeComponent, {
-            maxWidth: "700px",
-            minWidth: "550px",
-            // width: "550px",
-            // height: '465px',
-            // data: this.id,
-            data: {
-                forum: forum,
-                type: "Edit"
-            },
-        });
-        dialog.afterClosed().subscribe((result) => {
-            console.log("result", result);
-            if (result) {
-                // this.refreshList();
-                this.loadNewsFeed();
-            }
-        })
+        if (this.updatePermission) {
+
+            let dialog = this.dialog.open(AddUpdateForumDialogeComponent, {
+                maxWidth: "700px",
+                minWidth: "550px",
+                // width: "550px",
+                // height: '465px',
+                // data: this.id,
+                data: {
+                    forum: forum,
+                    type: "Edit"
+                },
+            });
+            dialog.afterClosed().subscribe((result) => {
+                console.log("result", result);
+                if (result) {
+                    // this.refreshList();
+                    this.loadNewsFeed();
+                }
+            })
+        }
+        else {
+
+            let msg = this._utilityService.permissionMsg();
+            this._uiService.showToast(msg, '');
+        }
+
     }
 
     loadNewsFeed() {
@@ -426,21 +484,22 @@ export class ForumComponent implements OnInit {
     }
 
     onDeleteComment(index, index1, commentId) {
-        // if (this.deletePermission) {
-        const dialogRef = this.dialog.open(DeleteCommentForum, {
-            width: '450px',
-            data: { type: 'comment', id: commentId }
-        });
-        // console.log('value', value, '---id', id);
-        dialogRef.afterClosed().subscribe(result => {
+        if (this.deleteCommentPermission) {
 
-            console.log('result', result);
-            if (result == "success") {
-                // this.deleteComment(index, index1, commentId);
-                this.loadComment(this.newsFeeds[index], index);
-            }
-        });
-        // }
+            const dialogRef = this.dialog.open(DeleteCommentForum, {
+                width: '450px',
+                data: { type: 'comment', id: commentId }
+            });
+            // console.log('value', value, '---id', id);
+            dialogRef.afterClosed().subscribe(result => {
+
+                console.log('result', result);
+                if (result == "success") {
+                    // this.deleteComment(index, index1, commentId);
+                    this.loadComment(this.newsFeeds[index], index);
+                }
+            });
+        }
     }
 
     deleteForum(index, forumId) {
@@ -455,19 +514,25 @@ export class ForumComponent implements OnInit {
     }
 
     onDeleteForum(index, forumId) {
-        // if (this.deletePermission) {
-        const dialogRef = this.dialog.open(DeleteCommentForum, {
-            width: '450px',
-            data: { type: 'forum', id: forumId }
-        });
-        // console.log('value', value, '---id', id);
-        dialogRef.afterClosed().subscribe(result => {
 
-            if (result == "success") {
-                this.deleteForum(index, forumId)
-            }
-        });
-        // }
+        if (this.deletePermission) {
+            const dialogRef = this.dialog.open(DeleteCommentForum, {
+                width: '450px',
+                data: { type: 'forum', id: forumId }
+            });
+            // console.log('value', value, '---id', id);
+            dialogRef.afterClosed().subscribe(result => {
+
+                if (result == "success") {
+                    this.deleteForum(index, forumId)
+                }
+            });
+        }
+        else {
+
+            let msg = this._utilityService.permissionMsg();
+            this._uiService.showToast(msg, '');
+        }
     }
 
     loadSingleNewsFeed(campId, index) {

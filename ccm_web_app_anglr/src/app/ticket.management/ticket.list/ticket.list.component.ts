@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Message, MessageTypes } from '../../core/models/message';
 import { User } from '../../core/models/user';
 import { Ticket, Type, Priority, TrackStatus } from '../../core/models/ticket';
+import { Permission } from '../../core/models/permission';
 
 import { IAuthService } from '../../core/services/auth/iauth.service';
 import { UIService } from '../../core/services/ui/ui.service';
@@ -20,6 +21,7 @@ import { ViewAppointmentDialogeComponent } from '../../shared/appointment.dialog
 import { ForumService } from '../../core/services/forum/forum.service';
 import { SetupService } from '../../core/services/setup/setup.service';
 import { AddUpdateTicketDialogeComponent } from '../../shared/add.update.ticket.dialoge/add.update.ticket.dialoge.component';
+
 
 declare var libraryVar: any;
 
@@ -38,6 +40,8 @@ export class TicketListComponent implements OnInit {
     isUser: User = new User();
     user: User = new User();
     isLogin: any;
+
+    userPermissions: Permission[] = [];
 
     userId: number = null;
     searchKeyword: string = null;
@@ -65,9 +69,6 @@ export class TicketListComponent implements OnInit {
     listPagePermission = false;
     addPermission = false;
     viewPermission = false;
-    acceptPermission = false;
-    rejectPermission = false;
-    cancelPermission = false;
 
     ticketPriorities: Priority[] = [];
     ticketTypes: Type[] = [];
@@ -95,6 +96,7 @@ export class TicketListComponent implements OnInit {
     ngOnInit(): void {
 
         this.user = this._authService.getUser();
+        this.userPermissions = this._authService.getUserPermissions();
         console.log('this.user', this.user);
         this.isLogin = this._authService.isLoggedIn();
         // console.log('this.isLogin', this.isLogin);
@@ -105,20 +107,18 @@ export class TicketListComponent implements OnInit {
             // this._router.navigateByUrl('login');
         } else {
 
-            // this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'appointment_list_page');
-            this.listPagePermission = true;
+            // this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'ticket_list_page');
+            this.listPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'ticket_list_page');
+            // this.listPagePermission = true;
 
             if (this.listPagePermission) {
                 // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.addPermission = true;
-                // this.viewPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.viewPermission = true;
-                // this.acceptPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                // this.acceptPermission = true;
-                // this.rejectPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                // this.rejectPermission = true;
-                // this.cancelPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.cancelPermission = true;
+                this.addPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_ticket');
+                // this.addPermission = true;
+
+                // this.viewPermission = this._utilityService.checkUserPermission(this.user, 'ticket_detail_page');
+                this.viewPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'ticket_detail_page');
+                // this.viewPermission = true;
 
                 this.loadPriority();
                 this.loadType();
