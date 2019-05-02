@@ -959,7 +959,8 @@ export class MappingService {
         if (psychologicalReviewAnswerData) {
             isPsychologicalReviewAnswer.id = psychologicalReviewAnswerData.Id || null;
             isPsychologicalReviewAnswer.psychologicalReviewAnswerId = psychologicalReviewAnswerData.Id || null;
-            isPsychologicalReviewAnswer.isPatientExamined = psychologicalReviewAnswerData.IsPatientExamined || null;
+            // isPsychologicalReviewAnswer.isPatientExamined = psychologicalReviewAnswerData.IsPatientExamined || null;
+            isPsychologicalReviewAnswer.isOkay = psychologicalReviewAnswerData.IsOkay || null;
             isPsychologicalReviewAnswer.description = psychologicalReviewAnswerData.Description || null;
 
             isPsychologicalReviewAnswer.isActive = psychologicalReviewAnswerData.IsActive || true;
@@ -1023,7 +1024,8 @@ export class MappingService {
         if (socialReviewData) {
             isSocialReview.id = socialReviewData.Id || null;
             isSocialReview.socialReviewAnswerId = socialReviewData.Id || null;
-            isSocialReview.isPatientExamined = socialReviewData.IsPatientExamined || null;
+            // isSocialReview.isPatientExamined = socialReviewData.IsPatientExamined || null;
+            isSocialReview.isOkay = socialReviewData.IsOkay || null;
             isSocialReview.description = socialReviewData.Description || null;
 
             isSocialReview.isActive = socialReviewData.IsActive || true;

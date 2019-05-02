@@ -119,7 +119,7 @@ export class SocialEnvoirnmentalReviewTabComponent implements OnInit {
 
     initSR() {
         return this._formBuilder.group({
-            'isPatientExamined': ["", Validators.compose([])],
+            'isOkay': ["", Validators.compose([])],
             'answer': ["", Validators.compose([])],
         });
     }

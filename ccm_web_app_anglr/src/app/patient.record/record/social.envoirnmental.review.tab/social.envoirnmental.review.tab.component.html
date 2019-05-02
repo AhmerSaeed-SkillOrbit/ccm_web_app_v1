@@ -30,7 +30,7 @@
 
                                         <div class="row">
 
-                                            <!-- isPatientExamined -->
+                                            <!-- isOkay -->
                                             <div class="col-md-12">
 
                                                 <!-- [checked]="checked" -->
@@ -39,8 +39,8 @@
 
                                                 <h3>{{ socialReviewAnswers[i].name || "NA" }} ?</h3>
 
-                                                <mat-slide-toggle color="primary" formControlName="isPatientExamined"
-                                                    [(ngModel)]="socialReviewAnswers[i].answer.isPatientExamined">
+                                                <mat-slide-toggle color="primary" formControlName="isOkay"
+                                                    [(ngModel)]="socialReviewAnswers[i].answer.isOkay">
                                                     Yes
                                                 </mat-slide-toggle>
                                             </div>

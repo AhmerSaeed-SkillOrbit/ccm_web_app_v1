@@ -433,7 +433,8 @@ export class PsychologicalReviewAnswer {
     psychologicalReviewAnswerId: number;
     psychologicalReviewId: number;
 
-    isPatientExamined: boolean = false;
+    // isPatientExamined: boolean = false;
+    isOkay: boolean = false;
     description: string;
 
     isActive: boolean = true;
@@ -481,7 +482,8 @@ export class SocialReviewAnswer {
     socialReviewAnswerId: number;
     socialReviewId: number;
 
-    isPatientExamined: boolean = false;
+    // isPatientExamined: boolean = false;
+    isOkay: boolean = false;
     description: string;
 
     isActive: boolean = true;

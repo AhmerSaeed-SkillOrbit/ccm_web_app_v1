@@ -1026,7 +1026,7 @@ export class PatientRecordService implements OnDestroy {
             Id: psychologicalReview.answer.id || null,
             PsychologicalReviewParamId: psychologicalReview.id || null,
             // IsPatientExamined: psychologicalReview.answer.isPatientExamined || false,
-            IsOkay: psychologicalReview.answer.isPatientExamined || false,
+            IsOkay: psychologicalReview.answer.isOkay || false,
             Description: psychologicalReview.answer.description || null,
             IsActive: psychologicalReview.answer.isActive || false,
         };
@@ -1117,7 +1117,7 @@ export class PatientRecordService implements OnDestroy {
             Id: socialReview.answer.id || null,
             SocialReviewParamId: socialReview.id || null,
             // IsPatientExamined: socialReview.answer.isPatientExamined || false,
-            IsOkay: socialReview.answer.isPatientExamined || false,
+            IsOkay: socialReview.answer.isOkay || false,
             Description: socialReview.answer.description || null,
             IsActive: socialReview.answer.isActive || false,
         };
