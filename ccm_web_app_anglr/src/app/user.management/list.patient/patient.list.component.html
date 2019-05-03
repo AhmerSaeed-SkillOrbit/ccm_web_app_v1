@@ -296,8 +296,9 @@
 
                                                     <span *ngIf="deletePermission" matTooltipPosition="above"
                                                         matTooltip="Delete">
+                                                        <!-- <i style="color:#f70a0a;" class="icon-bin" (click)="userDelete(user.id)"></i> -->
                                                         <i style="color:#f70a0a;" class="icon-bin"
-                                                            (click)="userDelete(user.id)"></i>
+                                                            (click)="confirmDialog(user, 'delete', i)"></i>
                                                     </span>
 
                                                     <!-- <a>

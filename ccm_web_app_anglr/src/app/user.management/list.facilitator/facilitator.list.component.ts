@@ -21,7 +21,7 @@ import { MappingService } from '../../core/services/mapping/mapping.service';
 import { UtilityService } from '../../core/services/general/utility.service';
 import { FormService } from '../../core/services/form/form.service';
 import { AddUpdateUserDialogeComponent } from '../add.update.user.dialoge/add.update.user.dialoge.component';
-import { ConfirmationDialogComponent } from '../../shared/dialog-box/confirmation.dialog.component';
+import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmationDialog.component';
 
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
 // import { EasyPay } from '../core/models/payment/easypay.payment';
@@ -506,7 +506,7 @@ export class FacilitatorListComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             console.log('dialog close', result);
-            if (result && btn === 'delete') {
+            if (result && result.status && btn === 'delete') {
                 this.userDelete(user);
             }
             if (result && btn === 'activate') {

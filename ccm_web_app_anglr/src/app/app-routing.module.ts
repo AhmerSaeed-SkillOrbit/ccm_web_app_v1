@@ -72,6 +72,14 @@ const routes: Routes = [
     // children: []
   },
   {
+    path: 'profile',
+    loadChildren: './profile/profile.management.module#ProfileManagementModule',
+    // pathMatch: 'full',
+    // component: HomeComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    // children: []
+  },
+  {
     path: 'um',
     loadChildren: './user.management/user.management.module#UserManagementModule',
     // pathMatch: 'full',

@@ -1,7 +1,7 @@
 <div class="navbar navbar-inverse">
   <div style="background: #fff;" class="navbar-header">
-    <a class="navbar-brand" [routerLink]="['/']"><img style="margin-top: -11px; height: 41px;" src="assets/images/logo.png"
-        alt=""></a>
+    <a class="navbar-brand" [routerLink]="['/']"><img style="margin-top: -11px; height: 41px;"
+        src="assets/images/logo.png" alt=""></a>
 
     <ul class="nav navbar-nav visible-xs-block">
       <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
@@ -31,7 +31,8 @@
           <ul class="media-list dropdown-content-body width-350">
             <li class="media">
               <div class="media-left">
-                <a href="#" class="btn border-primary text-primary btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-pull-request"></i></a>
+                <a href="#" class="btn border-primary text-primary btn-flat btn-rounded btn-icon btn-sm"><i
+                    class="icon-git-pull-request"></i></a>
               </div>
 
               <div class="media-body">
@@ -42,7 +43,8 @@
 
             <li class="media">
               <div class="media-left">
-                <a href="#" class="btn border-warning text-warning btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-commit"></i></a>
+                <a href="#" class="btn border-warning text-warning btn-flat btn-rounded btn-icon btn-sm"><i
+                    class="icon-git-commit"></i></a>
               </div>
 
               <div class="media-body">
@@ -53,7 +55,8 @@
 
             <li class="media">
               <div class="media-left">
-                <a href="#" class="btn border-info text-info btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-branch"></i></a>
+                <a href="#" class="btn border-info text-info btn-flat btn-rounded btn-icon btn-sm"><i
+                    class="icon-git-branch"></i></a>
               </div>
 
               <div class="media-body">
@@ -64,7 +67,8 @@
 
             <li class="media">
               <div class="media-left">
-                <a href="#" class="btn border-success text-success btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-merge"></i></a>
+                <a href="#" class="btn border-success text-success btn-flat btn-rounded btn-icon btn-sm"><i
+                    class="icon-git-merge"></i></a>
               </div>
 
               <div class="media-body">
@@ -76,7 +80,8 @@
 
             <li class="media">
               <div class="media-left">
-                <a href="#" class="btn border-primary text-primary btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-pull-request"></i></a>
+                <a href="#" class="btn border-primary text-primary btn-flat btn-rounded btn-icon btn-sm"><i
+                    class="icon-git-pull-request"></i></a>
               </div>
 
               <div class="media-body">
@@ -108,7 +113,7 @@
         </a>
 
         <ul class="dropdown-menu dropdown-menu-right">
-          <!-- <li><a href="#"><i class="icon-user-plus"></i> My profile</a></li> -->
+          <li><a [routerLink]="['/profile/p/edit']"><i class="icon-user-plus"></i> My profile</a></li>
           <!-- <li><a href="#"><i class="icon-cog5"></i> Account settings</a></li> -->
           <li><a (click)="onlogOut()"><i class="icon-switch2"></i> Logout</a></li>
         </ul>

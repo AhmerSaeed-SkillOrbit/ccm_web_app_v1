@@ -18,6 +18,7 @@ import { UserService } from '../../core/services/user/user.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 import { UtilityService } from '../../core/services/general/utility.service';
 import { AssignFacilitatorDialogeComponent } from '../assign.facilitator.dialoge/assign.facilitator.dialoge.component';
+import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmationDialog.component';
 
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
 // import { EasyPay } from '../core/models/payment/easypay.payment';
@@ -411,12 +412,59 @@ export class DoctorListComponent implements OnInit {
         }
     }
 
-    userDelete(userId) {
+    confirmDialog(user: User, btn, index) {
+        let msg;
+        let title;
+        if (btn === 'delete') {
+            title = 'Delete User';
+            msg = 'Are you sure you want to delete ' + user.firstName + ' ?';
+        }
+        else if (btn === 'activate') {
+            title = 'Activate User';
+            msg = 'Are you sure you want to activate ' + user.firstName + ' ?';
+        }
+        else if (btn === 'deactivate') {
+            title = 'Deactivate User';
+            msg = 'Are you sure you want to deactivate ' + user.firstName + ' ?';
+        }
+        else if (btn === 'block') {
+            title = 'Block User';
+            msg = 'Are you sure you want to block ' + user.firstName + ' ?';
+        }
+        else if (btn === 'unblock') {
+            title = 'Unblock User';
+            msg = 'Are you sure you want to unblock ' + user.firstName + ' ?';
+        }
+        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+            width: '400px',
+            data: { message: msg, title: title }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('dialog close', result);
+            if (result && result.status && btn === 'delete') {
+                this.userDelete(user);
+            }
+            if (result && btn === 'activate') {
+                // this.activateUser(user);
+            }
+            if (result && btn === 'deactivate') {
+                // this.deActivateUser(user);
+            }
+            if (result && btn === 'block') {
+                // this.blockUser(user, index);
+            }
+            if (result && btn === 'unblock') {
+                // this.unBlockUser(user, index);
+            }
+        });
+    }
+
+    userDelete(user) {
         const msg = new Message();
         console.log('delete user');
-        console.log(userId);
+        console.log(user);
 
-        this._userService.deleteUser(userId).subscribe(
+        this._userService.deleteUser(user.id).subscribe(
             (res) => {
 
                 this.isSubmitted = false;
