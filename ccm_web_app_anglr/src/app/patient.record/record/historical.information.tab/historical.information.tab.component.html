@@ -36,7 +36,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Provider Name"
+                                                        <input matInput placeholder="Provider name"
                                                             [(ngModel)]="healthCareHistories[i].provider"
                                                             formControlName="provider" required>
                                                         <mat-error>
@@ -51,7 +51,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width" *ngIf="false">
-                                                        <input matInput placeholder="Last Visit Date"
+                                                        <input matInput placeholder="Last visit date"
                                                             [(ngModel)]="healthCareHistories[i].lastVisitDate"
                                                             formControlName="lastVisitDate">
                                                         <!-- <mat-error>
@@ -63,7 +63,7 @@
                                                     <!-- [min]="schedule.lastVisitDate" -->
                                                     <mat-form-field class="full-width">
                                                         <input matInput [matDatepickerFilter]="dateFilter"
-                                                            [matDatepicker]="picker" placeholder="Last Visit Date"
+                                                            [matDatepicker]="picker" placeholder="Last visit date"
                                                             formControlName="lastVisitDate"
                                                             [(ngModel)]="healthCareHistories[i].lastVisitDate" readonly>
                                                         <mat-datepicker-toggle matSuffix [for]="picker">
@@ -77,7 +77,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Visit Reason"
+                                                        <input matInput placeholder="Visit reason"
                                                             [(ngModel)]="healthCareHistories[i].visitReason"
                                                             formControlName="visitReason">
                                                         <!-- <mat-error>
@@ -169,7 +169,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Hospital Name"
+                                                        <input matInput placeholder="Hospital name"
                                                             [(ngModel)]="hospitalizationHistories[i].hospitalName"
                                                             formControlName="hospitalName" required>
                                                         <mat-error>
@@ -184,7 +184,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width" *ngIf="false">
-                                                        <input matInput placeholder="Hospitalized Date"
+                                                        <input matInput placeholder="Hospitalized date"
                                                             [(ngModel)]="hospitalizationHistories[i].hospitalizedDate"
                                                             formControlName="hospitalizedDate">
                                                         <!-- <mat-error>
@@ -196,7 +196,7 @@
                                                     <!-- [min]="schedule.startDate" -->
                                                     <mat-form-field class="full-width">
                                                         <input matInput [matDatepickerFilter]="dateFilter"
-                                                            [matDatepicker]="picker" placeholder="Hospitalized Date"
+                                                            [matDatepicker]="picker" placeholder="Hospitalized date"
                                                             formControlName="hospitalizedDate"
                                                             [(ngModel)]="hospitalizationHistories[i].hospitalizedDate"
                                                             readonly>
@@ -218,7 +218,7 @@
                                                     <mat-checkbox class="full-width" name="isHospitalized"
                                                         formControlName="isHospitalized"
                                                         [(ngModel)]="hospitalizationHistories[i].isHospitalized">
-                                                        Is Hospitalized </mat-checkbox>
+                                                        Is hospitalized </mat-checkbox>
                                                 </div>
                                             </div>
                                         </div>
@@ -228,7 +228,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Patient Comments"
+                                                        <input matInput placeholder="Patient comments"
                                                             [(ngModel)]="hospitalizationHistories[i].patientComments"
                                                             formControlName="patientComments">
                                                         <!-- <mat-error>
@@ -320,11 +320,11 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Diagnose Description"
+                                                        <input matInput placeholder="Diagnose description"
                                                             [(ngModel)]="surgeryHistories[i].diagnoseDescription"
                                                             formControlName="diagnoseDescription" required>
                                                         <mat-error>
-                                                            Diagnose Description is
+                                                            Diagnose description
                                                             <strong>required</strong>
                                                         </mat-error>
                                                     </mat-form-field>
@@ -335,7 +335,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width" *ngIf="false">
-                                                        <input matInput placeholder="Diagnose Date"
+                                                        <input matInput placeholder="Diagnose date"
                                                             [(ngModel)]="surgeryHistories[i].diagnoseDate"
                                                             formControlName="diagnoseDate">
                                                         <!-- <mat-error>
@@ -347,7 +347,7 @@
                                                     <!-- [min]="schedule.startDate" -->
                                                     <mat-form-field class="full-width">
                                                         <input matInput [matDatepickerFilter]="dateFilter"
-                                                            [matDatepicker]="picker" placeholder="Diagnose Date"
+                                                            [matDatepicker]="picker" placeholder="Diagnose date"
                                                             formControlName="diagnoseDate"
                                                             [(ngModel)]="surgeryHistories[i].diagnoseDate" readonly>
                                                         <mat-datepicker-toggle matSuffix [for]="picker">
@@ -368,7 +368,7 @@
                                                     <mat-checkbox class="full-width" name="needAttention"
                                                         formControlName="needAttention"
                                                         [(ngModel)]="surgeryHistories[i].needAttention">
-                                                        Need Attention </mat-checkbox>
+                                                        Need attention </mat-checkbox>
                                                 </div>
                                             </div>
                                         </div>
@@ -378,7 +378,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Current Problem"
+                                                        <input matInput placeholder="Current problem"
                                                             [(ngModel)]="surgeryHistories[i].currentProblem"
                                                             formControlName="currentProblem">
                                                         <!-- <mat-error>
@@ -499,11 +499,11 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Name Of Agency"
+                                                        <input matInput placeholder="Name of agency"
                                                             [(ngModel)]="patientOrganizationAssistances[i].organization"
                                                             formControlName="organization">
                                                         <mat-error>
-                                                            Name Of Agency is
+                                                            Name of agency
                                                             <strong>required</strong>
                                                         </mat-error>
                                                     </mat-form-field>
@@ -514,11 +514,11 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Phone Number"
+                                                        <input matInput placeholder="Phone number"
                                                             [(ngModel)]="patientOrganizationAssistances[i].telephoneNumber"
                                                             formControlName="telephoneNumber">
                                                         <mat-error>
-                                                            Phone Number is
+                                                            Phone number
                                                             <strong>required</strong>
                                                         </mat-error>
                                                     </mat-form-field>
@@ -531,7 +531,7 @@
 
                                                 <!-- <h2>Question {{ i + 1 }}</h2> -->
 
-                                                <label>Is Refused</label>
+                                                <label>Is refused</label>
 
                                                 <mat-slide-toggle color="primary" formControlName="isPatientRefused"
                                                     [(ngModel)]="patientOrganizationAssistances[i].isPatientRefused">

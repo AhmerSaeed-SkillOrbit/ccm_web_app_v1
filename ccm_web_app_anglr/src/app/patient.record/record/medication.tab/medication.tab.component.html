@@ -38,11 +38,11 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Name Of Medication"
+                                                        <input matInput placeholder="Name of medication"
                                                             [(ngModel)]="activeMedications[i].medicineName"
                                                             formControlName="medicineName" required>
                                                         <mat-error>
-                                                            Name Of Medication is
+                                                            Name of medication is
                                                             <strong>required</strong>
                                                         </mat-error>
                                                     </mat-form-field>
@@ -83,7 +83,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width" *ngIf="false">
-                                                        <input matInput placeholder="Start Date"
+                                                        <input matInput placeholder="Start date"
                                                             [(ngModel)]="activeMedications[i].startDate"
                                                             formControlName="startDate">
                                                         <!-- <mat-error>
@@ -95,7 +95,7 @@
                                                     <!-- [min]="schedule.startDate" -->
                                                     <mat-form-field class="full-width">
                                                         <input matInput [matDatepickerFilter]="dateFilter"
-                                                            [matDatepicker]="picker" placeholder="Start Date"
+                                                            [matDatepicker]="picker" placeholder="Start date"
                                                             formControlName="startDate"
                                                             [(ngModel)]="activeMedications[i].startDate" readonly>
                                                         <mat-datepicker-toggle matSuffix [for]="picker">
@@ -109,7 +109,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Why Take? Comments"
+                                                        <input matInput placeholder="Why take? comments"
                                                             [(ngModel)]="activeMedications[i].whyComments"
                                                             formControlName="direction">
                                                         <!-- <mat-error>
@@ -203,11 +203,11 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Name Of Medication"
+                                                        <input matInput placeholder="Name of medication"
                                                             [(ngModel)]="allergyMedications[i].medicineName"
                                                             formControlName="medicineName" required>
                                                         <mat-error>
-                                                            Name Of Medication is
+                                                            Name of medication is
                                                             <strong>required</strong>
                                                         </mat-error>
                                                     </mat-form-field>
@@ -218,7 +218,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Reaction To Medication / Treatment"
+                                                        <input matInput placeholder="Reaction to medication / treatment"
                                                             [(ngModel)]="allergyMedications[i].reaction"
                                                             formControlName="reaction">
                                                         <!-- <mat-error>
@@ -233,7 +233,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width" *ngIf="false">
-                                                        <input matInput placeholder="Date Occured"
+                                                        <input matInput placeholder="Date occured"
                                                             [(ngModel)]="allergyMedications[i].dateOccured"
                                                             formControlName="dateOccured">
                                                         <!-- <mat-error>
@@ -245,7 +245,7 @@
                                                     <!-- [min]="schedule.startDate" -->
                                                     <mat-form-field class="full-width">
                                                         <input matInput [matDatepickerFilter]="dateFilter"
-                                                            [matDatepicker]="picker" placeholder="Date Occured"
+                                                            [matDatepicker]="picker" placeholder="Date occured"
                                                             formControlName="dateOccured"
                                                             [(ngModel)]="allergyMedications[i].dateOccured" readonly>
                                                         <mat-datepicker-toggle matSuffix [for]="picker">
@@ -266,7 +266,7 @@
                                                     <mat-checkbox class="full-width" name="markAsSevere"
                                                         formControlName="markAsSevere"
                                                         [(ngModel)]="allergyMedications[i].isReactionSevere">
-                                                        Mark As Severe </mat-checkbox>
+                                                        Mark as severe </mat-checkbox>
                                                 </div>
                                             </div>
 
@@ -336,7 +336,7 @@
                         <div class="row" formArrayName="form">
                             <div class="col-md-12">
 
-                                <h1>ALLERGIES - NON MEDICATION</h1>
+                                <h1>Allergies - Non Medication</h1>
                                 <!-- <div class="row" *ngFor="let bidder of heldObject.auctionBidder; let $i=index;"> -->
                                 <!-- <div class="row" *ngFor="let b of formScheduleDetail.controls.scheduleDetail.controls; let i = index"
                                                 [formGroupName]="i"> -->
@@ -353,11 +353,11 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Name Of Substance"
+                                                        <input matInput placeholder="Name of substance"
                                                             [(ngModel)]="allergyNonMedications[i].substanceName"
                                                             formControlName="substanceName" required>
                                                         <mat-error>
-                                                            Name Of Substance is
+                                                            Name Of substance is
                                                             <strong>required</strong>
                                                         </mat-error>
                                                     </mat-form-field>
@@ -368,7 +368,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Reaction To Substance / Treatment"
+                                                        <input matInput placeholder="Reaction to substance / treatment"
                                                             [(ngModel)]="allergyNonMedications[i].reaction"
                                                             formControlName="reaction">
                                                         <!-- <mat-error>
@@ -383,7 +383,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width" *ngIf="false">
-                                                        <input matInput placeholder="Date Occured"
+                                                        <input matInput placeholder="Date occured"
                                                             [(ngModel)]="allergyNonMedications[i].dateOccured"
                                                             formControlName="dateOccured">
                                                         <!-- <mat-error>
@@ -395,7 +395,7 @@
                                                     <!-- [min]="schedule.startDate" -->
                                                     <mat-form-field class="full-width">
                                                         <input matInput [matDatepickerFilter]="dateFilter"
-                                                            [matDatepicker]="picker" placeholder="Date Occured"
+                                                            [matDatepicker]="picker" placeholder="Date occured"
                                                             formControlName="dateOccured"
                                                             [(ngModel)]="allergyNonMedications[i].dateOccured" readonly>
                                                         <mat-datepicker-toggle matSuffix [for]="picker">
@@ -416,7 +416,7 @@
                                                     <mat-checkbox class="full-width" name="markAsSevere"
                                                         formControlName="markAsSevere"
                                                         [(ngModel)]="allergyNonMedications[i].isReactionSevere">
-                                                        Mark As Severe </mat-checkbox>
+                                                        Mark as severe </mat-checkbox>
                                                 </div>
                                             </div>
 
@@ -503,11 +503,11 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput placeholder="Vaccine Name"
+                                                        <input matInput placeholder="Vaccine name"
                                                             [(ngModel)]="vaccines[i].vaccineName"
                                                             formControlName="vaccineName" required>
                                                         <mat-error>
-                                                            Vaccine Name is
+                                                            Vaccine name is
                                                             <strong>required</strong>
                                                         </mat-error>
                                                     </mat-form-field>
@@ -518,7 +518,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width" *ngIf="false">
-                                                        <input matInput placeholder="Date Given"
+                                                        <input matInput placeholder="Date given"
                                                             [(ngModel)]="vaccines[i].vaccineDate"
                                                             formControlName="dateGiven">
                                                         <!-- <mat-error>
@@ -530,7 +530,7 @@
                                                     <!-- [min]="schedule.startDate" -->
                                                     <mat-form-field class="full-width">
                                                         <input matInput [matDatepickerFilter]="dateFilter"
-                                                            [matDatepicker]="picker" placeholder="Date Given"
+                                                            [matDatepicker]="picker" placeholder="Date given"
                                                             formControlName="dateGiven"
                                                             [(ngModel)]="vaccines[i].vaccineDate" readonly>
                                                         <mat-datepicker-toggle matSuffix [for]="picker">

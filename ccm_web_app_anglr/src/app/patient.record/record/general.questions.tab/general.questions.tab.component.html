@@ -49,7 +49,7 @@
 
                                                     <mat-form-field class="full-width">
                                                         <!-- <mat-label>Select Answer Option</mat-label> -->
-                                                        <mat-select placeholder="Select Answer Option"
+                                                        <mat-select placeholder="Select answer option"
                                                             formControlName="isAnswered"
                                                             [(ngModel)]="questionAnswers[i].answer.isAnswered"
                                                             (change)="onAnswerTypeSelect()">
@@ -72,7 +72,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-field">
                                                     <mat-form-field class="full-width">
-                                                        <textarea matInput placeholder="Detail Answer"
+                                                        <textarea matInput placeholder="Detail answer"
                                                             formControlName="answer"
                                                             [(ngModel)]="questionAnswers[i].answer.answer"
                                                             maxlength="500" matTextareaAutosize matAutosizeMinRows="2"
