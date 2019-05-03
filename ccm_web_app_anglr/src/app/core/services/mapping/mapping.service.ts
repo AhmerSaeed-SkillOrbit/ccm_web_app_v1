@@ -625,21 +625,27 @@ export class MappingService {
             isPersonalContactInfo.ableToCall = personalContactInfoData.AbleToCall || false;
 
             isPersonalContactInfo.feasibleMessageTime = personalContactInfoData.FeasibleMessageTime || null;
+            isPersonalContactInfo.feasibleMessageStartTime = personalContactInfoData.FeasibleMessageStartTime || null;
+            isPersonalContactInfo.feasibleMessageEndTime = personalContactInfoData.FeasibleMessageEndTime || null;
             if (isPersonalContactInfo.feasibleMessageTime) {
                 isPersonalContactInfo.feasibleMessageTimeFrom = "";
                 isPersonalContactInfo.feasibleMessageTimeTo = "";
             }
 
             isPersonalContactInfo.feasibleCallTime = personalContactInfoData.FeasibleCallTime || null;
+            isPersonalContactInfo.feasibleCallStartTime = personalContactInfoData.FeasibleCallStartTime || null;
+            isPersonalContactInfo.feasibleCallEndTime = personalContactInfoData.FeasibleCallEndTime || null;
             if (isPersonalContactInfo.feasibleCallTime) {
                 isPersonalContactInfo.feasibleCallTimeFrom = "";
                 isPersonalContactInfo.feasibleCallTimeTo = "";
             }
 
+            isPersonalContactInfo.dayTimeCountryCode = personalContactInfoData.DayTimeCountryCode || null;
             isPersonalContactInfo.dayTimePhoneNumber = personalContactInfoData.DayTimePhoneNumber || null;
             isPersonalContactInfo.canCallOnDayTimePhone = personalContactInfoData.CanCallOnDayTimePhone || false;
             isPersonalContactInfo.canMsgOnDayTimePhone = personalContactInfoData.CanMsgOnDayTimePhone || false;
 
+            isPersonalContactInfo.nightTimeCountryCode = personalContactInfoData.NightTimeCountryCode || null;
             isPersonalContactInfo.nightTimePhoneNumber = personalContactInfoData.NightTimePhoneNumber || null;
             isPersonalContactInfo.canCallOnNightTimePhone = personalContactInfoData.CanCallOnNightTimePhone || false;
             isPersonalContactInfo.canMsgOnNightTimePhone = personalContactInfoData.CanMsgOnNightTimePhone || false;

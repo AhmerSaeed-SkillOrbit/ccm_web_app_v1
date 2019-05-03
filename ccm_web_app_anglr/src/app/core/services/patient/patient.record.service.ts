@@ -495,15 +495,21 @@ export class PatientRecordService implements OnDestroy {
             AbleToCall: personalContactInfo.ableToCall || false,
 
             FeasibleMessageTime: personalContactInfo.feasibleMessageTime,
+            FeasibleMessageStartTime: personalContactInfo.feasibleMessageStartTime,
+            FeasibleMessageEndTime: personalContactInfo.feasibleMessageEndTime,
             // FeasibleMessageTime: personalContactInfo.feasibleMessageTimeFrom + " - " + personalContactInfo.feasibleMessageTimeTo,
 
             FeasibleCallTime: personalContactInfo.feasibleCallTime,
+            FeasibleCallStartTime: personalContactInfo.feasibleCallStartTime,
+            FeasibleCallEndTime: personalContactInfo.feasibleCallEndTime,
             // FeasibleCallTime: personalContactInfo.feasibleCallTimeFrom + " - " + personalContactInfo.feasibleCallTimeTo,
 
+            DayTimeCountryCode: personalContactInfo.dayTimeCountryCode || null,
             DayTimePhoneNumber: personalContactInfo.dayTimePhoneNumber || null,
             CanCallOnDayTimePhone: personalContactInfo.canCallOnDayTimePhone || false,
             CanMsgOnDayTimePhone: personalContactInfo.canMsgOnDayTimePhone || false,
 
+            NightTimeCountryCode: personalContactInfo.nightTimeCountryCode || null,
             NightTimePhoneNumber: personalContactInfo.nightTimePhoneNumber || null,
             CanCallOnNightTimePhone: personalContactInfo.canCallOnNightTimePhone || false,
             CanMsgOnNightTimePhone: personalContactInfo.canMsgOnNightTimePhone || false,

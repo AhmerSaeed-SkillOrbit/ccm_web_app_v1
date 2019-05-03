@@ -36,7 +36,7 @@
                                     </div>
 
                                     <!-- feasibleCallTime -->
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" *ngIf="false">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
                                                 <mat-label>Feasible Call Time</mat-label>
@@ -47,6 +47,38 @@
                                                         feasibleCallTime is
                                                         <strong>required</strong>
                                                     </mat-error> -->
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <!-- feasibleCallStartTime -->
+                                    <div class="col-md-3">
+                                        <div class="form-field">
+                                            <mat-form-field class="full-width">
+                                                <mat-label>Feasible Call Start Time</mat-label>
+                                                <input matInput placeholder="e.g. 10:30 Am"
+                                                    [(ngModel)]="personalContactInfo.feasibleCallStartTime"
+                                                    formControlName="feasibleCallStartTime">
+                                                <!-- <mat-error>
+                                                    feasibleCallStartTime is
+                                                    <strong>required</strong>
+                                                </mat-error> -->
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <!-- feasibleCallEndTime -->
+                                    <div class="col-md-3">
+                                        <div class="form-field">
+                                            <mat-form-field class="full-width">
+                                                <mat-label>Feasible Call End Time</mat-label>
+                                                <input matInput placeholder="e.g. 10:30 Am"
+                                                    [(ngModel)]="personalContactInfo.feasibleCallEndTime"
+                                                    formControlName="feasibleCallEndTime">
+                                                <!-- <mat-error>
+                                                    feasibleCallEndTime is
+                                                    <strong>required</strong>
+                                                </mat-error> -->
                                             </mat-form-field>
                                         </div>
                                     </div>
@@ -66,7 +98,7 @@
                                     </div>
 
                                     <!-- feasibleMessageTime -->
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" *ngIf="false">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
                                                 <mat-label>Feasible Message Time</mat-label>
@@ -81,12 +113,65 @@
                                         </div>
                                     </div>
 
+                                    <!-- feasibleMessageStartTime -->
+                                    <div class="col-md-3">
+                                        <div class="form-field">
+                                            <mat-form-field class="full-width">
+                                                <mat-label>Feasible Message Start Time</mat-label>
+                                                <input matInput placeholder="e.g. 10:30 Am"
+                                                    [(ngModel)]="personalContactInfo.feasibleMessageStartTime"
+                                                    formControlName="feasibleMessageStartTime">
+                                                <!-- <mat-error>
+                                                    feasibleMessageStartTime is
+                                                    <strong>required</strong>
+                                                </mat-error> -->
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <!-- feasibleMessageEndTime -->
+                                    <div class="col-md-3">
+                                        <div class="form-field">
+                                            <mat-form-field class="full-width">
+                                                <mat-label>Feasible Message End Time</mat-label>
+                                                <input matInput placeholder="e.g. 10:30 Am"
+                                                    [(ngModel)]="personalContactInfo.feasibleMessageEndTime"
+                                                    formControlName="feasibleMessageEndTime">
+                                                <!-- <mat-error>
+                                                    feasibleMessageEndTime is
+                                                    <strong>required</strong>
+                                                </mat-error> -->
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                                 <div class="row">
 
+                                    <!--  Day Time Country Code -->
+                                    <div class="col-md-3">
+                                        <div class="form-field">
+
+                                            <mat-form-field class="full-width">
+                                                <mat-select [(ngModel)]="personalContactInfo.dayTimeCountryCode"
+                                                    formControlName="dayTimeCountryCode"
+                                                    placeholder="Select Country Code">
+                                                    <mat-option>None</mat-option>
+                                                    <mat-option value="+1">+1</mat-option>
+                                                    <mat-option value="+92">+92</mat-option>
+                                                </mat-select>
+                                                <!-- <mat-error *ngIf="formRegister.controls['designationId'].errors?.required">
+                                                    Designation is
+                                                    <strong>required</strong>
+                                                </mat-error> -->
+                                            </mat-form-field>
+
+                                        </div>
+                                    </div>
+
                                     <!-- Day Time Phone Number -->
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
                                                 <mat-label>Day Time Phone Number</mat-label>
@@ -128,8 +213,30 @@
 
                                 <div class="row">
 
+                                    <!--  Night Time Country Code -->
+                                    <div class="col-md-3">
+                                        <div class="form-field">
+
+                                            <mat-form-field class="full-width">
+                                                <mat-select [(ngModel)]="personalContactInfo.nightTimeCountryCode"
+                                                    formControlName="nightTimeCountryCode"
+                                                    placeholder="Select Country Code">
+                                                    <mat-option>None</mat-option>
+                                                    <mat-option value="+1">+1</mat-option>
+                                                    <mat-option value="+92">+92</mat-option>
+                                                </mat-select>
+                                                <!-- <mat-error
+                                                    *ngIf="formRegister.controls['designationId'].errors?.required">
+                                                    Designation is
+                                                    <strong>required</strong>
+                                                </mat-error> -->
+                                            </mat-form-field>
+
+                                        </div>
+                                    </div>
+
                                     <!-- Night Time Phone Number -->
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-field">
                                             <mat-form-field class="full-width">
                                                 <mat-label>Night Time Phone Number</mat-label>

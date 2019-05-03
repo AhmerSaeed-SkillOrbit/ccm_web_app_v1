@@ -76,7 +76,8 @@
                     <div class="row" *ngIf="user.role.roleCode=='patient'">
                         <div class="panel panel-flat">
                             <div class="panel-heading">
-                                <h5 class="panel-title">Associated Doctor<a class="heading-elements-toggle"><i class="icon-more"></i></a></h5>
+                                <h5 class="panel-title">Associated Doctor<a class="heading-elements-toggle"><i
+                                            class="icon-more"></i></a></h5>
 
                             </div>
 
@@ -95,7 +96,8 @@
                                 </div>
                                 <div *ngIf="assocDoctor.id">
                                     <span matTooltipPosition="above" matTooltip="View Schedule">
-                                        <button type="button" class="btn btn-default btn-sm" (click)="nevigate('view-doctor-schedule')">
+                                        <button type="button" class="btn btn-default btn-sm"
+                                            (click)="nevigate('view-doctor-schedule')">
                                             View Schedule
                                             <i class="icon-play3 position-right"></i>
                                         </button>
@@ -118,14 +120,38 @@
 
                             <div class="panel-body">
 
-                                <span *ngIf="user?.role?.roleCode == 'patient'" matTooltipPosition="above" matTooltip="Add New">
-                                    <button type="button" class="btn btn-default btn-sm" (click)="openAddUpdateDialog(null,'add')">
+                                <span *ngIf="user?.role?.roleCode == 'patient'" matTooltipPosition="above"
+                                    matTooltip="Add New">
+                                    <button type="button" class="btn btn-default btn-sm"
+                                        (click)="openAddUpdateDialog(null,'add')">
                                         Add New
                                         <i class="icon-play3 position-right"></i>
                                     </button>
                                 </span>
                             </div>
                         </div>
+
+                        <div class="panel panel-flat">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">
+                                    CCM Plan
+                                    <a class="heading-elements-toggle"><i class="icon-more"></i></a>
+                                </h5>
+                            </div>
+
+                            <div class="panel-body">
+
+                                <span matTooltipPosition="above" matTooltip="View">
+                                    <a [routerLink]="['/ccm/plan/list',user.id]">
+                                        <button type="button" class="btn btn-default btn-sm">
+                                            View
+                                            <i class="icon-play3 position-right"></i>
+                                        </button>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+
                     </div>
 
 
@@ -141,7 +167,8 @@
                             <div class="panel-body">
 
                                 <div class="col-lg-4">
-                                    <mat-table #table [dataSource]="dataSourceHs" class="table table-responsive soc-table">
+                                    <mat-table #table [dataSource]="dataSourceHs"
+                                        class="table table-responsive soc-table">
 
                                         <!-- Serial No -->
                                         <ng-container matColumnDef="sNo">
@@ -169,7 +196,8 @@
                                         <mat-row *matRowDef="let row; columns: displayedColumnsHs;"></mat-row>
                                     </mat-table>
 
-                                    <div class="" *ngIf="(dataSourceHs.data.length == 0 || dataSourceHs.filteredData.length == 0) && !isSpinnerHs">
+                                    <div class=""
+                                        *ngIf="(dataSourceHs.data.length == 0 || dataSourceHs.filteredData.length == 0) && !isSpinnerHs">
                                         <div class="snipet download-btn">
                                             <button (click)="refreshList()" mat-raised-button>
                                                 <i class="material-icons">refresh</i> No Data Found
@@ -180,7 +208,8 @@
 
                                     <!-- <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
                                             </mat-paginator> -->
-                                    <mat-paginator #paginator [length]="lengthHs" [pageIndex]="pageIndexHs" [pageSize]="pageSizeHs" [pageSizeOptions]="pageSizeOptions"
+                                    <mat-paginator #paginator [length]="lengthHs" [pageIndex]="pageIndexHs"
+                                        [pageSize]="pageSizeHs" [pageSizeOptions]="pageSizeOptions"
                                         (page)="pageEventHs = pageChangeEvent($event)">
                                     </mat-paginator>
                                 </div>

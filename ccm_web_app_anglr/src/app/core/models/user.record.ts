@@ -55,17 +55,23 @@ export class PersonalContactInfo {
     ableToCall: boolean = false;
 
     feasibleMessageTime: string;
+    feasibleMessageStartTime: string;
+    feasibleMessageEndTime: string;
     feasibleMessageTimeFrom: string;
     feasibleMessageTimeTo: string;
 
     feasibleCallTime: string;
+    feasibleCallStartTime: string;
+    feasibleCallEndTime: string;
     feasibleCallTimeFrom: string;
     feasibleCallTimeTo: string;
 
+    dayTimeCountryCode: string;
     dayTimePhoneNumber: string;
     canCallOnDayTimePhone: boolean = false;
     canMsgOnDayTimePhone: boolean = false;
 
+    nightTimeCountryCode: string;
     nightTimePhoneNumber: string;
     canCallOnNightTimePhone: boolean = false;
     canMsgOnNightTimePhone: boolean = false;

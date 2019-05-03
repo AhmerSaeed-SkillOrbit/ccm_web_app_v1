@@ -102,13 +102,19 @@ export class PreliminaryAssessmentTabComponent implements OnInit {
 
             'ableToCall': [null, Validators.compose([])],
             'feasibleCallTime': [null, Validators.compose([])],
+            'feasibleCallStartTime': [null, Validators.compose([])],
+            'feasibleCallEndTime': [null, Validators.compose([])],
             'ableToMessage': [null, Validators.compose([])],
             'feasibleMessageTime': [null, Validators.compose([])],
+            'feasibleMessageStartTime': [null, Validators.compose([])],
+            'feasibleMessageEndTime': [null, Validators.compose([])],
 
+            'dayTimeCountryCode': [null, Validators.compose([])],
             'dayTimePhoneNumber': [null, Validators.compose([])],
             'canCallOnDayTimePhone': [null, Validators.compose([])],
             'canMsgOnDayTimePhone': [null, Validators.compose([])],
 
+            'nightTimeCountryCode': [null, Validators.compose([])],
             'nightTimePhoneNumber': [null, Validators.compose([])],
             'canCallOnNightTimePhone': [null, Validators.compose([])],
             'canMsgOnNightTimePhone': [null, Validators.compose([])],
@@ -242,7 +248,7 @@ export class PreliminaryAssessmentTabComponent implements OnInit {
         // this.viewPatientRecordPagePermission = this._utilityService.checkUserPermission(this.user, 'view_patient_record');
         this.viewPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_patient_record');
         // this.viewPatientRecordPagePermission = true;
-        
+
         // this.addPatientRecordPagePermission = this._utilityService.checkUserPermission(this.user, 'add_patient_record');
         this.addPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_patient_record');
         // this.addPatientRecordPagePermission = true;
