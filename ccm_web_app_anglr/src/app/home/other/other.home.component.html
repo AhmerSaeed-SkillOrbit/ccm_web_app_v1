@@ -152,6 +152,27 @@
                             </div>
                         </div>
 
+                        <div class="panel panel-flat">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">
+                                    View Record
+                                    <a class="heading-elements-toggle"><i class="icon-more"></i></a>
+                                </h5>
+                            </div>
+
+                            <div class="panel-body">
+
+                                <span matTooltipPosition="above" matTooltip="View">
+                                    <a [routerLink]="['/patient/record',user.id]">
+                                        <button type="button" class="btn btn-default btn-sm">
+                                            View
+                                            <i class="icon-play3 position-right"></i>
+                                        </button>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+
                     </div>
 
 

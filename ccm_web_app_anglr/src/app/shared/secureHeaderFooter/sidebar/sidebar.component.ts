@@ -59,6 +59,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     supportStaffListPagePermission = false;
     inviteFacilitatorPagePermission = false;
 
+
+
     rolePermissionPagePermission = false;
 
     addDoctorSchedulePagePermission = false;
@@ -72,6 +74,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     forumFeedPagePermission = false;
 
     ticketListPagePermission = false;
+
+    ccmPlanPatientPermission = false;
 
     fileUploadListPagePermission = false;
 
@@ -226,6 +230,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
         // this.ticketListPagePermission = this._utilityService.checkUserPermission(this.user, 'ticket_list_page');
         this.ticketListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'ticket_list_page');
         // this.ticketListPagePermission = true;
+
+        // this.ccmPlanPatientPermission = this._utilityService.checkUserPermission(this.user, 'ccm_plan_list_page_patient');
+        this.ccmPlanPatientPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'ccm_plan_list_page_patient');
+        // this.ccmPlanPatientPermission = true;
 
         // this.fileUploadListPagePermission = this._utilityService.checkUserPermission(this.user, 'general_file_list_page');
         this.fileUploadListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'general_file_list_page');

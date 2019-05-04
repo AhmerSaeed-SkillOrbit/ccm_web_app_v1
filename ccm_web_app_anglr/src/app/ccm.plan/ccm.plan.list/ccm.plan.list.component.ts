@@ -72,6 +72,7 @@ export class CcmPlanListComponent implements OnInit {
     // pageSizeOptions = [10];
     upperLimit = 0;
 
+    listPagePaitentPermission = false;
     listPagePermission = false;
     addPermission = false;
     updatePermission = false;
@@ -122,7 +123,11 @@ export class CcmPlanListComponent implements OnInit {
             this.listPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'ccm_plan_list_page');
             // this.listPagePermission = true;
 
-            if (this.listPagePermission) {
+            // this.llistPagePaitentPermission = this._utilityService.checkUserPermission(this.user, 'ccm_plan_list_page');
+            this.listPagePaitentPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'ccm_plan_list_page_patient');
+            // this.listPagePaitentPermission = true;
+
+            if (this.listPagePermission || this.listPagePaitentPermission) {
                 // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
                 this.addPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'create_ccm_plan');
                 // this.addPermission = true;
@@ -270,7 +275,7 @@ export class CcmPlanListComponent implements OnInit {
         this.length = 0;
         this.ccmPlanList = [];
         // this.dataSource = new MatTableDataSource<User>(this.userList);
-        if (this.listPagePermission) {
+        if (this.listPagePermission || this.listPagePaitentPermission) {
             this.isSpinner = true;
 
             // this._uiService.showSpinner();

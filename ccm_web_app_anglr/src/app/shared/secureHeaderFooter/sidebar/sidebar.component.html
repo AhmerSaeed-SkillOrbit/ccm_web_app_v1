@@ -6,7 +6,8 @@
     <div class="category-content">
       <div class="media">
         <!-- <a class="media-left" (click)="changeProfilePic()"> -->
-        <a class="media-left" (click)="clickToUpload.click()" matTooltipPosition="above" matTooltip="Upload Profile Picture">
+        <a class="media-left" (click)="clickToUpload.click()" matTooltipPosition="above"
+          matTooltip="Upload Profile Picture">
           <input style="display : none" type="file" accept='image/*' (change)="changeProfilePic($event)" #clickToUpload>
           <!-- <img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""> -->
           <!-- <img src="{{profilePic}}" class="img-circle img-sm" alt="profile_pic"> -->
@@ -43,7 +44,8 @@
             <span>Dashboard</span></a>
         </li>
 
-        <li *ngIf="(adminListPagePermission || facilitatorListPagePermission || doctorListPagePermission || patientListPagePermission || supportStaffListPagePermission || inviteFacilitatorPagePermission)">
+        <li
+          *ngIf="(adminListPagePermission || facilitatorListPagePermission || doctorListPagePermission || patientListPagePermission || supportStaffListPagePermission || inviteFacilitatorPagePermission)">
           <a (click)="expandRow(1)">
             <i class=" icon-users"></i>
             <span>User Managment</span>
@@ -124,7 +126,8 @@
           </ul>
         </li>
 
-        <li *ngIf="user.role.roleCode == 'doctor' && (pendingRequestListPagePermission || acceptedRequestListPagePermission || rejectedRequestListPagePermission)">
+        <li
+          *ngIf="user.role.roleCode == 'doctor' && (pendingRequestListPagePermission || acceptedRequestListPagePermission || rejectedRequestListPagePermission)">
           <a (click)="expandRow(3)">
             <i class="icon-user-check"></i>
             <span>Appointment Management</span>
@@ -156,7 +159,8 @@
           </ul>
         </li>
 
-        <li *ngIf="user.role.roleCode == 'patient' && (pendingRequestListPagePermission || acceptedRequestListPagePermission || rejectedRequestListPagePermission)">
+        <li
+          *ngIf="user.role.roleCode == 'patient' && (pendingRequestListPagePermission || acceptedRequestListPagePermission || rejectedRequestListPagePermission)">
           <a (click)="expandRow(3)">
             <i class="icon-user-check"></i>
             <span>Appointment Management</span>
@@ -203,16 +207,16 @@
                 <a [routerLink]="['/schedule/list']">
                   <i class="icon-user-check"></i>
                   <span>My Schedule</span>
-            </a>
-        </li>
-        <li *ngIf="viewDoctorSchedulePagePermission">
-          <a [routerLink]="['/schedule/view']">
-            <i class="icon-user-check"></i>
-              <span>View Schedule</span>
-          </a>
-        </li>
-        </span>
-        </ul>
+                </a>
+              </li>
+              <li *ngIf="viewDoctorSchedulePagePermission">
+                <a [routerLink]="['/schedule/view']">
+                  <i class="icon-user-check"></i>
+                  <span>View Schedule</span>
+                </a>
+              </li>
+            </span>
+          </ul>
         </li>
 
         <li *ngIf="forumFeedPagePermission">
@@ -236,10 +240,10 @@
                 <a [routerLink]="['/forum/feed']">
                   <i class="icon-stats-dots"></i>
                   <span>Feed</span>
-            </a>
-        </li>
-        </span>
-        </ul>
+                </a>
+              </li>
+            </span>
+          </ul>
         </li>
 
         <li *ngIf="ticketListPagePermission">
@@ -268,8 +272,9 @@
           </ul>
         </li>
 
-        <li *ngIf="false">
-          <a (click)="expandRow(6)">
+        <li *ngIf="ccmPlanPatientPermission">
+          <!-- <a (click)="expandRow(6)"> -->
+          <a [routerLink]="['/ccm/plan/list',user.id]">
             <i class=" icon-calendar5"></i>
             <span>CCM Plan</span>
             <span>
@@ -279,7 +284,7 @@
           <ul class="sub" [ngClass]="(6 === expandedIndex) ? 'show' : ''">
             <span *ngIf="6 === expandedIndex">
               <li>
-                <a [routerLink]="['/']">
+                <a [routerLink]="['/ccm/plan/list',user.id]">
                   <i class=" icon-calendar5"></i>
                   <span>Plans</span>
                 </a>
@@ -302,10 +307,10 @@
                 <a [routerLink]="['/']">
                   <i class=" icon-calendar5"></i>
                   <span>Invite Email</span>
-            </a>
-        </li>
-        </span>
-        </ul>
+                </a>
+              </li>
+            </span>
+          </ul>
         </li>
 
         <li *ngIf="fileUploadListPagePermission">
@@ -334,7 +339,7 @@
               <li>
                 <a [routerLink]="['/file/upload/fu/list']">
                   <i class="icon-folder"></i>
-                    <span>Uploaded File List</span>
+                  <span>Uploaded File List</span>
                 </a>
               </li>
             </span>
@@ -355,12 +360,12 @@
                 <a [routerLink]="['/']">
                   <i class="icon-stats-dots"></i>
                   <span>Daily Reports</span>
-                  </a>
+                </a>
               </li>
               <li>
                 <a [routerLink]="['/']">
                   <i class="icon-stats-dots"></i>
-                    <span>Complete Summary</span>
+                  <span>Complete Summary</span>
                 </a>
               </li>
             </span>
