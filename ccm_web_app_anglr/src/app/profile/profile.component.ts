@@ -14,8 +14,8 @@ import { UserService } from '../core/services/user/user.service';
 import { MappingService } from '../core/services/mapping/mapping.service';
 import { UtilityService } from '../core/services/general/utility.service';
 import { FormService } from '../core/services/form/form.service';
-// import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
-// import { EasyPay } from '../core/models/payment/easypay.payment';
+
+import { Config } from '../config/config';
 
 declare var libraryVar: any;
 
@@ -38,6 +38,8 @@ export class ProfileComponent implements OnInit {
 
     newUser: User = new User();
     userId: number = null;
+
+    genders = Config.gender;
 
     isSpinner = false;
 
@@ -63,6 +65,7 @@ export class ProfileComponent implements OnInit {
 
         this.formRegister = fb.group({
 
+            'patientUniqueId': [this.newUser.patientUniqueId, Validators.compose([Validators.required])],
             'firstName': [this.newUser.firstName, Validators.compose([Validators.required])],
             'lastName': [this.newUser.lastName, Validators.compose([Validators.required])],
             'email': [this.newUser.email, Validators.compose([])],
@@ -75,8 +78,13 @@ export class ProfileComponent implements OnInit {
             'functionalTitle': [this.newUser.functionalTitle, Validators.compose([])],
             'age': [this.newUser.age, Validators.compose([])],
             'ageGroup': [this.newUser.ageGroup, Validators.compose([])],
+            'profileSummary': [this.newUser.profileSummary, Validators.compose([])],
         });
+        this.formRegister.get('patientUniqueId').disable();
         this.formRegister.get('email').disable();
+        this.formRegister.get('phoneCode').disable();
+        this.formRegister.get('mobileNumber').disable();
+        this.formRegister.get('telephoneNumber').disable();
     }
 
     ngOnInit(): void {
@@ -122,6 +130,19 @@ export class ProfileComponent implements OnInit {
                 // this.newUser = user;
                 this.newUser = this._mappingService.mapUser(user);
                 console.log('newUser', this.newUser);
+
+                if (this.newUser.role.roleCode == "patient") {
+                    this.formRegister.get('age').enable();
+                    this.formRegister.get('officeAddress').disable();
+                    this.formRegister.get('residentialAddress').disable();
+                    this.formRegister.get('functionalTitle').disable();
+                }
+                else {
+                    this.formRegister.get('age').disable();
+                    this.formRegister.get('officeAddress').enable();
+                    this.formRegister.get('residentialAddress').enable();
+                    this.formRegister.get('functionalTitle').enable();
+                }
                 // this.userId = this.user.id;
             },
             (err) => {

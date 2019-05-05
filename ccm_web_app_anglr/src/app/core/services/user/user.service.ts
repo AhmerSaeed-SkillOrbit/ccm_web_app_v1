@@ -229,10 +229,12 @@ export class UserService {
         let body = {
 
             // Id: user.id,
+            // PatientUniqueId: user.patientUniqueId || null,
             FirstName: user.firstName || null,
             LastName: user.lastName || null,
             // EmailAddress: user.email || null,
             // Password: user.password || null,
+
             CountryPhoneCode: user.countryPhoneCode || null,
             MobileNumber: user.mobileNumber || null,
             TelephoneNumber: user.phoneNumber || null,
@@ -242,6 +244,7 @@ export class UserService {
             FunctionalTitle: user.functionalTitle || null,
             Age: user.age || null,
             AgeGroup: user.ageGroup || null,
+            ProfileSummary: user.profileSummary || null,
 
 
             // CountryId: user.countryId,
@@ -512,7 +515,27 @@ export class UserService {
 
         let userId = token.userId;
         // user/list/search?p=0&c=2&s=null&r=null
-        const getUrl = 'login/history/all?byUserId=1' + (userId || null) + '&ofUserId=' + (ofUserId || null) + '&p=' + (pageNo || 0) + '&c=' + (limit || 5);
+        const getUrl = 'login/history/all?byUserId=' + (userId || null) + '&ofUserId=' + (ofUserId || null) + '&p=' + (pageNo || 0) + '&c=' + (limit || 5);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    // --------- get Publish Tab
+    public getPublishTab(): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+        // user/list/search?p=0&c=2&s=null&r=null
+        const getUrl = 'patient/record/tab/published?patientId=' + (userId || null);
         return this._http.get(getUrl, options)
             .map((res: Response) => res)
             .catch((error: any) => {

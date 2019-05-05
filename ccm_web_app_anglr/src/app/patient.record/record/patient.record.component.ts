@@ -24,6 +24,7 @@ import { Country } from '../../core/models/country';
 import { SetupService } from '../../core/services/setup/setup.service';
 import { LogService } from '../../core/services/log/log.service';
 import { Permission } from '../../core/models/permission';
+import { UserService } from '../../core/services/user/user.service';
 // import { ReportService } from '../../core/services/report/report.service';
 
 
@@ -55,6 +56,19 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
 
     payLoadChangeDetected: boolean;
 
+
+    tabPermissions = {
+        generalInfo: false,
+        preliminaryAssessment: false,
+        medication: false,
+        psychologicalReview: false,
+        socialEnvoirnmentalReview: false,
+        preventiveScreening: false,
+        historicalInformation: false,
+        generalQuestions: false,
+
+    };
+
     tab = {
         generalInfo: false,
         preliminaryAssessment: false,
@@ -74,6 +88,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
         private _router: Router,
         @Inject('IAuthService') private _authService: IAuthService,
         private _setupService: SetupService,
+        private _userService: UserService,
         private _utilityService: UtilityService,
         // private _logService: LogService,
         private datePipe: DatePipe,
@@ -106,6 +121,15 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
             this.addPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_patient_record');
             // this.addPatientRecordPagePermission = true;
             if (this.viewPatientRecordPagePermission || this.addPatientRecordPagePermission) {
+
+                if (this.user.role.roleCode == "patient") {
+
+                    this.loadPublishTab();
+
+                }
+                else {
+
+                }
 
             }
             else {
@@ -144,6 +168,30 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
 
 
         this.payLoadChangeDetected = false;
+    }
+
+    loadPublishTab() {
+        this._uiService.showSpinner();
+
+        this._userService.getPublishTab().subscribe(
+            (res) => {
+                this._uiService.hideSpinner();
+
+                const array = res.data;
+                console.log('u Object', array);
+                // this.newUser = user;
+
+                // this.newUser = this._mappingService.mapUser(user);
+                // console.log('newUser', this.newUser);
+
+                // this.userId = this.user.id;
+            },
+            (err) => {
+                console.log(err);
+                this._uiService.hideSpinner();
+                this._authService.errStatusCheckResponse(err);
+            }
+        );
     }
 
     focusChange(event) {
