@@ -286,11 +286,11 @@ export class UserService {
     updateUserPassword(id, currentPass, newPass): Observable<any> {
 
         // const getUrl = 'change/password';
-        const getUrl = 'user/change/password';
+        const getUrl = 'change/password';
         const body = {
-            Id: id,
-            CurrentPassword: currentPass,
-            NewPassword: newPass
+            id: id,
+            oldPassword: currentPass || null,
+            newPassword: newPass || null
         };
 
         let token: Token;
@@ -299,7 +299,7 @@ export class UserService {
         options.headers = new Headers();
         options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
 
-        return this._http.put(getUrl, body, options)
+        return this._http.post(getUrl, body, options)
             .map((res: Response) => res)
             .catch((error: any) => {
                 return Observable.throw(error);
