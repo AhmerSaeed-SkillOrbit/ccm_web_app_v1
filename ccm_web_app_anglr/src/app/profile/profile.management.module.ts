@@ -8,12 +8,14 @@ import { MaterialModule } from "../material/material.module";
 import { SharedModule } from '../shared/shared.module';
 
 import { ProfileComponent } from './profile.component';
+import { ChangePasswordComponent } from './change.password/change.password.component';
 
 
 
 @NgModule({
     declarations: [
-        ProfileComponent
+        ProfileComponent,
+        ChangePasswordComponent
     ],
     imports: [
         ReactiveFormsModule, FormsModule,
@@ -23,6 +25,10 @@ import { ProfileComponent } from './profile.component';
             {
                 path: 'p/edit',
                 component: ProfileComponent
+            },
+            {
+                path: 'p/change/password',
+                component: ChangePasswordComponent
             }
         ])
     ],
