@@ -25,6 +25,8 @@ import { SetupService } from '../../core/services/setup/setup.service';
 import { LogService } from '../../core/services/log/log.service';
 import { Permission } from '../../core/models/permission';
 import { UserService } from '../../core/services/user/user.service';
+import { Tab } from '../../core/models/tab';
+import { MappingService } from '../../core/services/mapping/mapping.service';
 // import { ReportService } from '../../core/services/report/report.service';
 
 
@@ -56,6 +58,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
 
     payLoadChangeDetected: boolean;
 
+    tabList: Tab[] = [];
 
     tabPermissions = {
         generalInfo: false,
@@ -90,6 +93,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
         private _setupService: SetupService,
         private _userService: UserService,
         private _utilityService: UtilityService,
+        private _mappingService: MappingService,
         // private _logService: LogService,
         private datePipe: DatePipe,
         private route: ActivatedRoute,
@@ -122,21 +126,24 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
             // this.addPatientRecordPagePermission = true;
             if (this.viewPatientRecordPagePermission || this.addPatientRecordPagePermission) {
 
-                if (this.user.role.roleCode == "patient") {
+                this.loadPublishTab();
 
-                    this.loadPublishTab();
+                // if (this.user.role.roleCode == "patient") {
 
-                }
-                else {
+                //     this.loadPublishTab();
 
-                }
+                // }
+                // else {
+                //     this.loadPublishTab();
+
+                // }
 
             }
             else {
                 this._router.navigate(['/permission']);
             }
 
-            this.tab.generalInfo = true;
+            // this.tab.generalInfo = true;
 
         }
     }
@@ -177,14 +184,28 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
             (res) => {
                 this._uiService.hideSpinner();
 
-                const array = res.data;
-                console.log('u Object', array);
-                // this.newUser = user;
+                // const array = res.data;
+                // console.log('u Object', array);
+                let array = res.json().data || [];
+                // console.log('res list:', array);
+                var uList = [];
+                for (let i = 0; i < array.length; i++) {
+                    let u = this._mappingService.mapTab(array[i]);
+                    if (this.user.role.roleCode == 'patient') {
+                        if (u.isPublish) {
+                            uList.push(u);
+                        }
+                    }
+                    else {
+                        uList.push(u);
+                    }
+                    // uList.push(u);
+                }
+                this.tabList = uList;
 
-                // this.newUser = this._mappingService.mapUser(user);
-                // console.log('newUser', this.newUser);
+                this.checkDefaultActiveTab();
 
-                // this.userId = this.user.id;
+                console.log('u tabList', this.tabList);
             },
             (err) => {
                 console.log(err);
@@ -192,6 +213,117 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                 this._authService.errStatusCheckResponse(err);
             }
         );
+    }
+
+    checkDefaultActiveTab() {
+        if (this.user.role.roleCode == 'patient') {
+
+            let check = 0;
+            this.tabList.forEach(element => {
+
+                if (element.isPublish && check == 0) {
+
+                    if (element.name == "General Information") {
+
+                        this.tab.generalInfo = true;
+                        check = 1;
+                    }
+                    else if (element.name == "Preliminary Assessment Form") {
+
+                        this.tab.preliminaryAssessment = true;
+                        check = 1;
+                    }
+                    else if (element.name == "Medication") {
+
+                        this.tab.medication = true;
+                        check = 1;
+                    }
+                    else if (element.name == "Psychological Review") {
+
+                        this.tab.psychologicalReview = true;
+                        check = 1;
+                    }
+                    else if (element.name == "Social Envoirnmental Review") {
+
+                        this.tab.socialEnvoirnmentalReview = true;
+                        check = 1;
+                    }
+                    else if (element.name == "Preventive Screening") {
+
+                        this.tab.preventiveScreening = true;
+                        check = 1;
+                    }
+                    else if (element.name == "Historical Information") {
+
+                        this.tab.historicalInformation = true;
+                        check = 1;
+                    }
+                    else if (element.name == "General Questions") {
+
+                        this.tab.generalQuestions = true;
+                        check = 1;
+                    }
+
+
+                }
+
+            });
+
+        }
+        else {
+            // this.tab.generalInfo = true;
+
+            let check = 0;
+            this.tabList.forEach(element => {
+
+                if (check == 0) {
+
+                    if (element.name == "General Information") {
+
+                        this.tab.generalInfo = true;
+                        check = 1;
+                    }
+                    else if (element.name == "Preliminary Assessment Form") {
+
+                        this.tab.preliminaryAssessment = true;
+                        check = 1;
+                    }
+                    else if (element.name == "Medication") {
+
+                        this.tab.medication = true;
+                        check = 1;
+                    }
+                    else if (element.name == "Psychological Review") {
+
+                        this.tab.psychologicalReview = true;
+                        check = 1;
+                    }
+                    else if (element.name == "Social Envoirnmental Review") {
+
+                        this.tab.socialEnvoirnmentalReview = true;
+                        check = 1;
+                    }
+                    else if (element.name == "Preventive Screening") {
+
+                        this.tab.preventiveScreening = true;
+                        check = 1;
+                    }
+                    else if (element.name == "Historical Information") {
+
+                        this.tab.historicalInformation = true;
+                        check = 1;
+                    }
+                    else if (element.name == "General Questions") {
+
+                        this.tab.generalQuestions = true;
+                        check = 1;
+                    }
+
+
+                }
+
+            });
+        }
     }
 
     focusChange(event) {
@@ -242,7 +374,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                 this.tab.historicalInformation = false;
                 this.tab.generalQuestions = false;
             }
-            else if (event.tab.textLabel == "Preliminary Assessment") {
+            else if (event.tab.textLabel == "Preliminary Assessment Form") {
 
                 this.tab.generalInfo = false;
                 this.tab.preliminaryAssessment = true;
@@ -273,7 +405,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                 this.tab.historicalInformation = false;
                 this.tab.generalQuestions = false;
             }
-            else if (event.tab.textLabel == "Social / Envoirnmental Review") {
+            else if (event.tab.textLabel == "Social Envoirnmental Review") {
                 this.tab.generalInfo = false;
                 this.tab.preliminaryAssessment = false;
                 this.tab.medication = false;

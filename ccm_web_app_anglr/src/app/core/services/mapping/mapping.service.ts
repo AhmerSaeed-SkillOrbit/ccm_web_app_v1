@@ -20,6 +20,7 @@ import { Comment, Reply } from '../../models/comment';
 import { Ticket, TicketAssignee } from '../../models/ticket';
 import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo, ResourceInfo, QuestionAnswer, Answer, DiabeteSupplement, DiabeteSupplementAnswer, PreventiveScreen, PreventiveScreenAnswer, PsychologicalReview, PsychologicalReviewAnswer, FunctionalReview, FunctionalReviewAnswer, SocialReview, SocialReviewAnswer, HealthCareHistory, HospitalizationHistory, SurgeryHistory, AssistanceType, AssistanceOrganization, PatientOrganizationAssistance } from '../../models/user.record';
 import { CcmPlan, CcmPlanItem, CcmPlanItemGoal, CcmPlanHealthParam, HealthParam, CcmPlanReview } from '../../models/user.ccm.plan';
+import { Tab } from '../../models/tab';
 
 @Injectable()
 export class MappingService {
@@ -1309,6 +1310,28 @@ export class MappingService {
         }
 
         return isCcmPlanReview;
+    }
+
+    public mapTab(res: any): Tab {
+        const tabData = res;
+        const isTab = new Tab();
+        if (tabData) {
+            isTab.id = tabData.Id || null;
+            isTab.tabId = tabData.Id || null;
+            isTab.name = tabData.TabName || null;
+            isTab.code = tabData.TabCode || null;
+            isTab.toolTip = tabData.ToolTip || null;
+            isTab.description = tabData.Description || null;
+            isTab.sortOrder = tabData.SortOrder || null;
+            isTab.createdBy = tabData.CreatedBy || null;
+            isTab.updatedBy = tabData.UpdatedBy || null;
+            isTab.createdOn = tabData.CreatedOn || null;
+            isTab.updatedOn = tabData.UpdatedOn || null;
+            isTab.isPublish = tabData.IsPublish || false;
+            isTab.isActive = tabData.IsActive || true;
+
+        }
+        return isTab;
     }
 
 }

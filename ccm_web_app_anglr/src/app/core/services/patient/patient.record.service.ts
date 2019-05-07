@@ -13,6 +13,7 @@ import {
     PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo,
     AbilityConcernInfo, ResourceInfo, Answer, QuestionAnswer, PreventiveScreen, DiabeteSupplement, PsychologicalReview, FunctionalReview, SocialReview, HealthCareHistory, HospitalizationHistory, SurgeryHistory, PatientOrganizationAssistance
 } from '../../models/user.record';
+import { Tab } from '../../models/tab';
 
 @Injectable()
 export class PatientRecordService implements OnDestroy {
@@ -1501,6 +1502,42 @@ export class PatientRecordService implements OnDestroy {
             IsPatientRefused: patientOrganizationAssistance.isPatientRefused || false,
             IsActive: patientOrganizationAssistance.isActive || false,
         };
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+    public publishTab(patientId: number, tab: Tab): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        const getUrl = 'publish/tab?patientId=' + (patientId || null) + '&patientRecordTabId=' + (tab.id || null);
+        let body = {
+        }
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+    public unPublishTab(patientId: number, tab: Tab): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        const getUrl = 'unpublish/tab?patientId=' + (patientId || null) + '&patientRecordTabId=' + (tab.id || null);
+        let body = {
+        }
 
         return this._http.post(getUrl, body, options)
             .map((res: Response) => res)

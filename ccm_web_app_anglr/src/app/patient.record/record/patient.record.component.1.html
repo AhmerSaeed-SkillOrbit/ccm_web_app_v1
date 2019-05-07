@@ -113,59 +113,59 @@
                                     <hr>
 
                                     <div class="row">
-
                                         <div class="col-md-12">
-                                            <mat-tab-group (focusChange)="focusChange($event)"
-                                                (selectedIndexChange)="selectedIndexChange($event)"
+                                            <mat-tab-group (focusChange)="focusChange($event)" (selectedIndexChange)="selectedIndexChange($event)"
                                                 (selectedTabChange)="selectedTabChange($event)">
-
-                                                <mat-tab *ngFor='let t of tabList' [label]="t.name">
+                                                <mat-tab label="General Information">
 
                                                     <!-- <ng-template matTabContent>
                                                     </ng-template> -->
 
                                                     <!-- [isTabActive]="tab.isDefaultTab" -->
-                                                    <general-info-tab *ngIf="t.name == 'General Information'"
-                                                        [isTabActive]="tab.generalInfo" [id]="patientId" [tab]="t">
-                                                    </general-info-tab>
-
-                                                    <preliminary-assessment-tab
-                                                        *ngIf="t.name == 'Preliminary Assessment Form'"
-                                                        [isTabActive]="tab.preliminaryAssessment" [id]="patientId"
-                                                        [tab]="t">
-                                                    </preliminary-assessment-tab>
-
-                                                    <medication-tab *ngIf="t.name == 'Medication'"
-                                                        [isTabActive]="tab.medication" [id]="patientId" [tab]="t">
-                                                    </medication-tab>
-
-                                                    <psychological-review-tab *ngIf="t.name == 'Psychological Review'"
-                                                        [isTabActive]="tab.psychologicalReview" [id]="patientId"
-                                                        [tab]="t">
-                                                    </psychological-review-tab>
-
-                                                    <social-envoirnmental-review-tab
-                                                        *ngIf="t.name == 'Social Envoirnmental Review'"
-                                                        [isTabActive]="tab.socialEnvoirnmentalReview" [id]="patientId"
-                                                        [tab]="t">
-                                                    </social-envoirnmental-review-tab>
-
-                                                    <preventive-screening-tab *ngIf="t.name == 'Preventive Screening'"
-                                                        [isTabActive]="tab.preventiveScreening" [id]="patientId"
-                                                        [tab]="t">
-                                                    </preventive-screening-tab>
-
-                                                    <historical-information-tab
-                                                        *ngIf="t.name == 'Historical Information'"
-                                                        [isTabActive]="tab.historicalInformation" [id]="patientId"
-                                                        [tab]="t">
-                                                    </historical-information-tab>
-
-                                                    <general-questions-tab *ngIf="t.name == 'General Questions'"
-                                                        [isTabActive]="tab.generalQuestions" [id]="patientId" [tab]="t">
-                                                    </general-questions-tab>
-
+                                                    <general-info-tab [isTabActive]="tab.generalInfo" [id]="patientId"></general-info-tab>
                                                 </mat-tab>
+
+                                                <mat-tab label="Preliminary Assessment">
+                                                    <!-- [isTabActive]="tab.isDefaultTab" -->
+                                                    <preliminary-assessment-tab [isTabActive]="tab.preliminaryAssessment"
+                                                        [id]="patientId"></preliminary-assessment-tab>
+                                                </mat-tab>
+
+                                                <mat-tab label="Medication">
+                                                    <!-- [isTabActive]="tab.isDefaultTab" -->
+                                                    <medication-tab [isTabActive]="tab.medication" [id]="patientId"></medication-tab>
+                                                </mat-tab>
+
+                                                <mat-tab label="Psychological Review">
+                                                    <!-- [isTabActive]="tab.isDefaultTab" -->
+                                                    <psychological-review-tab [isTabActive]="tab.psychologicalReview"
+                                                        [id]="patientId"></psychological-review-tab>
+                                                </mat-tab>
+
+                                                <mat-tab label="Social / Envoirnmental Review">
+                                                    <!-- [isTabActive]="tab.isDefaultTab" -->
+                                                    <social-envoirnmental-review-tab [isTabActive]="tab.socialEnvoirnmentalReview"
+                                                        [id]="patientId"></social-envoirnmental-review-tab>
+                                                </mat-tab>
+
+                                                <mat-tab label="Preventive Screening">
+                                                    <!-- [isTabActive]="tab.isDefaultTab" -->
+                                                    <preventive-screening-tab [isTabActive]="tab.preventiveScreening"
+                                                        [id]="patientId"></preventive-screening-tab>
+                                                </mat-tab>
+
+                                                <mat-tab label="Historical Information">
+                                                    <!-- [isTabActive]="tab.isDefaultTab" -->
+                                                    <historical-information-tab [isTabActive]="tab.historicalInformation"
+                                                        [id]="patientId"></historical-information-tab>
+                                                </mat-tab>
+
+                                                <mat-tab label="General Questions">
+                                                    <!-- [isTabActive]="tab.isDefaultTab" -->
+                                                    <general-questions-tab [isTabActive]="tab.generalQuestions" [id]="patientId"></general-questions-tab>
+                                                </mat-tab>
+
+
 
 
                                             </mat-tab-group>

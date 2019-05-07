@@ -11,6 +11,19 @@
 
             <hr>
 
+            <div class="row" *ngIf="addPatientRecordPagePermission">
+                <div class="col-sm-12 text-right">
+                    <button *ngIf="tab.isPublish" mat-raised-button color="primary"
+                        (click)="publishUnPublishTab('unPublish')">UnPublish</button>
+                    <button *ngIf="!tab.isPublish" type="button" mat-raised-button color="primary"
+                        (click)="publishUnPublishTab('publish')">Publish</button>
+
+                    <!-- <hr> -->
+                    <hr class="line-dash">
+                    <!-- <div class="line-dash"></div> -->
+                </div>
+            </div>
+
             <form [formGroup]="personalContactInfoFormGroup" (ngSubmit)="onSubmitPersonalContactInfo()">
 
                 <div class="row">

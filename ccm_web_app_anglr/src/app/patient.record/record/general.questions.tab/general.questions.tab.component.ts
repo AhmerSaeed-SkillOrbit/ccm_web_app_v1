@@ -22,6 +22,7 @@ import { FormService } from '../../../core/services/form/form.service';
 import { PatientRecordService } from '../../../core/services/patient/patient.record.service';
 import { SetupService } from '../../../core/services/setup/setup.service';
 import { Permission } from '../../../core/models/permission';
+import { Tab } from '../../../core/models/tab';
 
 
 // import { Config } from '../../../config/config';
@@ -41,6 +42,7 @@ export class GeneralQuestionsTabComponent implements OnInit {
 
     @Input() id: number = null;
     @Input() isTabActive: boolean = false;
+    @Input() tab: Tab = new Tab();
 
     userPermissions: Permission[] = [];
 
@@ -87,7 +89,7 @@ export class GeneralQuestionsTabComponent implements OnInit {
         // this.viewPatientRecordPagePermission = this._utilityService.checkUserPermission(this.user, 'view_patient_record');
         this.viewPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_patient_record');
         // this.viewPatientRecordPagePermission = true;
-        
+
         // this.addPatientRecordPagePermission = this._utilityService.checkUserPermission(this.user, 'add_patient_record');
         this.addPatientRecordPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_patient_record');
         // this.addPatientRecordPagePermission = true;
@@ -348,6 +350,67 @@ export class GeneralQuestionsTabComponent implements OnInit {
         //     // console.log("asd")
         //     this._formService.validateAllFormFields(this.questionAnswerFormGroup);
         // }
+
+    }
+
+    publishUnPublishTab(type) {
+
+        if (type == 'publish') {
+
+            this._uiService.showSpinner();
+            // this.isSubmitStarted = true;
+            const msg = new Message();
+            this._patientRecordService.publishTab(this.id, this.tab).subscribe(
+                (res) => {
+                    this.isSubmitted = false;
+                    this._uiService.hideSpinner();
+                    // this._authServices.storeUser(this.userForm);
+                    this.tab.isPublish = true;
+
+                    msg.msg = res.json() ? res.json().message : 'Updated Successfully';
+                    // msg.msg = 'You have successfully signed up';
+                    msg.msgType = MessageTypes.Information;
+                    msg.autoCloseAfter = 400;
+                    this._uiService.showToast(msg, 'info');
+
+                },
+                (err) => {
+                    console.log(err);
+                    this.isSubmitted = false;
+                    this._uiService.hideSpinner();
+                    this._authService.errStatusCheckResponse(err);
+                }
+            );
+
+        }
+        else {
+
+            this._uiService.showSpinner();
+            // this.isSubmitStarted = true;
+            const msg = new Message();
+            this._patientRecordService.unPublishTab(this.id, this.tab).subscribe(
+                (res) => {
+                    this.isSubmitted = false;
+                    this._uiService.hideSpinner();
+                    // this._authServices.storeUser(this.userForm);
+                    this.tab.isPublish = false;
+
+                    msg.msg = res.json() ? res.json().message : 'Updated Successfully';
+                    // msg.msg = 'You have successfully signed up';
+                    msg.msgType = MessageTypes.Information;
+                    msg.autoCloseAfter = 400;
+                    this._uiService.showToast(msg, 'info');
+
+                },
+                (err) => {
+                    console.log(err);
+                    this.isSubmitted = false;
+                    this._uiService.hideSpinner();
+                    this._authService.errStatusCheckResponse(err);
+                }
+            );
+
+        }
 
     }
 
