@@ -104,7 +104,8 @@ export class ChangePasswordComponent implements OnInit {
 
         this.formRegister = fb.group({
             'currentPassword': [this.currentPass, Validators.compose([Validators.required])],
-            'newPassword': [this.newPass, Validators.compose([Validators.required, Validators.maxLength(20), Validators.pattern(this.passwordPattern)])],
+            // 'newPassword': [this.newPass, Validators.compose([Validators.required, Validators.maxLength(20), Validators.pattern(this.passwordPattern)])],
+            'newPassword': [this.newPass, Validators.compose([Validators.required])],
             'confirmPassword': [this.confirmPass, Validators.compose([Validators.required, this.passwordMatcher])],
         }
             , {
