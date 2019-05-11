@@ -472,7 +472,8 @@ export class DoctorListComponent implements OnInit {
                 msg.msgType = MessageTypes.Information;
                 msg.autoCloseAfter = 400;
                 this._uiService.showToast(msg, 'info');
-                this._router.navigate([this.currentURL]);
+                this.refreshList();
+                // this._router.navigate([this.currentURL]);
             },
             (err) => {
                 console.log(err);
