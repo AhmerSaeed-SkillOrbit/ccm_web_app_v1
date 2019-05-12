@@ -49,6 +49,7 @@ export class AddUpdateUserDialogeComponent {
     isSubmitted = false;
     addPermission = false;
     buttonTooltip = "";
+    roleCode: string = "";
 
     constructor(
         @Inject('IAuthService') private _authService: IAuthService,
@@ -75,6 +76,7 @@ export class AddUpdateUserDialogeComponent {
         this.newUser.roleId = data.roleId;
         // this.newUser.roleCode = "superadmin_doctor";
         // this.newUser.roleCode = data.roleCode;
+        this.roleCode = data.roleCode;
         this.newUser.role.roleCode = data.roleCode;
 
         // this.addPermission = this.utilityService.checkUserPermission(this.user, 'add_admin');
@@ -146,26 +148,54 @@ export class AddUpdateUserDialogeComponent {
                 this.isSubmitted = true;
                 this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
 
-                this._userService.addUser(this.newUser).subscribe(
-                    (res) => {
-                        console.log(res);
-                        // this._uiService.hideSpinner();
-                        this.isSubmitted = false;
-                        this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
-                        msg.msg = res.json().message ? res.json().message : 'User added successfully.';
-                        msg.msgType = MessageTypes.Information;
-                        msg.autoCloseAfter = 400;
-                        this._uiService.showToast(msg, 'info');
-                        this.dialogRef.close(true);
-                    },
-                    (err) => {
-                        console.log(err);
-                        this.isSubmitted = false;
-                        this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
-                        // this._uiService.hideSpinner();
-                        this._authService.errStatusCheckResponse(err);
-                    }
-                );
+                if (this.roleCode === "patient") {
+
+                    this._userService.addPatient(this.newUser).subscribe(
+                        (res) => {
+                            console.log(res);
+                            // this._uiService.hideSpinner();
+                            this.isSubmitted = false;
+                            this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
+                            msg.msg = res.json().message ? res.json().message : 'User added successfully.';
+                            msg.msgType = MessageTypes.Information;
+                            msg.autoCloseAfter = 400;
+                            this._uiService.showToast(msg, 'info');
+                            this.dialogRef.close(true);
+                        },
+                        (err) => {
+                            console.log(err);
+                            this.isSubmitted = false;
+                            this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
+                            // this._uiService.hideSpinner();
+                            this._authService.errStatusCheckResponse(err);
+                        }
+                    );
+
+                }
+                else {
+
+                    this._userService.addUser(this.newUser).subscribe(
+                        (res) => {
+                            console.log(res);
+                            // this._uiService.hideSpinner();
+                            this.isSubmitted = false;
+                            this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
+                            msg.msg = res.json().message ? res.json().message : 'User added successfully.';
+                            msg.msgType = MessageTypes.Information;
+                            msg.autoCloseAfter = 400;
+                            this._uiService.showToast(msg, 'info');
+                            this.dialogRef.close(true);
+                        },
+                        (err) => {
+                            console.log(err);
+                            this.isSubmitted = false;
+                            this.buttonTooltip = this.utilityService.getUserPermissionTooltipMsg(this.addPermission, this.isSubmitted, "Submit");
+                            // this._uiService.hideSpinner();
+                            this._authService.errStatusCheckResponse(err);
+                        }
+                    );
+
+                }
             }
             else {
                 // console.log("asd")

@@ -178,6 +178,49 @@ export class UserService {
             })
     }
 
+    public addPatient(user: User): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        const getUrl = 'patient/add';
+        let body = {
+            SourceUserId: userId || null,
+
+            FirstName: user.firstName || null,
+            LastName: user.lastName || null,
+            EmailAddress: user.email || null,
+            // Password: user.password || null,
+            CountryPhoneCode: user.countryPhoneCode || null,
+            MobileNumber: user.mobileNumber || null,
+            TelephoneNumber: user.phoneNumber || null,
+            OfficeAddress: user.officeAddress || null,
+            ResidentialAddress: user.residentialAddress || null,
+            Gender: user.gender || null,
+            FunctionalTitle: user.functionalTitle || null,
+            Age: user.age || null,
+            AgeGroup: user.ageGroup || null,
+            RoleId: user.roleId || null,
+            RoleCode: user.role.roleCode || null,
+            // RoleCode: user.roleCode || null,
+
+            // CountryId: user.countryId,
+            // RegionId: user.regionId,
+            // CityId: user.cityId,
+            // BranchId: user.branchId
+        }
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
     public addUser(user: User): Observable<any> {
         let token: Token;
         token = this._authService.getTokenData();
