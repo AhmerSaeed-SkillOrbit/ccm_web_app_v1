@@ -13,7 +13,7 @@ import { Message, MessageTypes } from '../../../core/models/message';
 import { User } from '../../../core/models/user';
 import { Permission } from '../../../core/models/permission';
 import { Tab } from '../../../core/models/tab';
-import { PatientType } from '../../../core/models/patient.type';
+import { CptOption } from '../../../core/models/cpt.option';
 
 import { UIService } from '../../../core/services/ui/ui.service';
 import { IAuthService } from '../../../core/services/auth/iauth.service';
@@ -28,16 +28,16 @@ import { SetupService } from '../../../core/services/setup/setup.service';
 
 
 @Component({
-    selector: 'general-info-tab',
+    selector: 'cpt-code-tab',
     moduleId: module.id,
-    templateUrl: 'general.info.tab.component.html',
-    // styleUrls: ['general.info.tab.component.css'],
+    templateUrl: 'cpt.code.tab.component.html',
+    // styleUrls: ['cpt.code.tab.component.css'],
     providers: [
         DatePipe // this pipe is used to change date format
     ],
 })
 
-export class GeneralInfoTabComponent implements OnInit {
+export class CptCodeTabComponent implements OnInit {
 
     @Input() id: number = null;
     @Input() isTabActive: boolean = false;
@@ -49,14 +49,16 @@ export class GeneralInfoTabComponent implements OnInit {
     addPatientRecordPagePermission = false;
 
     patient: User = new User();
+    patientCptCodeOptionIds: number[] = [];
+    patientCptCodeOptions: CptOption[] = [];
 
-    patientTypes: PatientType[] = [];
+    cptCodeOptions: CptOption[] = [];
 
     genders = Config.gender;
 
     private ngUnsubscribe: Subject<any> = new Subject();
 
-    generalInfoFormGroup: FormGroup;
+    cptCodeFormGroup: FormGroup;
     isSubmitted: boolean = false;
 
     constructor(
@@ -75,22 +77,10 @@ export class GeneralInfoTabComponent implements OnInit {
     ) {
         // this.currentURL = window.location.href;
 
-        this.generalInfoFormGroup = this._formBuilder.group({
-
-            'patientUniqueId': [this.patient.firstName, Validators.compose([])],
-            'firstName': [this.patient.firstName, Validators.compose([Validators.required])],
-            'middleName': [this.patient.firstName, Validators.compose([])],
-            'lastName': [this.patient.lastName, Validators.compose([Validators.required])],
-            'gender': [this.patient.gender, Validators.compose([])],
-            'dateOfBirth': [this.patient.gender, Validators.compose([])],
-            'age': [this.patient.age, Validators.compose([])],
-            'email': [this.patient.email, Validators.compose([])],
-            'telephoneNumber': [this.patient.phoneNumber, Validators.compose([])],
-            'patientType': [this.patient.patientTypeId, Validators.compose([])],
-            'summary': [this.patient.profileSummary, Validators.compose([])],
-
+        this.cptCodeFormGroup = this._formBuilder.group({
+            // 'cptCode': [this.patient.cptCodeId, Validators.compose([])],
+            'cptCode': [null, Validators.compose([])],
         });
-        this.generalInfoFormGroup.get('email').disable();
     }
 
     ngOnInit(): void {
@@ -125,17 +115,17 @@ export class GeneralInfoTabComponent implements OnInit {
             if (this.isTabActive) {
                 if (this.id) {
 
-                    this.loadPatientTypeList();
-                    this.loadGeneralInfo();
+                    this.loadCptOptionList();
+                    this.loadPatientCptInfo();
                 }
             }
 
         }
     }
 
-    loadPatientTypeList() {
+    loadCptOptionList() {
         // this._uiService.showSpinner();
-        this._setupService.getPatientTypeList().subscribe(
+        this._setupService.getCcmCptOptionList().subscribe(
             (res) => {
                 // this._uiService.hideSpinner();
                 // console.log('get Patient Type', res.json().data);
@@ -143,15 +133,15 @@ export class GeneralInfoTabComponent implements OnInit {
                 let array = res.json().data || [];
                 // console.log('u Object', array);
                 // console.log('res list:', array);
-                var ptList = [];
+                var coList = [];
                 for (let i = 0; i < array.length; i++) {
 
-                    let pt: PatientType = new PatientType()
+                    let co: CptOption = new CptOption()
 
-                    pt = this._mappingService.mapPatientType(array[i]);
-                    ptList.push(pt);
+                    co = this._mappingService.mapCptOption(array[i]);
+                    coList.push(co);
                 }
-                this.patientTypes = ptList;
+                this.cptCodeOptions = coList;
 
                 // console.log('patientTypes', this.patientTypes);
 
@@ -165,18 +155,18 @@ export class GeneralInfoTabComponent implements OnInit {
         );
     }
 
-    loadGeneralInfo() {
+    loadPatientCptInfo() {
         this._uiService.showSpinner();
 
-        this._patientRecordService.getGeneralInfo(this.id).subscribe(
+        this._patientRecordService.getPatientCcmCptOptionAll(this.id).subscribe(
             (res) => {
                 this._uiService.hideSpinner();
 
                 const user = res.json().data;
                 // console.log('u Object', user);
                 // this.newUser = user;
-                this.patient = this._mappingService.mapUser(user);
-                console.log('patient general info', this.patient);
+                // this.patient = this._mappingService.mapUser(user);
+                // console.log('patient general info', this.patient);
                 // this.userId = this.user.id;
             },
             (err) => {
@@ -186,6 +176,21 @@ export class GeneralInfoTabComponent implements OnInit {
             }
         );
 
+    }
+
+    onCptCodeSelect() {
+
+        console.log("onCptCodeSelect");
+
+        const cptCodeOptions = this.cptCodeOptions.filter(co => co.id === +this.patientCptCodeOptionIds);
+
+        console.log("cptCodeOptions", cptCodeOptions);
+        if (cptCodeOptions.length === 0) {
+            // this.user.regionId = null;
+            // this.user.region = null;
+            return;
+        }
+        this.patientCptCodeOptions = cptCodeOptions;
     }
 
     dateChanged(event, type) {
@@ -215,12 +220,12 @@ export class GeneralInfoTabComponent implements OnInit {
         // this.scrollTo(0,0,0)
         // this.isSubmitted = !this.isSubmitted;
 
-        if (this.generalInfoFormGroup.valid) {
+        if (this.cptCodeFormGroup.valid) {
             this.isSubmitted = true;
             this._uiService.showSpinner();
             // this.isSubmitStarted = true;
             const msg = new Message();
-            this._patientRecordService.saveGeneralInfo(this.patient).subscribe(
+            this._patientRecordService.addPatientCcmCptOption(this.patientCptCodeOptions, this.id).subscribe(
                 (res) => {
                     this.isSubmitted = false;
                     this._uiService.hideSpinner();
@@ -242,7 +247,7 @@ export class GeneralInfoTabComponent implements OnInit {
             );
         } else {
             // console.log("asd")
-            this._formService.validateAllFormFields(this.generalInfoFormGroup);
+            this._formService.validateAllFormFields(this.cptCodeFormGroup);
         }
 
     }

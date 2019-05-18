@@ -33,7 +33,7 @@
                     <div class="col-md-3">
                         <mat-form-field class="full-width">
                             <input matInput placeholder="Patient Unique ID" formControlName="patientUniqueId"
-                                [(ngModel)]="patient.patientUniqueId" readonly>
+                                [(ngModel)]="patient.patientUniqueId">
                         </mat-form-field>
                     </div>
 
@@ -121,6 +121,25 @@
                         <mat-form-field class="full-width">
                             <input matInput type="number" placeholder="Primary Telephone Number"
                                 formControlName="telephoneNumber" [(ngModel)]="patient.phoneNumber">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Patient Type -->
+                    <div class="col-md-3">
+                        <mat-form-field class="full-width">
+
+                            <mat-select placeholder="Patient Type" formControlName="patientType"
+                                [(ngModel)]="patient.patientTypeId">
+                                <mat-option>None</mat-option>
+                                <mat-option *ngFor="let patientType of patientTypes " [value]="patientType.id">
+                                    {{ patientType.name }}
+                                </mat-option>
+                            </mat-select>
+                            <!-- <mat-error *ngIf="formRegister.controls['designationId'].errors?.required">
+                            Designation is
+                            <strong>required</strong>
+                        </mat-error> -->
+
                         </mat-form-field>
                     </div>
 

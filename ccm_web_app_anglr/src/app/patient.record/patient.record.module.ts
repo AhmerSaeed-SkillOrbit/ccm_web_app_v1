@@ -16,6 +16,7 @@ import { SocialEnvoirnmentalReviewTabComponent } from './record/social.envoirnme
 import { PreventiveScreeningTabComponent } from './record/preventive.screening.tab/preventive.screening.tab.component';
 import { HistoricalInformationTabComponent } from './record/historical.information.tab/historical.information.tab.component';
 import { GeneralQuestionsTabComponent } from './record/general.questions.tab/general.questions.tab.component';
+import { CptCodeTabComponent } from './record/cpt.code.tab/cpt.code.tab.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { GeneralQuestionsTabComponent } from './record/general.questions.tab/gen
         GeneralInfoTabComponent, PreliminaryAssessmentTabComponent,
         MedicationTabComponent, PsychologicalReviewTabComponent,
         SocialEnvoirnmentalReviewTabComponent, PreventiveScreeningTabComponent,
-        HistoricalInformationTabComponent, GeneralQuestionsTabComponent
+        HistoricalInformationTabComponent, GeneralQuestionsTabComponent,
+        CptCodeTabComponent
     ],
     imports: [
         CommonModule,

@@ -7,6 +7,7 @@ import { Country } from './country';
 import { Region } from './region';
 import { City } from './city';
 import { Branch } from './branch';
+import { PatientType } from './patient.type';
 
 export class User extends BaseModel {
 
@@ -39,6 +40,9 @@ export class User extends BaseModel {
     ageGroup: String;
     dateOfBirth: String;
     gender: String;
+
+    patientTypeId: number;
+    patientType: PatientType = new PatientType();
 
     country: Country = new Country();
     // country: string;

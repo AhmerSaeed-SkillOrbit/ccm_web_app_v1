@@ -69,6 +69,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
         preventiveScreening: false,
         historicalInformation: false,
         generalQuestions: false,
+        cptCode: false,
 
     };
 
@@ -81,6 +82,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
         preventiveScreening: false,
         historicalInformation: false,
         generalQuestions: false,
+        cptCode: false,
 
     }
 
@@ -263,6 +265,11 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                         this.tab.generalQuestions = true;
                         check = 1;
                     }
+                    else if (element.name == "CPT Code") {
+
+                        this.tab.cptCode = true;
+                        check = 1;
+                    }
 
 
                 }
@@ -316,6 +323,11 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                     else if (element.name == "General Questions") {
 
                         this.tab.generalQuestions = true;
+                        check = 1;
+                    }
+                    else if (element.name == "CPT Code") {
+
+                        this.tab.cptCode = true;
                         check = 1;
                     }
 
@@ -373,6 +385,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                 this.tab.preventiveScreening = false;
                 this.tab.historicalInformation = false;
                 this.tab.generalQuestions = false;
+                this.tab.cptCode = false;
             }
             else if (event.tab.textLabel == "Preliminary Assessment Form") {
 
@@ -384,6 +397,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                 this.tab.preventiveScreening = false;
                 this.tab.historicalInformation = false;
                 this.tab.generalQuestions = false;
+                this.tab.cptCode = false;
             }
             else if (event.tab.textLabel == "Medication") {
                 this.tab.generalInfo = false;
@@ -394,6 +408,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                 this.tab.preventiveScreening = false;
                 this.tab.historicalInformation = false;
                 this.tab.generalQuestions = false;
+                this.tab.cptCode = false;
             }
             else if (event.tab.textLabel == "Psychological Review") {
                 this.tab.generalInfo = false;
@@ -404,6 +419,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                 this.tab.preventiveScreening = false;
                 this.tab.historicalInformation = false;
                 this.tab.generalQuestions = false;
+                this.tab.cptCode = false;
             }
             else if (event.tab.textLabel == "Social Envoirnmental Review") {
                 this.tab.generalInfo = false;
@@ -414,6 +430,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                 this.tab.preventiveScreening = false;
                 this.tab.historicalInformation = false;
                 this.tab.generalQuestions = false;
+                this.tab.cptCode = false;
             }
             else if (event.tab.textLabel == "Preventive Screening") {
                 this.tab.generalInfo = false;
@@ -424,6 +441,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                 this.tab.preventiveScreening = true;
                 this.tab.historicalInformation = false;
                 this.tab.generalQuestions = false;
+                this.tab.cptCode = false;
             }
             else if (event.tab.textLabel == "Historical Information") {
                 this.tab.generalInfo = false;
@@ -434,6 +452,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                 this.tab.preventiveScreening = false;
                 this.tab.historicalInformation = true;
                 this.tab.generalQuestions = false;
+                this.tab.cptCode = false;
             }
             else if (event.tab.textLabel == "General Questions") {
                 this.tab.generalInfo = false;
@@ -444,6 +463,18 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                 this.tab.preventiveScreening = false;
                 this.tab.historicalInformation = false;
                 this.tab.generalQuestions = true;
+                this.tab.cptCode = false;
+            }
+            else if (event.tab.textLabel == "CPT Code") {
+                this.tab.generalInfo = false;
+                this.tab.preliminaryAssessment = false;
+                this.tab.medication = false;
+                this.tab.psychologicalReview = false;
+                this.tab.socialEnvoirnmentalReview = false;
+                this.tab.preventiveScreening = false;
+                this.tab.historicalInformation = false;
+                this.tab.generalQuestions = false;
+                this.tab.cptCode = true;
             }
             else {
                 this.tab.generalInfo = false;
@@ -454,6 +485,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                 this.tab.preventiveScreening = false;
                 this.tab.historicalInformation = false;
                 this.tab.generalQuestions = false;
+                this.tab.cptCode = false;
             }
 
         }
@@ -466,6 +498,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
             this.tab.preventiveScreening = false;
             this.tab.historicalInformation = false;
             this.tab.generalQuestions = false;
+            this.tab.cptCode = false;
         }
     }
 

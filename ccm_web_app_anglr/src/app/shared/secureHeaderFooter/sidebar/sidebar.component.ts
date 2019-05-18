@@ -79,6 +79,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     fileUploadListPagePermission = false;
 
+    report1Permission = false;
+    report2Permission = false;
+    report3Permission = false;
+    report4Permission = false;
+
     selectedFile: File = null;
 
     // @ViewChild('myInput') myInputVariable: ElementRef;
@@ -238,6 +243,24 @@ export class SidebarComponent implements OnInit, OnDestroy {
         // this.fileUploadListPagePermission = this._utilityService.checkUserPermission(this.user, 'general_file_list_page');
         this.fileUploadListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'general_file_list_page');
         // this.fileUploadListPagePermission = true;
+
+        // <-- /Report Management Permissions -->
+
+        // this.report1Permission = this._utilityService.checkUserPermission(this.user, 'general_file_list_page');
+        this.report1Permission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'general_file_list_page');
+        // this.report1Permission = true;
+
+        // this.report2Permission = this._utilityService.checkUserPermission(this.user, 'general_file_list_page');
+        this.report2Permission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'general_file_list_page');
+        // this.report2Permission = true;
+
+        // this.report3Permission = this._utilityService.checkUserPermission(this.user, 'general_file_list_page');
+        this.report3Permission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'general_file_list_page');
+        // this.report3Permission = true;
+
+        // this.report4Permission = this._utilityService.checkUserPermission(this.user, 'general_file_list_page');
+        this.report4Permission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'general_file_list_page');
+        // this.report4Permission = true;
 
     }
 

@@ -21,6 +21,8 @@ import { Ticket, TicketAssignee } from '../../models/ticket';
 import { ActiveMedication, AllergyMedication, AllergyNonMedication, Vaccine, PersonalContactInfo, AlternateContactInfo, InsuranceInfo, SelfAssessmentInfo, AbilityConcernInfo, ResourceInfo, QuestionAnswer, Answer, DiabeteSupplement, DiabeteSupplementAnswer, PreventiveScreen, PreventiveScreenAnswer, PsychologicalReview, PsychologicalReviewAnswer, FunctionalReview, FunctionalReviewAnswer, SocialReview, SocialReviewAnswer, HealthCareHistory, HospitalizationHistory, SurgeryHistory, AssistanceType, AssistanceOrganization, PatientOrganizationAssistance } from '../../models/user.record';
 import { CcmPlan, CcmPlanItem, CcmPlanItemGoal, CcmPlanHealthParam, HealthParam, CcmPlanReview } from '../../models/user.ccm.plan';
 import { Tab } from '../../models/tab';
+import { PatientType } from '../../models/patient.type';
+import { CptOption } from '../../models/cpt.option';
 
 @Injectable()
 export class MappingService {
@@ -58,8 +60,12 @@ export class MappingService {
             isUser.blockReason = userData.BlockReason || null;
             isUser.profileSummary = userData.ProfileSummary || null;
 
+            isUser.patientType = this.mapPatientType(userData.PatientType);
+            isUser.patientTypeId = userData.PatientType ? userData.PatientType.Id : null;
 
             isUser.password = userData.userPassword;
+
+
 
             isUser.country = userData.country || new Country();
             isUser.countryId = userData.country ? userData.country.id : null;
@@ -1332,6 +1338,48 @@ export class MappingService {
 
         }
         return isTab;
+    }
+
+    public mapPatientType(res: any): PatientType {
+        const patientTypeData = res;
+        const isPatientType = new PatientType();
+        if (patientTypeData) {
+            isPatientType.id = patientTypeData.Id || null;
+            isPatientType.patientTypeId = patientTypeData.Id || null;
+            isPatientType.name = patientTypeData.Name || null;
+            isPatientType.code = patientTypeData.Code || null;
+            isPatientType.toolTip = patientTypeData.ToolTip || null;
+            isPatientType.description = patientTypeData.Description || null;
+            isPatientType.sortOrder = patientTypeData.SortOrder || null;
+            isPatientType.createdBy = patientTypeData.CreatedBy || null;
+            isPatientType.updatedBy = patientTypeData.UpdatedBy || null;
+            isPatientType.createdOn = patientTypeData.CreatedOn || null;
+            isPatientType.updatedOn = patientTypeData.UpdatedOn || null;
+            isPatientType.isActive = patientTypeData.IsActive || true;
+
+        }
+        return isPatientType;
+    }
+
+    public mapCptOption(res: any): CptOption {
+        const cptOptionData = res;
+        const isCptOption = new CptOption();
+        if (cptOptionData) {
+            isCptOption.id = cptOptionData.Id || null;
+            isCptOption.cptOptionId = cptOptionData.Id || null;
+            isCptOption.name = cptOptionData.Name || null;
+            isCptOption.code = cptOptionData.Code || null;
+            isCptOption.toolTip = cptOptionData.ToolTip || null;
+            isCptOption.description = cptOptionData.Description || null;
+            isCptOption.sortOrder = cptOptionData.SortOrder || null;
+            isCptOption.createdBy = cptOptionData.CreatedBy || null;
+            isCptOption.updatedBy = cptOptionData.UpdatedBy || null;
+            isCptOption.createdOn = cptOptionData.CreatedOn || null;
+            isCptOption.updatedOn = cptOptionData.UpdatedOn || null;
+            isCptOption.isActive = cptOptionData.IsActive || true;
+
+        }
+        return isCptOption;
     }
 
 }

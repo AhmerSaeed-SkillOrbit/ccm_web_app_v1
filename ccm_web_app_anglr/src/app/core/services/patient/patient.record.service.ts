@@ -14,6 +14,8 @@ import {
     AbilityConcernInfo, ResourceInfo, Answer, QuestionAnswer, PreventiveScreen, DiabeteSupplement, PsychologicalReview, FunctionalReview, SocialReview, HealthCareHistory, HospitalizationHistory, SurgeryHistory, PatientOrganizationAssistance
 } from '../../models/user.record';
 import { Tab } from '../../models/tab';
+import { PatientType } from '../../models/patient.type';
+import { CptOption } from '../../models/cpt.option';
 
 @Injectable()
 export class PatientRecordService implements OnDestroy {
@@ -63,6 +65,7 @@ export class PatientRecordService implements OnDestroy {
             CountryPhoneCode: user.countryPhoneCode || null,
             MobileNumber: user.mobileNumber || null,
             TelephoneNumber: user.phoneNumber || null,
+            PatientTypeId: user.patientTypeId || null,
             ProfileSummary: user.profileSummary || null,
             // OfficeAddress: user.officeAddress || null,
             // ResidentialAddress: user.residentialAddress || null,
@@ -1538,6 +1541,65 @@ export class PatientRecordService implements OnDestroy {
         const getUrl = 'unpublish/tab?patientId=' + (patientId || null) + '&patientRecordTabId=' + (tab.id || null);
         let body = {
         }
+
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+    }
+
+    public getPatientCcmCptOptionAll(patientId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        // patient/ccm/cpt/option/all?userId=11&patientId=65
+        const getUrl = 'patient/ccm/cpt/option/all?patientId=' + (patientId || null) + "&userId=" + (userId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public addPatientCcmCptOption(cptOptions: CptOption[], patientId): Observable<any> {
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        // save/patient/ccm/cpt/option?userId=11&patientId=65
+        const getUrl = 'save/patient/ccm/cpt/option?userId=' + (userId || null) + "&patientId=" + (patientId || null);
+
+        let co = []
+
+        if (cptOptions && cptOptions.length > 0) {
+
+            cptOptions.forEach(element => {
+                let d = {
+                    Id: element.id || null,
+                };
+
+                co.push(d);
+
+            });
+
+        }
+
+        // let body = co;
+        let body = {
+            PatientCcmCptOption: co
+        };
 
         return this._http.post(getUrl, body, options)
             .map((res: Response) => res)

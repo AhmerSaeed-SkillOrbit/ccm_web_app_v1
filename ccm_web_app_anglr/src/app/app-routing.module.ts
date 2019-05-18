@@ -154,6 +154,14 @@ const routes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     // children: []
   },
+  {
+    path: 'report',
+    loadChildren: './report.management/report.management.module#ReportManagementModule',
+    // pathMatch: 'full',
+    // component: HomeComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    // children: []
+  },
   // {
   //   path: 'user',
   //   loadChildren: './user/user.module#UserModule',

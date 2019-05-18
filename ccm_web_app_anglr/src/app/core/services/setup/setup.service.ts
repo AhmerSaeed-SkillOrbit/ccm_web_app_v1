@@ -669,13 +669,13 @@ export class SetupService {
     public addTag(tag: Tag): Observable<any> {
         const getUrl = 'tag/add';
         const body =
-            {
-                Name: tag.name,
-                Code: tag.code,
-                Description: tag.description,
-                ToolTip: tag.toolTip,
-                // SortOrder: tag.sortOrder,
-            };
+        {
+            Name: tag.name,
+            Code: tag.code,
+            Description: tag.description,
+            ToolTip: tag.toolTip,
+            // SortOrder: tag.sortOrder,
+        };
 
         let token: Token;
         token = this._authService.getTokenData();
@@ -992,6 +992,46 @@ export class SetupService {
 
     public getHealthParamList(): Observable<any> {
         const getUrl = 'ccm/plan/health/param/all';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public getPatientTypeList(): Observable<any> {
+        const getUrl = 'patient/type/all';
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        return this._http.get(getUrl, options)
+            // .map(res => res.json())
+            .map((res: Response) => res)
+            .catch((error: any) =>
+            // Observable.throw(error.json() || 'Server error')
+            {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    public getCcmCptOptionList(): Observable<any> {
+        const getUrl = 'ccm/cpt/option/all';
 
         let token: Token;
         token = this._authService.getTokenData();
