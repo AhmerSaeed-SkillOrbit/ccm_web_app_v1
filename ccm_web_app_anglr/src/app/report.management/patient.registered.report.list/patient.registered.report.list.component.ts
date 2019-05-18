@@ -13,7 +13,7 @@ import { IAuthService } from '../../core/services/auth/iauth.service';
 import { UIService } from '../../core/services/ui/ui.service';
 import { MappingService } from '../../core/services/mapping/mapping.service';
 import { UtilityService } from '../../core/services/general/utility.service';
-import { CcmPlanService } from '../../core/services/ccm.plan/ccm.plan.service';
+import { ReportService } from '../../core/services/report/report.service';
 import { ForumService } from '../../core/services/forum/forum.service';
 import { SetupService } from '../../core/services/setup/setup.service';
 import { UserService } from '../../core/services/user/user.service';
@@ -51,13 +51,21 @@ export class PatientRegisteredReportListComponent implements OnInit {
     patientId: number = null;
     patient: User = new User();
 
+    doctorList: User[] = [];
+
     searchKeyword: string = null;
+    doctor: User = new User();
+    doctorId: number = null;
     startDate: string = null;
     endDate: string = null;
 
     status: string = null;
 
-    ccmPlanList: CcmPlan[] = [];
+    totalRegisteredPatients: number = null;
+    directlyRegisteredPatients: number = null;
+    invitedPatientsPatients: number = null;
+    reportList: User[] = [];
+    // ccmPlanList: CcmPlan[] = [];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -72,14 +80,8 @@ export class PatientRegisteredReportListComponent implements OnInit {
     // pageSizeOptions = [10];
     upperLimit = 0;
 
-    listPagePaitentPermission = false;
     listPagePermission = false;
     addPermission = false;
-    updatePermission = false;
-    summaryPermission = false;
-
-    reviewHistoryPermission = false;
-    takeReviewPermission = false;
 
     isSubmitted: boolean = false;
 
@@ -93,7 +95,7 @@ export class PatientRegisteredReportListComponent implements OnInit {
         private _userService: UserService,
         private _patientRecordService: PatientRecordService,
         private _setupService: SetupService,
-        private _ccmPlanService: CcmPlanService,
+        private _reportService: ReportService,
         private _mappingService: MappingService,
         private _utilityService: UtilityService,
         private datePipe: DatePipe,
@@ -123,31 +125,20 @@ export class PatientRegisteredReportListComponent implements OnInit {
             this.listPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'ccm_plan_list_page');
             // this.listPagePermission = true;
 
-            // this.llistPagePaitentPermission = this._utilityService.checkUserPermission(this.user, 'ccm_plan_list_page');
-            this.listPagePaitentPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'ccm_plan_list_page_patient');
-            // this.listPagePaitentPermission = true;
+            if (this.listPagePermission) {
 
-            if (this.listPagePermission || this.listPagePaitentPermission) {
                 // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
                 this.addPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'create_ccm_plan');
                 // this.addPermission = true;
-                // this.updatePermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.updatePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'update_ccm_plan');
-                // this.updatePermission = true;
-                // this.summaryPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.summaryPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'ccm_plan_summary_page');
-                // this.summaryPermission = true;
-
-                // this.reviewHistoryPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.reviewHistoryPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'ccm_plan_review_history');
-                // this.reviewHistoryPermission = true;
-                // this.takeReviewPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.takeReviewPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'take_ccm_plan_review');
-                // this.takeReviewPermission = true;
 
                 // this.loadUserById();
-                this.loadGeneralInfo();
-                this.loadCCMPlanList();
+                if (this.user.role.roleCode == "super_admin") {
+                    this.loadDoctorList();
+                }
+                if (this.user.role.roleCode == "doctor") {
+                    this.doctorId = this.user.id;
+                }
+                this.loadReportList();
 
             }
             else {
@@ -164,13 +155,15 @@ export class PatientRegisteredReportListComponent implements OnInit {
         // if(this.searchKeyword){
         this.pageIndex = 0;
         // this.pageChangeEvent();
-        this.loadCCMPlanList();
+        this.loadReportList();
         // }
 
     }
 
     reset() {
         this.searchKeyword = null;
+        this.doctorId = null;
+        this.doctor = new User();
         this.startDate = null;
         this.endDate = null;
 
@@ -179,6 +172,8 @@ export class PatientRegisteredReportListComponent implements OnInit {
 
     refreshList() {
         // if (this.userListPermission) {
+        this.pageIndex = 0;
+
         this.isSpinner = true;
         this.filter = "";
         this.searchKeyword = "";
@@ -188,7 +183,7 @@ export class PatientRegisteredReportListComponent implements OnInit {
         // this.trackStatus = null;
 
         // this.dataSource.filter = null;
-        this.loadCCMPlanList();
+        this.loadReportList();
         // }
     }
 
@@ -198,9 +193,23 @@ export class PatientRegisteredReportListComponent implements OnInit {
 
         this.pageIndex = event.pageIndex;
         this.pageSize = event.pageSize;
-        this.loadCCMPlanList();
+        this.loadReportList();
 
         return event;
+    }
+
+    onDoctorSelect() {
+        const doctor = this.doctorList.filter(d => d.id == +this.doctorId);
+
+        if (doctor.length === 0) {
+            this.doctorId = null;
+            this.doctor = null;
+            return;
+        }
+        this.doctorId = doctor[0].id;
+        this.doctor = doctor[0];
+
+        this.loadReportList();
     }
 
     dateChanged(event, type) {
@@ -220,7 +229,7 @@ export class PatientRegisteredReportListComponent implements OnInit {
 
         if (this.startDate && this.endDate) {
             this.pageIndex = 0;
-            this.loadCCMPlanList();
+            this.loadReportList();
         }
 
     }
@@ -247,63 +256,79 @@ export class PatientRegisteredReportListComponent implements OnInit {
         );
     }
 
-    loadGeneralInfo() {
-        this._uiService.showSpinner();
-
-        this._patientRecordService.getGeneralInfo(this.patientId).subscribe(
+    loadDoctorList() {
+        // this._uiService.showSpinner();
+        this._userService.getDoctorListAll().subscribe(
             (res) => {
-                this._uiService.hideSpinner();
+                // this._uiService.hideSpinner();
+                // console.log('get Patient Type', res.json().data);
 
-                const user = res.json().data;
-                // console.log('u Object', user);
-                // this.newUser = user;
-                this.patient = this._mappingService.mapUser(user);
-                console.log('patient general info', this.patient);
-                // this.userId = this.user.id;
+                let array = res.json().data || [];
+                // console.log('u Object', array);
+                // console.log('res list:', array);
+                var uList = [];
+                for (let i = 0; i < array.length; i++) {
+
+                    let u: User = new User()
+
+                    u = this._mappingService.mapUser(array[i]);
+                    uList.push(u);
+                }
+                this.doctorList = uList;
+
+                // console.log('doctorList', this.doctorList);
+
+
             },
             (err) => {
                 console.log(err);
-                this._uiService.hideSpinner();
-                this._authService.errStatusCheckResponse(err);
+                // this._uiService.hideSpinner();
+                // this._authService.errStatusCheckResponse(err);
             }
         );
-
     }
 
-    loadCCMPlanList() {
+    loadReportList() {
         const msg = new Message();
         this.length = 0;
-        this.ccmPlanList = [];
+        this.reportList = [];
         // this.dataSource = new MatTableDataSource<User>(this.userList);
-        if (this.listPagePermission || this.listPagePaitentPermission) {
+        if (this.listPagePermission) {
             this.isSpinner = true;
 
             // this._uiService.showSpinner();
 
-            this._ccmPlanService.getCcmPlanListCount(this.patientId, this.searchKeyword, this.startDate, this.endDate).subscribe(
+            this._reportService.getPatientRegisteredReportListCount(this.doctorId, this.startDate, this.endDate, this.searchKeyword).subscribe(
                 (res) => {
                     // this._uiService.hideSpinner();
                     this.length = res.json().data;
 
-                    this._ccmPlanService.getCcmPlanListPagination(this.patientId, this.pageIndex, this.pageSize, this.searchKeyword, this.startDate, this.endDate).subscribe(
+                    this._reportService.getPatientRegisteredReportListPagination(this.pageIndex, this.pageSize, this.doctorId, this.startDate, this.endDate, this.searchKeyword).subscribe(
                         (res) => {
                             // this.userList = res.json();
                             // this._uiService.hideSpinner();
-                            let array = res.json().data || [];
+
+                            this.totalRegisteredPatients = res.json().data ? res.json().data.TotalRegisteredPatients || 0 : 0;
+                            this.directlyRegisteredPatients = res.json().data ? res.json().data.DirectlyRegisteredPatients || 0 : 0;
+                            this.invitedPatientsPatients = res.json().data ? res.json().data.InvitedPatientsPatients || 0 : 0;
+
+                            // let array = res.json().data || [];
+                            let array = res.json().data ? res.json().data.PatientData || [] : [];
                             // console.log('res list:', array);
+
                             var uList = [];
                             for (let i = 0; i < array.length; i++) {
-                                let u = this._mappingService.mapCcmPlan(array[i]);
+                                let u = this._mappingService.mapUser(array[i]);
                                 uList.push(u);
                             }
-                            this.ccmPlanList = uList;
+                            this.reportList = uList;
 
                             // this.dataSource = new MatTableDataSource<User>(this.userList);
                             // this.dataSource.paginator = this.paginator;
                             // console.log('user list:', this.userList);
 
-                            if (this.ccmPlanList.length == 0) {
-                                msg.msg = 'No Plan Found';
+                            if (this.reportList.length == 0) {
+                                msg.msg = 'No Patient Found';
                                 msg.msgType = MessageTypes.Information;
                                 msg.autoCloseAfter = 400;
                                 this._uiService.showToast(msg, 'info');
@@ -398,6 +423,14 @@ export class PatientRegisteredReportListComponent implements OnInit {
 
     replaceText(text) {
         return this._utilityService.replaceConfigText(text);
+    }
+
+    GenerateCSV() {
+
+    }
+
+    GeneratePDF() {
+
     }
 
     nevigateTo(data, type) {

@@ -27,6 +27,8 @@ export class User extends BaseModel {
     mobileNumber: String;
     phoneNumber: String;
     profileSummary: String;
+    registered: String;
+    registeredOn: String;
 
     officeAddress: String;
     residentialAddress: String;

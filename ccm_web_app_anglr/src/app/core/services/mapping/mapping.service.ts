@@ -59,6 +59,8 @@ export class MappingService {
             // isUser.associationType = userData.AssociationType || null;
             isUser.blockReason = userData.BlockReason || null;
             isUser.profileSummary = userData.ProfileSummary || null;
+            isUser.registered = userData.Registered || null;
+            isUser.registeredOn = userData.RegisteredOn || null;
 
             isUser.patientType = this.mapPatientType(userData.PatientType);
             isUser.patientTypeId = userData.PatientType ? userData.PatientType.Id : null;

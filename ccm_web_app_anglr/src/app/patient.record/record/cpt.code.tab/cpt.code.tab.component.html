@@ -35,10 +35,19 @@
                         <mat-form-field class="full-width">
 
                             <mat-select placeholder="Cpt Code Option" formControlName="cptCode"
-                                [(ngModel)]="patientCptCodeOptionIds" (change)="onCptCodeSelect()"
-                                multiple>
+                                [(ngModel)]="patientCptCodeOptionIds" (change)="onCptCodeSelect()" multiple>
+                                <mat-select-trigger>
+                                    {{patientCptCodeOptions &&
+                                        patientCptCodeOptions.length > 0 ?
+                                        patientCptCodeOptions[0].name : ''}}
+                                    <span *ngIf="patientCptCodeOptions?.length > 1"
+                                        class="example-additional-selection">
+                                        (+{{patientCptCodeOptions.length - 1}} others)
+                                    </span>
+                                </mat-select-trigger>
                                 <!-- <mat-option>None</mat-option> -->
-                                <mat-option *ngFor="let cptCodeOption of cptCodeOptions " [value]="cptCodeOption.id">
+                                <mat-option *ngFor="let cptCodeOption of cptCodeOptions " [value]="cptCodeOption.id"
+                                    ng-value="patientCptCodeOptions" (change)="onCptCodeSelect()">
                                     {{ cptCodeOption.name }}
                                 </mat-option>
                             </mat-select>

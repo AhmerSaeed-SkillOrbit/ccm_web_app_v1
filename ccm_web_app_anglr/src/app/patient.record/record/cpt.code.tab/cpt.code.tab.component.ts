@@ -49,7 +49,8 @@ export class CptCodeTabComponent implements OnInit {
     addPatientRecordPagePermission = false;
 
     patient: User = new User();
-    patientCptCodeOptionIds: number[] = [];
+    // patientCptCodeOptionIds: number[] = [];
+    patientCptCodeOptionIds: string[] = [];
     patientCptCodeOptions: CptOption[] = [];
 
     cptCodeOptions: CptOption[] = [];
@@ -162,12 +163,25 @@ export class CptCodeTabComponent implements OnInit {
             (res) => {
                 this._uiService.hideSpinner();
 
-                const user = res.json().data;
-                // console.log('u Object', user);
-                // this.newUser = user;
-                // this.patient = this._mappingService.mapUser(user);
-                // console.log('patient general info', this.patient);
-                // this.userId = this.user.id;
+                let array = res.json().data || [];
+                // console.log('u Object', array);
+                // console.log('res list:', array);
+                var coIdList = [];
+                var coList = [];
+                for (let i = 0; i < array.length; i++) {
+
+                    let co: CptOption = new CptOption();
+                    let coId: string = null;
+
+                    co = this._mappingService.mapCptOption(array[i]);
+                    coId = this._mappingService.mapCptOption(array[i]).id.toString();
+                    coList.push(co);
+                    coIdList.push(coId);
+                }
+                this.patientCptCodeOptions = coList;
+                this.patientCptCodeOptionIds = coIdList;
+
+                console.log('patientCptCodeOptionIds:', this.patientCptCodeOptionIds);
             },
             (err) => {
                 console.log(err);
@@ -182,15 +196,18 @@ export class CptCodeTabComponent implements OnInit {
 
         console.log("onCptCodeSelect");
 
-        const cptCodeOptions = this.cptCodeOptions.filter(co => co.id === +this.patientCptCodeOptionIds);
+        console.log("test", this.patientCptCodeOptionIds)
+        console.log("test", this.patientCptCodeOptions)
 
-        console.log("cptCodeOptions", cptCodeOptions);
-        if (cptCodeOptions.length === 0) {
-            // this.user.regionId = null;
-            // this.user.region = null;
-            return;
-        }
-        this.patientCptCodeOptions = cptCodeOptions;
+        let co = [];
+        this.patientCptCodeOptionIds.forEach(element => {
+            const cptCodeOption = this.cptCodeOptions.filter(c => c.id == +element);
+
+            if (cptCodeOption.length > 0) {
+                co.push(cptCodeOption[0]);
+            }
+        })
+        this.patientCptCodeOptions = co;
     }
 
     dateChanged(event, type) {
