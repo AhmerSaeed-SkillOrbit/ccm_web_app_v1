@@ -26,15 +26,15 @@ import { ViewAppointmentDialogeComponent } from '../../shared/appointment.dialog
 declare var libraryVar: any;
 
 @Component({
-    selector: 'patient-registered-report-list',
+    selector: 'patient-invitation-report-list',
     moduleId: module.id,
-    templateUrl: 'patient.registered.report.list.component.html',
+    templateUrl: 'patient.invitation.report.list.component.html',
     // styleUrls: ['../ccm.plan.component.css']
     providers: [
         DatePipe // this pipe is used to change date format
     ],
 })
-export class PatientRegisteredReportListComponent implements OnInit {
+export class PatientInvitationReportListComponent implements OnInit {
     files: any;
     // dashboard: Dashboard = new Dashboard();
     currentURL: string;
@@ -61,9 +61,11 @@ export class PatientRegisteredReportListComponent implements OnInit {
 
     status: string = null;
 
-    totalRegisteredPatients: number = null;
-    directlyRegisteredPatients: number = null;
-    invitedPatients: number = null;
+    totalInvitation: number = null;
+    totalInvitationPending: number = null;
+    totalInvitationAccepted: number = null;
+    totalInvitationRejected: number = null;
+    totalInvitationIgnored: number = null;
     reportList: User[] = [];
     // ccmPlanList: CcmPlan[] = [];
 
@@ -298,19 +300,21 @@ export class PatientRegisteredReportListComponent implements OnInit {
 
             // this._uiService.showSpinner();
 
-            this._reportService.getPatientRegisteredReportListCount(this.doctorId, this.startDate, this.endDate, this.searchKeyword).subscribe(
+            this._reportService.getPatientInvitationReportListCount(this.doctorId, this.startDate, this.endDate, this.searchKeyword).subscribe(
                 (res) => {
                     // this._uiService.hideSpinner();
                     this.length = res.json().data;
 
-                    this._reportService.getPatientRegisteredReportListPagination(this.pageIndex, this.pageSize, this.doctorId, this.startDate, this.endDate, this.searchKeyword).subscribe(
+                    this._reportService.getPatientInvitationReportListPagination(this.pageIndex, this.pageSize, this.doctorId, this.startDate, this.endDate, this.searchKeyword).subscribe(
                         (res) => {
                             // this.userList = res.json();
                             // this._uiService.hideSpinner();
 
-                            this.totalRegisteredPatients = res.json().data ? res.json().data.TotalRegisteredPatients || 0 : 0;
-                            this.directlyRegisteredPatients = res.json().data ? res.json().data.DirectlyRegisteredPatients || 0 : 0;
-                            this.invitedPatients = res.json().data ? res.json().data.InvitedPatients || 0 : 0;
+                            this.totalInvitation = res.json().data ? res.json().data.TotalPatientsInvitation || 0 : 0;
+                            this.totalInvitationPending = res.json().data ? res.json().data.AcceptedPatientsInvitation || 0 : 0;
+                            this.totalInvitationAccepted = res.json().data ? res.json().data.PendingPatientsInvitation || 0 : 0;
+                            this.totalInvitationRejected = res.json().data ? res.json().data.RejectedPatientsInvitation || 0 : 0;
+                            this.totalInvitationIgnored = res.json().data ? res.json().data.IgnoredPatientsInvitation || 0 : 0;
 
                             // let array = res.json().data || [];
                             let array = res.json().data ? res.json().data.PatientData || [] : [];

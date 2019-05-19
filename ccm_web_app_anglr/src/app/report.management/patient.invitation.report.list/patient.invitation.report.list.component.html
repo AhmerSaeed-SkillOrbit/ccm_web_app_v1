@@ -27,7 +27,7 @@
                     <div class="page-header-content">
                         <div class="page-title">
                             <h4><i class="icon-arrow-left52 position-left"></i>
-                                <span class="text-semibold">Patient Registered</span>
+                                <span class="text-semibold">Patient Invitation</span>
                                 <!-- - List -->
                             </h4>
                         </div>
@@ -179,32 +179,40 @@
                                             <div class="col-md-12">
                                                 <div class="row">
                                                     <div class="col-md-9">
-                                                        <label class="label-heading">Total Patient Registered</label>
+                                                        <label class="label-heading">Total Invitation </label>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        {{ totalRegisteredPatients || "0" }}
+                                                        {{ totalInvitation || "0" }}
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="row">
                                                     <div class="col-md-9">
-                                                        <label class="label-heading">Total Patient Registered
-                                                            (Direct)</label>
+                                                        <label class="label-heading">Total Invitation Pending</label>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        {{ directlyRegisteredPatients || "0" }}
+                                                        {{ totalInvitationPending || "0" }}
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="row">
                                                     <div class="col-md-9">
-                                                        <label class="label-heading">Total Patient Registered (Via
-                                                            Invites)</label>
+                                                        <label class="label-heading">Total Invitation Accepted</label>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        {{ invitedPatients || "0" }}
+                                                        {{ totalInvitationAccepted || "0" }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-9">
+                                                        <label class="label-heading">Total Invitation Rejected</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        {{ totalInvitationRejected || "0" }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -295,13 +303,13 @@
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
-                                                    aria-label="Registered As: activate to sort column ascending">
-                                                    Registered As
+                                                    aria-label="Invite Status: activate to sort column ascending">
+                                                    Invite Status
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
-                                                    aria-label="Registered On: activate to sort column ascending">
-                                                    Registered On
+                                                    aria-label="Invited On: activate to sort column ascending">
+                                                    Invited On
                                                 </th>
 
                                             </tr>
@@ -325,10 +333,10 @@
                                                     {{ patient?.dateOfBirth || "NA" }}
                                                 </td>
                                                 <td>
-                                                    {{ patient?.registered || "NA" }}
+                                                    {{ patient?.inviteStatus || "NA" }}
                                                 </td>
                                                 <td>
-                                                    {{ patient?.registeredOn || "NA" }}
+                                                    {{ patient?.invitedOn || "NA" }}
                                                 </td>
                                             </tr>
                                         </tbody>

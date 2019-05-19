@@ -8,11 +8,15 @@ import { MaterialModule } from "../material/material.module";
 import { SharedModule } from '../shared/shared.module';
 
 import { PatientRegisteredReportListComponent } from './patient.registered.report.list/patient.registered.report.list.component';
+import { PatientInvitationReportListComponent } from './patient.invitation.report.list/patient.invitation.report.list.component';
+import { PatientCptCodeReportListComponent } from './patient.cpt.code.list/patient.cpt.code.report.list.component';
 
 
 @NgModule({
     declarations: [
         PatientRegisteredReportListComponent,
+        PatientInvitationReportListComponent,
+        PatientCptCodeReportListComponent,
     ],
     imports: [
         CommonModule,
@@ -26,12 +30,12 @@ import { PatientRegisteredReportListComponent } from './patient.registered.repor
             },
             {
                 path: 'patient/invitation',
-                component: PatientRegisteredReportListComponent,
+                component: PatientInvitationReportListComponent,
                 pathMatch: 'full'
             },
             {
                 path: 'patient/cpt/code',
-                component: PatientRegisteredReportListComponent,
+                component: PatientCptCodeReportListComponent,
                 pathMatch: 'full'
             },
             {

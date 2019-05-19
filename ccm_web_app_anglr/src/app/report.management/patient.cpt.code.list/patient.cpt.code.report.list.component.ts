@@ -21,20 +21,21 @@ import { PatientRecordService } from '../../core/services/patient/patient.record
 
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmationDialog.component';
 import { ViewAppointmentDialogeComponent } from '../../shared/appointment.dialoge/view.appointment.dialoge.component';
+import { CptOption } from '../../core/models/cpt.option';
 
 
 declare var libraryVar: any;
 
 @Component({
-    selector: 'patient-registered-report-list',
+    selector: 'patient-cpt-code-report-list',
     moduleId: module.id,
-    templateUrl: 'patient.registered.report.list.component.html',
+    templateUrl: 'patient.cpt.code.report.list.component.html',
     // styleUrls: ['../ccm.plan.component.css']
     providers: [
         DatePipe // this pipe is used to change date format
     ],
 })
-export class PatientRegisteredReportListComponent implements OnInit {
+export class PatientCptCodeReportListComponent implements OnInit {
     files: any;
     // dashboard: Dashboard = new Dashboard();
     currentURL: string;
@@ -52,18 +53,18 @@ export class PatientRegisteredReportListComponent implements OnInit {
     patient: User = new User();
 
     doctorList: User[] = [];
+    cptOptionList: CptOption[] = [];
 
     searchKeyword: string = null;
     doctor: User = new User();
     doctorId: number = null;
+    cptOption: CptOption = new CptOption();
+    cptOptionId: number = null;
     startDate: string = null;
     endDate: string = null;
 
     status: string = null;
 
-    totalRegisteredPatients: number = null;
-    directlyRegisteredPatients: number = null;
-    invitedPatients: number = null;
     reportList: User[] = [];
     // ccmPlanList: CcmPlan[] = [];
 
@@ -138,6 +139,7 @@ export class PatientRegisteredReportListComponent implements OnInit {
                 if (this.user.role.roleCode == "doctor") {
                     this.doctorId = this.user.id;
                 }
+                this.loadCptOptionList();
                 this.loadReportList();
 
             }
@@ -164,6 +166,8 @@ export class PatientRegisteredReportListComponent implements OnInit {
         this.searchKeyword = null;
         this.doctorId = null;
         this.doctor = new User();
+        this.cptOptionId = null;
+        this.cptOption = new CptOption();
         this.startDate = null;
         this.endDate = null;
 
@@ -208,6 +212,20 @@ export class PatientRegisteredReportListComponent implements OnInit {
         }
         this.doctorId = doctor[0].id;
         this.doctor = doctor[0];
+
+        this.loadReportList();
+    }
+
+    onCptOptionSelect() {
+        const cptOption = this.cptOptionList.filter(co => co.id == +this.cptOptionId);
+
+        if (cptOption.length === 0) {
+            this.cptOptionId = null;
+            this.cptOption = new CptOption();
+            return;
+        }
+        this.cptOptionId = cptOption[0].id;
+        this.cptOption = cptOption[0];
 
         this.loadReportList();
     }
@@ -288,6 +306,38 @@ export class PatientRegisteredReportListComponent implements OnInit {
         );
     }
 
+    loadCptOptionList() {
+        // this._uiService.showSpinner();
+        this._setupService.getCcmCptOptionList().subscribe(
+            (res) => {
+                // this._uiService.hideSpinner();
+                // console.log('get Patient Type', res.json().data);
+
+                let array = res.json().data || [];
+                // console.log('u Object', array);
+                // console.log('res list:', array);
+                var coList = [];
+                for (let i = 0; i < array.length; i++) {
+
+                    let co: CptOption = new CptOption()
+
+                    co = this._mappingService.mapCptOption(array[i]);
+                    coList.push(co);
+                }
+                this.cptOptionList = coList;
+
+                // console.log('cptOptionList', this.cptOptionList);
+
+
+            },
+            (err) => {
+                console.log(err);
+                // this._uiService.hideSpinner();
+                // this._authService.errStatusCheckResponse(err);
+            }
+        );
+    }
+
     loadReportList() {
         const msg = new Message();
         this.length = 0;
@@ -298,19 +348,17 @@ export class PatientRegisteredReportListComponent implements OnInit {
 
             // this._uiService.showSpinner();
 
-            this._reportService.getPatientRegisteredReportListCount(this.doctorId, this.startDate, this.endDate, this.searchKeyword).subscribe(
+            this._reportService.getPatientCptReportListCount(this.doctorId, this.cptOptionId, this.startDate, this.endDate, this.searchKeyword).subscribe(
                 (res) => {
                     // this._uiService.hideSpinner();
                     this.length = res.json().data;
 
-                    this._reportService.getPatientRegisteredReportListPagination(this.pageIndex, this.pageSize, this.doctorId, this.startDate, this.endDate, this.searchKeyword).subscribe(
+                    this._reportService.getPatientCptReportListPagination(this.pageIndex, this.pageSize, this.doctorId, this.cptOptionId, this.startDate, this.endDate, this.searchKeyword).subscribe(
                         (res) => {
                             // this.userList = res.json();
                             // this._uiService.hideSpinner();
 
-                            this.totalRegisteredPatients = res.json().data ? res.json().data.TotalRegisteredPatients || 0 : 0;
-                            this.directlyRegisteredPatients = res.json().data ? res.json().data.DirectlyRegisteredPatients || 0 : 0;
-                            this.invitedPatients = res.json().data ? res.json().data.InvitedPatients || 0 : 0;
+                            // this.totalRegisteredPatients = res.json().data ? res.json().data.TotalRegisteredPatients || 0 : 0;
 
                             // let array = res.json().data || [];
                             let array = res.json().data ? res.json().data.PatientData || [] : [];

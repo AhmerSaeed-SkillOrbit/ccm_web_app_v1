@@ -27,7 +27,7 @@
                     <div class="page-header-content">
                         <div class="page-title">
                             <h4><i class="icon-arrow-left52 position-left"></i>
-                                <span class="text-semibold">Patient Registered</span>
+                                <span class="text-semibold">Patient Cpt Code</span>
                                 <!-- - List -->
                             </h4>
                         </div>
@@ -122,6 +122,22 @@
                                                 <div class="col-md-3">
                                                     <mat-form-field class="full-width">
                                                         <!-- <mat-label>Start Date</mat-label> -->
+                                                        <!-- <input matInput placeholder="Select CPT Code" [(ngModel)]="cptOptionId"> -->
+                                                        <mat-select placeholder="Select CPT Code"
+                                                            [(ngModel)]="cptOptionId" (change)="onCptOptionSelect()">
+                                                            <mat-option>None</mat-option>
+                                                            <mat-option *ngFor="let cptOption of cptOptionList"
+                                                                [value]="cptOption.id">
+                                                                {{ cptOption?.name || "NA" }}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+
+                                                <!-- <div id="DataTables_Table_0_filter" class="dataTables_filter"> -->
+                                                <div class="col-md-3">
+                                                    <mat-form-field class="full-width">
+                                                        <!-- <mat-label>Start Date</mat-label> -->
                                                         <input matInput [matDatepickerFilter]="dateFilter"
                                                             [matDatepicker]="picker" placeholder="Start Date"
                                                             [(ngModel)]="startDate"
@@ -174,7 +190,7 @@
                                         </label>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="row">
+                                        <div class="row" *ngIf="false">
 
                                             <div class="col-md-12">
                                                 <div class="row">
@@ -183,28 +199,6 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         {{ totalRegisteredPatients || "0" }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="row">
-                                                    <div class="col-md-9">
-                                                        <label class="label-heading">Total Patient Registered
-                                                            (Direct)</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        {{ directlyRegisteredPatients || "0" }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="row">
-                                                    <div class="col-md-9">
-                                                        <label class="label-heading">Total Patient Registered (Via
-                                                            Invites)</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        {{ invitedPatients || "0" }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -295,11 +289,6 @@
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
-                                                    aria-label="Registered As: activate to sort column ascending">
-                                                    Registered As
-                                                </th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1"
                                                     aria-label="Registered On: activate to sort column ascending">
                                                     Registered On
                                                 </th>
@@ -323,9 +312,6 @@
                                                 </td>
                                                 <td>
                                                     {{ patient?.dateOfBirth || "NA" }}
-                                                </td>
-                                                <td>
-                                                    {{ patient?.registered || "NA" }}
                                                 </td>
                                                 <td>
                                                     {{ patient?.registeredOn || "NA" }}

@@ -29,6 +29,8 @@ export class User extends BaseModel {
     profileSummary: String;
     registered: String;
     registeredOn: String;
+    inviteStatus: String;
+    invitedOn: String;
 
     officeAddress: String;
     residentialAddress: String;
