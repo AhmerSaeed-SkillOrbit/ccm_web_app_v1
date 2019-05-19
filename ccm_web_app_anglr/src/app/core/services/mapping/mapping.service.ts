@@ -62,7 +62,8 @@ export class MappingService {
             isUser.registered = userData.Registered || null;
             isUser.registeredOn = userData.RegisteredOn || null;
 
-            isUser.inviteStatus = userData.InviteStatus || null;
+            // isUser.inviteStatus = userData.InviteStatus || null;
+            isUser.inviteStatus = userData.Status || null;
             isUser.invitedOn = userData.InvitedOn || null;
 
             isUser.patientType = this.mapPatientType(userData.PatientType);

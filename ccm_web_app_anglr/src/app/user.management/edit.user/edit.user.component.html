@@ -121,8 +121,8 @@
                                 <!-- Last Name -->
                                 <div class="col-md-4">
                                     <div class="form-group has-feedback has-feedback-left">
-                                        <input type="text" class="form-control" placeholder="Last Name" formControlName="lastName"
-                                            [(ngModel)]="newUser.lastName">
+                                        <input type="text" class="form-control" placeholder="Last Name"
+                                            formControlName="lastName" [(ngModel)]="newUser.lastName">
                                         <div class="form-control-feedback">
                                             <i class="icon-user text-muted"></i>
                                         </div>
@@ -145,8 +145,8 @@
                                     <div class="form-field">
 
                                         <mat-form-field class="full-width">
-                                            <mat-select [(ngModel)]="newUser.countryPhoneCode" formControlName="phoneCode"
-                                                placeholder="Select Country Phone Code" required>
+                                            <mat-select [(ngModel)]="newUser.countryPhoneCode"
+                                                formControlName="phoneCode" placeholder="Select Country Phone Code">
                                                 <mat-option>None</mat-option>
                                                 <mat-option value="+1">+1</mat-option>
                                                 <mat-option value="+92">+92</mat-option>
@@ -182,6 +182,17 @@
                                     </div>
                                 </div>
 
+                                <!-- Functional Title -->
+                                <div class="col-md-4" *ngIf="newUser.role.roleCode !== 'patient'">
+                                    <div class="form-group has-feedback has-feedback-left">
+                                        <input type="text" class="form-control" placeholder="Functional Title"
+                                            formControlName="functionalTitle" [(ngModel)]="newUser.functionalTitle">
+                                        <div class="form-control-feedback">
+                                            <i class="icon-user text-muted"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <!-- Office Address -->
                                 <div class="col-md-4">
                                     <div class="form-group has-feedback has-feedback-left">
@@ -197,7 +208,8 @@
                                 <div class="col-md-4">
                                     <div class="form-group has-feedback has-feedback-left">
                                         <input type="text" class="form-control" placeholder="Residential Address"
-                                            formControlName="residentialAddress" [(ngModel)]="newUser.residentialAddress">
+                                            formControlName="residentialAddress"
+                                            [(ngModel)]="newUser.residentialAddress">
                                         <div class="form-control-feedback">
                                             <i class="icon-user text-muted"></i>
                                         </div>
