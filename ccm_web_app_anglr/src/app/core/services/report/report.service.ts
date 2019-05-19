@@ -109,7 +109,7 @@ export class ReportService {
     }
 
     // Patient CPT Report Count
-    getPatientCptReportListCount(doctorId, CptOptionId, startDate, endDate, searchKeyword) {
+    getPatientCptReportListCount(doctorId, cptOptionId, startDate, endDate, searchKeyword) {
 
         let token: Token;
         token = this._authService.getTokenData();
@@ -120,10 +120,24 @@ export class ReportService {
         let userId = token.userId;
 
         let getUrl = "patient/ccm/cpt/report/count?userId=" + (userId || null) + "&searchKeyword=" + (searchKeyword || null) +
-            "&doctorId=" + (doctorId || null) + "&CptOptionId=" + (CptOptionId || null) +
-            "&startDate=" + (startDate || null) + "&endDate=" + (endDate || null);
+            "&doctorId=" + (doctorId || null) + "&cptOptionId=" + (cptOptionId || null) +
+            "&startDate=" + (startDate || null) + "&endDate=" + (endDate || null) +
+            "&CcmCptOptionCode=[]";
 
-        return this._http.get(getUrl, options)
+        let co = [];
+        if (cptOptionId) {
+            co.push({
+                Id: cptOptionId
+            });
+        }
+
+        let body = {
+            // CcmCptOptionCode: []
+            CcmCptOptionCode: co
+        }
+
+        // return this._http.get(getUrl, options)
+        return this._http.post(getUrl, body, options)
             .map((res: Response) => res)
             .catch((err, caught) => {
                 return Observable.throw(err);
@@ -132,7 +146,7 @@ export class ReportService {
     }
 
     // Patient CPT List Pagination
-    getPatientCptReportListPagination(pageNo, limit, doctorId, CptOptionId, startDate, endDate, searchKeyword?) {
+    getPatientCptReportListPagination(pageNo, limit, doctorId, cptOptionId, startDate, endDate, searchKeyword?) {
 
         let token: Token;
         token = this._authService.getTokenData();
@@ -143,10 +157,98 @@ export class ReportService {
         let userId = token.userId;
 
         let getUrl = "patient/ccm/cpt/report?userId=" + (userId || null) + "&pageNo=" + (pageNo || 0) + "&limit=" + (limit || 5) +
-            "&searchKeyword=" + (searchKeyword || null) + "&doctorId=" + (doctorId || null) + "&CptOptionId=" + (CptOptionId || null) +
-            "&startDate=" + (startDate || null) + "&endDate=" + (endDate || null);
+            "&searchKeyword=" + (searchKeyword || null) + "&doctorId=" + (doctorId || null) + "&cptOptionId=" + (cptOptionId || null) +
+            "&startDate=" + (startDate || null) + "&endDate=" + (endDate || null) +
+            "&CcmCptOptionCode=[]";
 
-        return this._http.get(getUrl, options)
+        let co = [];
+        if (cptOptionId) {
+            co.push({
+                Id: cptOptionId
+            });
+        }
+
+        let body = {
+            // CcmCptOptionCode: []
+            CcmCptOptionCode: co
+        }
+
+        // return this._http.get(getUrl, options)
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+
+    }
+
+    // Patient Type Report Count
+    getPatientTypeReportListCount(doctorId, patientTypeId, startDate, endDate, searchKeyword) {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        let getUrl = "patient/type/report/count?userId=" + (userId || null) + "&searchKeyword=" + (searchKeyword || null) +
+            "&doctorId=" + (doctorId || null) + "&patientTypeId=" + (patientTypeId || null) +
+            "&startDate=" + (startDate || null) + "&endDate=" + (endDate || null) +
+            "&CcmCptOptionCode=[]";
+
+        let pt = [];
+        if (patientTypeId) {
+            pt.push({
+                Id: patientTypeId
+            });
+        }
+
+        let body = {
+            // PatientType: []
+            PatientType: pt
+        }
+
+        // return this._http.get(getUrl, options)
+        return this._http.post(getUrl, body, options)
+            .map((res: Response) => res)
+            .catch((err, caught) => {
+                return Observable.throw(err);
+            });
+
+    }
+
+    // Patient Type List Pagination
+    getPatientTypeReportListPagination(pageNo, limit, doctorId, patientTypeId, startDate, endDate, searchKeyword?) {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+
+        let getUrl = "patient/type/report?userId=" + (userId || null) + "&pageNo=" + (pageNo || 0) + "&limit=" + (limit || 5) +
+            "&searchKeyword=" + (searchKeyword || null) + "&doctorId=" + (doctorId || null) + "&patientTypeId=" + (patientTypeId || null) +
+            "&startDate=" + (startDate || null) + "&endDate=" + (endDate || null) +
+            "&PatientTypeIds=[]";
+
+        let pt = [];
+        if (patientTypeId) {
+            pt.push({
+                Id: patientTypeId
+            });
+        }
+
+        let body = {
+            // PatientType: []
+            PatientType: pt
+        }
+
+        // return this._http.get(getUrl, options)
+        return this._http.post(getUrl, body, options)
             .map((res: Response) => res)
             .catch((err, caught) => {
                 return Observable.throw(err);

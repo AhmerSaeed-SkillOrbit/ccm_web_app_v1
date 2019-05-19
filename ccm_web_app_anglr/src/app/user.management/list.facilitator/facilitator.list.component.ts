@@ -147,12 +147,12 @@ export class FacilitatorListComponent implements OnInit {
                 this.invitePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'invite_facilitator');
                 // this.invitePermission = true;
 
-                // this.updatePermission = this._utilityService.checkUserPermission(this.user, 'view_facilitator_profile');
-                this.updatePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_facilitator_profile');
+                // this.updatePermission = this._utilityService.checkUserPermission(this.user, 'update_facilitator');
+                this.updatePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'update_facilitator');
                 // this.updatePermission = true;
 
-                // this.viewProfilePermission = this._utilityService.checkUserPermission(this.user, 'update_facilitator');
-                this.viewProfilePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'update_facilitator');
+                // this.viewProfilePermission = this._utilityService.checkUserPermission(this.user, 'view_facilitator_profile');
+                this.viewProfilePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_facilitator_profile');
                 // this.viewProfilePermission = true;
 
                 // this.deletePermission = this._utilityService.checkUserPermission(this.user, 'delete_facilitator');

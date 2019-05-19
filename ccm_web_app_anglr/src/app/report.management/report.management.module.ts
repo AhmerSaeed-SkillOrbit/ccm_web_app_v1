@@ -10,6 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { PatientRegisteredReportListComponent } from './patient.registered.report.list/patient.registered.report.list.component';
 import { PatientInvitationReportListComponent } from './patient.invitation.report.list/patient.invitation.report.list.component';
 import { PatientCptCodeReportListComponent } from './patient.cpt.code.list/patient.cpt.code.report.list.component';
+import { PatientTypeReportListComponent } from './patient.type.list/patient.type.report.list.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { PatientCptCodeReportListComponent } from './patient.cpt.code.list/patie
         PatientRegisteredReportListComponent,
         PatientInvitationReportListComponent,
         PatientCptCodeReportListComponent,
+        PatientTypeReportListComponent,
     ],
     imports: [
         CommonModule,
@@ -40,7 +42,7 @@ import { PatientCptCodeReportListComponent } from './patient.cpt.code.list/patie
             },
             {
                 path: 'patient/type',
-                component: PatientRegisteredReportListComponent,
+                component: PatientTypeReportListComponent,
                 pathMatch: 'full'
             },
 
