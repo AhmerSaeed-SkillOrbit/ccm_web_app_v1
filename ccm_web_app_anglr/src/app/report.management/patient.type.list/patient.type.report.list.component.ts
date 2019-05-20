@@ -8,6 +8,7 @@ import { Message, MessageTypes } from '../../core/models/message';
 import { User } from '../../core/models/user';
 import { CcmPlan, CcmPlanItem, CcmPlanItemGoal } from '../../core/models/user.ccm.plan';
 import { Permission } from '../../core/models/permission';
+import { PatientType } from '../../core/models/patient.type';
 
 import { IAuthService } from '../../core/services/auth/iauth.service';
 import { UIService } from '../../core/services/ui/ui.service';
@@ -18,10 +19,9 @@ import { ForumService } from '../../core/services/forum/forum.service';
 import { SetupService } from '../../core/services/setup/setup.service';
 import { UserService } from '../../core/services/user/user.service';
 import { PatientRecordService } from '../../core/services/patient/patient.record.service';
+import { ExcelService } from '../../core/services/general/excel.service';
 
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmationDialog.component';
-import { ViewAppointmentDialogeComponent } from '../../shared/appointment.dialoge/view.appointment.dialoge.component';
-import { PatientType } from '../../core/models/patient.type';
 
 
 declare var libraryVar: any;
@@ -66,7 +66,7 @@ export class PatientTypeReportListComponent implements OnInit {
     status: string = null;
 
     reportList: User[] = [];
-    // ccmPlanList: CcmPlan[] = [];
+    reportListAll: User[] = [];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -86,6 +86,8 @@ export class PatientTypeReportListComponent implements OnInit {
 
     isSubmitted: boolean = false;
 
+    exportData: any = [];
+
     private _sub: Subscription;
 
     constructor(
@@ -99,6 +101,7 @@ export class PatientTypeReportListComponent implements OnInit {
         private _reportService: ReportService,
         private _mappingService: MappingService,
         private _utilityService: UtilityService,
+        private _excelService: ExcelService,
         private datePipe: DatePipe,
         private route: ActivatedRoute, private _router: Router
     ) {
@@ -385,24 +388,95 @@ export class PatientTypeReportListComponent implements OnInit {
                         },
                         (err) => {
                             console.log(err);
+                            this.isSpinner = false;
                             // this._uiService.hideSpinner();
                             // this.dataSource = new MatTableDataSource<User>(this.userList);
                             this._authService.errStatusCheck(err);
-                            this.isSpinner = false;
                         }
                     );
-
                 },
                 (err) => {
                     console.log(err);
-                    this._uiService.hideSpinner();
-                    this._authService.errStatusCheckResponse(err);
                     this.isSpinner = false;
+                    // this._uiService.hideSpinner();
+                    this._authService.errStatusCheckResponse(err);
                 }
             );
         }
         else {
             this.isSpinner = false;
+            // this._uiService.hideSpinner();
+            let msg = this._utilityService.permissionMsg();
+            this._uiService.showToast(msg, '');
+        }
+    }
+
+    loadReportListAll(type) {
+        const msg = new Message();
+        this.reportListAll = [];
+        // this.dataSource = new MatTableDataSource<User>(this.userList);
+        if (this.listPagePermission) {
+            this._uiService.showSpinner();
+
+            this._reportService.getPatientTypeReportListCount(this.doctorId, this.patientTypeId, this.startDate, this.endDate, this.searchKeyword).subscribe(
+                (res) => {
+                    // this._uiService.hideSpinner();
+                    let length = res.json().data || 0;
+
+                    this._reportService.getPatientTypeReportListPagination(0, length, this.doctorId, this.patientTypeId, this.startDate, this.endDate, this.searchKeyword).subscribe(
+                        (res) => {
+                            // this.userList = res.json();
+                            // this._uiService.hideSpinner();
+
+
+                            // let array = res.json().data || [];
+                            let array = res.json().data ? res.json().data.PatientData || [] : [];
+                            // console.log('res list:', array);
+
+                            var uList = [];
+                            for (let i = 0; i < array.length; i++) {
+                                let u = this._mappingService.mapUser(array[i]);
+                                uList.push(u);
+                            }
+                            this.reportListAll = uList;
+
+                            // this.dataSource = new MatTableDataSource<User>(this.userList);
+                            // this.dataSource.paginator = this.paginator;
+                            // console.log('user list:', this.userList);
+
+                            if (this.reportListAll.length == 0) {
+                                this._uiService.hideSpinner();
+                                msg.msg = 'No Patient Found To Export';
+                                msg.msgType = MessageTypes.Information;
+                                msg.autoCloseAfter = 400;
+                                this._uiService.showToast(msg, 'info');
+                            }
+                            else {
+                                if (type == "csv") {
+                                    this.exportMapData();
+                                }
+                                else {
+
+                                }
+                            }
+                        },
+                        (err) => {
+                            console.log(err);
+                            this._uiService.hideSpinner();
+                            // this.dataSource = new MatTableDataSource<User>(this.userList);
+                            this._authService.errStatusCheck(err);
+                        }
+                    );
+                },
+                (err) => {
+                    console.log(err);
+                    this._uiService.hideSpinner();
+                    this._authService.errStatusCheckResponse(err);
+                }
+            );
+        }
+        else {
+            this._uiService.hideSpinner();
             let msg = this._utilityService.permissionMsg();
             this._uiService.showToast(msg, '');
         }
@@ -478,6 +552,40 @@ export class PatientTypeReportListComponent implements OnInit {
     }
 
     GeneratePDF() {
+
+    }
+
+    exportAsXLSX(): void {
+        this.exportData = [];
+        this.loadReportListAll("csv");
+
+        // this._excelService.exportAsExcelFile(this.exportData, 'sample');
+    }
+
+    exportMapData() {
+
+        this.exportData = [{}];
+
+
+        this.reportListAll.forEach((element, index) => {
+            let data = {
+                "S.No": (index + 1) || null,
+                "System Id": element.id || null,
+                "Patient Unique Id": element.patientUniqueId || null,
+                "First Name": element.firstName || null,
+                "Last Name": element.lastName || null,
+                "DOB": element.dateOfBirth || null,
+                "Patient Type": element.patientType.name || null,
+                // "Registered As": element.registered || null,
+                "Registered On": element.registeredOn || null,
+            }
+
+            this.exportData.push(data);
+
+        });
+
+        this._excelService.exportAsExcelFile(this.exportData, "Patient Type Report");
+        this._uiService.hideSpinner();
 
     }
 

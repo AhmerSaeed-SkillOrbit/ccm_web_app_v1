@@ -21,11 +21,13 @@ import { PatientRecordService } from '../../core/services/patient/patient.record
 import { ExcelService } from '../../core/services/general/excel.service';
 
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmationDialog.component';
-import { ViewAppointmentDialogeComponent } from '../../shared/appointment.dialoge/view.appointment.dialoge.component';
-
 
 
 declare var libraryVar: any;
+
+// import jsPDF from 'jspdf';
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
     selector: 'patient-registered-report-list',
@@ -66,9 +68,9 @@ export class PatientRegisteredReportListComponent implements OnInit {
     totalRegisteredPatients: number = null;
     directlyRegisteredPatients: number = null;
     invitedPatients: number = null;
+
     reportList: User[] = [];
     reportListAll: User[] = [];
-    // ccmPlanList: CcmPlan[] = [];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -343,30 +345,30 @@ export class PatientRegisteredReportListComponent implements OnInit {
                         },
                         (err) => {
                             console.log(err);
+                            this.isSpinner = false;
                             // this._uiService.hideSpinner();
                             // this.dataSource = new MatTableDataSource<User>(this.userList);
                             this._authService.errStatusCheck(err);
-                            this.isSpinner = false;
                         }
                     );
-
                 },
                 (err) => {
                     console.log(err);
-                    this._uiService.hideSpinner();
-                    this._authService.errStatusCheckResponse(err);
                     this.isSpinner = false;
+                    // this._uiService.hideSpinner();
+                    this._authService.errStatusCheckResponse(err);
                 }
             );
         }
         else {
             this.isSpinner = false;
+            // this._uiService.hideSpinner();
             let msg = this._utilityService.permissionMsg();
             this._uiService.showToast(msg, '');
         }
     }
 
-    loadReportListAll() {
+    loadReportListAll(type) {
         const msg = new Message();
         this.reportListAll = [];
         // this.dataSource = new MatTableDataSource<User>(this.userList);
@@ -407,16 +409,19 @@ export class PatientRegisteredReportListComponent implements OnInit {
                                 this._uiService.showToast(msg, 'info');
                             }
                             else {
-                                this.exportMapData();
+                                if (type == "csv") {
+                                    this.exportMapData();
+                                }
+                                else {
+                                    this.generatePDF();
+                                }
                             }
-                            // this.isSpinner = false;
                         },
                         (err) => {
                             console.log(err);
                             this._uiService.hideSpinner();
                             // this.dataSource = new MatTableDataSource<User>(this.userList);
                             this._authService.errStatusCheck(err);
-                            this.isSpinner = false;
                         }
                     );
 
@@ -425,7 +430,6 @@ export class PatientRegisteredReportListComponent implements OnInit {
                     console.log(err);
                     this._uiService.hideSpinner();
                     this._authService.errStatusCheckResponse(err);
-                    this.isSpinner = false;
                 }
             );
         }
@@ -501,17 +505,72 @@ export class PatientRegisteredReportListComponent implements OnInit {
         return this._utilityService.replaceConfigText(text);
     }
 
-    GenerateCSV() {
+    generateCSV() {
 
     }
 
-    GeneratePDF() {
+    generatePDF_test() {
+        const doc = new jsPDF();
+        // doc.autoTable({html: '#my-table'});
 
+        // theme: 'striped'|'grid'|'plain'|'css' = 'striped'
+        doc.autoTable({
+            // columnStyles: { europe: { halign: 'center' } }, // European countries centered
+            theme: 'striped',
+            body: [{ europe: 'Sweden', america: 'Canada', asia: 'China' }, { europe: 'Norway', america: 'Mexico', asia: 'Japan' }],
+            columns: [{ header: 'Europe', dataKey: 'europe' }, { header: 'Asia', dataKey: 'asia' }]
+        })
+
+        doc.save('table.pdf');
+    }
+
+    generatePDF() {
+
+        this.exportData = [{}];
+
+
+        this.reportListAll.forEach((element, index) => {
+            let data = {
+                "S.No": (index + 1) || null,
+                "System Id": element.id || null,
+                "Patient Unique Id": element.patientUniqueId || null,
+                "First Name": element.firstName || null,
+                "Last Name": element.lastName || null,
+                "DOB": element.dateOfBirth || null,
+                "Registered As": element.registered || null,
+                "Registered On": element.registeredOn || null,
+            }
+
+            this.exportData.push(data);
+
+        });
+
+        const doc = new jsPDF();
+        doc.autoTable({
+            theme: 'striped',
+            body: this.exportData,
+            columns: [
+                { header: 'S.No', dataKey: 'S.No' }, { header: 'System Id', dataKey: 'System Id' },
+                { header: 'Patient Unique Id', dataKey: 'Patient Unique Id' }, { header: 'First Name', dataKey: 'First Name' },
+                { header: 'Last Name', dataKey: 'Last Name' }, { header: 'DOB', dataKey: 'DOB' },
+                { header: 'Registered As', dataKey: 'Registered As' }, { header: 'Registered On', dataKey: 'Registered On' }
+            ]
+        })
+
+        doc.save('Patient Registered Report.pdf');
+        this._uiService.hideSpinner();
     }
 
     exportAsXLSX(): void {
         this.exportData = [];
-        this.loadReportListAll();
+        this.loadReportListAll("csv");
+
+        // this._excelService.exportAsExcelFile(this.exportData, 'sample');
+    }
+
+    exportAsPDF(): void {
+        this.exportData = [];
+        this.loadReportListAll("pdf");
 
         // this._excelService.exportAsExcelFile(this.exportData, 'sample');
     }
@@ -523,8 +582,14 @@ export class PatientRegisteredReportListComponent implements OnInit {
 
         this.reportListAll.forEach((element, index) => {
             let data = {
+                "S.No": (index + 1) || null,
+                "System Id": element.id || null,
+                "Patient Unique Id": element.patientUniqueId || null,
                 "First Name": element.firstName || null,
                 "Last Name": element.lastName || null,
+                "DOB": element.dateOfBirth || null,
+                "Registered As": element.registered || null,
+                "Registered On": element.registeredOn || null,
             }
 
             this.exportData.push(data);

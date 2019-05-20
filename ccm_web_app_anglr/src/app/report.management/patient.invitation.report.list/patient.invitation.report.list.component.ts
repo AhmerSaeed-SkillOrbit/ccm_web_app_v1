@@ -18,12 +18,16 @@ import { ForumService } from '../../core/services/forum/forum.service';
 import { SetupService } from '../../core/services/setup/setup.service';
 import { UserService } from '../../core/services/user/user.service';
 import { PatientRecordService } from '../../core/services/patient/patient.record.service';
+import { ExcelService } from '../../core/services/general/excel.service';
 
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmationDialog.component';
-import { ViewAppointmentDialogeComponent } from '../../shared/appointment.dialoge/view.appointment.dialoge.component';
 
 
 declare var libraryVar: any;
+
+// import jsPDF from 'jspdf';
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
     selector: 'patient-invitation-report-list',
@@ -66,8 +70,9 @@ export class PatientInvitationReportListComponent implements OnInit {
     totalInvitationAccepted: number = null;
     totalInvitationRejected: number = null;
     totalInvitationIgnored: number = null;
+
     reportList: User[] = [];
-    // ccmPlanList: CcmPlan[] = [];
+    reportListAll: User[] = [];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -87,6 +92,8 @@ export class PatientInvitationReportListComponent implements OnInit {
 
     isSubmitted: boolean = false;
 
+    exportData: any = [];
+
     private _sub: Subscription;
 
     constructor(
@@ -100,6 +107,7 @@ export class PatientInvitationReportListComponent implements OnInit {
         private _reportService: ReportService,
         private _mappingService: MappingService,
         private _utilityService: UtilityService,
+        private _excelService: ExcelService,
         private datePipe: DatePipe,
         private route: ActivatedRoute, private _router: Router
     ) {
@@ -341,24 +349,95 @@ export class PatientInvitationReportListComponent implements OnInit {
                         },
                         (err) => {
                             console.log(err);
+                            this.isSpinner = false;
                             // this._uiService.hideSpinner();
                             // this.dataSource = new MatTableDataSource<User>(this.userList);
                             this._authService.errStatusCheck(err);
-                            this.isSpinner = false;
                         }
                     );
-
                 },
                 (err) => {
                     console.log(err);
-                    this._uiService.hideSpinner();
-                    this._authService.errStatusCheckResponse(err);
                     this.isSpinner = false;
+                    // this._uiService.hideSpinner();
+                    this._authService.errStatusCheckResponse(err);
                 }
             );
         }
         else {
             this.isSpinner = false;
+            // this._uiService.hideSpinner();
+            let msg = this._utilityService.permissionMsg();
+            this._uiService.showToast(msg, '');
+        }
+    }
+
+    loadReportListAll(type) {
+        const msg = new Message();
+        this.reportListAll = [];
+        // this.dataSource = new MatTableDataSource<User>(this.userList);
+        if (this.listPagePermission) {
+            this._uiService.showSpinner();
+
+            this._reportService.getPatientInvitationReportListCount(this.doctorId, this.startDate, this.endDate, this.searchKeyword).subscribe(
+                (res) => {
+                    // this._uiService.hideSpinner();
+                    let length = res.json().data || 0;
+
+                    this._reportService.getPatientInvitationReportListPagination(0, length, this.doctorId, this.startDate, this.endDate, this.searchKeyword).subscribe(
+                        (res) => {
+                            // this.userList = res.json();
+                            // this._uiService.hideSpinner();
+
+
+                            // let array = res.json().data || [];
+                            let array = res.json().data ? res.json().data.PatientData || [] : [];
+                            // console.log('res list:', array);
+
+                            var uList = [];
+                            for (let i = 0; i < array.length; i++) {
+                                let u = this._mappingService.mapUser(array[i]);
+                                uList.push(u);
+                            }
+                            this.reportListAll = uList;
+
+                            // this.dataSource = new MatTableDataSource<User>(this.userList);
+                            // this.dataSource.paginator = this.paginator;
+                            // console.log('user list:', this.userList);
+
+                            if (this.reportListAll.length == 0) {
+                                this._uiService.hideSpinner();
+                                msg.msg = 'No Patient Found To Export';
+                                msg.msgType = MessageTypes.Information;
+                                msg.autoCloseAfter = 400;
+                                this._uiService.showToast(msg, 'info');
+                            }
+                            else {
+                                if (type == "csv") {
+                                    this.exportMapData();
+                                }
+                                else {
+                                    this.generatePDF();
+                                }
+                            }
+                        },
+                        (err) => {
+                            console.log(err);
+                            this._uiService.hideSpinner();
+                            // this.dataSource = new MatTableDataSource<User>(this.userList);
+                            this._authService.errStatusCheck(err);
+                        }
+                    );
+                },
+                (err) => {
+                    console.log(err);
+                    this._uiService.hideSpinner();
+                    this._authService.errStatusCheckResponse(err);
+                }
+            );
+        }
+        else {
+            this._uiService.hideSpinner();
             let msg = this._utilityService.permissionMsg();
             this._uiService.showToast(msg, '');
         }
@@ -429,11 +508,100 @@ export class PatientInvitationReportListComponent implements OnInit {
         return this._utilityService.replaceConfigText(text);
     }
 
-    GenerateCSV() {
+    generateCSV() {
 
     }
 
-    GeneratePDF() {
+    generatePDF_test() {
+        const doc = new jsPDF();
+        // doc.autoTable({html: '#my-table'});
+
+        // theme: 'striped'|'grid'|'plain'|'css' = 'striped'
+        doc.autoTable({
+            // columnStyles: { europe: { halign: 'center' } }, // European countries centered
+            theme: 'striped',
+            body: [{ europe: 'Sweden', america: 'Canada', asia: 'China' }, { europe: 'Norway', america: 'Mexico', asia: 'Japan' }],
+            columns: [{ header: 'Europe', dataKey: 'europe' }, { header: 'Asia', dataKey: 'asia' }]
+        })
+
+        doc.save('table.pdf');
+    }
+
+    generatePDF() {
+
+        this.exportData = [{}];
+
+
+        this.reportListAll.forEach((element, index) => {
+            let data = {
+                "S.No": (index + 1) || null,
+                "System Id": element.id || null,
+                "Patient Unique Id": element.patientUniqueId || null,
+                "First Name": element.firstName || null,
+                "Last Name": element.lastName || null,
+                "DOB": element.dateOfBirth || null,
+                // "Registered As": element.registered || null,
+                "Registered On": element.registeredOn || null,
+            }
+
+            this.exportData.push(data);
+
+        });
+
+        const doc = new jsPDF();
+        doc.autoTable({
+            theme: 'striped',
+            body: this.exportData,
+            columns: [
+                { header: 'S.No', dataKey: 'S.No' }, { header: 'System Id', dataKey: 'System Id' },
+                { header: 'Patient Unique Id', dataKey: 'Patient Unique Id' }, { header: 'First Name', dataKey: 'First Name' },
+                { header: 'Last Name', dataKey: 'Last Name' }, { header: 'DOB', dataKey: 'DOB' },
+                // { header: 'Registered As', dataKey: 'Registered As' },
+                { header: 'Registered On', dataKey: 'Registered On' }
+            ]
+        })
+
+        doc.save('Patient Invitation Report.pdf');
+        this._uiService.hideSpinner();
+    }
+
+    exportAsXLSX(): void {
+        this.exportData = [];
+        this.loadReportListAll("csv");
+
+        // this._excelService.exportAsExcelFile(this.exportData, 'sample');
+    }
+
+    exportAsPDF(): void {
+        this.exportData = [];
+        this.loadReportListAll("pdf");
+
+        // this._excelService.exportAsExcelFile(this.exportData, 'sample');
+    }
+
+    exportMapData() {
+
+        this.exportData = [{}];
+
+
+        this.reportListAll.forEach((element, index) => {
+            let data = {
+                "S.No": (index + 1) || null,
+                "System Id": element.id || null,
+                "Patient Unique Id": element.patientUniqueId || null,
+                "First Name": element.firstName || null,
+                "Last Name": element.lastName || null,
+                "DOB": element.dateOfBirth || null,
+                // "Registered As": element.registered || null,
+                "Registered On": element.registeredOn || null,
+            }
+
+            this.exportData.push(data);
+
+        });
+
+        this._excelService.exportAsExcelFile(this.exportData, "Patient Invitation Report");
+        this._uiService.hideSpinner();
 
     }
 
