@@ -59,6 +59,8 @@ export class GeneralInfoTabComponent implements OnInit {
     generalInfoFormGroup: FormGroup;
     isSubmitted: boolean = false;
 
+    currentDate = new Date();
+
     constructor(
         @Inject('IAuthService') private _authService: IAuthService,
         private _uiService: UIService,

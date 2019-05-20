@@ -25,9 +25,11 @@ import { TicketService } from "./services/ticket/ticket.service";
 import { CcmPlanService } from "./services/ccm.plan/ccm.plan.service";
 import { ReportService } from "./services/report/report.service";
 import { MappingService } from "./services/mapping/mapping.service";
+import { ExcelService } from './services/general/excel.service';
 
 import { UserService } from './services/user/user.service'
 import { LoginGuard } from './services/guard/login.guard';
+
 
 @NgModule({
     imports: [HttpModule],
@@ -49,6 +51,7 @@ import { LoginGuard } from './services/guard/login.guard';
         CcmPlanService,
         ReportService,
         MappingService,
+        ExcelService,
         UserService, FormService,
         LoginGuard
     ],

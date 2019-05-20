@@ -182,7 +182,8 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
     loadPublishTab() {
         this._uiService.showSpinner();
 
-        this._userService.getPublishTab().subscribe(
+        // this._userService.getPublishTab().subscribe(
+        this._userService.getPublishTab(this.patientId).subscribe(
             (res) => {
                 this._uiService.hideSpinner();
 

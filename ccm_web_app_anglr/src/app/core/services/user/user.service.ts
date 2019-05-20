@@ -568,7 +568,8 @@ export class UserService {
     }
 
     // --------- get Publish Tab
-    public getPublishTab(): Observable<any> {
+    // public getPublishTab(): Observable<any> {
+    public getPublishTab(patientId): Observable<any> {
 
         let token: Token;
         token = this._authService.getTokenData();
@@ -578,7 +579,7 @@ export class UserService {
 
         let userId = token.userId;
         // user/list/search?p=0&c=2&s=null&r=null
-        const getUrl = 'patient/record/tab/published?patientId=' + (userId || null);
+        const getUrl = 'patient/record/tab/published?patientId=' + (patientId || userId || null);
         return this._http.get(getUrl, options)
             .map((res: Response) => res)
             .catch((error: any) => {

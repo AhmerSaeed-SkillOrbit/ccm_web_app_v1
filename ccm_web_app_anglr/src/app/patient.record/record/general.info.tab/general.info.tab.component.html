@@ -13,10 +13,8 @@
 
             <div class="row" *ngIf="addPatientRecordPagePermission">
                 <div class="col-sm-12 text-right">
-                    <button *ngIf="tab.isPublish" mat-raised-button color="primary"
-                        (click)="publishUnPublishTab('unPublish')">UnPublish</button>
-                    <button *ngIf="!tab.isPublish" type="button" mat-raised-button color="primary"
-                        (click)="publishUnPublishTab('publish')">Publish</button>
+                    <button *ngIf="tab.isPublish" mat-raised-button color="primary" (click)="publishUnPublishTab('unPublish')">UnPublish</button>
+                    <button *ngIf="!tab.isPublish" type="button" mat-raised-button color="primary" (click)="publishUnPublishTab('publish')">Publish</button>
 
                     <!-- <hr> -->
                     <hr class="line-dash">
@@ -32,32 +30,28 @@
                     <!-- Unique Patient ID -->
                     <div class="col-md-3">
                         <mat-form-field class="full-width">
-                            <input matInput placeholder="Patient Unique ID" formControlName="patientUniqueId"
-                                [(ngModel)]="patient.patientUniqueId">
+                            <input matInput placeholder="Patient Unique ID" formControlName="patientUniqueId" [(ngModel)]="patient.patientUniqueId">
                         </mat-form-field>
                     </div>
 
                     <!-- First Name -->
                     <div class="col-md-3">
                         <mat-form-field class="full-width">
-                            <input matInput placeholder="First Name" formControlName="firstName"
-                                [(ngModel)]="patient.firstName">
+                            <input matInput placeholder="First Name" formControlName="firstName" [(ngModel)]="patient.firstName">
                         </mat-form-field>
                     </div>
 
                     <!-- Middle Name -->
                     <div class="col-md-3">
                         <mat-form-field class="full-width">
-                            <input matInput placeholder="Middle Name" formControlName="middleName"
-                                [(ngModel)]="patient.middleName">
+                            <input matInput placeholder="Middle Name" formControlName="middleName" [(ngModel)]="patient.middleName">
                         </mat-form-field>
                     </div>
 
                     <!-- Last Name -->
                     <div class="col-md-3">
                         <mat-form-field class="full-width">
-                            <input matInput placeholder="Last Name" formControlName="lastName"
-                                [(ngModel)]="patient.lastName">
+                            <input matInput placeholder="Last Name" formControlName="lastName" [(ngModel)]="patient.lastName">
                         </mat-form-field>
                     </div>
 
@@ -66,8 +60,7 @@
                         <mat-form-field class="full-width">
                             <!-- <input matInput placeholder="Gender" [(ngModel)]="patient.gender"> -->
 
-                            <mat-select placeholder="Gender" formControlName="gender" [(ngModel)]="patient.gender"
-                                required>
+                            <mat-select placeholder="Gender" formControlName="gender" [(ngModel)]="patient.gender" required>
                                 <mat-option>None</mat-option>
                                 <mat-option *ngFor="let gender of genders " [value]="gender.code">
                                     {{ gender.name }}
@@ -87,9 +80,9 @@
                     <!-- [min]="currentDate" -->
                     <div class="col-md-3">
                         <mat-form-field class="full-width">
-                            <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker"
-                                placeholder="Date of Birth (DOB)" formControlName="dateOfBirth"
-                                [(ngModel)]="patient.dateOfBirth" (dateChange)="dateChanged($event, 'dob')" readonly>
+                            <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" [max]="currentDate" placeholder="Date of Birth (DOB)"
+                                formControlName="dateOfBirth" [(ngModel)]="patient.dateOfBirth" (dateChange)="dateChanged($event, 'dob')"
+                                readonly>
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
@@ -105,22 +98,19 @@
                     <!-- Email Address -->
                     <div class="col-md-3">
                         <mat-form-field class="full-width">
-                            <input matInput placeholder="Email Address" formControlName="email"
-                                [(ngModel)]="patient.email">
+                            <input matInput placeholder="Email Address" formControlName="email" [(ngModel)]="patient.email">
                         </mat-form-field>
                     </div>
 
                     <!-- Primary Telephone Number  -->
                     <div class="col-md-3" *ngIf="false">
                         <mat-form-field class="full-width">
-                            <input matInput placeholder="Primary Telephone Number" formControlName="telephoneNumber"
-                                [(ngModel)]="patient.primaryTelephoneNumber">
+                            <input matInput placeholder="Primary Telephone Number" formControlName="telephoneNumber" [(ngModel)]="patient.primaryTelephoneNumber">
                         </mat-form-field>
                     </div>
                     <div class="col-md-3">
                         <mat-form-field class="full-width">
-                            <input matInput type="number" placeholder="Primary Telephone Number"
-                                formControlName="telephoneNumber" [(ngModel)]="patient.phoneNumber">
+                            <input matInput type="number" placeholder="Primary Telephone Number" formControlName="telephoneNumber" [(ngModel)]="patient.phoneNumber">
                         </mat-form-field>
                     </div>
 
@@ -128,8 +118,7 @@
                     <div class="col-md-3">
                         <mat-form-field class="full-width">
 
-                            <mat-select placeholder="Patient Type" formControlName="patientType"
-                                [(ngModel)]="patient.patientTypeId">
+                            <mat-select placeholder="Patient Type" formControlName="patientType" [(ngModel)]="patient.patientTypeId">
                                 <mat-option>None</mat-option>
                                 <mat-option *ngFor="let patientType of patientTypes " [value]="patientType.id">
                                     {{ patientType.name }}
@@ -145,8 +134,7 @@
 
                     <div class="col-md-12">
                         <mat-form-field class="full-width">
-                            <textarea matInput placeholder="Summary" formControlName="summary"
-                                [(ngModel)]="patient.profileSummary" maxlength="500" matTextareaAutosize
+                            <textarea matInput placeholder="Summary" formControlName="summary" [(ngModel)]="patient.profileSummary" maxlength="500" matTextareaAutosize
                                 matAutosizeMinRows="2" matAutosizeMaxRows="4" trim></textarea>
                         </mat-form-field>
                     </div>
