@@ -247,20 +247,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
         // <-- /Report Management Permissions -->
 
         // this.report1Permission = this._utilityService.checkUserPermission(this.user, 'patient_registered_report');
-        this.report1Permission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'patient_registered_report');
-        // this.report1Permission = true;
+        // this.report1Permission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'patient_registered_report');
+        this.report1Permission = true;
 
         // this.report2Permission = this._utilityService.checkUserPermission(this.user, 'patient_invitation_report');
-        this.report2Permission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'patient_invitation_report');
-        // this.report2Permission = true;
+        // this.report2Permission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'patient_invitation_report');
+        this.report2Permission = true;
 
         // this.report3Permission = this._utilityService.checkUserPermission(this.user, 'patient_cpt_report');
-        this.report3Permission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'patient_cpt_report');
-        // this.report3Permission = true;
+        // this.report3Permission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'patient_cpt_report');
+        this.report3Permission = true;
 
         // this.report4Permission = this._utilityService.checkUserPermission(this.user, 'patient_type_report');
-        this.report4Permission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'patient_type_report');
-        // this.report4Permission = true;
+        // this.report4Permission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'patient_type_report');
+        this.report4Permission = true;
 
     }
 
