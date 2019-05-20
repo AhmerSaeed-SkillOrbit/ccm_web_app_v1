@@ -26,6 +26,10 @@ import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmationDi
 
 declare var libraryVar: any;
 
+// import jsPDF from 'jspdf';
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
+
 @Component({
     selector: 'patient-type-report-list',
     moduleId: module.id,
@@ -456,7 +460,7 @@ export class PatientTypeReportListComponent implements OnInit {
                                     this.exportMapData();
                                 }
                                 else {
-
+                                    this.generatePDF();
                                 }
                             }
                         },
@@ -547,17 +551,75 @@ export class PatientTypeReportListComponent implements OnInit {
         return this._utilityService.replaceConfigText(text);
     }
 
-    GenerateCSV() {
+    generateCSV() {
 
     }
 
-    GeneratePDF() {
+    generatePDF_test() {
+        const doc = new jsPDF();
+        // doc.autoTable({html: '#my-table'});
 
+        // theme: 'striped'|'grid'|'plain'|'css' = 'striped'
+        doc.autoTable({
+            // columnStyles: { europe: { halign: 'center' } }, // European countries centered
+            theme: 'striped',
+            body: [{ europe: 'Sweden', america: 'Canada', asia: 'China' }, { europe: 'Norway', america: 'Mexico', asia: 'Japan' }],
+            columns: [{ header: 'Europe', dataKey: 'europe' }, { header: 'Asia', dataKey: 'asia' }]
+        })
+
+        doc.save('table.pdf');
+    }
+
+    generatePDF() {
+
+        this.exportData = [{}];
+
+
+        this.reportListAll.forEach((element, index) => {
+            let data = {
+                "S.No": (index + 1) || null,
+                "System Id": element.id || null,
+                "Patient Unique Id": element.patientUniqueId || null,
+                "First Name": element.firstName || null,
+                "Last Name": element.lastName || null,
+                "DOB": element.dateOfBirth || null,
+                "Patient Type": element.patientType.name || null,
+                // "Registered As": element.registered || null,
+                "Registered On": element.registeredOn || null,
+            }
+
+            this.exportData.push(data);
+
+        });
+
+        const doc = new jsPDF();
+        doc.autoTable({
+            theme: 'striped',
+            body: this.exportData,
+            columns: [
+                { header: 'S.No', dataKey: 'S.No' }, { header: 'System Id', dataKey: 'System Id' },
+                { header: 'Patient Unique Id', dataKey: 'Patient Unique Id' }, { header: 'First Name', dataKey: 'First Name' },
+                { header: 'Last Name', dataKey: 'Last Name' }, { header: 'DOB', dataKey: 'DOB' },
+                { header: 'Patient Type', dataKey: 'Patient Type' },
+                // { header: 'Registered As', dataKey: 'Registered As' },
+                { header: 'Registered On', dataKey: 'Registered On' }
+            ]
+        })
+
+        doc.save('Patient Type Report.pdf');
+        this._uiService.hideSpinner();
     }
 
     exportAsXLSX(): void {
         this.exportData = [];
         this.loadReportListAll("csv");
+
+        // this._excelService.exportAsExcelFile(this.exportData, 'sample');
+    }
+
+    exportAsPDF(): void {
+        this.exportData = [];
+        this.loadReportListAll("pdf");
 
         // this._excelService.exportAsExcelFile(this.exportData, 'sample');
     }
