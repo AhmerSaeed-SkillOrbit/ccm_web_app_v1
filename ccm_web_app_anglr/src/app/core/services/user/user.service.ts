@@ -272,7 +272,7 @@ export class UserService {
         let body = {
 
             // Id: user.id,
-            // PatientUniqueId: user.patientUniqueId || null,
+            PatientUniqueId: user.patientUniqueId || null,
             FirstName: user.firstName || null,
             LastName: user.lastName || null,
             // EmailAddress: user.email || null,

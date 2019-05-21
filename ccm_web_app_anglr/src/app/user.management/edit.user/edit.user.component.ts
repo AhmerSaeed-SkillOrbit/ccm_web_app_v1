@@ -63,6 +63,7 @@ export class EditUserComponent implements OnInit {
 
         this.formRegister = fb.group({
 
+            'patientUniqueId': [this.newUser.patientUniqueId, Validators.compose([])],
             'firstName': [this.newUser.firstName, Validators.compose([Validators.required])],
             'lastName': [this.newUser.lastName, Validators.compose([Validators.required])],
             'email': [this.newUser.email, Validators.compose([])],

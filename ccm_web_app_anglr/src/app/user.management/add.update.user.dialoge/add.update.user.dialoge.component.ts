@@ -26,6 +26,7 @@ import { Config } from '../../config/config';
 @Component({
     selector: 'add-update-user-dialoge',
     templateUrl: 'add.update.user.dialog.component.html',
+    styleUrls: ['add.update.user.dialoge.component.css']
 })
 
 export class AddUpdateUserDialogeComponent {
@@ -85,6 +86,7 @@ export class AddUpdateUserDialogeComponent {
 
         this.formRegister = fb.group({
 
+            'patientUniqueId': [this.newUser.patientUniqueId, Validators.compose([])],
             'firstName': [this.newUser.firstName, Validators.compose([Validators.required])],
             'lastName': [this.newUser.lastName, Validators.compose([Validators.required])],
             'email': [this.newUser.email, Validators.compose([Validators.required, Validators.email])],
