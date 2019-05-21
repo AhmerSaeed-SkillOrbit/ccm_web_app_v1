@@ -555,6 +555,7 @@ export class PatientRegisteredReportListComponent implements OnInit {
         });
 
         const doc = new jsPDF();
+        doc.text("Patient Registered Report", 35, 25);
         doc.autoTable({
             theme: 'striped',
             body: this.exportData,
@@ -565,6 +566,35 @@ export class PatientRegisteredReportListComponent implements OnInit {
                 { header: 'Registered As', dataKey: 'Registered As' }, { header: 'Registered On', dataKey: 'Registered On' }
             ]
         })
+
+        // var headerText = "Patient Registered Report";
+        // var totalPagesExp = "{total_pages_count_string}";
+        // var leftMargin = 40;
+
+        // doc.autoTable({
+        //     theme: 'striped',
+        //     // styles: { overflow: 'linebreak', columnWidth: 'wrap' },
+        //     margin: {top: 40},
+        //     body: this.exportData,
+        //     columns: [
+        //         { header: 'S.No', dataKey: 'S.No' }, { header: 'System Id', dataKey: 'System Id' },
+        //         { header: 'Patient Unique Id', dataKey: 'Patient Unique Id' }, { header: 'First Name', dataKey: 'First Name' },
+        //         { header: 'Last Name', dataKey: 'Last Name' }, { header: 'DOB', dataKey: 'DOB' },
+        //         { header: 'Registered As', dataKey: 'Registered As' }, { header: 'Registered On', dataKey: 'Registered On' }
+        //     ],
+        //     addPageContent: function (data) {
+        //         doc.text(headerText, leftMargin, 30);
+        //         var str = "Page " + data.pageCount;
+        //         // Total page number plugin only available in jspdf v1.0+
+
+        //         // if (typeof doc.putTotalPages === 'function') {
+        //         //     str = str + " of " + totalPagesExp;
+        //         // }
+
+        //         // str = str + ". Generated on " + Date();
+        //         doc.text(str, leftMargin, doc.internal.pageSize.height - 10);
+        //     }
+        // })
 
         doc.save('Patient Registered Report.pdf');
         this._uiService.hideSpinner();
