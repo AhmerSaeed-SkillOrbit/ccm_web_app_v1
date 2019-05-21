@@ -129,14 +129,14 @@ export class PatientRegisteredReportListComponent implements OnInit {
             // this._router.navigateByUrl('login');
         } else {
 
-            // this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'ccm_plan_list_page');
-            this.listPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'ccm_plan_list_page');
+            // this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'view_report_patient_registered');
+            this.listPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_report_patient_registered');
             // this.listPagePermission = true;
 
             if (this.listPagePermission) {
 
                 // this.addPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.addPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'create_ccm_plan');
+                this.addPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'add_patient');
                 // this.addPermission = true;
 
                 // this.loadUserById();

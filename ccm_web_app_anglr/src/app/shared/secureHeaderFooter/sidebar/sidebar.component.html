@@ -347,7 +347,7 @@
         </li>
 
         <li
-          *ngIf="(report1Permission || report2Permission || report3Permission || report4Permission)">
+          *ngIf="(reportPRPermission || reportPIPermission || reportPCCPermission || reportPTPermission)">
           <a (click)="expandRow(9)">
             <i class="icon-stats-dots"></i>
             <span>Reports</span>
@@ -357,25 +357,25 @@
           </a>
           <ul class="sub" [ngClass]="(9 === expandedIndex) ? 'show' : ''">
             <span *ngIf="9 === expandedIndex">
-              <li *ngIf="report1Permission">
+              <li *ngIf="reportPRPermission">
                 <a [routerLink]="['/report/patient/registered']">
                   <i class="icon-stats-dots"></i>
                   <span>Patient Registered</span>
                 </a>
               </li>
-              <li *ngIf="report2Permission">
+              <li *ngIf="reportPIPermission">
                 <a [routerLink]="['/report/patient/invitation']">
                   <i class="icon-stats-dots"></i>
                   <span>Patient Invitation</span>
                 </a>
               </li>
-              <li *ngIf="report3Permission">
+              <li *ngIf="reportPCCPermission">
                 <a [routerLink]="['/report/patient/cpt/code']">
                   <i class="icon-stats-dots"></i>
                   <span>Patient CPT code</span>
                 </a>
               </li>
-              <li *ngIf="report4Permission">
+              <li *ngIf="reportPTPermission">
                 <a [routerLink]="['/report/patient/type']">
                   <i class="icon-stats-dots"></i>
                   <span>Patient Type</span>

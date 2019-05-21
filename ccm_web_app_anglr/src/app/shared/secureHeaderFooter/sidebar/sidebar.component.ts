@@ -79,10 +79,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     fileUploadListPagePermission = false;
 
-    report1Permission = false;
-    report2Permission = false;
-    report3Permission = false;
-    report4Permission = false;
+    reportPRPermission = false;
+    reportPIPermission = false;
+    reportPCCPermission = false;
+    reportPTPermission = false;
 
     selectedFile: File = null;
 
@@ -246,21 +246,21 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
         // <-- /Report Management Permissions -->
 
-        // this.report1Permission = this._utilityService.checkUserPermission(this.user, 'patient_registered_report');
-        // this.report1Permission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'patient_registered_report');
-        this.report1Permission = true;
+        // this.reportPRPermission = this._utilityService.checkUserPermission(this.user, 'view_report_patient_registered');
+        this.reportPRPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_report_patient_registered');
+        // this.reportPRPermission = true;
 
-        // this.report2Permission = this._utilityService.checkUserPermission(this.user, 'patient_invitation_report');
-        // this.report2Permission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'patient_invitation_report');
-        this.report2Permission = true;
+        // this.reportPIPermission = this._utilityService.checkUserPermission(this.user, 'view_report_patient_invitation');
+        this.reportPIPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_report_patient_invitation');
+        // this.reportPIPermission = true;
 
-        // this.report3Permission = this._utilityService.checkUserPermission(this.user, 'patient_cpt_report');
-        // this.report3Permission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'patient_cpt_report');
-        this.report3Permission = true;
+        // this.reportPCCPermission = this._utilityService.checkUserPermission(this.user, 'view_report_ccm_cpt_code');
+        this.reportPCCPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_report_ccm_cpt_code');
+        // this.reportPCCPermission = true;
 
-        // this.report4Permission = this._utilityService.checkUserPermission(this.user, 'patient_type_report');
-        // this.report4Permission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'patient_type_report');
-        this.report4Permission = true;
+        // this.reportPTPermission = this._utilityService.checkUserPermission(this.user, 'view_report_patient_type');
+        this.reportPTPermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_report_patient_type');
+        // this.reportPTPermission = true;
 
     }
 
