@@ -35,19 +35,19 @@ export class ResetPasswordComponent {
 
     passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\w~@#$%^&*+=`|{}:;!.?\"()\[\]-]{8,20}$/
 
-    // passwordMatcher = (control: AbstractControl): { [key: string]: boolean } => {
-    //     const password = control.get('password');
-    //     const confirmPassword = control.get('confirmPassword');
-    //     if (!password || !confirmPassword) return null;
-    //     return password.value === confirmPassword.value ? null : { nomatch: true };
-    //     // if (password != confirmPassword) {
-    //     //     console.log('false');
-    //     //     control.get('confirmPassword').setErrors({ MatchPassword: true })
-    //     // } else {
-    //     //     console.log('true');
-    //     //     return null
-    //     // }
-    // };
+    passwordMatcher = (control: AbstractControl): { [key: string]: boolean } => {
+        const password = control.get('password');
+        const confirmPassword = control.get('confirmPassword');
+        if (!password || !confirmPassword) return null;
+        return password.value === confirmPassword.value ? null : { nomatch: true };
+        // if (password != confirmPassword) {
+        //     console.log('false');
+        //     control.get('confirmPassword').setErrors({ MatchPassword: true })
+        // } else {
+        //     console.log('true');
+        //     return null
+        // }
+    };
 
     MatchPassword(AC: AbstractControl) {
         let password = AC.get('password').value; // to get value in input tag
@@ -64,13 +64,15 @@ export class ResetPasswordComponent {
         }
     }
 
-    constructor(@Inject('IAuthService') private _authService: IAuthService, private _router: Router, private activatedRoute: ActivatedRoute,
+    constructor( @Inject('IAuthService') private _authService: IAuthService, private _router: Router, private activatedRoute: ActivatedRoute,
         private _uiService: UIService, private fb: FormBuilder
     ) {
         this.form = fb.group({
-            'password': [this.user.password, Validators.compose([Validators.required, Validators.maxLength(20), Validators.pattern(this.passwordPattern)])],
+            // 'password': [this.user.password, Validators.compose([Validators.required, Validators.maxLength(20), Validators.pattern(this.passwordPattern)])],
+            'password': [this.user.password, Validators.compose([Validators.required])],
             // 'confirmPassword': [this.user.confirmPassword, Validators.compose([Validators.required, this.passwordMatcher])],
-            'confirmPassword': [this.user.confirmPassword, Validators.compose([Validators.required])],
+            // 'confirmPassword': [this.user.confirmPassword, Validators.compose([Validators.required])],
+            'confirmPassword': [this.user.confirmPassword, Validators.compose([Validators.required, this.passwordMatcher])],
         }
             , {
                 validator: this.MatchPassword // your validation method

@@ -177,6 +177,11 @@ export class PatientInvitationReportListComponent implements OnInit {
         this.startDate = null;
         this.endDate = null;
 
+
+        if (this.user.role.roleCode == "doctor") {
+            this.doctorId = this.user.id;
+        }
+
         this.refreshList();
     }
 
@@ -302,6 +307,13 @@ export class PatientInvitationReportListComponent implements OnInit {
         const msg = new Message();
         this.length = 0;
         this.reportList = [];
+
+        this.totalInvitation = 0;
+        this.totalInvitationPending = 0;
+        this.totalInvitationAccepted = 0;
+        this.totalInvitationRejected = 0;
+        this.totalInvitationIgnored = 0;
+
         // this.dataSource = new MatTableDataSource<User>(this.userList);
         if (this.listPagePermission) {
             this.isSpinner = true;

@@ -175,6 +175,10 @@ export class PatientRegisteredReportListComponent implements OnInit {
         this.startDate = null;
         this.endDate = null;
 
+        if (this.user.role.roleCode == "doctor") {
+            this.doctorId = this.user.id;
+        }
+
         this.refreshList();
     }
 
@@ -300,6 +304,11 @@ export class PatientRegisteredReportListComponent implements OnInit {
         const msg = new Message();
         this.length = 0;
         this.reportList = [];
+
+        this.totalRegisteredPatients = 0;
+        this.directlyRegisteredPatients = 0;
+        this.invitedPatients = 0;
+
         // this.dataSource = new MatTableDataSource<User>(this.userList);
         if (this.listPagePermission) {
             this.isSpinner = true;

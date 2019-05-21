@@ -178,6 +178,10 @@ export class PatientTypeReportListComponent implements OnInit {
         this.startDate = null;
         this.endDate = null;
 
+        if (this.user.role.roleCode == "doctor") {
+            this.doctorId = this.user.id;
+        }
+
         this.refreshList();
     }
 
