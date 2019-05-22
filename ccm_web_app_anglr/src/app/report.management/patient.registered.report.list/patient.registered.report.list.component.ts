@@ -604,8 +604,8 @@ export class PatientRegisteredReportListComponent implements OnInit {
         //     }
         // })
 
-        // doc.save('Patient Registered Report.pdf');
-        doc.output("dataurlnewwindow");
+        doc.save('Patient Registered Report.pdf');
+        // doc.output("dataurlnewwindow");
         this._uiService.hideSpinner();
     }
 
