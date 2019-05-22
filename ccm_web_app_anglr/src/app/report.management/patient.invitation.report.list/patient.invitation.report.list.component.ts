@@ -561,6 +561,15 @@ export class PatientInvitationReportListComponent implements OnInit {
         });
 
         const doc = new jsPDF();
+        // doc.text("Patient Invitation Report", 35, 25);
+        doc.autoTable({
+            // columnStyles: { 0: { halign: 'center' } },
+            theme: 'striped',
+            body: [],
+            columns: [
+                { header: 'Patient Invitation Report', dataKey: 'Patient Invitation Report' },
+            ]
+        })
         doc.autoTable({
             theme: 'striped',
             body: this.exportData,

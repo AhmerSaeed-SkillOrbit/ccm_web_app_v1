@@ -596,6 +596,15 @@ export class PatientCptCodeReportListComponent implements OnInit {
         });
 
         const doc = new jsPDF();
+        // doc.text("Patient CPT Code Report", 35, 25);
+        doc.autoTable({
+            // columnStyles: { 0: { halign: 'center' } },
+            theme: 'striped',
+            body: [],
+            columns: [
+                { header: 'Patient CPT Code Report', dataKey: 'Patient CPT Code Report' },
+            ]
+        })
         doc.autoTable({
             theme: 'striped',
             body: this.exportData,

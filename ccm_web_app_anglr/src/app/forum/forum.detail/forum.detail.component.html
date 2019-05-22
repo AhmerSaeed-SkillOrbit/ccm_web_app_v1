@@ -45,7 +45,7 @@
                     <div class="breadcrumb-line">
                         <ul class="breadcrumb">
                             <li><a href="index.html"><i class="icon-home2 position-left"></i> Home</a></li>
-                            <li class="active">Dashboard</li>
+                            <li class="active">Forum</li>
                         </ul>
 
                         <!-- <ul class="breadcrumb-elements">
@@ -133,8 +133,7 @@
 
                                         <mat-card-actions class="forum-action">
                                             <!-- <button mat-button>LIKE</button> -->
-                                            <button mat-button matTooltipPosition="above" matTooltip="View Comments"
-                                                (click)="loadComment()">
+                                            <button mat-button matTooltipPosition="above" matTooltip="View Comments" (click)="loadComment()">
                                                 {{ newsFeed?.commentCount }} Comments
                                             </button>
                                         </mat-card-actions>
@@ -151,16 +150,14 @@
                                                     <!-- <div class="other-comment-box clearfix" *ngFor="let data of newsFeed.commentsDetail.list; let $index1=index;"> -->
 
 
-                                                    <img class="comment-box-thumb-self" src="assets/images/placeholder.jpg"
-                                                        alt="profile-pic">
+                                                    <img class="comment-box-thumb-self" src="assets/images/placeholder.jpg" alt="profile-pic">
                                                     <!-- <img class="comment-box-thumb-self" src="{{data?.commentBy?.profilePic?.data?.thumbnails?.small?.url}}"
                                                         alt="profile-pic"> -->
                                                     <div class="comment" *ngIf="!data?.isEdit">
                                                         <a class="comment-name">
                                                             {{ data?.createdBy?.firstName || "Unknown" }}
                                                             <span class="sub-heading">{{ data?.role?.roleName }}</span>
-                                                        </a>
-                                                        {{data?.comment}}
+                                                        </a> {{data?.comment}}
                                                         <div class="time-loc">
                                                             <!-- <a>{{data?.commentDate}}</a> -->
                                                             <a>{{data?.createdOn}}</a>
@@ -168,17 +165,14 @@
                                                         </div>
                                                         <div class="comment-action">
                                                             <!-- <span>Edit</span> -->
-                                                            <span class="edit pointer" *ngIf="((user.id == data?.createdBy?.id))"
-                                                                (click)="onEdit($index1)">Edit</span>
-                                                            <span class="delete pointer" *ngIf="((user.id == newsFeed?.createdBy?.id) || (user.id == data?.createdBy?.id))"
-                                                                (click)="onDeleteComment($index1, data.commentId)">Delete</span>
+                                                            <span class="edit pointer" *ngIf="((user.id == data?.createdBy?.id))" (click)="onEdit($index1)">Edit</span>
+                                                            <span class="delete pointer" *ngIf="((user.id == newsFeed?.createdBy?.id) || (user.id == data?.createdBy?.id))" (click)="onDeleteComment($index1, data.commentId)">Delete</span>
                                                         </div>
 
                                                     </div>
 
                                                     <div class="comment-type" *ngIf="data?.isEdit">
-                                                        <input type="text" placeholder="Comment" name="comment" value="{{data?.comment}}"
-                                                            (keyup.enter)="updateComment($event, newsFeed, data.commentId,$index1)">
+                                                        <input type="text" placeholder="Comment" name="comment" value="{{data?.comment}}" (keyup.enter)="updateComment($event, newsFeed, data.commentId,$index1)">
                                                         <span class="comment-action pointer" (click)="onCancel($index1)">Cancel</span>
                                                     </div>
 
@@ -188,13 +182,11 @@
                                             </div>
 
                                             <div class="self-comment-box clearfix" *ngIf="newsFeed.isComment">
-                                                <img class="comment-box-thumb-self" src="assets/images/placeholder.jpg"
-                                                    alt="profile-pic">
+                                                <img class="comment-box-thumb-self" src="assets/images/placeholder.jpg" alt="profile-pic">
                                                 <!-- <img class="comment-box-thumb-self" src="{{user?.profilePic?.thumbnails?.small?.url}}"
                                                     alt="profile-pic"> -->
                                                 <div class="comment-type">
-                                                    <input type="text" placeholder="Comment" name="comment"
-                                                        (keyup.enter)="addComment($event, newsFeed.id)">
+                                                    <input type="text" placeholder="Comment" name="comment" (keyup.enter)="addComment($event, newsFeed.id)">
                                                 </div>
                                             </div>
                                         </div>

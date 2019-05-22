@@ -30,8 +30,7 @@
                                 <i class="icon-arrow-left52 position-left"></i>
                                 <span class="text-semibold">
                                     Patient
-                                </span>
-                                - Record
+                                </span> - Record
                             </h4>
                         </div>
 
@@ -49,7 +48,8 @@
                     <div class="breadcrumb-line">
                         <ul class="breadcrumb">
                             <li><a href="index.html"><i class="icon-home2 position-left"></i> Home</a></li>
-                            <li class="active">Dashboard</li>
+                            <li>User Managment</li>
+                            <li class="active">Patient Record</li>
                         </ul>
 
                         <!-- <ul class="breadcrumb-elements">
@@ -114,8 +114,7 @@
 
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <mat-tab-group (focusChange)="focusChange($event)" (selectedIndexChange)="selectedIndexChange($event)"
-                                                (selectedTabChange)="selectedTabChange($event)">
+                                            <mat-tab-group (focusChange)="focusChange($event)" (selectedIndexChange)="selectedIndexChange($event)" (selectedTabChange)="selectedTabChange($event)">
                                                 <mat-tab label="General Information">
 
                                                     <!-- <ng-template matTabContent>
@@ -127,8 +126,7 @@
 
                                                 <mat-tab label="Preliminary Assessment">
                                                     <!-- [isTabActive]="tab.isDefaultTab" -->
-                                                    <preliminary-assessment-tab [isTabActive]="tab.preliminaryAssessment"
-                                                        [id]="patientId"></preliminary-assessment-tab>
+                                                    <preliminary-assessment-tab [isTabActive]="tab.preliminaryAssessment" [id]="patientId"></preliminary-assessment-tab>
                                                 </mat-tab>
 
                                                 <mat-tab label="Medication">
@@ -138,26 +136,22 @@
 
                                                 <mat-tab label="Psychological Review">
                                                     <!-- [isTabActive]="tab.isDefaultTab" -->
-                                                    <psychological-review-tab [isTabActive]="tab.psychologicalReview"
-                                                        [id]="patientId"></psychological-review-tab>
+                                                    <psychological-review-tab [isTabActive]="tab.psychologicalReview" [id]="patientId"></psychological-review-tab>
                                                 </mat-tab>
 
                                                 <mat-tab label="Social / Envoirnmental Review">
                                                     <!-- [isTabActive]="tab.isDefaultTab" -->
-                                                    <social-envoirnmental-review-tab [isTabActive]="tab.socialEnvoirnmentalReview"
-                                                        [id]="patientId"></social-envoirnmental-review-tab>
+                                                    <social-envoirnmental-review-tab [isTabActive]="tab.socialEnvoirnmentalReview" [id]="patientId"></social-envoirnmental-review-tab>
                                                 </mat-tab>
 
                                                 <mat-tab label="Preventive Screening">
                                                     <!-- [isTabActive]="tab.isDefaultTab" -->
-                                                    <preventive-screening-tab [isTabActive]="tab.preventiveScreening"
-                                                        [id]="patientId"></preventive-screening-tab>
+                                                    <preventive-screening-tab [isTabActive]="tab.preventiveScreening" [id]="patientId"></preventive-screening-tab>
                                                 </mat-tab>
 
                                                 <mat-tab label="Historical Information">
                                                     <!-- [isTabActive]="tab.isDefaultTab" -->
-                                                    <historical-information-tab [isTabActive]="tab.historicalInformation"
-                                                        [id]="patientId"></historical-information-tab>
+                                                    <historical-information-tab [isTabActive]="tab.historicalInformation" [id]="patientId"></historical-information-tab>
                                                 </mat-tab>
 
                                                 <mat-tab label="General Questions">

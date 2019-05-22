@@ -555,7 +555,15 @@ export class PatientRegisteredReportListComponent implements OnInit {
         });
 
         const doc = new jsPDF();
-        doc.text("Patient Registered Report", 35, 25);
+        // doc.text("Patient Registered Report", 35, 25);
+        doc.autoTable({
+            // columnStyles: { 0: { halign: 'center' } },
+            theme: 'striped',
+            body: [],
+            columns: [
+                { header: 'Patient Registered Report', dataKey: 'Patient Registered Report' },
+            ]
+        })
         doc.autoTable({
             theme: 'striped',
             body: this.exportData,
@@ -596,7 +604,8 @@ export class PatientRegisteredReportListComponent implements OnInit {
         //     }
         // })
 
-        doc.save('Patient Registered Report.pdf');
+        // doc.save('Patient Registered Report.pdf');
+        doc.output("dataurlnewwindow");
         this._uiService.hideSpinner();
     }
 

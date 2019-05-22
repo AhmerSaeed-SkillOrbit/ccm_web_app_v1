@@ -597,6 +597,15 @@ export class PatientTypeReportListComponent implements OnInit {
         });
 
         const doc = new jsPDF();
+        // doc.text("Patient Type Report", 35, 25);
+        doc.autoTable({
+            // columnStyles: { 0: { halign: 'center' } },
+            theme: 'striped',
+            body: [],
+            columns: [
+                { header: 'Patient Type Report', dataKey: 'Patient Type Report' },
+            ]
+        })
         doc.autoTable({
             theme: 'striped',
             body: this.exportData,
