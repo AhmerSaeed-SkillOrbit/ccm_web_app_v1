@@ -42,6 +42,7 @@ export class PatientRegisteredReportListComponent implements OnInit {
     files: any;
     // dashboard: Dashboard = new Dashboard();
     currentURL: string;
+    public currentDate = new Date();
     // script = new ScriptService();
 
     isUser: User = new User();

@@ -42,6 +42,7 @@ export class PatientInvitationReportListComponent implements OnInit {
     files: any;
     // dashboard: Dashboard = new Dashboard();
     currentURL: string;
+    public currentDate = new Date();
     // script = new ScriptService();
 
     isUser: User = new User();
@@ -331,8 +332,8 @@ export class PatientInvitationReportListComponent implements OnInit {
                             // this._uiService.hideSpinner();
 
                             this.totalInvitation = res.json().data ? res.json().data.TotalPatientsInvitation || 0 : 0;
-                            this.totalInvitationPending = res.json().data ? res.json().data.AcceptedPatientsInvitation || 0 : 0;
-                            this.totalInvitationAccepted = res.json().data ? res.json().data.PendingPatientsInvitation || 0 : 0;
+                            this.totalInvitationPending = res.json().data ? res.json().data.PendingPatientsInvitation || 0 : 0;
+                            this.totalInvitationAccepted = res.json().data ? res.json().data.AcceptedPatientsInvitation || 0 : 0;
                             this.totalInvitationRejected = res.json().data ? res.json().data.RejectedPatientsInvitation || 0 : 0;
                             this.totalInvitationIgnored = res.json().data ? res.json().data.IgnoredPatientsInvitation || 0 : 0;
 

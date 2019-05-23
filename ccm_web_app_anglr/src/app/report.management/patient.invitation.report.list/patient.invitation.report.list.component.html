@@ -107,9 +107,11 @@
                                                     <mat-form-field class="full-width">
                                                         <!-- <mat-label>Start Date</mat-label> -->
                                                         <!-- <input matInput placeholder="Select Doctor" [(ngModel)]="doctorId"> -->
-                                                        <mat-select placeholder="Select Doctor" [(ngModel)]="doctorId" (change)="onDoctorSelect()">
+                                                        <mat-select placeholder="Select Doctor" [(ngModel)]="doctorId"
+                                                            (change)="onDoctorSelect()">
                                                             <mat-option>None</mat-option>
-                                                            <mat-option *ngFor="let doctor of doctorList" [value]="doctor.id">
+                                                            <mat-option *ngFor="let doctor of doctorList"
+                                                                [value]="doctor.id">
                                                                 {{ doctor?.firstName + " " + doctor?.lastName }}
                                                             </mat-option>
                                                         </mat-select>
@@ -120,7 +122,9 @@
                                                 <div class="col-md-3">
                                                     <mat-form-field class="full-width">
                                                         <!-- <mat-label>Start Date</mat-label> -->
-                                                        <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" placeholder="Start Date" [(ngModel)]="startDate"
+                                                        <input matInput [matDatepickerFilter]="dateFilter"
+                                                            [max]="currentDate" [matDatepicker]="picker"
+                                                            placeholder="Start Date" [(ngModel)]="startDate"
                                                             (dateChange)="dateChanged($event, 'startDate')" readonly>
                                                         <mat-datepicker-toggle matSuffix [for]="picker">
                                                         </mat-datepicker-toggle>
@@ -132,7 +136,10 @@
                                                 <div class="col-md-3">
                                                     <mat-form-field class="full-width">
                                                         <!-- <mat-label>End Date</mat-label> -->
-                                                        <input matInput [matDatepickerFilter]="dateFilter" [min]="startDate" [matDatepicker]="picker1" placeholder="End Date" [(ngModel)]="endDate"
+                                                        <input matInput [matDatepickerFilter]="dateFilter"
+                                                            [min]="startDate" [max]="currentDate"
+                                                            [matDatepicker]="picker1" placeholder="End Date"
+                                                            [(ngModel)]="endDate"
                                                             (dateChange)="dateChanged($event, 'endDate')" readonly>
                                                         <mat-datepicker-toggle matSuffix [for]="picker1">
                                                         </mat-datepicker-toggle>
@@ -277,22 +284,34 @@
                                     <table class="table no-footer">
                                         <thead>
                                             <tr role="row">
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="S.No: activate to sort column ascending">
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="S.No: activate to sort column ascending">
                                                     S.No
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="System Id: activate to sort column ascending">
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="System Id: activate to sort column ascending">
                                                     System Id
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Patient Unique Id: activate to sort column ascending">
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Patient Unique Id: activate to sort column ascending">
                                                     Patient Unique Id
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="First Name: activate to sort column ascending">
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="First Name: activate to sort column ascending">
                                                     First Name
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Last Name: activate to sort column ascending">
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Last Name: activate to sort column ascending">
                                                     Last Name
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="DOB: activate to sort column ascending">
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="DOB: activate to sort column ascending">
                                                     DOB
                                                 </th>
                                                 <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
@@ -305,7 +324,9 @@
                                                     aria-label="Invited On: activate to sort column ascending">
                                                     Invited On
                                                 </th> -->
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Registered On: activate to sort column ascending">
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Registered On: activate to sort column ascending">
                                                     Registered On
                                                 </th>
 
@@ -372,7 +393,8 @@
                                             tabindex="0" id="DataTables_Table_0_next">→</a>
                                     </div>
                                 </div> -->
-                                <mat-paginator #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent = pageChangeEvent($event)">
+                                <mat-paginator #paginator [length]="length" [pageSize]="pageSize"
+                                    [pageSizeOptions]="pageSizeOptions" (page)="pageEvent = pageChangeEvent($event)">
                                 </mat-paginator>
                             </div>
                         </div>
