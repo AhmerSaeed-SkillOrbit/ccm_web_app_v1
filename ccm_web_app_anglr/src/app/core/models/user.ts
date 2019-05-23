@@ -42,7 +42,8 @@ export class User extends BaseModel {
     functionalTitle: String;
     age: String;
     ageGroup: String;
-    dateOfBirth: String;
+    // dateOfBirth: String;
+    dateOfBirth: any;
     gender: String;
 
     patientTypeId: number;

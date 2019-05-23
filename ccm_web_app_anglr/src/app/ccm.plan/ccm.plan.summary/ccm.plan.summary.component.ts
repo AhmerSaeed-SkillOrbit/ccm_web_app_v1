@@ -35,6 +35,12 @@ import { Config } from '../../config/config';
 // import { ReportService } from '../../core/services/report/report.service';
 
 
+import * as jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import * as html2pdf from 'html2pdf.js';
+import 'jspdf-autotable';
+
+
 @Component({
     selector: 'ccm-plan-summary',
     templateUrl: 'ccm.plan.summary.component.html',
@@ -190,6 +196,170 @@ export class CcmPlanSummaryComponent implements OnInit, OnChanges, OnDestroy {
                 // this._authService.errStatusCheckResponse(err);
             }
         );
+    }
+
+    generatePDF() {
+
+        let exportData = [{}];
+
+
+        this.ccmPlan.items.forEach((element, index) => {
+            let data = {
+                "S.No": (index + 1) || null,
+                "Component": element.name || null,
+                "Goal": element.itemGoals[0].goal || null,
+                // "Goal": this.ccmPlan.items[index].itemGoals[0].goal || null,
+                "Instructions & Interventions": element.itemGoals[0].intervention || null,
+                // "Instructions & Interventions": this.ccmPlan.items[index].itemGoals[0].intervention || null,
+                "Review": element.itemGoals[0].ccmPlanReviews || null,
+                // "Review": this.ccmPlan.items[index].itemGoals[0].ccmPlanReviews || null,
+            }
+
+            exportData.push(data);
+
+        });
+
+        const doc = new jsPDF();
+        // doc.text("CCM Plan Summary", 35, 25);
+        doc.autoTable({
+            // columnStyles: { 0: { halign: 'center' } },
+            theme: 'striped',
+            body: [],
+            columns: [
+                { header: 'CCM Plan Summary', dataKey: 'CCM Plan Summary' },
+            ]
+        })
+
+        // doc.autoTable({
+        //     theme: 'striped',
+        //     body: exportData,
+        //     columns: [
+        //         { header: 'S.No', dataKey: 'S.No' }, { header: 'Component', dataKey: 'Component' },
+        //         { header: 'Goal', dataKey: 'Goal' }, { header: 'Instructions & Interventions', dataKey: 'Instructions & Interventions' },
+        //         { header: 'Review', dataKey: 'Review' }
+        //     ]
+        // })
+
+        var positions = [];
+        doc.autoTable({
+            theme: 'striped',
+            body: exportData,
+            columns: [
+                { header: 'S.No', dataKey: 'S.No' }, { header: 'Component', dataKey: 'Component' },
+                { header: 'Goal', dataKey: 'Goal' }, { header: 'Instructions & Interventions', dataKey: 'Instructions & Interventions' },
+                { header: 'Review', dataKey: 'Review' }
+            ]
+        }, {
+                drawCell: function (cell, data) {
+                    if (data.column.dataKey === "Review") {
+                        positions.push({ x: cell.x, y: cell.y + 5 });
+                    }
+                },
+                columnStyles: {
+                    5: { columnWidth: 120 }
+                },
+                bodyStyles: {
+                    rowHeight: 100
+                }
+            })
+
+        positions.forEach(function (pos) {
+            var rows = [
+                ["1", "2", "3", "4"],
+                ["1", "2", "3", "4"],
+                ["1", "2", "3", "4"],
+                ["1", "2", "3", "4"]
+            ];
+            doc.autoTable(["One", "Two", "Three", "Four"], rows, {
+                startY: pos.y,
+                margin: { left: pos.x },
+                tableWidth: 'wrap',
+                theme: 'grid',
+                styles: {
+                    cellPadding: 3,
+                    fontSize: 9,
+                    rowHeight: 15
+                }
+            });
+        });
+
+        // var headerText = "CCM Plan Summary";
+        // var totalPagesExp = "{total_pages_count_string}";
+        // var leftMargin = 40;
+
+        // doc.autoTable({
+        //     theme: 'striped',
+        //     // styles: { overflow: 'linebreak', columnWidth: 'wrap' },
+        //     margin: {top: 40},
+        //     body: this.exportData,
+        //     columns: [
+        //         { header: 'S.No', dataKey: 'S.No' }, { header: 'System Id', dataKey: 'System Id' },
+        //         { header: 'Patient Unique Id', dataKey: 'Patient Unique Id' }, { header: 'First Name', dataKey: 'First Name' },
+        //         { header: 'Last Name', dataKey: 'Last Name' }, { header: 'DOB', dataKey: 'DOB' },
+        //         { header: 'Registered As', dataKey: 'Registered As' }, { header: 'Registered On', dataKey: 'Registered On' }
+        //     ],
+        //     addPageContent: function (data) {
+        //         doc.text(headerText, leftMargin, 30);
+        //         var str = "Page " + data.pageCount;
+        //         // Total page number plugin only available in jspdf v1.0+
+
+        //         // if (typeof doc.putTotalPages === 'function') {
+        //         //     str = str + " of " + totalPagesExp;
+        //         // }
+
+        //         // str = str + ". Generated on " + Date();
+        //         doc.text(str, leftMargin, doc.internal.pageSize.height - 10);
+        //     }
+        // })
+
+        // doc.save('CCM Plan Summary.pdf');
+        doc.output("dataurlnewwindow");
+        this._uiService.hideSpinner();
+    }
+
+    public html2PDFfile(type?: string) {
+
+        // setTimeout(function () {
+
+
+        var element = document.getElementById('element-to-print');
+        var opt = {
+            // margin: 15,
+            // margin: [25, 15, 25, 15],
+            // margin: [this.marginTop || 1, this.marginLeft || 1, this.marginBottom || 1, this.marginRight || 1],
+            filename: 'myfile.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            // image: { type: 'jpg', quality: 0.98 },
+            // html2canvas: { scale: 2 },
+            html2canvas: { scale: 2, useCORS: true },
+            // jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+
+        // New Promise-based usage:
+
+        // html2pdf().from(element).set(opt).save();
+        // html2pdf().from(element).set(opt).output("dataurlnewwindow");
+        if (type == "download") {
+            let fileName = "untitled";
+            fileName += ".pdf";
+
+            html2pdf().from(element).set(opt).save(fileName);
+        }
+        else if (type == "print") {
+            // html2pdf().from(element).set(opt).print();
+        }
+        else {
+            html2pdf().from(element).set(opt).output("dataurlnewwindow");
+        }
+
+        // this.contentDisplay = "none";
+        // setTimeout(function () {
+        //     this.showContent = false;
+        // }, 1000);
+
+
+        // }, 1000);
+
     }
 
     loadUserById() {

@@ -195,8 +195,19 @@ export class GeneralInfoTabComponent implements OnInit {
         console.log('type', type);
         if (type == 'dob') {
             this.patient.dateOfBirth = this.datePipe.transform(this.patient.dateOfBirth, 'yyyy-MM-dd');
+
             // this.projectActivityForm.projectActivityDate = this.datePipe.transform(this.projectActivityForm.projectActivityDate, 'yyyy-MM-dd h:mm:ss a');
-            console.log('event', this.patient.dateOfBirth);
+
+
+            // let d = new Date(this.patient.dateOfBirth);
+
+            // let d1 = d.toISOString();
+
+            // console.log('patient.dateOfBirth ', this.patient.dateOfBirth);
+            // console.log('d ', d);
+            // console.log('d1 ', d1);
+
+            // console.log('event', this.patient.dateOfBirth);
 
             let currentDate = new Date();
 

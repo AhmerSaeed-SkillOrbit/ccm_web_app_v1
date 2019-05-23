@@ -107,144 +107,186 @@
                                 <div class="tr-sec-box">
                                     <div class="row">
                                         <div class="col-md-12 text-right">
-                                            <button *ngIf="generatePDFPermission" (click)="sentTo()" mat-raised-button color="primary">Send to Patient</button>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <!-- <mat-card-title>Patient Info</mat-card-title> -->
-
-                                            <div class="row">
-
-                                                <div class="col-md-2">
-                                                    <div class="profile-image">
-                                                        <!-- <img src="assets/images/placeholder.jpg" alt="profile_pic"> -->
-                                                        <img src="{{patient?.profilePicture?.fileUploadUrl}}" alt="profile_pic">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-10">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <!-- <label class="label-heading">{{ patient?.firstName || patient?.lastName ? patient?.firstName + " " + patient?.lastName : "NA" }}</label> -->
-                                                            <h2>{{ patient?.firstName || patient?.lastName ? patient?.firstName
-                                                                + " " + patient?.lastName : "NA" }}</h2>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <label class="label-heading">Patient Unique Id: {{ patient?.patientUniqueId || "NA" }}</label>
-                                                        </div>
-
-                                                        <div class="col-md-4">
-                                                            <label class="label-heading">Gender: {{ patient?.gender || "NA" }}</label>
-                                                        </div>
-
-                                                        <div class="col-md-4">
-                                                            <label class="label-heading">Age: {{ patient?.age || "NA" }}</label>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <p>{{ patient?.profileSummary || "Not Available" }}</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
+                                            <button *ngIf="generatePDFPermission" (click)="sentTo()" mat-raised-button
+                                                color="primary">Send to Patient</button>
+                                            <!-- <button *ngIf="generatePDFPermission" (click)="html2PDFfile('preview')"
+                                                mat-raised-button color="primary">Generate Pdf</button> -->
+                                            <!-- <button *ngIf="generatePDFPermission" (click)="generatePDF()"
+                                                mat-raised-button color="primary">Generate Pdf</button> -->
                                         </div>
                                     </div>
 
-                                    <hr>
-
-                                    <div class="row">
+                                    <div class="row" id="element-to-print">
                                         <div class="col-md-12">
 
                                             <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="datatable-scroll">
-                                                        <!-- <table class="table datatable-sorting dataTable no-footer" id="DataTables_Table_0"
-                                                                            role="grid" aria-describedby="DataTables_Table_0_info"> -->
-                                                        <table class="table no-footer">
-                                                            <thead>
-                                                                <tr role="row">
-                                                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="S.No: activate to sort column ascending">
-                                                                        Component
-                                                                    </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Plan No.: activate to sort column ascending">
-                                                                        Goal
-                                                                    </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Start Date: activate to sort column ascending">
-                                                                        Instructions & Interventions
-                                                                    </th>
-                                                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="End Date: activate to sort column ascending">
-                                                                        Review
-                                                                    </th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr role="row" class="odd" *ngFor="let item of ccmPlan.items; let i=index">
-                                                                    <td>
-                                                                        {{ item?.name || "NA" }}
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="row" *ngFor="let itemGoal of ccmPlan.items[i].itemGoals; let iy=index">
-                                                                            {{ itemGoal?.goal || "NA" }}
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="row" *ngFor="let itemGoal of ccmPlan.items[i].itemGoals; let iy=index">
-                                                                            {{ itemGoal?.intervention || "NA" }}
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="row" *ngFor="let itemGoalReview of ccmPlan.items[i].ccmPlanReviews; let iy=index">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <!-- <mat-card-title>Patient Info</mat-card-title> -->
 
-                                                                            <div class="col-md-12">
-                                                                                <!-- <div class="col-md-12"> -->
-                                                                                <div>
-                                                                                    <b>Goal Achieved:</b> {{ itemGoalReview?.isGoalAchieve
-                                                                                    ? "Yes" : "No" }}
-                                                                                </div>
-                                                                                <!-- <div class="col-md-12"> -->
-                                                                                <div>
-                                                                                    <b>Barrier:</b> {{ itemGoalReview?.barrier
-                                                                                    || "NA" }}
-                                                                                </div>
-                                                                                <!-- <div class="col-md-12"> -->
-                                                                                <div>
-                                                                                    <b>Comments:</b> {{ itemGoalReview?.reviewerComment
-                                                                                    || "NA" }}
-                                                                                </div>
+                                                    <div class="row">
 
-                                                                                <hr *ngIf="iy < ccmPlan.items[i].ccmPlanReviews.length - 1">
-
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div *ngIf="ccmPlan.items[i].ccmPlanReviews.length == 0">
-                                                                            No Review Found
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                        <div class="" *ngIf="(ccmPlanList?.length == 0) && !isSpinner">
-                                                            <div class="snipet download-btn">
-                                                                <button (click)="refreshList()" mat-raised-button>
-                                                                                    <i class="material-icons">refresh</i> No Data Found
-                                                                                </button>
+                                                        <div class="col-md-2">
+                                                            <div class="profile-image">
+                                                                <!-- <img src="assets/images/placeholder.jpg" alt="profile_pic"> -->
+                                                                <img src="{{patient?.profilePicture?.fileUploadUrl}}"
+                                                                    alt="profile_pic">
                                                             </div>
                                                         </div>
-                                                        <spinner class="spinner-box" [visible]='isSpinner'></spinner>
+
+                                                        <div class="col-md-10">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <!-- <label class="label-heading">{{ patient?.firstName || patient?.lastName ? patient?.firstName + " " + patient?.lastName : "NA" }}</label> -->
+                                                                    <h2>{{ patient?.firstName || patient?.lastName ? patient?.firstName
+                                                                                + " " + patient?.lastName : "NA" }}
+                                                                    </h2>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <label class="label-heading">Patient Unique Id:
+                                                                        {{ patient?.patientUniqueId || "NA" }}</label>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <label class="label-heading">Gender:
+                                                                        {{ patient?.gender || "NA" }}</label>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <label class="label-heading">Age:
+                                                                        {{ patient?.age || "NA" }}</label>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <p>{{ patient?.profileSummary || "Not Available" }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
+
+                                                </div>
+                                            </div>
+
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="datatable-scroll">
+                                                                <!-- <table class="table datatable-sorting dataTable no-footer" id="DataTables_Table_0"
+                                                                                            role="grid" aria-describedby="DataTables_Table_0_info"> -->
+                                                                <table class="table no-footer">
+                                                                    <thead>
+                                                                        <tr role="row">
+                                                                            <th class="sorting" tabindex="0"
+                                                                                aria-controls="DataTables_Table_0"
+                                                                                rowspan="1" colspan="1"
+                                                                                aria-label="S.No: activate to sort column ascending">
+                                                                                Component
+                                                                            </th>
+                                                                            <th class="sorting" tabindex="0"
+                                                                                aria-controls="DataTables_Table_0"
+                                                                                rowspan="1" colspan="1"
+                                                                                aria-label="Plan No.: activate to sort column ascending">
+                                                                                Goal
+                                                                            </th>
+                                                                            <th class="sorting" tabindex="0"
+                                                                                aria-controls="DataTables_Table_0"
+                                                                                rowspan="1" colspan="1"
+                                                                                aria-label="Start Date: activate to sort column ascending">
+                                                                                Instructions & Interventions
+                                                                            </th>
+                                                                            <th class="sorting" tabindex="0"
+                                                                                aria-controls="DataTables_Table_0"
+                                                                                rowspan="1" colspan="1"
+                                                                                aria-label="End Date: activate to sort column ascending">
+                                                                                Review
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr role="row" class="odd"
+                                                                            *ngFor="let item of ccmPlan.items; let i=index">
+                                                                            <td>
+                                                                                {{ item?.name || "NA" }}
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="row"
+                                                                                    *ngFor="let itemGoal of ccmPlan.items[i].itemGoals; let iy=index">
+                                                                                    {{ itemGoal?.goal || "NA" }}
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="row"
+                                                                                    *ngFor="let itemGoal of ccmPlan.items[i].itemGoals; let iy=index">
+                                                                                    {{ itemGoal?.intervention || "NA" }}
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="row"
+                                                                                    *ngFor="let itemGoalReview of ccmPlan.items[i].ccmPlanReviews; let iy=index">
+
+                                                                                    <div class="col-md-12">
+                                                                                        <!-- <div class="col-md-12"> -->
+                                                                                        <div>
+                                                                                            <b>Goal Achieved:</b> {{ itemGoalReview?.isGoalAchieve
+                                                                                                    ? "Yes" : "No" }}
+                                                                                        </div>
+                                                                                        <!-- <div class="col-md-12"> -->
+                                                                                        <div>
+                                                                                            <b>Barrier:</b> {{ itemGoalReview?.barrier
+                                                                                                    || "NA" }}
+                                                                                        </div>
+                                                                                        <!-- <div class="col-md-12"> -->
+                                                                                        <div>
+                                                                                            <b>Comments:</b> {{ itemGoalReview?.reviewerComment
+                                                                                                    || "NA" }}
+                                                                                        </div>
+
+                                                                                        <hr
+                                                                                            *ngIf="iy < ccmPlan.items[i].ccmPlanReviews.length - 1">
+
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div
+                                                                                    *ngIf="ccmPlan.items[i].ccmPlanReviews.length == 0">
+                                                                                    No Review Found
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <div class=""
+                                                                    *ngIf="(ccmPlanList?.length == 0) && !isSpinner">
+                                                                    <div class="snipet download-btn">
+                                                                        <button (click)="refreshList()"
+                                                                            mat-raised-button>
+                                                                            <i class="material-icons">refresh</i> No
+                                                                            Data Found
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                <spinner class="spinner-box" [visible]='isSpinner'>
+                                                                </spinner>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
                                             </div>
 
                                         </div>
                                     </div>
+
+
                                 </div>
                             </mat-card>
                         </div>

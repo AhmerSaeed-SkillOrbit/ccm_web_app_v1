@@ -547,14 +547,14 @@ export class PatientInvitationReportListComponent implements OnInit {
 
         this.reportListAll.forEach((element, index) => {
             let data = {
-                "S.No": (index + 1) || null,
-                "System Id": element.id || null,
-                "Patient Unique Id": element.patientUniqueId || null,
-                "First Name": element.firstName || null,
-                "Last Name": element.lastName || null,
-                "DOB": element.dateOfBirth || null,
-                // "Registered As": element.registered || null,
-                "Registered On": element.registeredOn || null,
+                "S.No": (index + 1) || "NA",
+                "System Id": element.id || "NA",
+                "Patient Unique Id": element.patientUniqueId || "NA",
+                "First Name": element.firstName || "NA",
+                "Last Name": element.lastName || "NA",
+                "DOB": element.dateOfBirth || "NA",
+                // "Registered As": element.registered || "NA",
+                "Registered On": element.registeredOn || "NA",
             }
 
             this.exportData.push(data);
@@ -608,14 +608,14 @@ export class PatientInvitationReportListComponent implements OnInit {
 
         this.reportListAll.forEach((element, index) => {
             let data = {
-                "S.No": (index + 1) || null,
-                "System Id": element.id || null,
-                "Patient Unique Id": element.patientUniqueId || null,
-                "First Name": element.firstName || null,
-                "Last Name": element.lastName || null,
-                "DOB": element.dateOfBirth || null,
-                // "Registered As": element.registered || null,
-                "Registered On": element.registeredOn || null,
+                "S.No": (index + 1) || "NA",
+                "System Id": element.id || "NA",
+                "Patient Unique Id": element.patientUniqueId || "NA",
+                "First Name": element.firstName || "NA",
+                "Last Name": element.lastName || "NA",
+                "DOB": element.dateOfBirth || "NA",
+                // "Registered As": element.registered || "NA",
+                "Registered On": element.registeredOn || "NA",
             }
 
             this.exportData.push(data);
