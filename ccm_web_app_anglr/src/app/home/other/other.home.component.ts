@@ -14,6 +14,7 @@ import { SetupService } from '../../core/services/setup/setup.service';
 import { UserService } from '../../core/services/user/user.service';
 import { AddUpdateTicketDialogeComponent } from '../../shared/add.update.ticket.dialoge/add.update.ticket.dialoge.component';
 import { MappingService } from '../../core/services/mapping/mapping.service';
+import { DashboardService } from '../../core/services/dashboard/dashboard.service';
 // import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
 // import { EasyPay } from '../core/models/payment/easypay.payment';
 
@@ -47,6 +48,34 @@ export class OtherHomeComponent implements OnInit {
     // influencerProfile = new InfluencerProfile();
     // easyPay = new EasyPay();
 
+    doctorDashboard = {
+        registeredPatient: 0,
+        pendingInvitation: 0,
+        associatedFacilitator: 0,
+        activeCcmPlan: 0,
+        pendingAppointment: 0,
+        doctorLoggedInHistory: []
+    };
+
+    facilitatorDashboard = {
+        totalReviewsOnGoals: 0,
+        associatedDoctor: 0,
+        activeCcmPlan: 0,
+        loggedInHistory: []
+    };
+
+    supportStaffDashboard = {
+        ticketCreated: 0,
+        ticketResponded: 0,
+        ticketClosed: 0,
+    };
+
+    patientDashboard = {
+        upcomingAppointment: 0,
+        activeCcmPlan: 0,
+        loggedInHistory: []
+    };
+
     loginHistoryList: User[] = [];
 
     // displayedColumnsHs = ['sNo', 'name', 'dateTime'];
@@ -64,11 +93,12 @@ export class OtherHomeComponent implements OnInit {
     upperLimit = 0;
 
 
-    constructor( @Inject('IAuthService') private _authService: IAuthService,
+    constructor(@Inject('IAuthService') private _authService: IAuthService,
         private _uiService: UIService,
         public dialog: MatDialog,
         // public _messaging: MessagingService,
         private _userService: UserService,
+        private _dashboardService: DashboardService,
         private _setupService: SetupService,
         private _utilityService: UtilityService,
         private _mappingService: MappingService,
@@ -94,14 +124,27 @@ export class OtherHomeComponent implements OnInit {
                 this._router.navigate(['/home/admin']);
                 return;
             }
+            if (this.user && this.user.role && this.user.role.roleCode == "doctor") {
+                this.loadDoctorDashboard();
+            }
+            if (this.user && this.user.role && this.user.role.roleCode == "facilitator") {
+                this.loadFacilitatorDashboard();
+            }
+            if (this.user && this.user.role && this.user.role.roleCode == "support_staff") {
+                this.loadSupportStaffDashboard();
+            }
+            if (this.user && this.user.role && this.user.role.roleCode == "patient") {
+                this.loadAssociatedDoctor();
+                this.loadPatientDashboard();
+            }
             else {
                 // this._router.navigate(['/home/other']);
             }
         }
 
-        if (this.user.role.roleCode == "patient") {
-            this.loadAssociatedDoctor();
-        }
+        // if (this.user.role.roleCode == "patient") {
+        //     this.loadAssociatedDoctor();
+        // }
 
         this.loadLoginHistoryList();
 
@@ -130,6 +173,75 @@ export class OtherHomeComponent implements OnInit {
         this.loadLoginHistoryList();
 
         return event;
+    }
+
+    loadDoctorDashboard() {
+        // this._uiService.showSpinner();
+        this._dashboardService.getDashboardDoctor().subscribe(
+            (res) => {
+                // this._uiService.hideSpinner();
+                let data = res.json().data;
+                this.doctorDashboard.registeredPatient = data && data.RegisteredPatient ? data.RegisteredPatient : 0;
+                this.doctorDashboard.pendingInvitation = data && data.PendingInvitation ? data.PendingInvitation : 0;
+                this.doctorDashboard.associatedFacilitator = data && data.AssociatedFacilitator ? data.AssociatedFacilitator : 0;
+                this.doctorDashboard.activeCcmPlan = data && data.ActiveCcmPlan ? data.ActiveCcmPlan : 0;
+                this.doctorDashboard.pendingAppointment = data && data.PendingAppointment ? data.PendingAppointment : 0;
+            },
+            (err) => {
+                console.log("err", err);
+                // this._uiService.hideSpinner();
+            }
+        );
+    }
+
+    loadFacilitatorDashboard() {
+        // this._uiService.showSpinner();
+        this._dashboardService.getDashboardFacilitator().subscribe(
+            (res) => {
+                // this._uiService.hideSpinner();
+                let data = res.json().data;
+                this.facilitatorDashboard.totalReviewsOnGoals = data && data.TotalReviewsOnGoals ? data.TotalReviewsOnGoals : 0;
+                this.facilitatorDashboard.associatedDoctor = data && data.AssociatedDoctor ? data.AssociatedDoctor : 0;
+                this.facilitatorDashboard.activeCcmPlan = data && data.ActiveCcmPlan ? data.ActiveCcmPlan : 0;
+            },
+            (err) => {
+                console.log("err", err);
+                // this._uiService.hideSpinner();
+            }
+        );
+    }
+
+    loadSupportStaffDashboard() {
+        // this._uiService.showSpinner();
+        this._dashboardService.getDashboardSuportStaff().subscribe(
+            (res) => {
+                // this._uiService.hideSpinner();
+                let data = res.json().data;
+                this.supportStaffDashboard.ticketCreated = data && data.TicketCreated ? data.TicketCreated : 0;
+                this.supportStaffDashboard.ticketResponded = data && data.TicketResponded ? data.TicketResponded : 0;
+                this.supportStaffDashboard.ticketClosed = data && data.TicketClosed ? data.TicketClosed : 0;
+            },
+            (err) => {
+                console.log("err", err);
+                // this._uiService.hideSpinner();
+            }
+        );
+    }
+
+    loadPatientDashboard() {
+        // this._uiService.showSpinner();
+        this._dashboardService.getDashboardPatient().subscribe(
+            (res) => {
+                // this._uiService.hideSpinner();
+                let data = res.json().data;
+                // this.patientDashboard.upcomingAppointment = data && data.UpcomingAppointment ? data.UpcomingAppointment : 0;
+                this.patientDashboard.activeCcmPlan = data && data.ActiveCcmPlan ? data.ActiveCcmPlan : 0;
+            },
+            (err) => {
+                console.log("err", err);
+                // this._uiService.hideSpinner();
+            }
+        );
     }
 
     loadLoginHistoryList() {
