@@ -28,6 +28,7 @@ declare var libraryVar: any;
 // import jsPDF from 'jspdf';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { InvitationReport } from '../../core/models/report';
 
 @Component({
     selector: 'patient-invitation-report-list',
@@ -72,8 +73,10 @@ export class PatientInvitationReportListComponent implements OnInit {
     totalInvitationRejected: number = null;
     totalInvitationIgnored: number = null;
 
-    reportList: User[] = [];
-    reportListAll: User[] = [];
+    // reportList: User[] = [];
+    // reportListAll: User[] = [];
+    reportList: InvitationReport[] = [];
+    reportListAll: InvitationReport[] = [];
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -343,7 +346,8 @@ export class PatientInvitationReportListComponent implements OnInit {
 
                             var uList = [];
                             for (let i = 0; i < array.length; i++) {
-                                let u = this._mappingService.mapUser(array[i]);
+                                // let u = this._mappingService.mapUser(array[i]);
+                                let u = this._mappingService.mapInvitationReport(array[i]);
                                 uList.push(u);
                             }
                             this.reportList = uList;
@@ -549,12 +553,12 @@ export class PatientInvitationReportListComponent implements OnInit {
             let data = {
                 "S.No": (index + 1) || "NA",
                 "System Id": element.id || "NA",
-                "Patient Unique Id": element.patientUniqueId || "NA",
-                "First Name": element.firstName || "NA",
-                "Last Name": element.lastName || "NA",
-                "DOB": element.dateOfBirth || "NA",
-                // "Registered As": element.registered || "NA",
-                "Registered On": element.registeredOn || "NA",
+                "To Email Address": element.toEmailAddress || "NA",
+                "Country Phone Code": element.countryPhoneCode || "NA",
+                "To Mobile Number": element.toMobileNumber || "NA",
+                "Invitation Link": element.invitationLink || "NA",
+                "Invited On": element.invitedOn || "NA",
+                "Invited Status": element.invitedStatus || "NA",
             }
 
             this.exportData.push(data);
@@ -576,10 +580,10 @@ export class PatientInvitationReportListComponent implements OnInit {
             body: this.exportData,
             columns: [
                 { header: 'S.No', dataKey: 'S.No' }, { header: 'System Id', dataKey: 'System Id' },
-                { header: 'Patient Unique Id', dataKey: 'Patient Unique Id' }, { header: 'First Name', dataKey: 'First Name' },
-                { header: 'Last Name', dataKey: 'Last Name' }, { header: 'DOB', dataKey: 'DOB' },
-                // { header: 'Registered As', dataKey: 'Registered As' },
-                { header: 'Registered On', dataKey: 'Registered On' }
+                { header: 'To Email Address', dataKey: 'To Email Address' },
+                { header: 'Country Phone Code', dataKey: 'Country Phone Code' }, { header: 'To Mobile Number', dataKey: 'To Mobile Number' },
+                { header: 'Invitation Link', dataKey: 'Invitation Link' }, { header: 'Invited On', dataKey: 'Invited On' },
+                { header: 'Invited Status', dataKey: 'Invited Status' }
             ]
         })
 
@@ -610,12 +614,12 @@ export class PatientInvitationReportListComponent implements OnInit {
             let data = {
                 "S.No": (index + 1) || "NA",
                 "System Id": element.id || "NA",
-                "Patient Unique Id": element.patientUniqueId || "NA",
-                "First Name": element.firstName || "NA",
-                "Last Name": element.lastName || "NA",
-                "DOB": element.dateOfBirth || "NA",
-                // "Registered As": element.registered || "NA",
-                "Registered On": element.registeredOn || "NA",
+                "To Email Address": element.toEmailAddress || "NA",
+                "Country Phone Code": element.countryPhoneCode || "NA",
+                "To Mobile Number": element.toMobileNumber || "NA",
+                "Invitation Link": element.invitationLink || "NA",
+                "Invited On": element.invitedOn || "NA",
+                "Invited Status": element.invitedStatus || "NA",
             }
 
             this.exportData.push(data);

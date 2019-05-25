@@ -296,38 +296,33 @@
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
-                                                    aria-label="Patient Unique Id: activate to sort column ascending">
-                                                    Patient Unique Id
+                                                    aria-label="To Email Address: activate to sort column ascending">
+                                                    To Email Address
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
-                                                    aria-label="First Name: activate to sort column ascending">
-                                                    First Name
+                                                    aria-label="Country Phone Code: activate to sort column ascending">
+                                                    Country Phone Code
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
-                                                    aria-label="Last Name: activate to sort column ascending">
-                                                    Last Name
+                                                    aria-label="To Mobile Number: activate to sort column ascending">
+                                                    To Mobile Number
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
-                                                    aria-label="DOB: activate to sort column ascending">
-                                                    DOB
+                                                    aria-label="Invitation Link: activate to sort column ascending">
+                                                    Invitation Link
                                                 </th>
-                                                <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1"
-                                                    aria-label="Invite Status: activate to sort column ascending">
-                                                    Invite Status
-                                                </th> -->
-                                                <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
                                                     aria-label="Invited On: activate to sort column ascending">
                                                     Invited On
-                                                </th> -->
+                                                </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
-                                                    aria-label="Registered On: activate to sort column ascending">
-                                                    Registered On
+                                                    aria-label="Invited Status: activate to sort column ascending">
+                                                    Invited Status
                                                 </th>
 
                                             </tr>
@@ -339,25 +334,22 @@
                                                     {{ patient?.id || "NA" }}
                                                 </td>
                                                 <td>
-                                                    {{ patient?.patientUniqueId || "NA" }}
+                                                    {{ patient?.toEmailAddress || "NA" }}
                                                 </td>
                                                 <td>
-                                                    {{ patient?.firstName || "NA" }}
+                                                    {{ patient?.countryPhoneCode || "NA" }}
                                                 </td>
                                                 <td>
-                                                    {{ patient?.lastName || "NA" }}
+                                                    {{ patient?.toMobileNumber || "NA" }}
                                                 </td>
                                                 <td>
-                                                    {{ patient?.dateOfBirth || "NA" }}
+                                                    {{ patient?.invitationLink || "NA" }}
                                                 </td>
-                                                <!-- <td>
-                                                    {{ patient?.inviteStatus || "NA" }}
-                                                </td> -->
-                                                <!-- <td>
+                                                <td>
                                                     {{ patient?.invitedOn || "NA" }}
-                                                </td> -->
+                                                </td>
                                                 <td>
-                                                    {{ patient?.registeredOn || "NA" }}
+                                                    {{ patient?.invitedStatus || "NA" }}
                                                 </td>
                                             </tr>
                                         </tbody>
