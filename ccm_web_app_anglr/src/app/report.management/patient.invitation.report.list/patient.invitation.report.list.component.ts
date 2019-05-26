@@ -552,13 +552,11 @@ export class PatientInvitationReportListComponent implements OnInit {
         this.reportListAll.forEach((element, index) => {
             let data = {
                 "S.No": (index + 1) || "NA",
-                "System Id": element.id || "NA",
-                "To Email Address": element.toEmailAddress || "NA",
-                "Country Phone Code": element.countryPhoneCode || "NA",
-                "To Mobile Number": element.toMobileNumber || "NA",
+                "Email": element.toEmailAddress || "NA",
+                "Mobile Number": element.countryPhoneCode + " " + element.toMobileNumber || "NA",
+                "Status": element.invitedStatus || "NA",
                 "Invitation Link": element.invitationLink || "NA",
                 "Invited On": element.invitedOn || "NA",
-                "Invited Status": element.invitedStatus || "NA",
             }
 
             this.exportData.push(data);
@@ -579,11 +577,10 @@ export class PatientInvitationReportListComponent implements OnInit {
             theme: 'striped',
             body: this.exportData,
             columns: [
-                { header: 'S.No', dataKey: 'S.No' }, { header: 'System Id', dataKey: 'System Id' },
-                { header: 'To Email Address', dataKey: 'To Email Address' },
-                { header: 'Country Phone Code', dataKey: 'Country Phone Code' }, { header: 'To Mobile Number', dataKey: 'To Mobile Number' },
+                { header: 'S.No', dataKey: 'S.No' }, { header: 'Email', dataKey: 'Email' },
+                { header: 'Mobile Number', dataKey: 'Mobile Number' }, { header: 'Status', dataKey: 'Status' },
                 { header: 'Invitation Link', dataKey: 'Invitation Link' }, { header: 'Invited On', dataKey: 'Invited On' },
-                { header: 'Invited Status', dataKey: 'Invited Status' }
+
             ]
         })
 

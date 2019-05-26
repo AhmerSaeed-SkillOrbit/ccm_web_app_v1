@@ -291,23 +291,18 @@
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
-                                                    aria-label="System Id: activate to sort column ascending">
-                                                    System Id
+                                                    aria-label="Email: activate to sort column ascending">
+                                                    Email
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
-                                                    aria-label="To Email Address: activate to sort column ascending">
-                                                    To Email Address
+                                                    aria-label="Mobile Number: activate to sort column ascending">
+                                                    Mobile Number
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
-                                                    aria-label="Country Phone Code: activate to sort column ascending">
-                                                    Country Phone Code
-                                                </th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1"
-                                                    aria-label="To Mobile Number: activate to sort column ascending">
-                                                    To Mobile Number
+                                                    aria-label="Status: activate to sort column ascending">
+                                                    Status
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                     rowspan="1" colspan="1"
@@ -319,38 +314,29 @@
                                                     aria-label="Invited On: activate to sort column ascending">
                                                     Invited On
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                                                    rowspan="1" colspan="1"
-                                                    aria-label="Invited Status: activate to sort column ascending">
-                                                    Invited Status
-                                                </th>
+
 
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr role="row" class="odd" *ngFor="let patient of reportList; let i=index">
+                                            <tr role="row" class="odd" *ngFor="let report of reportList; let i=index">
                                                 <td>{{ i + 1 }}</td>
                                                 <td>
-                                                    {{ patient?.id || "NA" }}
+                                                    {{ report?.toEmailAddress || "NA" }}
                                                 </td>
                                                 <td>
-                                                    {{ patient?.toEmailAddress || "NA" }}
+                                                    {{ (report?.countryPhoneCode || report?.toMobileNumber) ? report?.countryPhoneCode + " " + report?.toMobileNumber : "NA" }}
                                                 </td>
                                                 <td>
-                                                    {{ patient?.countryPhoneCode || "NA" }}
+                                                    {{ report?.invitedStatus || "NA" }}
                                                 </td>
                                                 <td>
-                                                    {{ patient?.toMobileNumber || "NA" }}
+                                                    {{ report?.invitationLink || "NA" }}
                                                 </td>
                                                 <td>
-                                                    {{ patient?.invitationLink || "NA" }}
+                                                    {{ report?.invitedOn || "NA" }}
                                                 </td>
-                                                <td>
-                                                    {{ patient?.invitedOn || "NA" }}
-                                                </td>
-                                                <td>
-                                                    {{ patient?.invitedStatus || "NA" }}
-                                                </td>
+
                                             </tr>
                                         </tbody>
                                     </table>

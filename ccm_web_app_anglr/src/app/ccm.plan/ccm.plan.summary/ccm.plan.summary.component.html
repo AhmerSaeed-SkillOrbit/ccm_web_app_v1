@@ -109,10 +109,11 @@
                                         <div class="col-md-12 text-right">
                                             <!-- <button *ngIf="generatePDFPermission" (click)="sentTo()" mat-raised-button
                                                 color="primary">Send to Patient</button> -->
-                                            <button *ngIf="generatePDFPermission" (click)="html2PDFfile('preview')"
-                                                mat-raised-button color="primary">Generate Pdf</button>
+                                            <!-- (click)="html2PDFfile('preview')" -->
+                                            <button *ngIf="generatePDFPermission" (click)="html2PDFfile('download')"
+                                                mat-raised-button color="primary">Generate PDF</button>
                                             <!-- <button *ngIf="generatePDFPermission" (click)="generatePDF()"
-                                                mat-raised-button color="primary">Generate Pdf</button> -->
+                                                mat-raised-button color="primary">Generate PDF</button> -->
                                         </div>
                                     </div>
 

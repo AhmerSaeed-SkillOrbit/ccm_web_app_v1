@@ -321,6 +321,8 @@ export class CcmPlanSummaryComponent implements OnInit, OnChanges, OnDestroy {
 
         // setTimeout(function () {
 
+        this._uiService.showSpinner();
+
 
         var element = document.getElementById('element-to-print');
         var opt = {
@@ -340,15 +342,18 @@ export class CcmPlanSummaryComponent implements OnInit, OnChanges, OnDestroy {
         // html2pdf().from(element).set(opt).save();
         // html2pdf().from(element).set(opt).output("dataurlnewwindow");
         if (type == "download") {
-            let fileName = "untitled";
+            let fileName = "CCM Plan Summary" || "untitled";
             fileName += ".pdf";
 
+            this._uiService.hideSpinner();
             html2pdf().from(element).set(opt).save(fileName);
         }
         else if (type == "print") {
+            this._uiService.hideSpinner();
             // html2pdf().from(element).set(opt).print();
         }
         else {
+            this._uiService.hideSpinner();
             html2pdf().from(element).set(opt).output("dataurlnewwindow");
         }
 
