@@ -54,7 +54,7 @@ export class DashboardService {
 
         let userId = token.userId;
 
-        const getUrl = 'dashboard/doctor??userId=' + (userId || null);
+        const getUrl = 'dashboard/doctor?userId=' + (userId || null);
         return this._http.get(getUrl, options)
             .map((res: Response) => res)
             .catch((error: any) => {
@@ -72,7 +72,7 @@ export class DashboardService {
 
         let userId = token.userId;
 
-        const getUrl = 'dashboard/facilitator??userId=' + (userId || null);
+        const getUrl = 'dashboard/facilitator?userId=' + (userId || null);
         return this._http.get(getUrl, options)
             .map((res: Response) => res)
             .catch((error: any) => {
@@ -90,7 +90,7 @@ export class DashboardService {
 
         let userId = token.userId;
 
-        const getUrl = 'dashboard/support/staff??userId=' + (userId || null);
+        const getUrl = 'dashboard/support/staff?userId=' + (userId || null);
         return this._http.get(getUrl, options)
             .map((res: Response) => res)
             .catch((error: any) => {
@@ -108,7 +108,7 @@ export class DashboardService {
 
         let userId = token.userId;
 
-        const getUrl = 'dashboard/patient??userId=' + (userId || null);
+        const getUrl = 'dashboard/patient?userId=' + (userId || null);
         return this._http.get(getUrl, options)
             .map((res: Response) => res)
             .catch((error: any) => {
