@@ -45,7 +45,7 @@
         </li>
 
         <li
-          *ngIf="(adminListPagePermission || facilitatorListPagePermission || doctorListPagePermission || patientListPagePermission || supportStaffListPagePermission || inviteFacilitatorPagePermission)">
+          *ngIf="(adminListPagePermission || facilitatorListPagePermission || doctorListPagePermission || patientListPagePermission || supportStaffListPagePermission || pendingInvitationListPagePermission || inviteFacilitatorPagePermission)">
           <a (click)="expandRow(1)">
             <i class=" icon-users"></i>
             <span>User Managment</span>
@@ -84,6 +84,12 @@
                 <a [routerLink]="['/um/list/supStaff']">
                   <i class=" icon-users"></i>
                   <span>Support Staff</span>
+                </a>
+              </li>
+              <li *ngIf="pendingInvitationListPagePermission">
+                <a [routerLink]="['/um/list/pending/invitation']">
+                  <i class=" icon-users"></i>
+                  <span>Pending Invitation</span>
                 </a>
               </li>
               <li *ngIf="inviteFacilitatorPagePermission">
@@ -346,8 +352,7 @@
           </ul>
         </li>
 
-        <li
-          *ngIf="(reportPRPermission || reportPIPermission || reportPCCPermission || reportPTPermission)">
+        <li *ngIf="(reportPRPermission || reportPIPermission || reportPCCPermission || reportPTPermission)">
           <a (click)="expandRow(9)">
             <i class="icon-stats-dots"></i>
             <span>Reports</span>

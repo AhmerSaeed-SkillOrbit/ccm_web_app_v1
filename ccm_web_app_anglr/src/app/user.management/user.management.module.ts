@@ -20,6 +20,8 @@ import { AddUpdateUserDialogeComponent } from './add.update.user.dialoge/add.upd
 import { AssignFacilitatorDialogeComponent } from './assign.facilitator.dialoge/assign.facilitator.dialoge.component';
 import { InviteFacilitatorComponent } from './invite.facilitator/invite.facilitator.component';
 
+import { PendingInvitationListComponent } from './list.pendingInvitation/pendingInvitation.list.component';
+
 
 @NgModule({
     declarations: [
@@ -37,7 +39,8 @@ import { InviteFacilitatorComponent } from './invite.facilitator/invite.facilita
 
         InviteDialogComponent,
         AddUpdateUserDialogeComponent,
-        AssignFacilitatorDialogeComponent
+        AssignFacilitatorDialogeComponent,
+        PendingInvitationListComponent
 
         // ProductNewComponent,
         // ProductDetialComponent,
@@ -75,6 +78,10 @@ import { InviteFacilitatorComponent } from './invite.facilitator/invite.facilita
             {
                 path: 'list/supStaff',
                 component: SupportStaffListComponent
+            },
+            {
+                path: 'list/pending/invitation',
+                component: PendingInvitationListComponent
             },
             {
                 path: 'invite/doctor',

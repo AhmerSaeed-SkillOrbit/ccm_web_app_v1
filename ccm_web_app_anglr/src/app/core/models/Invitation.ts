@@ -1,8 +1,8 @@
 
-export class InvitationReport {
+export class Invitation {
 
     id: number;
-    invitationReportId: number;
+    invitationId: number;
     toEmailAddress: string;
     countryPhoneCode: string;
     toMobileNumber: string;

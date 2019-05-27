@@ -607,4 +607,44 @@ export class UserService {
             }
             );
     }
+
+    // --------- invitation List Doctor Count with doctor Id and search
+    public getInvitationListDoctorCount(searchKey, doctorId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+        // user/invitation/count/doctor?search=33&doctorId=11
+        const getUrl = 'user/invitation/count/doctor?userId=' + (userId || null) + '&search=' + (searchKey || null) + '&doctorId=' + (doctorId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
+
+    // --------- Invitation Doctor Pagination
+    public getInvitationListDoctorPagination(pageNo, limit, searchKey, doctorId): Observable<any> {
+
+        let token: Token;
+        token = this._authService.getTokenData();
+        const options = new RequestOptions();
+        options.headers = new Headers();
+        options.headers.append('Authorization', token.tokenType + ' ' + token.tokenId);
+
+        let userId = token.userId;
+        // user/invitation/list/doctor?pageNo=0&limit=10&search=33&doctorId=11
+        const getUrl = 'user/invitation/list/doctor?userId=' + (userId || null) + '&pageNo=' + (pageNo || 0) + '&limit=' + (limit || 5) + '&search=' + (searchKey || null) + '&doctorId=' + (doctorId || null);
+        return this._http.get(getUrl, options)
+            .map((res: Response) => res)
+            .catch((error: any) => {
+                return Observable.throw(error);
+            }
+            );
+    }
 }

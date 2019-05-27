@@ -57,6 +57,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     doctorListPagePermission = false;
     patientListPagePermission = false;
     supportStaffListPagePermission = false;
+    pendingInvitationListPagePermission = false;
     inviteFacilitatorPagePermission = false;
 
 
@@ -190,6 +191,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
         // this.supportStaffListPagePermission = this._utilityService.checkUserPermission(this.user, 'support_staff_list_page');
         this.supportStaffListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'support_staff_list_page');
         // this.supportStaffListPagePermission = true;
+
+        // this.pendingInvitationListPagePermission = this._utilityService.checkUserPermission(this.user, 'view_patient_pending_invitation');
+        this.pendingInvitationListPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'view_patient_pending_invitation');
+        // this.pendingInvitationListPagePermission = true;
 
         // this.inviteFacilitatorPagePermission = this._utilityService.checkUserPermission(this.user, 'invite_facilitator');
         this.inviteFacilitatorPagePermission = this._utilityService.checkUserPermissionViewPermissionObj(this.userPermissions, 'invite_facilitator');

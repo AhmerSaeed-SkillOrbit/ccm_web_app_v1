@@ -100,23 +100,30 @@ export class PatientAcceptedRequestListComponent implements OnInit {
             // this._router.navigateByUrl('login');
         } else {
 
-            // this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'appointment_list_page');
-            this.listPagePermission = true;
+            if (this.user && this.user.role && this.user.role.roleCode == "patient") {
 
-            if (this.listPagePermission) {
-                // this.viewPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.viewPermission = true;
-                // this.acceptPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                // this.acceptPermission = true;
-                // this.rejectPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                // this.rejectPermission = true;
-                // this.cancelPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
-                this.cancelPermission = true;
+                // this.listPagePermission = this._utilityService.checkUserPermission(this.user, 'appointment_list_page');
+                this.listPagePermission = true;
 
-                this.loadAppointmentList();
+                if (this.listPagePermission) {
+                    // this.viewPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+                    this.viewPermission = true;
+                    // this.acceptPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+                    // this.acceptPermission = true;
+                    // this.rejectPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+                    // this.rejectPermission = true;
+                    // this.cancelPermission = this._utilityService.checkUserPermission(this.user, 'add_patient');
+                    this.cancelPermission = true;
+
+                    this.loadAppointmentList();
+                }
+                else {
+                    this._router.navigateByUrl('permission');
+                }
+
             }
             else {
-                this._router.navigateByUrl('permission');
+                this._router.navigateByUrl('appointment/d/list/a');
             }
         }
 

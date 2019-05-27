@@ -54,6 +54,7 @@ export class OtherHomeComponent implements OnInit {
         associatedFacilitator: 0,
         activeCcmPlan: 0,
         pendingAppointment: 0,
+        upcomingAppointment: 0,
         doctorLoggedInHistory: []
     };
 
@@ -72,6 +73,7 @@ export class OtherHomeComponent implements OnInit {
 
     patientDashboard = {
         upcomingAppointment: 0,
+        openTicket: 0,
         activeCcmPlan: 0,
         loggedInHistory: []
     };
@@ -82,6 +84,7 @@ export class OtherHomeComponent implements OnInit {
     displayedColumnsHs = ['dateTime'];
     dataSourceHs = new MatTableDataSource<User>(this.loginHistoryList);
     @ViewChild(MatPaginator) paginatorHs: MatPaginator;
+
     isSpinnerHs = false;
     filterHs: string = "";
     pageEventHs: PageEvent;
@@ -186,6 +189,7 @@ export class OtherHomeComponent implements OnInit {
                 this.doctorDashboard.associatedFacilitator = data && data.AssociatedFacilitator ? data.AssociatedFacilitator : 0;
                 this.doctorDashboard.activeCcmPlan = data && data.ActiveCcmPlan ? data.ActiveCcmPlan : 0;
                 this.doctorDashboard.pendingAppointment = data && data.PendingAppointment ? data.PendingAppointment : 0;
+                this.doctorDashboard.upcomingAppointment = data && data.UpcomingAppointment ? data.UpcomingAppointment : 0;
             },
             (err) => {
                 console.log("err", err);
@@ -234,7 +238,8 @@ export class OtherHomeComponent implements OnInit {
             (res) => {
                 // this._uiService.hideSpinner();
                 let data = res.json().data;
-                // this.patientDashboard.upcomingAppointment = data && data.UpcomingAppointment ? data.UpcomingAppointment : 0;
+                this.patientDashboard.upcomingAppointment = data && data.UpcomingAppointment ? data.UpcomingAppointment : 0;
+                this.patientDashboard.openTicket = data && data.OpenTicket ? data.OpenTicket : 0;
                 this.patientDashboard.activeCcmPlan = data && data.ActiveCcmPlan ? data.ActiveCcmPlan : 0;
             },
             (err) => {
@@ -261,7 +266,7 @@ export class OtherHomeComponent implements OnInit {
                 this._userService.getUserLoginHistoryListPagination(this.pageIndexHs, this.pageSizeHs, this.user.id).subscribe(
                     (res) => {
                         this.isSpinnerHs = false;
-                        const array = res.json().data;
+                        const array = res.json().data || [];
                         console.log('res user list:', res);
                         var bList = [];
                         for (let i = 0; i < array.length; i++) {
@@ -328,12 +333,70 @@ export class OtherHomeComponent implements OnInit {
         );
     }
 
-    nevigate(type) {
+    navigateTo(type) {
+        // console.log('navigation type', type);
 
-        if (type == 'view-doctor-schedule') {
-            this._router.navigateByUrl('schedule/view/' + this.assocDoctor.id);
+        if (type === 'registeredPatient') {
+            this._router.navigateByUrl('um/list/patient');
         }
-        // else if (this.user.entityType === 'influencer_agent') {
+        if (type === 'pendingInvitation') {
+            this._router.navigateByUrl('um/list/pending/invitation');
+        }
+        if (type === 'associatedFacilitator') {
+            this._router.navigateByUrl('um/list/facilitator');
+        }
+        if (type === 'activeCCMPlan') {
+            this._router.navigateByUrl('um/list/patient');
+        }
+        if (type === 'totalReviewsOnGoals') {
+            this._router.navigateByUrl('um/list/patient');
+        }
+        if (type === 'associatedDoctor') {
+            this._router.navigateByUrl('um/list/doctor');
+        }
+        if (type === 'ticketCreated') {
+            this._router.navigateByUrl('ticket/t/list');
+        }
+        if (type === 'ticketResponded') {
+            this._router.navigateByUrl('ticket/t/list');
+        }
+        if (type === 'ticketClosed') {
+            this._router.navigateByUrl('ticket/t/list');
+        }
+        if (type === 'pendingAppointment') {
+            if (this.user && this.user.role && this.user.role.roleCode == "doctor") {
+                this._router.navigateByUrl('appointment/d/list/p');
+            }
+        }
+        if (type == 'viewDoctorSchedule') {
+            if (this.assocDoctor.id) {
+                this._router.navigateByUrl('schedule/view/' + this.assocDoctor.id);
+            }
+        }
+        if (type == 'upcomingAppointment') {
+            if (this.user && this.user.role && this.user.role.roleCode == "patient") {
+                // this._router.navigateByUrl('appointment/p/list/p');
+                if (this.assocDoctor.id) {
+                    this._router.navigateByUrl('schedule/view/' + this.assocDoctor.id);
+                }
+            }
+            if (this.user && this.user.role && this.user.role.roleCode == "doctor") {
+                this._router.navigateByUrl('schedule/view');
+            }
+        }
+        if (type == 'openTicket') {
+            this._router.navigateByUrl('ticket/t/list');
+        }
+
+        // if (this.user.entityType === 'brand' ) {
+        //     this._router.navigateByUrl('brand/campaign/details/' + id);
+        // } else if (this.user.entityType === 'influencer' ) {
+        //     // this._router.navigate(['influencer/campaign/details/'],id);
+        //     this._router.navigateByUrl('influencer/campaign/details/' + id);
+
+        // } else if (this.user.entityType === 'digital_agency' ) {
+        //     this._router.navigateByUrl('da/campaign/details/' + id);
+        // } else if (this.user.entityType === 'influencer_agent' ) {
         //     this._router.navigateByUrl('ia/campaign/details/' + id);
         // }
 

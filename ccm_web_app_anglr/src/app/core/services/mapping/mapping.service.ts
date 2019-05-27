@@ -23,7 +23,7 @@ import { CcmPlan, CcmPlanItem, CcmPlanItemGoal, CcmPlanHealthParam, HealthParam,
 import { Tab } from '../../models/tab';
 import { PatientType } from '../../models/patient.type';
 import { CptOption } from '../../models/cpt.option';
-import { InvitationReport } from '../../models/report';
+import { Invitation } from '../../models/Invitation';
 
 @Injectable()
 export class MappingService {
@@ -1389,12 +1389,12 @@ export class MappingService {
         return isCptOption;
     }
 
-    public mapInvitationReport(res: any): InvitationReport {
+    public mapInvitation(res: any): Invitation {
         const invitationReportData = res;
-        const isInvitationReport = new InvitationReport();
+        const isInvitationReport = new Invitation();
         if (invitationReportData) {
             isInvitationReport.id = invitationReportData.Id || null;
-            isInvitationReport.invitationReportId = invitationReportData.Id || null;
+            isInvitationReport.invitationId = invitationReportData.Id || null;
             isInvitationReport.toEmailAddress = invitationReportData.ToEmailAddress || null;
             isInvitationReport.countryPhoneCode = invitationReportData.CountryPhoneCode || null;
             isInvitationReport.toMobileNumber = invitationReportData.ToMobileNumber || null;

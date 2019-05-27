@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { User } from '../../core/models/user';
 import { IAuthService } from '../../core/services/auth/iauth.service';
 import { UIService } from '../../core/services/ui/ui.service';
@@ -11,8 +11,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Message, MessageTypes } from '../../core/models/message';
 import { SetupService } from '../../core/services/setup/setup.service';
 import { DashboardService } from '../../core/services/dashboard/dashboard.service';
-// import { InfluencerProfile } from '../core/models/influencer/influencer.profile';
-// import { EasyPay } from '../core/models/payment/easypay.payment';
+import { MappingService } from '../../core/services/mapping/mapping.service';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 declare var libraryVar: any;
 
@@ -31,8 +31,27 @@ export class AdminHomeComponent implements OnInit {
         facilitatorCount: 0,
         patientCount: 0,
         doctorCount: 0,
-        supportStaffCount: 0
+        supportStaffCount: 0,
+        activeCcmPlan: 0,
+        lastDoctorLoggedInHistory: [],
+        lastFacilitatorLoggedInHistory: [],
+        lastPatientLoggedInHistory: []
     };
+
+    displayedColumnsDocHs = ['name', 'dateTime'];
+    dataSourceDocHs = new MatTableDataSource<User>(this.dashboard.lastDoctorLoggedInHistory);
+    @ViewChild('paginatorDocHs') paginatorDocHs: MatPaginator;
+    isSpinnerDocHs = false;
+
+    displayedColumnsFacHs = ['name', 'dateTime'];
+    dataSourceFacHs = new MatTableDataSource<User>(this.dashboard.lastFacilitatorLoggedInHistory);
+    @ViewChild('paginatorFacHs') paginatorFacHs: MatPaginator;
+    isSpinnerFacHs = false;
+
+    displayedColumnsPatHs = ['name', 'dateTime'];
+    dataSourcePatHs = new MatTableDataSource<User>(this.dashboard.lastPatientLoggedInHistory);
+    @ViewChild('paginatorPatHs') paginatorPatHs: MatPaginator;
+    isSpinnerPatHs = false;
 
     currentURL: string;
     // script = new ScriptService();
@@ -50,11 +69,12 @@ export class AdminHomeComponent implements OnInit {
     // influencerProfile = new InfluencerProfile();
     // easyPay = new EasyPay();
 
-    constructor( @Inject('IAuthService') private _authService: IAuthService,
+    constructor(@Inject('IAuthService') private _authService: IAuthService,
         private _uiService: UIService,
         // public _messaging: MessagingService,
         private _dashboardService: DashboardService,
         // private _utility: UtilityService,
+        private _mappingService: MappingService,
         private route: ActivatedRoute, private _router: Router) {
         this.currentURL = window.location.href;
     }
@@ -94,6 +114,34 @@ export class AdminHomeComponent implements OnInit {
                 this.dashboard.patientCount = data && data.Patient ? data.Patient : 0;
                 this.dashboard.doctorCount = data && data.Doctor ? data.Doctor : 0;
                 this.dashboard.supportStaffCount = data && data.SupportStaff ? data.SupportStaff : 0;
+                this.dashboard.activeCcmPlan = data && data.ActiveCcmPlan ? data.ActiveCcmPlan : 0;
+
+                const array = data && data.LastDoctorLoggedInHistory ? data.LastDoctorLoggedInHistory : [];
+                var dList = [];
+                for (let i = 0; i < array.length; i++) {
+                    let d = this._mappingService.mapUser(array[i]);
+                    dList.push(d);
+                }
+                this.dashboard.lastDoctorLoggedInHistory = dList;
+                this.dataSourceDocHs = new MatTableDataSource<User>(this.dashboard.lastDoctorLoggedInHistory);
+
+                const array1 = data && data.LastFacilitatorLoggedInHistory ? data.LastFacilitatorLoggedInHistory : [];
+                var fList = [];
+                for (let i = 0; i < array1.length; i++) {
+                    let f = this._mappingService.mapUser(array1[i]);
+                    fList.push(f);
+                }
+                this.dashboard.lastFacilitatorLoggedInHistory = fList;
+                this.dataSourceFacHs = new MatTableDataSource<User>(this.dashboard.lastFacilitatorLoggedInHistory);
+
+                const array2 = data && data.LastPatientLoggedInHistory ? data.LastPatientLoggedInHistory : [];
+                var pList = [];
+                for (let i = 0; i < array2.length; i++) {
+                    let p = this._mappingService.mapUser(array2[i]);
+                    pList.push(p);
+                }
+                this.dashboard.lastPatientLoggedInHistory = pList;
+                this.dataSourcePatHs = new MatTableDataSource<User>(this.dashboard.lastPatientLoggedInHistory);
             },
             (err) => {
                 console.log("err", err);
@@ -120,6 +168,9 @@ export class AdminHomeComponent implements OnInit {
         }
         if (type === 'supStaff') {
             this._router.navigateByUrl('um/list/supStaff');
+        }
+        if (type === 'activeCCMPlan') {
+            this._router.navigateByUrl('um/list/patient');
         }
 
         // if (this.user.entityType === 'brand' ) {
