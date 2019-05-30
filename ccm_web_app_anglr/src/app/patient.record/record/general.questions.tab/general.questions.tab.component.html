@@ -66,7 +66,6 @@
                                                             formControlName="isAnswered"
                                                             [(ngModel)]="questionAnswers[i].answer.isAnswered"
                                                             (change)="onAnswerTypeSelect()">
-                                                            <mat-option>None</mat-option>
                                                             <mat-option *ngFor="let answerType of answerTypes"
                                                                 [value]="answerType.code">
                                                                 <!-- {{ answerType.name }} -->

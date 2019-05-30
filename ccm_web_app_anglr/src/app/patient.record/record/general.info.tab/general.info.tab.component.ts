@@ -120,6 +120,8 @@ export class GeneralInfoTabComponent implements OnInit {
 
     ngOnChanges(changes: SimpleChanges): void {
 
+   
+
         console.log("this.payLoad in parent RecoverySuit on change =-=-==-=-=");
 
         if (changes['isTabActive']) {
@@ -179,6 +181,8 @@ export class GeneralInfoTabComponent implements OnInit {
                 // this.newUser = user;
                 this.patient = this._mappingService.mapUser(user);
                 console.log('patient general info', this.patient);
+                console.log(" #### before this.patient.dateOfBirth ###");
+                console.log(this.patient.dateOfBirth);
                 // this.userId = this.user.id;
             },
             (err) => {
@@ -194,8 +198,17 @@ export class GeneralInfoTabComponent implements OnInit {
         console.log('event', event.value);
         console.log('type', type);
         if (type == 'dob') {
-            this.patient.dateOfBirth = this.datePipe.transform(this.patient.dateOfBirth, 'yyyy-MM-dd');
 
+            console.log(" #### before this.patient.dateOfBirth ###");
+            console.log(this.patient.dateOfBirth);
+
+            this.patient.dateOfBirth = this.datePipe.transform(this.patient.dateOfBirth, 'yyyy-MM-dd','full');
+            // transform(value: any, format?: string, timezone?: string, locale?: string): string | null;
+
+            this.datePipe
+
+            console.log(" #### after this.patient.dateOfBirth ###");
+            console.log(this.patient.dateOfBirth);
             // this.projectActivityForm.projectActivityDate = this.datePipe.transform(this.projectActivityForm.projectActivityDate, 'yyyy-MM-dd h:mm:ss a');
 
 

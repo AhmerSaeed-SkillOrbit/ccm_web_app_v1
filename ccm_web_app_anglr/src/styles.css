@@ -171,3 +171,49 @@ span.label-dt:last-child .comma {
     height: 1px;
     width: 100%;
 }
+
+ /* Ahmer */
+ .white-box {
+    background: #fff;
+    padding: 25px;
+    margin-bottom: 15px
+}
+
+.dashboard-stats .white-box{
+    padding: 25px 12px;
+}
+
+.bg-success-gradient{
+    background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+}
+
+.bg-danger-gradient{
+    background-image: linear-gradient(to right, #fa709a 0%, #fe8f40 100%);
+}
+
+.bg-warning-gradient{
+    background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+}
+
+.bg-info-gradient{
+    background-image: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
+}
+
+.bg-inverse-gradient{
+    background-image: linear-gradient(to right, #434343 0%, black 100%);
+}
+
+.widget-title{
+    font-size: 13px !important;
+    color: #2b2b2b;
+    font-weight: 400 !important;
+    text-transform: uppercase;
+}
+
+.dashboard-stats .col-sm-9 .counter {
+    font-size: 20px;
+}
+
+.text-right {
+    text-align: right
+}
