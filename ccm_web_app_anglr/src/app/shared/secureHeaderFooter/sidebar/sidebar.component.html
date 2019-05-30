@@ -48,7 +48,7 @@
           *ngIf="(adminListPagePermission || facilitatorListPagePermission || doctorListPagePermission || patientListPagePermission || supportStaffListPagePermission || pendingInvitationListPagePermission || inviteFacilitatorPagePermission)">
           <a (click)="expandRow(1)">
             <i class=" icon-users"></i>
-            <span>User Managment</span>
+            <span>User Management</span>
             <span>
               <i class="right-ico fa" [ngClass]="(1 === expandedIndex) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
             </span>
@@ -261,7 +261,7 @@
         <li *ngIf="false">
           <a (click)="expandRow(5)">
             <i class="icon-ticket"></i>
-            <span>Tickets Managment</span>
+            <span>Tickets Management</span>
             <span>
               <i class="right-ico fa" [ngClass]="(5 === expandedIndex) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
             </span>
