@@ -44,6 +44,7 @@ export class User extends BaseModel {
     ageGroup: String;
     // dateOfBirth: String;
     dateOfBirth: any;
+    dateOfBirthFullDate: any;
     gender: String;
 
     patientTypeId: number;

@@ -81,7 +81,7 @@
                     <div class="col-md-3">
                         <mat-form-field class="full-width">
                             <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" [max]="currentDate" placeholder="Date of Birth (DOB)"
-                                formControlName="dateOfBirth" [(ngModel)]="patient.dateOfBirth" (dateChange)="dateChanged($event, 'dob')"
+                                formControlName="dateOfBirth" [(ngModel)]="patient.dateOfBirthFullDate" (dateChange)="dateChanged($event, 'dob')"
                                 readonly>
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>

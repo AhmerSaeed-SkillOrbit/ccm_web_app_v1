@@ -53,7 +53,18 @@ export class MappingService {
             isUser.mobileNumber = userData.MobileNumber || null;
             isUser.phoneNumber = userData.TelephoneNumber || null;
             isUser.cnic = userData.Cnic || null;
+
             isUser.dateOfBirth = userData.DateOfBirth || null;
+
+            // isUser.dateOfBirthFullDate = userData.DateOfBirth ? new Date(userData.DateOfBirth) : null;
+            if (userData.DateOfBirth) {
+                var d = new Date(userData.DateOfBirth);
+                d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
+                isUser.dateOfBirthFullDate = d;
+            }
+
+
+
             isUser.age = userData.Age || null;
             isUser.ageGroup = userData.AgeGroup || null;
             isUser.gender = userData.Gender || null;
