@@ -319,8 +319,8 @@ export class AddScheduleComponent implements OnInit {
             this.schedule.endDateFull = monthEndDay;
             this.schedule.endDate = this.datePipe.transform(monthEndDay, 'yyyy-MM-dd');
 
-            console.log("this.schedule.startDateFull", this.schedule.startDateFull)
-            console.log("this.schedule.endDateFull", this.schedule.endDateFull)
+            // console.log("this.schedule.startDateFull", this.schedule.startDateFull)
+            // console.log("this.schedule.endDateFull", this.schedule.endDateFull)
 
             // if (this.startDate && this.endDate) {
             if (this.schedule.startDate && this.schedule.endDate) {
@@ -331,6 +331,7 @@ export class AddScheduleComponent implements OnInit {
 
                     this.endDate = null;
                     this.schedule.endDate = null;
+                    this.schedule.endDateFull = null;
                     // this.clearFormArray(this.scheduleDetailArray);
 
                     this.clearFormArray(<FormArray>this.formScheduleDetail.controls['scheduleDetail']);
@@ -390,6 +391,7 @@ export class AddScheduleComponent implements OnInit {
             console.log("monthEndDay", monthEndDay);
             // this.schedule.endDate = monthEndDay.toDateString();
 
+            this.schedule.endDateFull = monthEndDay;
             this.schedule.endDate = this.datePipe.transform(monthEndDay, 'yyyy-MM-dd');
 
 
@@ -413,7 +415,9 @@ export class AddScheduleComponent implements OnInit {
                 // this.clearFormArray(this.scheduleDetailArray);
                 this.schedule.scheduleDetails = [];
                 // this.dateArray = this.getDates(this.startDate, this.endDate);
-                this.dateArray = this.getDates(this.schedule.startDate, this.schedule.endDate);
+
+                // this.dateArray = this.getDates(this.schedule.startDate, this.schedule.endDate);
+                this.dateArray = this.getDates(this.schedule.startDateFull, this.schedule.endDateFull);
 
                 console.log("this.dateArray ", this.dateArray);
                 // this.totalTimeSpent = 0;

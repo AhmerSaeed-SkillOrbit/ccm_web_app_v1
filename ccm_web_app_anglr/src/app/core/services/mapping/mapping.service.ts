@@ -235,6 +235,13 @@ export class MappingService {
             isScheduleDetail.isOffDay = scheduleDetailData.IsOffDay || false;
             isScheduleDetail.noOfShift = scheduleDetailData.NoOfShift || null;
             isScheduleDetail.scheduleDate = scheduleDetailData.ScheduleDate || null;
+            isScheduleDetail.scheduleDateFull = scheduleDetailData.ScheduleDate || null;
+            if (scheduleDetailData.ScheduleDate) {
+                var d = new Date(scheduleDetailData.ScheduleDate);
+                d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
+                isScheduleDetail.scheduleDateFull = d;
+            }
+
 
             let ss = [];
             if (scheduleDetailData.ScheduleShifts && scheduleDetailData.ScheduleShifts.length > 0) {
