@@ -50,6 +50,7 @@ export class AddScheduleComponent implements OnInit {
     userPermissions: Permission[] = [];
     isLogin: any;
 
+    currentYear: number;
     currentMonth: number;
     schedule: Schedule = new Schedule()
 
@@ -105,6 +106,7 @@ export class AddScheduleComponent implements OnInit {
 
         this.currentDate = new Date();
         this.currentMonth = this.currentDate.getMonth();
+        this.currentYear = this.currentDate.getFullYear();
 
         console.log("this.currentMonth", this.currentMonth);
 
@@ -286,9 +288,25 @@ export class AddScheduleComponent implements OnInit {
         }
     }
 
-    onMonthYearFocusOut() {
+    onMonthYearFocusOut(type) {
 
         console.log("this.schedule.monthId", this.schedule.monthId)
+
+        if (this.schedule.year <= this.currentYear && this.currentMonth > this.schedule.monthId) {
+
+            this.schedule.monthId = null;
+            this.schedule.startDate = null;
+            this.schedule.endDate = null;
+
+            this.endDate = null;
+            // this.clearFormArray(this.scheduleDetailArray);
+
+            this.clearFormArray(<FormArray>this.formScheduleDetail.controls['scheduleDetail']);
+
+            this.schedule.scheduleDetails = [];
+            this.dateArray = new Array();
+
+        }
 
         if ((this.schedule.monthId || this.schedule.monthId == 0) && this.schedule.year) {
 
@@ -296,8 +314,13 @@ export class AddScheduleComponent implements OnInit {
             let monthStartDay = new Date(this.schedule.year, this.schedule.monthId, 1);
             let monthEndDay = new Date(this.schedule.year, this.schedule.monthId + 1, 0);
 
+            this.schedule.startDateFull = monthStartDay;
             this.schedule.startDate = this.datePipe.transform(monthStartDay, 'yyyy-MM-dd');
+            this.schedule.endDateFull = monthEndDay;
             this.schedule.endDate = this.datePipe.transform(monthEndDay, 'yyyy-MM-dd');
+
+            console.log("this.schedule.startDateFull", this.schedule.startDateFull)
+            console.log("this.schedule.endDateFull", this.schedule.endDateFull)
 
             // if (this.startDate && this.endDate) {
             if (this.schedule.startDate && this.schedule.endDate) {
@@ -322,7 +345,9 @@ export class AddScheduleComponent implements OnInit {
 
                     this.schedule.scheduleDetails = [];
                     // this.dateArray = this.getDates(this.startDate, this.endDate);
-                    this.dateArray = this.getDates(this.schedule.startDate, this.schedule.endDate);
+
+                    // this.dateArray = this.getDates(this.schedule.startDate, this.schedule.endDate);
+                    this.dateArray = this.getDates(this.schedule.startDateFull, this.schedule.endDateFull);
 
                     console.log("this.dateArray ", this.dateArray);
                     // this.totalTimeSpent = 0;
@@ -615,6 +640,7 @@ export class AddScheduleComponent implements OnInit {
             // console.log("currentDate", currentDate);
             // console.log("currentDate", new Date(currentDate));
             let sData = new ScheduleDetail();
+            sData.scheduleDateFull = currentDate;
             sData.scheduleDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
             this.schedule.scheduleDetails.push(sData);
             // this.addScheduleDetails();

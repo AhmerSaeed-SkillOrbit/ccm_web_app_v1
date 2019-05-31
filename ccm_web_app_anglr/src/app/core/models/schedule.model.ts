@@ -9,7 +9,9 @@ export class Schedule {
     // month: any;
     month: Month = new Month();
     year: number;
+    startDateFull: any;
     startDate: string;
+    endDateFull: any;
     endDate: string;
     scheduleDetails: ScheduleDetail[] = [];
 }
@@ -17,6 +19,7 @@ export class Schedule {
 export class ScheduleDetail {
     id: number;
     scheduleDetailId: number;
+    scheduleDateFull: any;
     scheduleDate: string;
     noOfShift: number;
     isOffDay: boolean = false;

@@ -186,6 +186,21 @@ export class MappingService {
             isSchedule.year = scheduleData.YearName || null;
             isSchedule.startDate = scheduleData.StartDate || null;
             isSchedule.endDate = scheduleData.EndDate || null;
+            isSchedule.startDateFull = scheduleData.StartDate || null;
+            isSchedule.endDateFull = scheduleData.EndDate || null;
+
+            if (scheduleData.StartDate) {
+                var d = new Date(scheduleData.StartDate);
+                d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
+                isSchedule.startDateFull = d;
+            }
+            if (scheduleData.EndDate) {
+                var d = new Date(scheduleData.EndDate);
+                d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
+                isSchedule.endDateFull = d;
+            }
+
+
 
             let month = Config.months.filter(m => m.id === +isSchedule.monthId);
 
