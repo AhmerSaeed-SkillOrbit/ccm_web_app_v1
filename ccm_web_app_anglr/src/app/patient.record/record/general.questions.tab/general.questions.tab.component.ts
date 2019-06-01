@@ -49,10 +49,14 @@ export class GeneralQuestionsTabComponent implements OnInit {
     viewPatientRecordPagePermission = false;
     addPatientRecordPagePermission = false;
 
+    defaultQuestionCheck: string = "What is your desired frequency of contact?";
+
     questionAnswers: QuestionAnswer[] = [];
     isSubmitted: boolean = false;
 
     answerTypes: AnswerType[] = [];
+
+    defaultAnswerTypes: AnswerType[] = [];
 
     private ngUnsubscribe: Subject<any> = new Subject();
 
@@ -171,17 +175,24 @@ export class GeneralQuestionsTabComponent implements OnInit {
 
                 let array = res.json().data || null;
                 var atList = [];
+                var datList = [];
                 if (array) {
                     for (let key in array) {
                         let at: AnswerType = new AnswerType();
                         at.name = array[key];
                         at.code = key;
                         atList.push(at);
+
+                        if (at.code == "Biweekly" || at.code == "Monthly" || at.code == "Weekly") {
+                            datList.push(at);
+                        }
+
                         // console.log('key: ' + key + ',  value: ' + array[key]);
                     }
                 }
 
                 this.answerTypes = atList;
+                this.defaultAnswerTypes = datList;
 
                 console.log('answerTypes: ' + this.answerTypes);
 

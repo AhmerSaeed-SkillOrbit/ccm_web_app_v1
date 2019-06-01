@@ -53,6 +53,10 @@ export class CptCodeTabComponent implements OnInit {
     patientCptCodeOptionIds: string[] = [];
     patientCptCodeOptions: CptOption[] = [];
 
+    defaultCptCodeOptionCodes: string[] = ["99490"];
+    defaultCptCodeOptionIds: string[] = [];
+    defaultCptCodeOptions: CptOption[] = [];
+
     cptCodeOptions: CptOption[] = [];
 
     genders = Config.gender;
@@ -144,6 +148,26 @@ export class CptCodeTabComponent implements OnInit {
                 }
                 this.cptCodeOptions = coList;
 
+
+                let dcos = [];
+                let dcoIds = [];
+                this.defaultCptCodeOptionCodes.forEach(element => {
+                    const cptCodeOption = this.cptCodeOptions.filter(c => c.code == element);
+
+                    if (cptCodeOption.length > 0) {
+                        dcos.push(cptCodeOption[0]);
+                        dcoIds.push(cptCodeOption[0].id.toString());
+                    }
+                })
+                this.defaultCptCodeOptions = dcos;
+                this.defaultCptCodeOptionIds = dcoIds;
+
+
+                if (this.patientCptCodeOptions.length == 0) {
+                    this.patientCptCodeOptions = this.defaultCptCodeOptions;
+                    this.patientCptCodeOptionIds = this.defaultCptCodeOptionIds;
+                }
+
                 // console.log('patientTypes', this.patientTypes);
 
 
@@ -180,6 +204,11 @@ export class CptCodeTabComponent implements OnInit {
                 }
                 this.patientCptCodeOptions = coList;
                 this.patientCptCodeOptionIds = coIdList;
+
+                if (this.patientCptCodeOptions.length == 0) {
+                    this.patientCptCodeOptions = this.defaultCptCodeOptions;
+                    this.patientCptCodeOptionIds = this.defaultCptCodeOptionIds;
+                }
 
                 console.log('patientCptCodeOptionIds:', this.patientCptCodeOptionIds);
             },
