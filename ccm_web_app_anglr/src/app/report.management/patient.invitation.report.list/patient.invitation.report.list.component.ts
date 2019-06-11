@@ -414,10 +414,13 @@ export class PatientInvitationReportListComponent implements OnInit {
 
                             var uList = [];
                             for (let i = 0; i < array.length; i++) {
-                                let u = this._mappingService.mapUser(array[i]);
+                                // let u = this._mappingService.mapUser(array[i]);
+                                let u = this._mappingService.mapInvitation(array[i]);
                                 uList.push(u);
                             }
                             this.reportListAll = uList;
+
+                            console.log("this.reportListAll", this.reportListAll);
 
                             // this.dataSource = new MatTableDataSource<User>(this.userList);
                             // this.dataSource.paginator = this.paginator;
