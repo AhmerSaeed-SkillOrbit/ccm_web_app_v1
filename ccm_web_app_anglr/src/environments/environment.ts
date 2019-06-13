@@ -8,15 +8,18 @@ export const environment = {
   showLog: true,
 
   // dev
-  authBaseUrl: 'https://api.businessdirectory360.com/api/',
-  apiBaseUrl: 'https://api.businessdirectory360.com/api/',
+  // authBaseUrl: 'https://api.businessdirectory360.com/api/',
+  // apiBaseUrl: 'https://api.businessdirectory360.com/api/',
 
   // authBaseUrl: 'https://api.connectcareplus.com/api/',
   // apiBaseUrl: 'https://api.connectcareplus.com/api/',
 
+  // authBaseUrl: 'https://connectcareplus.com/api/api/',
+  // apiBaseUrl: 'https://connectcareplus.com/api/api/',
+
   // LC
-  // authBaseUrl: 'http://127.0.0.1:8000/api/',
-  // apiBaseUrl: 'http://127.0.0.1:8000/api/',
+  authBaseUrl: 'http://127.0.0.1:8000/api/',
+  apiBaseUrl: 'http://127.0.0.1:8000/api/',
 
   webAppUrl: '',
   device: 'web',

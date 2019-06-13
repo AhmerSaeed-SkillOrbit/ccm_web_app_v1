@@ -49,7 +49,7 @@ export class GeneralQuestionsTabComponent implements OnInit {
     viewPatientRecordPagePermission = false;
     addPatientRecordPagePermission = false;
 
-    defaultQuestionCheck: string = "What is your desired frequency of contact?";
+    defaultQuestionCheck: string = "What is your desired frequency of contact";
 
     questionAnswers: QuestionAnswer[] = [];
     isSubmitted: boolean = false;
@@ -181,7 +181,11 @@ export class GeneralQuestionsTabComponent implements OnInit {
                         let at: AnswerType = new AnswerType();
                         at.name = array[key];
                         at.code = key;
-                        atList.push(at);
+                      
+
+                        if (at.code == "Yes" || at.code == "No" || at.code == "Later") {
+                            atList.push(at);
+                        }
 
                         if (at.code == "Biweekly" || at.code == "Monthly" || at.code == "Weekly") {
                             datList.push(at);
