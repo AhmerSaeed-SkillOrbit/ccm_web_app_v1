@@ -53,7 +53,18 @@ export class MappingService {
             isUser.mobileNumber = userData.MobileNumber || null;
             isUser.phoneNumber = userData.TelephoneNumber || null;
             isUser.cnic = userData.Cnic || null;
+
             isUser.dateOfBirth = userData.DateOfBirth || null;
+
+            // isUser.dateOfBirthFullDate = userData.DateOfBirth ? new Date(userData.DateOfBirth) : null;
+            if (userData.DateOfBirth) {
+                var d = new Date(userData.DateOfBirth);
+                d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
+                isUser.dateOfBirthFullDate = d;
+            }
+
+
+
             isUser.age = userData.Age || null;
             isUser.ageGroup = userData.AgeGroup || null;
             isUser.gender = userData.Gender || null;
@@ -175,6 +186,21 @@ export class MappingService {
             isSchedule.year = scheduleData.YearName || null;
             isSchedule.startDate = scheduleData.StartDate || null;
             isSchedule.endDate = scheduleData.EndDate || null;
+            isSchedule.startDateFull = scheduleData.StartDate || null;
+            isSchedule.endDateFull = scheduleData.EndDate || null;
+
+            if (scheduleData.StartDate) {
+                var d = new Date(scheduleData.StartDate);
+                d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
+                isSchedule.startDateFull = d;
+            }
+            if (scheduleData.EndDate) {
+                var d = new Date(scheduleData.EndDate);
+                d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
+                isSchedule.endDateFull = d;
+            }
+
+
 
             let month = Config.months.filter(m => m.id === +isSchedule.monthId);
 
@@ -209,6 +235,13 @@ export class MappingService {
             isScheduleDetail.isOffDay = scheduleDetailData.IsOffDay || false;
             isScheduleDetail.noOfShift = scheduleDetailData.NoOfShift || null;
             isScheduleDetail.scheduleDate = scheduleDetailData.ScheduleDate || null;
+            isScheduleDetail.scheduleDateFull = scheduleDetailData.ScheduleDate || null;
+            if (scheduleDetailData.ScheduleDate) {
+                var d = new Date(scheduleDetailData.ScheduleDate);
+                d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
+                isScheduleDetail.scheduleDateFull = d;
+            }
+
 
             let ss = [];
             if (scheduleDetailData.ScheduleShifts && scheduleDetailData.ScheduleShifts.length > 0) {

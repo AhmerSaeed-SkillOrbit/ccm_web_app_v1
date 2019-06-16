@@ -202,10 +202,12 @@ export class GeneralInfoTabComponent implements OnInit {
             console.log(" #### before this.patient.dateOfBirth ###");
             console.log(this.patient.dateOfBirth);
 
-            this.patient.dateOfBirth = this.datePipe.transform(this.patient.dateOfBirth, 'yyyy-MM-dd','full');
+            // this.patient.dateOfBirth = this.datePipe.transform(this.patient.dateOfBirth, 'yyyy-MM-dd','full');
+            this.patient.dateOfBirth = this.datePipe.transform(this.patient.dateOfBirthFullDate, 'yyyy-MM-dd');
+            // this.patient.dateOfBirthFullDate = this.datePipe.transform(this.patient.dateOfBirth, 'yyyy-MM-dd','full');
             // transform(value: any, format?: string, timezone?: string, locale?: string): string | null;
 
-            this.datePipe
+            // this.datePipe
 
             console.log(" #### after this.patient.dateOfBirth ###");
             console.log(this.patient.dateOfBirth);

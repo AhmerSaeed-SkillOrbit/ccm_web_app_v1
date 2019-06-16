@@ -30,8 +30,7 @@
                                 <i class="icon-arrow-left52 position-left"></i>
                                 <span class="text-semibold">
                                     Schedule
-                                </span>
-                                - Update
+                                </span> - Update
                             </h4>
                         </div>
 
@@ -109,16 +108,14 @@
                                 <!-- Year -->
                                 <div class="col-md-2">
                                     <mat-form-field class="full-width">
-                                        <input matInput type="text" placeholder="Year" formControlName="year"
-                                            [(ngModel)]="schedule.year">
+                                        <input matInput type="text" placeholder="Year" formControlName="year" [(ngModel)]="schedule.year">
                                     </mat-form-field>
                                 </div>
 
                                 <!-- Month -->
                                 <div class="col-md-2">
                                     <mat-form-field class="full-width">
-                                        <input matInput type="text" placeholder="Month" formControlName="month"
-                                            [(ngModel)]="schedule.month.shortName">
+                                        <input matInput type="text" placeholder="Month" formControlName="month" [(ngModel)]="schedule.month.shortName">
                                     </mat-form-field>
                                 </div>
 
@@ -128,9 +125,8 @@
                                 <!-- [min]="currentDate" -->
                                 <div class="col-md-4">
                                     <mat-form-field class="full-width">
-                                        <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker"
-                                            placeholder="Choose start date" formControlName="startDate" [(ngModel)]="schedule.startDate"
-                                            required readonly>
+                                        <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" placeholder="Choose start date" formControlName="startDate"
+                                            [(ngModel)]="schedule.startDateFull" required readonly>
                                         <mat-datepicker-toggle matSuffix [for]="picker" disabled></mat-datepicker-toggle>
                                         <mat-datepicker #picker></mat-datepicker>
                                     </mat-form-field>
@@ -149,9 +145,8 @@
                                 <!-- (ngModelChange)="onEndDateFocusOut()" -->
                                 <div class="col-md-4">
                                     <mat-form-field class="full-width">
-                                        <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker1"
-                                            placeholder="Choose end date" [min]="schedule.startDate" formControlName="endDate"
-                                            [(ngModel)]="schedule.endDate" required readonly>
+                                        <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker1" placeholder="Choose end date" [min]="schedule.startDateFull"
+                                            formControlName="endDate" [(ngModel)]="schedule.endDateFull" required readonly>
                                         <mat-datepicker-toggle matSuffix [for]="picker1" disabled></mat-datepicker-toggle>
                                         <mat-datepicker #picker1></mat-datepicker>
                                     </mat-form-field>
@@ -175,8 +170,7 @@
                                     <div class="row">
                                         <div class="col-md-2">
                                             <mat-form-field class="full-width">
-                                                <mat-select placeholder="Shift" [(ngModel)]="noOfShift"
-                                                    [ngModelOptions]="{standalone: true}" (ngModelChange)="onShiftAllFocusOut()"
+                                                <mat-select placeholder="Shift" [(ngModel)]="noOfShift" [ngModelOptions]="{standalone: true}" (ngModelChange)="onShiftAllFocusOut()"
                                                     required>
                                                     <mat-option *ngFor="let shift of shifts" [value]="shift">
                                                         {{shift}}
@@ -191,16 +185,13 @@
 
                                                 <div class="col-sm-6">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput type="time" placeholder="Start Time"
-                                                            [(ngModel)]="data.startTime" [ngModelOptions]="{standalone: true}"
-                                                            (ngModelChange)="onStartTimeAllFocusOut(i)">
+                                                        <input matInput type="time" placeholder="Start Time" [(ngModel)]="data.startTime" [ngModelOptions]="{standalone: true}" (ngModelChange)="onStartTimeAllFocusOut(i)">
                                                     </mat-form-field>
                                                 </div>
 
                                                 <div class="col-sm-6">
                                                     <mat-form-field class="full-width">
-                                                        <input matInput type="time" placeholder="End Time" [(ngModel)]="data.endTime"
-                                                            [ngModelOptions]="{standalone: true}" (ngModelChange)="onEndTimeAllFocusOut(i)">
+                                                        <input matInput type="time" placeholder="End Time" [(ngModel)]="data.endTime" [ngModelOptions]="{standalone: true}" (ngModelChange)="onEndTimeAllFocusOut(i)">
                                                     </mat-form-field>
                                                 </div>
                                             </div>
@@ -245,8 +236,7 @@
                                             <!-- <div class="row" *ngFor="let bidder of heldObject.auctionBidder; let $i=index;"> -->
                                             <!-- <div class="row" *ngFor="let b of formScheduleDetail.controls.scheduleDetail.controls; let i = index"
                                                 [formGroupName]="i"> -->
-                                            <div class="row" *ngFor="let X of formScheduleDetail['controls'].scheduleDetail['controls']; let i = index"
-                                                [formGroupName]="i">
+                                            <div class="row" *ngFor="let X of formScheduleDetail['controls'].scheduleDetail['controls']; let i = index" [formGroupName]="i">
                                                 <div class="col-sm-12">
 
                                                     <!-- <h3>Detail {{i+1}}</h3> -->
@@ -258,9 +248,7 @@
 
                                                                 <div class="col-sm-4">
                                                                     <!-- <mat-form-field class="full-width"> -->
-                                                                    <mat-checkbox class="full-width" formControlName="isOffDay"
-                                                                        [(ngModel)]="schedule.scheduleDetails[i].isOffDay"
-                                                                        (ngModelChange)="onOffDayCheckFocusOut(i)">
+                                                                    <mat-checkbox class="full-width" formControlName="isOffDay" [(ngModel)]="schedule.scheduleDetails[i].isOffDay" (ngModelChange)="onOffDayCheckFocusOut(i)">
                                                                         Off Day
                                                                     </mat-checkbox>
                                                                     <!-- <mat-error>
@@ -275,8 +263,8 @@
                                                         <!-- Schedule Date -->
                                                         <div class="col-sm-4">
                                                             <mat-form-field class="full-width">
-                                                                <input matInput placeholder="Schedule Date" [(ngModel)]="schedule.scheduleDetails[i].scheduleDate"
-                                                                    formControlName="scheduleDate" required readonly>
+                                                                <input matInput placeholder="Schedule Date" [(ngModel)]="schedule.scheduleDetails[i].scheduleDate" formControlName="scheduleDate"
+                                                                    required readonly>
                                                                 <mat-error>
                                                                     Schedule Date is
                                                                     <strong>required</strong>
@@ -288,9 +276,7 @@
                                                         <!-- No of Shift -->
                                                         <div class="col-sm-4">
                                                             <mat-form-field class="full-width">
-                                                                <mat-select placeholder="Shift" formControlName="shift"
-                                                                    [(ngModel)]="schedule.scheduleDetails[i].noOfShift"
-                                                                    (ngModelChange)="onShiftFocusOut(i)">
+                                                                <mat-select placeholder="Shift" formControlName="shift" [(ngModel)]="schedule.scheduleDetails[i].noOfShift" (ngModelChange)="onShiftFocusOut(i)">
                                                                     <mat-option *ngFor="let shift of shifts" [value]="shift">
                                                                         {{shift}}
                                                                     </mat-option>
@@ -308,19 +294,15 @@
 
                                                                 <div class="col-sm-12">
                                                                     <!-- <div class="row" *ngFor="let Y of X['controls'].Ys['controls']; let iy=index"> -->
-                                                                    <div class="row" *ngFor="let Y of X['controls'].scheduleShift['controls']; let iy=index"
-                                                                        [formGroupName]="iy">
+                                                                    <div class="row" *ngFor="let Y of X['controls'].scheduleShift['controls']; let iy=index" [formGroupName]="iy">
 
                                                                         <div class="col-md-12">
                                                                             <div class="row">
 
                                                                                 <div class="col-sm-4">
                                                                                     <mat-form-field class="full-width">
-                                                                                        <input matInput type="time"
-                                                                                            placeholder="Start Time"
-                                                                                            [(ngModel)]="schedule.scheduleDetails[i].scheduleShifts[iy].startTime"
-                                                                                            formControlName="startTime"
-                                                                                            (ngModelChange)="onStartTimeFocusOut(i , iy)">
+                                                                                        <input matInput type="time" placeholder="Start Time" [(ngModel)]="schedule.scheduleDetails[i].scheduleShifts[iy].startTime"
+                                                                                            formControlName="startTime" (ngModelChange)="onStartTimeFocusOut(i , iy)">
                                                                                         <mat-error>
                                                                                             Start Time is
                                                                                             <strong>required</strong>
@@ -330,36 +312,28 @@
 
                                                                                 <div class="col-sm-4">
                                                                                     <mat-form-field class="full-width">
-                                                                                        <input matInput type="time"
-                                                                                            [min]="schedule.scheduleDetails[i].scheduleShifts[iy].startTime"
-                                                                                            placeholder="End Time"
-                                                                                            [(ngModel)]="schedule.scheduleDetails[i].scheduleShifts[iy].endTime"
-                                                                                            formControlName="endTime"
-                                                                                            (ngModelChange)="onEndTimeFocusOut(i)">
+                                                                                        <input matInput type="time" [min]="schedule.scheduleDetails[i].scheduleShifts[iy].startTime" placeholder="End Time" [(ngModel)]="schedule.scheduleDetails[i].scheduleShifts[iy].endTime"
+                                                                                            formControlName="endTime" (ngModelChange)="onEndTimeFocusOut(i)">
                                                                                         <mat-error *ngIf="Y.controls['endTime'].touched && Y.controls['endTime'].errors?.required">
                                                                                             End Time is
                                                                                             <strong>required</strong>
                                                                                         </mat-error>
                                                                                         <mat-error *ngIf="Y.controls['endTime'].errors?.minTime">
-                                                                                            End Time must be greater
-                                                                                            than Start Time
+                                                                                            End Time must be greater than Start Time
                                                                                         </mat-error>
                                                                                     </mat-form-field>
                                                                                 </div>
 
                                                                                 <div class="col-sm-4">
                                                                                     <mat-form-field class="full-width">
-                                                                                        <input matInput type="number"
-                                                                                            placeholder="Patient Allowed"
-                                                                                            [(ngModel)]="schedule.scheduleDetails[i].scheduleShifts[iy].noOfPatientAllowed"
+                                                                                        <input matInput type="number" placeholder="Patient Allowed" [(ngModel)]="schedule.scheduleDetails[i].scheduleShifts[iy].noOfPatientAllowed"
                                                                                             formControlName="patientAllowed">
                                                                                         <mat-error *ngIf="Y.controls['patientAllowed'].touched && Y.controls['patientAllowed'].errors?.required">
                                                                                             Patient Allowed is
                                                                                             <strong>required</strong>
                                                                                         </mat-error>
                                                                                         <mat-error *ngIf="Y.controls['patientAllowed'].errors?.minTime">
-                                                                                            End Time must be greater
-                                                                                            than Start Time
+                                                                                            End Time must be greater than Start Time
                                                                                         </mat-error>
                                                                                     </mat-form-field>
                                                                                 </div>
@@ -385,8 +359,7 @@
 
                                                         <div class="col-md-2">
                                                             <div class="form-group">
-                                                                <button type="button" (click)="updateSchedule(schedule.scheduleDetails[i] , i )"
-                                                                    class="btn bg-blue btn-block" [disabled]="isSubmitted">
+                                                                <button type="button" (click)="updateSchedule(schedule.scheduleDetails[i] , i )" class="btn bg-blue btn-block" [disabled]="isSubmitted">
                                                                     Update Schedule<i class="icon-arrow-right14 position-right"></i>
                                                                 </button>
                                                             </div>

@@ -46,6 +46,9 @@ export class EditScheduleComponent implements OnInit {
     currentDate = new Date();
     // script = new ScriptService();
 
+    currentYear: number;
+    currentMonth: number;
+
     isUser: User = new User();
     user: User = new User();
     userPermissions: Permission[] = [];
@@ -101,6 +104,10 @@ export class EditScheduleComponent implements OnInit {
         private datePipe: DatePipe
     ) {
         this.currentURL = window.location.href;
+
+        this.currentDate = new Date();
+        this.currentMonth = this.currentDate.getMonth();
+        this.currentYear = this.currentDate.getFullYear();
 
         // for (let index = this.minYear; index <= this.maxYear; index++) {
         //     this.years.push(index);
@@ -347,14 +354,35 @@ export class EditScheduleComponent implements OnInit {
 
     onMonthYearFocusOut() {
 
+        if (this.schedule.year <= this.currentYear && this.currentMonth > this.schedule.monthId) {
+
+            this.schedule.monthId = null;
+            this.schedule.startDate = null;
+            this.schedule.endDate = null;
+
+            this.endDate = null;
+            // this.clearFormArray(this.scheduleDetailArray);
+
+            this.clearFormArray(<FormArray>this.formScheduleDetail.controls['scheduleDetail']);
+
+            this.schedule.scheduleDetails = [];
+            this.dateArray = new Array();
+
+        }
+
         if ((this.schedule.monthId || this.schedule.monthId == 0) && this.schedule.year) {
 
             // let nowdate = new Date(this.schedule.startDate);
             let monthStartDay = new Date(this.schedule.year, this.schedule.monthId, 1);
             let monthEndDay = new Date(this.schedule.year, this.schedule.monthId + 1, 0);
 
+            this.schedule.startDateFull = monthStartDay;
             this.schedule.startDate = this.datePipe.transform(monthStartDay, 'yyyy-MM-dd');
+            this.schedule.endDateFull = monthEndDay;
             this.schedule.endDate = this.datePipe.transform(monthEndDay, 'yyyy-MM-dd');
+
+            // console.log("this.schedule.startDateFull", this.schedule.startDateFull)
+            // console.log("this.schedule.endDateFull", this.schedule.endDateFull)
 
             // if (this.startDate && this.endDate) {
             if (this.schedule.startDate && this.schedule.endDate) {
@@ -365,6 +393,7 @@ export class EditScheduleComponent implements OnInit {
 
                     this.endDate = null;
                     this.schedule.endDate = null;
+                    this.schedule.endDateFull = null;
                     // this.clearFormArray(this.scheduleDetailArray);
 
                     this.clearFormArray(<FormArray>this.formScheduleDetail.controls['scheduleDetail']);
@@ -379,7 +408,9 @@ export class EditScheduleComponent implements OnInit {
 
                     this.schedule.scheduleDetails = [];
                     // this.dateArray = this.getDates(this.startDate, this.endDate);
-                    this.dateArray = this.getDates(this.schedule.startDate, this.schedule.endDate);
+
+                    // this.dateArray = this.getDates(this.schedule.startDate, this.schedule.endDate);
+                    this.dateArray = this.getDates(this.schedule.startDateFull, this.schedule.endDateFull);
 
                     console.log("this.dateArray ", this.dateArray);
                     // this.totalTimeSpent = 0;
@@ -422,6 +453,7 @@ export class EditScheduleComponent implements OnInit {
             console.log("monthEndDay", monthEndDay);
             // this.schedule.endDate = monthEndDay.toDateString();
 
+            this.schedule.endDateFull = monthEndDay;
             this.schedule.endDate = this.datePipe.transform(monthEndDay, 'yyyy-MM-dd');
 
 
@@ -445,7 +477,9 @@ export class EditScheduleComponent implements OnInit {
                 // this.clearFormArray(this.scheduleDetailArray);
                 this.schedule.scheduleDetails = [];
                 // this.dateArray = this.getDates(this.startDate, this.endDate);
-                this.dateArray = this.getDates(this.schedule.startDate, this.schedule.endDate);
+
+                // this.dateArray = this.getDates(this.schedule.startDate, this.schedule.endDate);
+                this.dateArray = this.getDates(this.schedule.startDateFull, this.schedule.endDateFull);
 
                 console.log("this.dateArray ", this.dateArray);
                 // this.totalTimeSpent = 0;
