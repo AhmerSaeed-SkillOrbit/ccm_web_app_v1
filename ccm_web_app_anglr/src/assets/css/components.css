@@ -141,7 +141,9 @@ a.badge,
  *
  * ---------------------------------------------------------------------------- */
 .sidebar {
-  background-color: #374751;
+  /* background-color: #374751;
+   */
+  background-color: #263238;
   color: #fff;
   position: relative;
   width: 100%;

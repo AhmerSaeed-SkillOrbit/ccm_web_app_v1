@@ -278,7 +278,7 @@
           </ul>
         </li>
 
-        <li *ngIf="ccmPlanPatientPermission">
+        <li *ngIf="user.role.roleCode == 'super_admin'">
           <!-- <a (click)="expandRow(6)"> -->
           <a [routerLink]="['/ccm/plan/list',user.id]">
             <i class=" icon-calendar5"></i>
