@@ -103,7 +103,7 @@ export class AppointmentDialogeComponent {
     onShiftFocusOut() {
 
         console.log("onShiftFocusOut");
-        const shift = this.scheduleDetail.scheduleShifts.filter(ss => ss.id === +this.appointment.shiftId);
+        const shift = this.scheduleDetail.scheduleShifts.filter(ss => ss.id == +this.appointment.shiftId);
 
         if (shift.length === 0) {
             this.appointment.shiftId = null;
