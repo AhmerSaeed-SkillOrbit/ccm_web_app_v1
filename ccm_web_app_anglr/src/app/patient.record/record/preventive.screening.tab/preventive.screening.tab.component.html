@@ -50,7 +50,7 @@
 
                                                 <!-- <h2>Question {{ i + 1 }}</h2> -->
 
-                                                <h3>{{ preventiveScreenAnswers[i].name || "NA" }} ?</h3>
+                                                <h3>{{ preventiveScreenAnswers[i].name || "NA" }}</h3>
 
                                                 <mat-slide-toggle color="primary" formControlName="isPatientExamined"
                                                     [(ngModel)]="preventiveScreenAnswers[i].answer.isPatientExamined">
@@ -153,7 +153,7 @@
 
                                                 <!-- <h2>Question {{ i + 1 }}</h2> -->
 
-                                                <h3>{{ diabeteSupplementAnswers[i].name || "NA" }} ?</h3>
+                                                <h3>{{ diabeteSupplementAnswers[i].name || "NA" }}</h3>
 
                                                 <mat-slide-toggle color="primary" formControlName="isPatientMeasure"
                                                     [(ngModel)]="diabeteSupplementAnswers[i].answer.isPatientMeasure">
