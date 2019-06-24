@@ -241,7 +241,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                         this.tab.medication = true;
                         check = 1;
                     }
-                    else if (element.name == "Psychological Review") {
+                    else if (element.name == "Psychological/Functional Review") {
 
                         this.tab.psychologicalReview = true;
                         check = 1;
@@ -256,7 +256,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                         this.tab.preventiveScreening = true;
                         check = 1;
                     }
-                    else if (element.name == "Historical Information") {
+                    else if (element.name == "Health Care History") {
 
                         this.tab.historicalInformation = true;
                         check = 1;
@@ -301,7 +301,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                         this.tab.medication = true;
                         check = 1;
                     }
-                    else if (element.name == "Psychological Review") {
+                    else if (element.name == "Psychological/Functional Review") {
 
                         this.tab.psychologicalReview = true;
                         check = 1;
@@ -316,7 +316,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                         this.tab.preventiveScreening = true;
                         check = 1;
                     }
-                    else if (element.name == "Historical Information") {
+                    else if (element.name == "Health Care History") {
 
                         this.tab.historicalInformation = true;
                         check = 1;
@@ -411,7 +411,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                 this.tab.generalQuestions = false;
                 this.tab.cptCode = false;
             }
-            else if (event.tab.textLabel == "Psychological Review") {
+            else if (event.tab.textLabel == "Psychological/Functional Review") {
                 this.tab.generalInfo = false;
                 this.tab.preliminaryAssessment = false;
                 this.tab.medication = false;
@@ -444,7 +444,7 @@ export class PatientRecordComponent implements OnInit, OnChanges, OnDestroy {
                 this.tab.generalQuestions = false;
                 this.tab.cptCode = false;
             }
-            else if (event.tab.textLabel == "Historical Information") {
+            else if (event.tab.textLabel == "Health Care History") {
                 this.tab.generalInfo = false;
                 this.tab.preliminaryAssessment = false;
                 this.tab.medication = false;

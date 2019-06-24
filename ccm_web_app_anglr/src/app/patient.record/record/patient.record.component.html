@@ -140,7 +140,7 @@
                                                         [isTabActive]="tab.medication" [id]="patientId" [tab]="t">
                                                     </medication-tab>
 
-                                                    <psychological-review-tab *ngIf="t.name == 'Psychological Review'"
+                                                    <psychological-review-tab *ngIf="t.name == 'Psychological/Functional Review'"
                                                         [isTabActive]="tab.psychologicalReview" [id]="patientId"
                                                         [tab]="t">
                                                     </psychological-review-tab>
@@ -157,7 +157,7 @@
                                                     </preventive-screening-tab>
 
                                                     <historical-information-tab
-                                                        *ngIf="t.name == 'Historical Information'"
+                                                        *ngIf="t.name == 'Health Care History'"
                                                         [isTabActive]="tab.historicalInformation" [id]="patientId"
                                                         [tab]="t">
                                                     </historical-information-tab>
